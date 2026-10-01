@@ -1,0 +1,36 @@
+# ---------------------------------------------------------------------------
+# Serveur Apache / LiteSpeed (le plus courant chez les hébergeurs).
+# 1) Repli SPA : toute URL inconnue renvoie index.html (nécessaire pour /app, /connexion, etc.)
+#    Alternative sans réécriture serveur : VITE_USE_HASH_ROUTER=true puis rebuild.
+# 2) Compression et cache : moins d'octets transférés = plus rapide et plus sobre.
+# Si votre app est dans un sous-dossier (VITE_BASE=/equipe-12/), adaptez RewriteBase
+# et la dernière règle : RewriteRule . /equipe-12/index.html [L]
+# ---------------------------------------------------------------------------
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  RewriteBase /
+  RewriteRule ^index\.html$ - [L]
+  RewriteCond %{REQUEST_FILENAME} !-f
+  RewriteCond %{REQUEST_FILENAME} !-d
+  RewriteRule . /index.html [L]
+</IfModule>
+
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/plain application/javascript text/javascript application/json image/svg+xml
+</IfModule>
+
+<IfModule mod_expires.c>
+  ExpiresActive On
+  # index.html ne doit jamais rester en cache : sinon les visiteurs gardent l'ancienne version
+  ExpiresByType text/html "access plus 0 seconds"
+  # Les fichiers de /assets ont un nom haché : cache d'un an sans risque
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType text/javascript "access plus 1 year"
+  ExpiresByType font/woff2 "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 month"
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType image/avif "access plus 1 year"
+  ExpiresByType image/png "access plus 1 month"
+  ExpiresByType image/jpeg "access plus 1 month"
+</IfModule>

@@ -1,0 +1,308 @@
+/*
+ * THÈMES PRÊTS À L'EMPLOI
+ * ------------------------------------------------------------------
+ * Chaque preset définit TOUS les tokens (clair + sombre) : n'en supprimez
+ * jamais un seul, sinon le preset "hérite" de valeurs d'un autre thème.
+ * Choisir un thème : SITE.defaultPreset dans src/lib/site.ts (ou le sélecteur de /kit).
+ * Créer le vôtre : dupliquez un bloc, changez data-theme, ajustez ~10 valeurs oklch.
+ *
+ * Les sélecteurs sont volontairement SANS ":root" pour fonctionner aussi sur un
+ * conteneur (aperçus de la page /kit).
+ */
+
+/* ===== LAGON — océan Indien : turquoise + corail (défaut) ===== */
+:root,
+[data-theme="lagon"] {
+  --font-heading: "Bricolage Grotesque Variable", ui-sans-serif, system-ui, sans-serif;
+  --radius: 0.875rem;
+  --background: oklch(0.985 0.006 205);
+  --foreground: oklch(0.24 0.045 235);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.24 0.045 235);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.24 0.045 235);
+  --primary: oklch(0.48 0.1 205);
+  --primary-foreground: oklch(0.99 0.004 205);
+  --secondary: oklch(0.955 0.02 205);
+  --secondary-foreground: oklch(0.3 0.05 235);
+  --muted: oklch(0.96 0.01 210);
+  --muted-foreground: oklch(0.48 0.03 230);
+  --accent: oklch(0.945 0.03 200);
+  --accent-foreground: oklch(0.3 0.06 225);
+  --highlight: oklch(0.74 0.15 38);
+  --highlight-foreground: oklch(0.24 0.06 30);
+  --destructive: oklch(0.55 0.22 27);
+  --border: oklch(0.905 0.014 210);
+  --input: oklch(0.88 0.018 210);
+  --ring: oklch(0.6 0.1 205);
+  --chart-1: oklch(0.55 0.11 205);
+  --chart-2: oklch(0.72 0.15 38);
+  --chart-3: oklch(0.4 0.06 240);
+  --chart-4: oklch(0.8 0.09 90);
+  --chart-5: oklch(0.6 0.12 150);
+}
+.dark,
+[data-theme="lagon"].dark,
+.dark [data-theme="lagon"] {
+  --background: oklch(0.19 0.035 235);
+  --foreground: oklch(0.965 0.01 205);
+  --card: oklch(0.23 0.04 235);
+  --card-foreground: oklch(0.965 0.01 205);
+  --popover: oklch(0.23 0.04 235);
+  --popover-foreground: oklch(0.965 0.01 205);
+  --primary: oklch(0.79 0.11 195);
+  --primary-foreground: oklch(0.2 0.04 235);
+  --secondary: oklch(0.29 0.04 235);
+  --secondary-foreground: oklch(0.95 0.015 205);
+  --muted: oklch(0.27 0.035 235);
+  --muted-foreground: oklch(0.73 0.03 215);
+  --accent: oklch(0.31 0.05 225);
+  --accent-foreground: oklch(0.96 0.012 205);
+  --highlight: oklch(0.77 0.14 42);
+  --highlight-foreground: oklch(0.22 0.05 30);
+  --destructive: oklch(0.7 0.19 22);
+  --border: oklch(1 0 0 / 12%);
+  --input: oklch(1 0 0 / 16%);
+  --ring: oklch(0.72 0.1 195);
+  --chart-1: oklch(0.79 0.11 195);
+  --chart-2: oklch(0.77 0.14 42);
+  --chart-3: oklch(0.65 0.09 240);
+  --chart-4: oklch(0.85 0.09 90);
+  --chart-5: oklch(0.72 0.13 150);
+}
+
+/* ===== LATÉRITE — terre rouge des Hautes Terres : brique + vanille ===== */
+[data-theme="laterite"] {
+  --font-heading: "Bricolage Grotesque Variable", ui-sans-serif, system-ui, sans-serif;
+  --radius: 0.375rem;
+  --background: oklch(0.992 0.004 70);
+  --foreground: oklch(0.22 0.03 30);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.22 0.03 30);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.22 0.03 30);
+  --primary: oklch(0.5 0.15 42);
+  --primary-foreground: oklch(0.99 0.005 70);
+  --secondary: oklch(0.955 0.015 60);
+  --secondary-foreground: oklch(0.3 0.05 30);
+  --muted: oklch(0.962 0.008 65);
+  --muted-foreground: oklch(0.5 0.03 40);
+  --accent: oklch(0.95 0.03 55);
+  --accent-foreground: oklch(0.32 0.08 35);
+  --highlight: oklch(0.88 0.16 95);
+  --highlight-foreground: oklch(0.26 0.05 80);
+  --destructive: oklch(0.5 0.23 15);
+  --border: oklch(0.915 0.012 65);
+  --input: oklch(0.89 0.015 65);
+  --ring: oklch(0.6 0.14 42);
+  --chart-1: oklch(0.55 0.15 42);
+  --chart-2: oklch(0.88 0.16 95);
+  --chart-3: oklch(0.4 0.08 30);
+  --chart-4: oklch(0.7 0.12 70);
+  --chart-5: oklch(0.55 0.1 150);
+}
+.dark [data-theme="laterite"],
+[data-theme="laterite"].dark {
+  --background: oklch(0.185 0.02 35);
+  --foreground: oklch(0.965 0.008 70);
+  --card: oklch(0.225 0.025 35);
+  --card-foreground: oklch(0.965 0.008 70);
+  --popover: oklch(0.225 0.025 35);
+  --popover-foreground: oklch(0.965 0.008 70);
+  --primary: oklch(0.72 0.15 45);
+  --primary-foreground: oklch(0.2 0.03 35);
+  --secondary: oklch(0.29 0.03 35);
+  --secondary-foreground: oklch(0.95 0.01 70);
+  --muted: oklch(0.27 0.025 35);
+  --muted-foreground: oklch(0.73 0.03 60);
+  --accent: oklch(0.31 0.04 40);
+  --accent-foreground: oklch(0.96 0.01 70);
+  --highlight: oklch(0.86 0.15 95);
+  --highlight-foreground: oklch(0.24 0.05 80);
+  --destructive: oklch(0.68 0.2 15);
+  --border: oklch(1 0 0 / 12%);
+  --input: oklch(1 0 0 / 16%);
+  --ring: oklch(0.7 0.14 45);
+  --chart-1: oklch(0.72 0.15 45);
+  --chart-2: oklch(0.86 0.15 95);
+  --chart-3: oklch(0.6 0.08 30);
+  --chart-4: oklch(0.78 0.11 70);
+  --chart-5: oklch(0.7 0.11 150);
+}
+
+/* ===== BAOBAB — forêt et savane : vert canopée + ocre de zébu ===== */
+[data-theme="baobab"] {
+  --font-heading: "Bricolage Grotesque Variable", ui-sans-serif, system-ui, sans-serif;
+  --radius: 1.25rem;
+  --background: oklch(0.985 0.008 140);
+  --foreground: oklch(0.24 0.04 160);
+  --card: oklch(0.998 0.003 140);
+  --card-foreground: oklch(0.24 0.04 160);
+  --popover: oklch(0.998 0.003 140);
+  --popover-foreground: oklch(0.24 0.04 160);
+  --primary: oklch(0.42 0.09 158);
+  --primary-foreground: oklch(0.985 0.01 140);
+  --secondary: oklch(0.95 0.025 140);
+  --secondary-foreground: oklch(0.3 0.06 158);
+  --muted: oklch(0.958 0.014 140);
+  --muted-foreground: oklch(0.48 0.04 155);
+  --accent: oklch(0.94 0.04 125);
+  --accent-foreground: oklch(0.3 0.07 150);
+  --highlight: oklch(0.8 0.14 78);
+  --highlight-foreground: oklch(0.26 0.05 70);
+  --destructive: oklch(0.55 0.22 27);
+  --border: oklch(0.91 0.02 140);
+  --input: oklch(0.885 0.025 140);
+  --ring: oklch(0.55 0.1 158);
+  --chart-1: oklch(0.5 0.1 158);
+  --chart-2: oklch(0.8 0.14 78);
+  --chart-3: oklch(0.38 0.06 170);
+  --chart-4: oklch(0.7 0.12 125);
+  --chart-5: oklch(0.6 0.13 40);
+}
+.dark [data-theme="baobab"],
+[data-theme="baobab"].dark {
+  --background: oklch(0.19 0.03 165);
+  --foreground: oklch(0.96 0.015 130);
+  --card: oklch(0.235 0.035 165);
+  --card-foreground: oklch(0.96 0.015 130);
+  --popover: oklch(0.235 0.035 165);
+  --popover-foreground: oklch(0.96 0.015 130);
+  --primary: oklch(0.78 0.13 150);
+  --primary-foreground: oklch(0.2 0.04 165);
+  --secondary: oklch(0.29 0.035 165);
+  --secondary-foreground: oklch(0.95 0.02 130);
+  --muted: oklch(0.27 0.03 165);
+  --muted-foreground: oklch(0.73 0.04 145);
+  --accent: oklch(0.32 0.05 150);
+  --accent-foreground: oklch(0.96 0.015 130);
+  --highlight: oklch(0.8 0.14 80);
+  --highlight-foreground: oklch(0.24 0.05 70);
+  --destructive: oklch(0.7 0.19 22);
+  --border: oklch(1 0 0 / 12%);
+  --input: oklch(1 0 0 / 16%);
+  --ring: oklch(0.7 0.11 150);
+  --chart-1: oklch(0.78 0.13 150);
+  --chart-2: oklch(0.8 0.14 80);
+  --chart-3: oklch(0.6 0.08 170);
+  --chart-4: oklch(0.78 0.12 125);
+  --chart-5: oklch(0.72 0.13 40);
+}
+
+/* ===== COSMOS — science-fiction, futur, espace : violet ionique + cyan ===== */
+[data-theme="cosmos"] {
+  --font-heading: "Bricolage Grotesque Variable", ui-sans-serif, system-ui, sans-serif;
+  --radius: 0.75rem;
+  --background: oklch(0.985 0.005 285);
+  --foreground: oklch(0.2 0.05 285);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.2 0.05 285);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.2 0.05 285);
+  --primary: oklch(0.48 0.22 285);
+  --primary-foreground: oklch(0.99 0.005 285);
+  --secondary: oklch(0.955 0.02 285);
+  --secondary-foreground: oklch(0.28 0.08 285);
+  --muted: oklch(0.96 0.01 285);
+  --muted-foreground: oklch(0.48 0.04 285);
+  --accent: oklch(0.945 0.035 285);
+  --accent-foreground: oklch(0.3 0.1 285);
+  --highlight: oklch(0.82 0.13 200);
+  --highlight-foreground: oklch(0.22 0.05 230);
+  --destructive: oklch(0.55 0.22 27);
+  --border: oklch(0.91 0.015 285);
+  --input: oklch(0.885 0.02 285);
+  --ring: oklch(0.6 0.16 285);
+  --chart-1: oklch(0.55 0.2 285);
+  --chart-2: oklch(0.82 0.13 200);
+  --chart-3: oklch(0.4 0.12 275);
+  --chart-4: oklch(0.7 0.18 330);
+  --chart-5: oklch(0.75 0.14 160);
+}
+.dark [data-theme="cosmos"],
+[data-theme="cosmos"].dark {
+  --background: oklch(0.15 0.04 280);
+  --foreground: oklch(0.955 0.015 280);
+  --card: oklch(0.2 0.05 280);
+  --card-foreground: oklch(0.955 0.015 280);
+  --popover: oklch(0.2 0.05 280);
+  --popover-foreground: oklch(0.955 0.015 280);
+  --primary: oklch(0.72 0.19 295);
+  --primary-foreground: oklch(0.15 0.04 280);
+  --secondary: oklch(0.27 0.05 280);
+  --secondary-foreground: oklch(0.95 0.02 280);
+  --muted: oklch(0.25 0.045 280);
+  --muted-foreground: oklch(0.72 0.04 280);
+  --accent: oklch(0.3 0.07 285);
+  --accent-foreground: oklch(0.96 0.015 280);
+  --highlight: oklch(0.85 0.13 195);
+  --highlight-foreground: oklch(0.2 0.05 240);
+  --destructive: oklch(0.7 0.19 22);
+  --border: oklch(1 0 0 / 12%);
+  --input: oklch(1 0 0 / 16%);
+  --ring: oklch(0.7 0.15 295);
+  --chart-1: oklch(0.72 0.19 295);
+  --chart-2: oklch(0.85 0.13 195);
+  --chart-3: oklch(0.6 0.14 275);
+  --chart-4: oklch(0.75 0.18 330);
+  --chart-5: oklch(0.78 0.14 160);
+}
+
+/* ===== ENCRE — éditorial, émotion, sobriété : noir/blanc + outremer, empattements ===== */
+[data-theme="encre"] {
+  --font-heading: "Fraunces Variable", ui-serif, Georgia, "Times New Roman", serif;
+  --radius: 0.125rem;
+  --background: oklch(0.995 0 0);
+  --foreground: oklch(0.16 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.16 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.16 0 0);
+  --primary: oklch(0.42 0.2 265);
+  --primary-foreground: oklch(0.99 0 0);
+  --secondary: oklch(0.965 0 0);
+  --secondary-foreground: oklch(0.2 0 0);
+  --muted: oklch(0.968 0 0);
+  --muted-foreground: oklch(0.48 0 0);
+  --accent: oklch(0.955 0.02 265);
+  --accent-foreground: oklch(0.25 0.1 265);
+  --highlight: oklch(0.9 0.17 100);
+  --highlight-foreground: oklch(0.2 0.03 90);
+  --destructive: oklch(0.55 0.22 27);
+  --border: oklch(0.9 0 0);
+  --input: oklch(0.86 0 0);
+  --ring: oklch(0.55 0.18 265);
+  --chart-1: oklch(0.42 0.2 265);
+  --chart-2: oklch(0.9 0.17 100);
+  --chart-3: oklch(0.3 0 0);
+  --chart-4: oklch(0.6 0.15 265);
+  --chart-5: oklch(0.6 0 0);
+}
+.dark [data-theme="encre"],
+[data-theme="encre"].dark {
+  --background: oklch(0.16 0 0);
+  --foreground: oklch(0.965 0 0);
+  --card: oklch(0.2 0 0);
+  --card-foreground: oklch(0.965 0 0);
+  --popover: oklch(0.2 0 0);
+  --popover-foreground: oklch(0.965 0 0);
+  --primary: oklch(0.72 0.14 265);
+  --primary-foreground: oklch(0.16 0 0);
+  --secondary: oklch(0.27 0 0);
+  --secondary-foreground: oklch(0.95 0 0);
+  --muted: oklch(0.25 0 0);
+  --muted-foreground: oklch(0.72 0 0);
+  --accent: oklch(0.3 0.03 265);
+  --accent-foreground: oklch(0.96 0 0);
+  --highlight: oklch(0.88 0.16 100);
+  --highlight-foreground: oklch(0.2 0.03 90);
+  --destructive: oklch(0.7 0.19 22);
+  --border: oklch(1 0 0 / 12%);
+  --input: oklch(1 0 0 / 16%);
+  --ring: oklch(0.7 0.13 265);
+  --chart-1: oklch(0.72 0.14 265);
+  --chart-2: oklch(0.88 0.16 100);
+  --chart-3: oklch(0.85 0 0);
+  --chart-4: oklch(0.6 0.13 265);
+  --chart-5: oklch(0.65 0 0);
+}

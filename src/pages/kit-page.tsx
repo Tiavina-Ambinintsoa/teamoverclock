@@ -1,0 +1,284 @@
+import { useState } from "react"
+import { Play, RotateCcw } from "lucide-react"
+import { toast } from "sonner"
+
+import { Container } from "@/components/layout/container"
+import { useTheme } from "@/components/theme-context"
+import { ModeToggle, PresetPicker } from "@/components/theme-switcher"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Separator } from "@/components/ui/separator"
+import { Skeleton } from "@/components/ui/skeleton"
+import { Textarea } from "@/components/ui/textarea"
+import { useNow } from "@/hooks/use-now"
+import { env } from "@/lib/env"
+import { formatAriary, formatDuration } from "@/lib/format"
+import { PRESETS } from "@/lib/presets"
+import { safeStorage } from "@/lib/storage"
+import { isBackendConfigured } from "@/lib/supabase"
+import { cn } from "@/lib/utils"
+
+/** Page d'outils pour l'équipe : NE PAS la montrer au jury (VITE_ENABLE_KIT=false en production). */
+
+const TOKENS = ["background", "foreground", "primary", "secondary", "muted", "accent", "highlight", "destructive", "border"]
+
+const CHRONO_KEY = "webcup:chrono-start"
+const DAY_MS = 24 * 3600 * 1000
+
+// Même découpage que docs/02-plan-24h.md
+const PHASES = [
+  { until: 1, label: "Comprendre le sujet : lire, noter les exigences, ne pas coder" },
+  { until: 2, label: "Concevoir : données, écrans, direction artistique, rôles" },
+  { until: 3, label: "Squelette et premier déploiement sur le serveur HODI" },
+  { until: 11, label: "Construire les parcours, un par un, de bout en bout" },
+  { until: 14, label: "Point mi-parcours, relais de sommeil, réduire le périmètre si besoin" },
+  { until: 18, label: "Terminer les parcours, effet waouh, vrais contenus" },
+  { until: 21, label: "Gel des fonctionnalités : finition, tests mobile, accessibilité" },
+  { until: 23, label: "Dossier jury, vidéo, déploiement final" },
+  { until: 24, label: "Verrouillage : rien de nouveau, vérifier l'URL finale" },
+]
+
+function Chrono() {
+  const [start, setStart] = useState<number | null>(() => {
+    const value = Number(safeStorage.get(CHRONO_KEY))
+    return Number.isFinite(value) && value > 0 ? value : null
+  })
+  const now = useNow(1000)
+
+  const begin = () => {
+    const value = Date.now()
+    safeStorage.set(CHRONO_KEY, String(value))
+    setStart(value)
+  }
+  const reset = () => {
+    safeStorage.remove(CHRONO_KEY)
+    setStart(null)
+  }
+
+  const elapsed = start === null ? 0 : now - start
+  const remaining = DAY_MS - elapsed
+  const phase = PHASES.find((item) => elapsed / 3_600_000 < item.until) ?? PHASES[PHASES.length - 1]
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Chrono 24h</CardTitle>
+        <CardDescription>À lancer à l'annonce du sujet, à garder ouvert sur un écran de l'équipe.</CardDescription>
+      </CardHeader>
+      <CardContent>
+        <p className="font-display text-5xl font-semibold tabular-nums sm:text-7xl" aria-live="off">
+          {start === null ? "24:00:00" : formatDuration(remaining)}
+        </p>
+        <p className="mt-2 text-sm text-muted-foreground">
+          {start === null ? "Pas encore lancé." : `Écoulé : ${formatDuration(elapsed)}`}
+        </p>
+        {start !== null && <p className="mt-4 font-medium">{remaining > 0 ? phase.label : "Temps écoulé : le serveur est coupé."}</p>}
+      </CardContent>
+      <CardFooter className="gap-2">
+        <Button onClick={begin} disabled={start !== null}>
+          <Play />
+          Lancer le chrono
+        </Button>
+        <Button variant="outline" onClick={reset} disabled={start === null}>
+          <RotateCcw />
+          Remettre à zéro
+        </Button>
+      </CardFooter>
+    </Card>
+  )
+}
+
+export function KitPage() {
+  const { preset, setPreset, mode, resolvedMode } = useTheme()
+
+  const diagnostics: [string, string][] = [
+    ["Backend", isBackendConfigured ? "Supabase configuré" : "Mode démo local (Supabase absent)"],
+    ["Compte démo jury", env.demoEmail && env.demoPassword ? "Renseigné (VITE_DEMO_*)" : "Non renseigné : utilisateur local fictif"],
+    ["Routeur", env.hashRouter ? "Hash (/#/route), aucune réécriture serveur requise" : "Navigateur (nécessite .htaccess ou équivalent)"],
+    ["Base d'URL", import.meta.env.BASE_URL],
+    ["Environnement", import.meta.env.DEV ? "Développement" : "Production"],
+    ["Thème actif", `${preset}, ${mode === "system" ? `système (${resolvedMode})` : mode}`],
+  ]
+
+  return (
+    <Container className="py-10">
+      <title>Kit d'équipe</title>
+      <header className="mb-10 flex flex-wrap items-end justify-between gap-4">
+        <div>
+          <h1 className="text-3xl font-semibold sm:text-5xl">Kit d'équipe</h1>
+          <p className="mt-2 max-w-prose text-muted-foreground">
+            Galerie de composants, palettes, chrono et diagnostics. Cachez cette page pour le rendu au jury.
+          </p>
+        </div>
+        <div className="flex items-center gap-2">
+          <PresetPicker />
+          <ModeToggle />
+        </div>
+      </header>
+
+      <section aria-labelledby="palettes" className="mb-14">
+        <h2 id="palettes" className="mb-2 text-2xl font-semibold">
+          Palettes
+        </h2>
+        <p className="mb-6 max-w-prose text-muted-foreground">
+          Choisissez celle qui colle au sujet révélé. Les aperçus suivent le mode clair ou sombre.
+        </p>
+        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+          {PRESETS.map((item) => (
+            <button
+              key={item.id}
+              type="button"
+              data-theme={item.id}
+              onClick={() => setPreset(item.id)}
+              aria-pressed={preset === item.id}
+              className={cn(
+                "rounded-[var(--radius)] border bg-background p-4 text-left text-foreground transition-shadow",
+                preset === item.id && "ring-2 ring-primary ring-offset-2 ring-offset-background"
+              )}
+            >
+              <span className="font-display text-3xl font-semibold">Aa</span>
+              <span className="mt-3 flex gap-1.5" aria-hidden>
+                <span className="size-5 rounded-full bg-primary" />
+                <span className="size-5 rounded-full bg-highlight" />
+                <span className="size-5 rounded-full bg-secondary ring-1 ring-border" />
+                <span className="size-5 rounded-full bg-foreground" />
+              </span>
+              <span className="mt-3 block font-medium">{item.label}</span>
+              <span className="mt-1 block text-xs text-muted-foreground">{item.hint}</span>
+            </button>
+          ))}
+        </div>
+
+        <div className="mt-8 grid grid-cols-3 gap-3 sm:grid-cols-5 lg:grid-cols-9">
+          {TOKENS.map((token) => (
+            <div key={token}>
+              <div className="h-12 rounded-md border" style={{ background: `var(--${token})` }} />
+              <p className="mt-1 text-xs text-muted-foreground">{token}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <Separator className="mb-14" />
+
+      <section aria-labelledby="typo" className="mb-14">
+        <h2 id="typo" className="mb-6 text-2xl font-semibold">
+          Typographie
+        </h2>
+        <div className="grid gap-4">
+          <p className="font-display text-5xl font-semibold sm:text-6xl">Titre principal</p>
+          <p className="font-display text-3xl font-semibold">Titre de section</p>
+          <p className="font-display text-xl font-semibold">Titre de bloc</p>
+          <p className="max-w-prose text-base leading-relaxed">
+            Texte courant en Instrument Sans. Gardez des lignes de moins de 80 caractères et un contraste suffisant.
+            Prix affiché à la malgache : {formatAriary(50000)}.
+          </p>
+          <p className="text-sm text-muted-foreground">Texte secondaire, légendes, aides à la saisie.</p>
+        </div>
+      </section>
+
+      <Separator className="mb-14" />
+
+      <section aria-labelledby="composants" className="mb-14">
+        <h2 id="composants" className="mb-6 text-2xl font-semibold">
+          Composants
+        </h2>
+
+        <div className="mb-8 flex flex-wrap items-center gap-3">
+          <Button>Principal</Button>
+          <Button variant="secondary">Secondaire</Button>
+          <Button variant="outline">Contour</Button>
+          <Button variant="ghost">Discret</Button>
+          <Button variant="highlight">Accent</Button>
+          <Button variant="destructive">Supprimer</Button>
+          <Button variant="link">Lien</Button>
+          <Button size="sm">Petit</Button>
+          <Button size="lg">Grand</Button>
+          <Button disabled>Désactivé</Button>
+        </div>
+
+        <div className="mb-8 flex flex-wrap gap-2">
+          <Badge>Par défaut</Badge>
+          <Badge variant="secondary">Secondaire</Badge>
+          <Badge variant="outline">Contour</Badge>
+          <Badge variant="highlight">Accent</Badge>
+          <Badge variant="destructive">Erreur</Badge>
+        </div>
+
+        <div className="grid gap-8 lg:grid-cols-2">
+          <Card>
+            <CardHeader>
+              <CardTitle>Formulaire</CardTitle>
+              <CardDescription>Champs, libellés, aide et état d'erreur.</CardDescription>
+            </CardHeader>
+            <CardContent className="grid gap-4">
+              <div className="grid gap-2">
+                <Label htmlFor="kit-nom">Nom</Label>
+                <Input id="kit-nom" placeholder="Rakoto Andry" />
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="kit-erreur">Adresse e-mail</Label>
+                <Input id="kit-erreur" defaultValue="pas-un-email" aria-invalid="true" />
+                <p className="text-sm text-destructive">Adresse e-mail invalide</p>
+              </div>
+              <div className="grid gap-2">
+                <Label htmlFor="kit-message">Message</Label>
+                <Textarea id="kit-message" placeholder="Écrivez ici…" />
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Retours à l'utilisateur</CardTitle>
+              <CardDescription>Notifications et états de chargement.</CardDescription>
+            </CardHeader>
+            <CardContent className="grid gap-4">
+              <div className="flex flex-wrap gap-2">
+                <Button variant="outline" onClick={() => toast.success("Note publiée")}>
+                  Toast de succès
+                </Button>
+                <Button variant="outline" onClick={() => toast.error("Impossible d'enregistrer : réessayez")}>
+                  Toast d'erreur
+                </Button>
+              </div>
+              <div className="grid gap-2" aria-hidden>
+                <Skeleton className="h-4 w-2/3" />
+                <Skeleton className="h-4 w-1/2" />
+                <Skeleton className="h-20" />
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </section>
+
+      <Separator className="mb-14" />
+
+      <section aria-labelledby="outils" className="grid gap-8 lg:grid-cols-2">
+        <h2 id="outils" className="sr-only">
+          Outils d'équipe
+        </h2>
+        <Chrono />
+        <Card>
+          <CardHeader>
+            <CardTitle>Diagnostics</CardTitle>
+            <CardDescription>État de la configuration actuelle.</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <dl className="grid gap-3 text-sm">
+              {diagnostics.map(([label, value]) => (
+                <div key={label} className="grid grid-cols-[9rem_1fr] gap-3 border-t pt-3 first:border-t-0 first:pt-0">
+                  <dt className="text-muted-foreground">{label}</dt>
+                  <dd>{value}</dd>
+                </div>
+              ))}
+            </dl>
+          </CardContent>
+        </Card>
+      </section>
+    </Container>
+  )
+}

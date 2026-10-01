@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="theme-color" content="#0e7490" />
+
+    <!-- TODO(webcup) : titre, description et image de partage (URLs ABSOLUES pour Facebook/WhatsApp/LinkedIn) -->
+    <title>Nom du projet</title>
+    <meta name="description" content="Application web réalisée en 24h pour le 24h by Webcup Madagascar 2026." />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Nom du projet" />
+    <meta property="og:description" content="Application web réalisée en 24h pour le 24h by Webcup Madagascar 2026." />
+    <meta property="og:image" content="https://VOTRE-URL/og.png" />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <!-- Applique le thème AVANT le premier affichage : évite le flash blanc en mode sombre. -->
+    <script>
+      ;(function () {
+        try {
+          var mode = localStorage.getItem("webcup:mode") || "system"
+          var preset = localStorage.getItem("webcup:preset") || "lagon"
+          var dark = mode === "dark" || (mode === "system" && matchMedia("(prefers-color-scheme: dark)").matches)
+          var root = document.documentElement
+          root.dataset.theme = preset
+          root.classList.toggle("dark", dark)
+        } catch (e) {}
+      })()
+    </script>
+  </head>
+  <body>
+    <div id="root"></div>
+    <noscript>Cette application nécessite JavaScript.</noscript>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
