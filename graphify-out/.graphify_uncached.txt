@@ -1,0 +1,9 @@
+C:\Users\TovonirinaAndrianari\OneDrive - Spoon Consulting Ltd\Documents\WEBCUP\teamoverclock\README.md
+C:\Users\TovonirinaAndrianari\OneDrive - Spoon Consulting Ltd\Documents\WEBCUP\teamoverclock\docs\ANIMATIONS-ET-COMPOSANTS.md
+C:\Users\TovonirinaAndrianari\OneDrive - Spoon Consulting Ltd\Documents\WEBCUP\teamoverclock\docs\DEPLOIEMENT-HODI.md
+C:\Users\TovonirinaAndrianari\OneDrive - Spoon Consulting Ltd\Documents\WEBCUP\teamoverclock\docs\OPENROUTER.md
+C:\Users\TovonirinaAndrianari\OneDrive - Spoon Consulting Ltd\Documents\WEBCUP\teamoverclock\docs\SUPABASE.md
+C:\Users\TovonirinaAndrianari\OneDrive - Spoon Consulting Ltd\Documents\WEBCUP\teamoverclock\index.html
+C:\Users\TovonirinaAndrianari\OneDrive - Spoon Consulting Ltd\Documents\WEBCUP\teamoverclock\public\favicon.svg
+C:\Users\TovonirinaAndrianari\OneDrive - Spoon Consulting Ltd\Documents\WEBCUP\teamoverclock\public\images\home-aurora.svg
+C:\Users\TovonirinaAndrianari\OneDrive - Spoon Consulting Ltd\Documents\WEBCUP\teamoverclock\public\og.png
