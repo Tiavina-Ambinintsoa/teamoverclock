@@ -189,6 +189,41 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         if (error) throw new Error(translateAuthError(error.message))
       },
 
+      async updateProfile(displayName) {
+        const name = displayName.trim()
+        if (name.length < 2 || name.length > 80) throw new Error("Le nom doit contenir entre 2 et 80 caractères.")
+        if (!supabase || user?.isDemo) {
+          if (!user) throw new Error("Connexion requise.")
+          setLocalUser({ ...user, displayName: name })
+          return
+        }
+        if (!user) throw new Error("Connexion requise.")
+        const { error: authError } = await supabase.auth.updateUser({ data: { display_name: name } })
+        if (authError) throw new Error(translateAuthError(authError.message))
+        const { error: profileError } = await supabase.from("profiles").upsert({ id: user.id, display_name: name })
+        if (profileError) throw new Error("Profil Auth mis à jour, mais impossible d'enregistrer la fiche publique : " + profileError.message)
+      },
+
+      async requestEmailChange(email) {
+        if (!supabase || user?.isDemo) throw new Error("Le changement d'e-mail nécessite un compte Supabase.")
+        const normalized = email.trim().toLowerCase()
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(normalized)) throw new Error("Adresse e-mail invalide.")
+        const { error } = await supabase.auth.updateUser({ email: normalized })
+        if (error) throw new Error(translateAuthError(error.message))
+      },
+
+      async deleteAccount() {
+        if (!user) throw new Error("Connexion requise.")
+        if (!supabase || user.isDemo) {
+          setLocalUser(null)
+          return
+        }
+        const { error } = await supabase.functions.invoke("account-delete", { body: {} })
+        if (error) throw new Error(error.message || "La suppression du compte a échoué.")
+        await supabase.auth.signOut({ scope: "local" })
+        setUser(null)
+      },
+
       async signInDemo() {
         if (supabase && env.demoEmail && env.demoPassword) {
           const { error } = await supabase.auth.signInWithPassword({

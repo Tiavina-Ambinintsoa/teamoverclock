@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { useLocale } from "@/lib/locale"
 import { SITE } from "@/lib/site"
+import { supabase } from "@/lib/supabase"
 
 export function TeamPage() {
   const { t } = useLocale()
@@ -42,17 +43,36 @@ export function TeamPage() {
 
 export function ContactPage() {
   const [busy, setBusy] = useState(false)
-  const submit = (event: FormEvent<HTMLFormElement>) => {
+  const submit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const form = event.currentTarget
     const data = new FormData(form)
     if (data.get("website")) return
+    if (!supabase) {
+      toast.error("Configurez Supabase et déployez la fonction contact-submit pour recevoir les messages.")
+      return
+    }
     setBusy(true)
-    window.setTimeout(() => {
-      toast.success("Message prêt. Connectez ce formulaire à votre service d'envoi pour le recevoir.")
+    try {
+      const { data: result, error } = await supabase.functions.invoke("contact-submit", {
+        body: {
+          name: String(data.get("name") ?? ""),
+          email: String(data.get("email") ?? ""),
+          message: String(data.get("message") ?? ""),
+          website: String(data.get("website") ?? ""),
+        },
+      })
+      if (error) throw new Error(error.message)
+      if (result?.error) throw new Error(result.error)
       form.reset()
+      toast.success(result?.emailSent
+        ? "Message envoyé. Nous vous répondrons bientôt."
+        : "Message enregistré. L'e-mail de notification sera activé après la configuration de Resend.")
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Le message n'a pas pu être envoyé.")
+    } finally {
       setBusy(false)
-    }, 450)
+    }
   }
 
   return (
@@ -69,7 +89,7 @@ export function ContactPage() {
         <div className="grid gap-2"><Label htmlFor="contact-message">Message</Label><Textarea id="contact-message" name="message" rows={5} required /></div>
         <div aria-hidden="true" className="absolute -left-[10000px] h-px w-px overflow-hidden"><Label htmlFor="contact-website">Ne pas remplir</Label><Input id="contact-website" name="website" tabIndex={-1} autoComplete="off" /></div>
         <Button type="submit" disabled={busy}>{busy ? "Envoi…" : "Envoyer le message"} <ArrowRight aria-hidden /></Button>
-        <p className="text-xs text-muted-foreground">Le formulaire de démonstration ne transmet pas encore les messages.</p>
+        <p className="text-xs text-muted-foreground">Les messages sont enregistrés côté serveur. Une notification par e-mail nécessite les secrets Resend.</p>
       </form>
     </Container>
   )

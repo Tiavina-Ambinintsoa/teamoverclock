@@ -24,6 +24,9 @@ export interface AuthState {
   signInWithOAuth: (provider: OAuthProvider) => Promise<void>
   requestPasswordReset: (email: string) => Promise<void>
   updatePassword: (password: string) => Promise<void>
+  updateProfile: (displayName: string) => Promise<void>
+  requestEmailChange: (email: string) => Promise<void>
+  deleteAccount: () => Promise<void>
   /** Connexion en un clic pour le jury (compte VITE_DEMO_* ou utilisateur local fictif). */
   signInDemo: () => Promise<void>
   signOut: () => Promise<void>

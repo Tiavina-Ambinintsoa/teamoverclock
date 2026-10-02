@@ -1,5 +1,5 @@
 import { useState, type FormEvent } from "react"
-import { Bell, ChevronDown, LayoutDashboard, LogOut, Menu, NotebookPen, Search, Settings, ShieldCheck, X } from "lucide-react"
+import { Bot, ChevronDown, LayoutDashboard, LogOut, Menu, NotebookPen, Search, Settings, ShieldCheck, X } from "lucide-react"
 import { Link, NavLink, Outlet, useNavigate } from "react-router"
 import { toast } from "sonner"
 
@@ -8,6 +8,8 @@ import { ModeToggle } from "@/components/theme-switcher"
 import { useAuth } from "@/features/auth/auth-context"
 import { useLocale } from "@/lib/locale"
 import { SITE } from "@/lib/site"
+import { env } from "@/lib/env"
+import { NotificationsMenu } from "@/features/notifications/notifications-menu"
 import { cn } from "@/lib/utils"
 
 const links = [
@@ -15,6 +17,7 @@ const links = [
   { to: "/app", label: "app.notes", icon: NotebookPen },
   { to: "/app/parametres", label: "app.settings", icon: Settings },
 ]
+const assistantLink = { to: "/app/assistant", label: "Assistant IA", icon: Bot }
 
 function Sidebar({ close }: { close?: () => void }) {
   const { user } = useAuth()
@@ -32,7 +35,7 @@ function Sidebar({ close }: { close?: () => void }) {
       <div className="px-4 py-5">
         <p className="mb-3 px-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">{t("app.workspace")}</p>
         <nav aria-label="Navigation de l'application" className="grid gap-1">
-          {links.map(({ to, label, icon: Icon }) => (
+          {(env.enableAIChat ? [...links, assistantLink] : links).map(({ to, label, icon: Icon }) => (
             <NavLink
               key={to}
               to={to}
@@ -115,15 +118,7 @@ export function ApplicationLayout() {
           </search>
           <div className="ml-auto flex items-center gap-2">
             <ModeToggle />
-            <details className="relative">
-              <summary className="grid size-9 cursor-pointer list-none place-items-center rounded-md hover:bg-accent" aria-label={t("app.notifications")}>
-                <Bell className="size-4" aria-hidden />
-              </summary>
-              <div className="absolute top-11 right-0 z-40 w-64 rounded-xl border bg-popover p-4 text-sm shadow-lg">
-                <p className="font-medium">{t("app.notifications")}</p>
-                <p className="mt-2 text-muted-foreground">{t("app.upToDate")}</p>
-              </div>
-            </details>
+            <NotificationsMenu />
             <details className="relative">
               <summary className="flex cursor-pointer list-none items-center gap-2 rounded-full border p-1 pr-2 hover:bg-accent">
                 <span className="grid size-7 place-items-center rounded-full bg-primary/10 text-xs font-semibold text-primary" aria-hidden>

@@ -17,4 +17,6 @@ export const env = {
   hashRouter: flag(import.meta.env.VITE_USE_HASH_ROUTER),
   /** Les pages /kit et /modeles (outillage d'équipe) : toujours en dev, opt-in en prod. */
   enableKit: import.meta.env.DEV || flag(import.meta.env.VITE_ENABLE_KIT),
+  enableAIChat: flag(import.meta.env.VITE_ENABLE_AI_CHAT),
+  enableAIHistory: flag(import.meta.env.VITE_ENABLE_AI_HISTORY),
 } as const

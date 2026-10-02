@@ -37,6 +37,7 @@ const routes: RouteObject[] = [
                   { path: "app", lazy: async () => ({ Component: (await import("@/features/items/items-page")).ItemsPage }) },
                   { path: "app/dashboard", lazy: async () => ({ Component: (await import("@/pages/app/dashboard-page")).DashboardPage }) },
                   { path: "app/parametres", lazy: async () => ({ Component: (await import("@/pages/app/settings-page")).SettingsPage }) },
+                  { path: "app/assistant", lazy: async () => ({ Component: (await import("@/pages/app/assistant-page")).AssistantPage }) },
                   { path: "app/items/:id", lazy: async () => ({ Component: (await import("@/features/items/item-detail-page")).ItemDetailPage }) },
                 ],
               },

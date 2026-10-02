@@ -2,7 +2,7 @@
 
 Un socle générique et adaptatif pour lancer le développement dès la révélation du sujet du 24h by Webcup. Il fournit l'accueil public, l'authentification, un espace privé, un exemple CRUD complet, un accès administrateur protégé, des composants réutilisables, des thèmes et plusieurs pages modèles.
 
-**Ce starter accélère le démarrage ; il ne peut pas contenir à l'avance la logique propre à chaque sujet.** Les uploads, notifications temps réel, paiements, emails de production, modération réelle et autres services métier restent à configurer ou à construire selon le sujet.
+**Ce starter accélère le démarrage ; il ne peut pas contenir à l'avance la logique propre à chaque sujet.** Le stockage et les notifications de contact sont prêts à configurer ; commentaires, notifications temps réel métier, paiements et règles de modération propres au sujet restent à construire.
 
 ## Démarrage en quelques minutes
 
@@ -56,19 +56,22 @@ La galerie `/kit` présente ces variantes avec les composants de formulaire et l
 |---|---|---|
 | `src/components/ui/` | Primitives d'interface : `Button`, `Card`, `Badge`, `Dialog`, `Input`, `Label`, `Separator`, `Skeleton`, `Textarea`, `Tooltip`, `Sonner` | `import { Button } from "@/components/ui/button"` |
 | `src/components/layout/` | `RootLayout`, `SiteHeader`, `SiteFooter`, `ApplicationLayout`, `Container` | `import { Container } from "@/components/layout/container"` |
-| `src/components/` | `PageHeader`, `EmptyState`, `ConfirmDialog`, `Pagination`, `Reveal`, `Lightbox`, `VideoPlayer`, thème et langue | `import { EmptyState } from "@/components/empty-state"` |
+| `src/components/` | `PageHeader`, `EmptyState`, `ConfirmDialog`, `Pagination`, `Reveal`, `StorageUploader`, `Lightbox`, `VideoPlayer`, thème et langue | `import { EmptyState } from "@/components/empty-state"` |
 | `src/components/interactive/` | `AsyncButton` pour les états chargement/réussite/erreur, `LikeButton` avec effet de particules | `import { AsyncButton } from "@/components/interactive/async-button"` |
 | `src/components/charts/` | `BarChart`, `DonutChart`, `Sparkline` légers en SVG | `import { Sparkline } from "@/components/charts/sparkline"` |
 | `src/components/three/` | Visualiseur 3D et scène Three.js, réservés à la route modèle 3D | `import { ThreeViewer } from "@/components/three/three-viewer"` |
 | `src/features/auth/` | Connexion, inscription, OAuth, mot de passe oublié, rôles et routes protégées | `import { useAuth } from "@/features/auth/auth-context"` |
 | `src/features/items/` | Parcours vertical d'exemple Notes : API, hooks, formulaire et pages CRUD | `import { useItems } from "@/features/items/use-items"` |
 | `src/features/admin/` | Console admin de départ et garde de rôle | Route `/admin`, rôle `app_metadata.role` |
+| `src/features/notifications/` | Menu des notifications du compte connecté | `import { NotificationsMenu } from "@/features/notifications/notifications-menu"` |
 | `src/pages/app/` | Tableau de bord et paramètres de l'espace privé | Route `/app/dashboard` |
+| `src/pages/app/assistant-page.tsx` | Chatbot OpenRouter, historique facultatif | Route `/app/assistant` |
+| `supabase/functions/` | Proxy OpenRouter, contact, suppression du compte et API admin | Secrets uniquement côté Edge Function |
 | `src/pages/templates/` | Galerie, 3D, vidéo, interactions, marketing, tableau de bord d'exemple | Index `/modeles` |
 | `src/hooks/` | `useReveal`, `useCountUp`, `useReducedMotion`, `useNow`, `useMounted` | `import { useReveal } from "@/hooks/use-reveal"` |
 | `src/lib/` | Environnement, Supabase, formatage, stockage, local DB, site, thèmes et utilitaires | `import { SITE } from "@/lib/site"` |
 | `src/styles/presets.css` | Tokens et cinq palettes clair/sombre | sélection dans `/kit` |
-| `supabase/schema.sql` | Tables `profiles` et `items`, GRANT, RLS, policies et trigger de profil | À exécuter dans le SQL Editor Supabase |
+| `supabase/schema.sql` | Tables de profil, Notes, chat, contact et notifications ; GRANT, RLS, fonctions de quota et Storage privé | À exécuter dans le SQL Editor Supabase |
 
 ### Composants transversaux ajoutés
 
@@ -103,11 +106,12 @@ import { Reveal } from "@/components/reveal"
 | `/` | Accueil public, appels à l'action et aperçu animé du produit |
 | `/connexion`, `/inscription` | Auth avec formulaire, Google/Facebook quand OAuth est configuré, mode démo sinon |
 | `/mot-de-passe-oublie`, `/nouveau-mot-de-passe` | Récupération/changement de mot de passe via Supabase |
-| `/equipe`, `/contact`, `/conditions`, `/confidentialite` | Pages publiques à adapter ; le formulaire contact reste une démo |
+| `/equipe`, `/contact`, `/conditions`, `/confidentialite` | Pages publiques ; contact stocké côté serveur et envoyé par Resend si configuré |
 | `/app` | CRUD Notes : créer, lire, rechercher, paginer, modifier et supprimer |
 | `/app/items/:id` | Détail et modification de la note par son auteur |
-| `/app/dashboard`, `/app/parametres` | Tableau de bord de départ, profil en lecture, préférences de thème/langue |
-| `/admin/connexion`, `/admin/*` | Connexion admin et console squelette protégée par le rôle |
+| `/app/dashboard`, `/app/parametres` | Tableau de bord, édition du profil/e-mail, mot de passe, suppression du compte, fichiers privés et préférences |
+| `/app/assistant` | Chat OpenRouter, quota quotidien; activation par `VITE_ENABLE_AI_CHAT=true`, historique facultatif |
+| `/admin/connexion`, `/admin/*` | Console admin, gestion des utilisateurs et boîte contact via Edge Function protégée |
 | `/kit` | Galerie de composants, thèmes et diagnostics |
 | `/modeles` et `/modeles/*` | Index des modèles et six pages de démonstration |
 
@@ -141,9 +145,18 @@ Pour garder un rendu fluide et présentable au jury :
 
 Aucune animation ne remplace un vrai parcours métier et une démo fonctionnelle.
 
-## Ce qui reste à construire selon le sujet
+## Modules serveur à configurer
 
-Le starter n'a pas encore de service configuré pour le formulaire de contact, les uploads/galeries, le profil modifiable, les commentaires, la modération, les notifications temps réel, les emails transactionnels, l'IA, les paiements ou les tâches planifiées. La console admin et le dashboard sont des squelettes. Ajoutez seulement ce que le sujet et le barème demandent ; évitez les fonctionnalités sans parcours complet.
+Les fonctions du dépôt fournissent une base exploitable, mais leurs secrets et le projet Supabase doivent être configurés. Commencez par [docs/DEPLOIEMENT-HODI.md](docs/DEPLOIEMENT-HODI.md), puis consultez les guides [Supabase](docs/SUPABASE.md) et [OpenRouter](docs/OPENROUTER.md).
+
+- **Assistant IA** : clé et modèle OpenRouter côté Edge Function, quota de 20 demandes/jour, limite de 600 tokens/réponse. Historique désactivé par défaut ; activation coordonnée front/serveur documentée.
+- **Admin** : `admin-data` revérifie `app_metadata.role` sur chaque appel. Le service role ne quitte jamais la fonction. Les policies SQL donnent les accès admin nécessaires.
+- **Compte** : modifier nom, demander un changement d'e-mail avec confirmation, changer le mot de passe, supprimer le compte via une fonction serveur après connexion récente.
+- **Fichiers** : bucket privé `uploads`, chemins isolés par utilisateur, images/PDF et 5 Mo maximum ; liens signés d'une heure.
+- **Contact/notifications** : messages enregistrés côté serveur et visibles dans la boîte admin. La fonction crée une notification pour les admins. L'e-mail Resend n'est envoyé que si les secrets sont configurés.
+- **Production** : OAuth Google/Facebook, SMTP Supabase, URL de redirection finale, variables de build HODI et secrets Edge documentés.
+
+Commentaires publics, modération de contenu, paiements, tâches planifiées et notifications temps réel métier restent à créer selon le sujet. Gardez uniquement les fonctionnalités qui servent le parcours central du concours.
 
 Le rôle admin est lu depuis `app_metadata.role`. Attribuez-le par un moyen de confiance côté serveur; n'acceptez pas un rôle reçu depuis un formulaire client ou `user_metadata`. Les routes et boutons admin ne remplacent pas des policies serveur/RLS.
 

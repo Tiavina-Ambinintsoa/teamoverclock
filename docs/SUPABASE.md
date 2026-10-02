@@ -47,11 +47,15 @@ La connexion et la création de compte fonctionnent sans créer de table applica
 2. Collez le contenu de `supabase/schema.sql` et exécutez-le.
 3. Relisez les politiques RLS avant de réutiliser ce schéma avec des données réelles : la table `profiles` expose les noms affichés, et les notes publiques sont lisibles sans compte.
 
-Ce script crée les tables `profiles` et `items`, active RLS et ajoute les politiques nécessaires à l'exemple.
+Ce script crée `profiles`, `items`, `ai_conversations`, `ai_messages`, `ai_usage`, `contact_messages`, `contact_rate_limits` et `notifications`. Il configure leurs GRANT/policies RLS, un quota IA, une limite publique anti-spam, des notifications aux administrateurs et le bucket privé `uploads`. Relancez le script si le projet avait déjà le premier schéma : les créations et politiques sont idempotentes.
 
 ## 5. Donner l'accès admin à un compte
 
-L'application affiche l'entrée **Espace admin** uniquement si le compte connecté a `app_metadata.role` égal à `admin`. Ce champ doit être modifié par une action de confiance côté serveur avec l'API Admin de Supabase, jamais par le formulaire du navigateur ni dans `user_metadata`. Exemple de logique serveur :
+L'application affiche l'entrée **Espace admin** uniquement si le compte connecté a `app_metadata.role` égal à `admin`. `/admin/users`, la boîte `/admin/moderation` et leurs changements appellent `admin-data`, qui revérifie ce claim avec Auth avant d'utiliser la clé Admin côté serveur. La base a également une fonction `public.is_admin()` et des policies admin. Le champ doit être modifié par une action de confiance côté serveur avec l'API Admin, jamais par le formulaire du navigateur ni dans `user_metadata`.
+
+Pour attribuer le premier rôle, utilisez le Dashboard Supabase (Authentication → Users → compte → app_metadata) ou un script serveur local privé. N'accordez jamais la clé de service au navigateur. Après changement de rôle, déconnectez/reconnectez le compte pour renouveler le JWT.
+
+La fonction d'administration utilise en interne une logique de ce type :
 
 ```ts
 await supabaseAdmin.auth.admin.updateUserById(userId, {
@@ -59,7 +63,27 @@ await supabaseAdmin.auth.admin.updateUserById(userId, {
 })
 ```
 
-Le client `supabaseAdmin` doit être créé côté serveur avec une clé `sb_secret_...` (ou ancienne `service_role`), stockée dans un secret serveur sans préfixe `VITE_`. Après l'attribution du rôle, déconnectez puis reconnectez ce compte pour renouveler sa session. La vérification dans l'interface protège la navigation; protégez aussi les données et opérations admin par RLS ou une fonction serveur.
+Le code de gestion des rôles est `supabase/functions/admin-data/index.ts`. Son client service est construit dans une Edge Function; la clé `sb_secret_...` ou `service_role` n'est jamais embarquée dans le build web.
+
+## 6. Profil, e-mail, mot de passe et suppression
+
+Dans `/app/parametres`, les changements de nom sont enregistrés dans Supabase Auth et `profiles`. La modification d'e-mail passe par `auth.updateUser({ email })` et dépend des confirmations de l'instance Auth. Le nouveau mot de passe passe par `auth.updateUser({ password })`. `account-delete` vérifie la session et exige une connexion dans les 15 dernières minutes avant de supprimer le compte via l'API Admin ; les lignes liées ont des clés étrangères `on delete cascade`.
+
+Configurez SMTP dans **Authentication → SMTP Settings** et les modèles de courriel. Le SMTP par défaut est destiné aux essais, pas à une démo où plusieurs personnes doivent recevoir leurs liens.
+
+## 7. Fichiers privés
+
+Le schéma crée un bucket privé `uploads` (5 Mo, JPEG/PNG/WebP/PDF). Les policies vérifient que le premier dossier est l'UUID du compte authentifié. `StorageUploader` crée des chemins aléatoires sous ce dossier et présente un lien signé valable une heure. Pour ajouter un type de fichier ou modifier la limite, changez le bucket **et** les validations de `src/components/storage-uploader.tsx`.
+
+## 8. Contact, boîte admin et notifications
+
+`contact-submit` est publique parce que le formulaire ne demande pas de compte. Elle applique un honeypot, validation des longueurs et limitation à cinq demandes par heure et adresse réseau hachée, puis écrit dans `contact_messages`. L'accès direct à la table est refusé aux rôles `anon` et `authenticated`; la boîte `/admin/moderation` passe par `admin-data`. Le trigger crée une notification privée pour chaque compte ayant le rôle admin.
+
+Pour envoyer aussi un e-mail, vérifiez un domaine chez Resend et configurez `RESEND_API_KEY`, `CONTACT_TO_EMAIL`, `MAIL_FROM` dans les secrets Edge. Sans ces variables, le message reste sauvegardé dans l'inbox et le front indique que l'e-mail n'est pas configuré.
+
+## 9. Déployer les Edge Functions
+
+Après `supabase login` et `supabase link --project-ref ...`, déployez `openrouter-chat`, `admin-data`, `account-delete` et `contact-submit`. La seule fonction sans JWT de passerelle est `contact-submit` (indiqué dans `supabase/config.toml`) ; les autres revérifient aussi la session ou le rôle dans le code. Consultez [docs/OPENROUTER.md](OPENROUTER.md) et [docs/DEPLOIEMENT-HODI.md](DEPLOIEMENT-HODI.md) pour les secrets et les variables HODI.
 
 ## Dépannage rapide
 
@@ -77,3 +101,5 @@ Le client `supabaseAdmin` doit être créé côté serveur avec une clé `sb_sec
 - [Connexion Facebook](https://supabase.com/docs/guides/auth/social-login/auth-facebook)
 - [Authentification e-mail et mot de passe](https://supabase.com/docs/guides/auth/passwords)
 - [Utilisateurs et métadonnées](https://supabase.com/docs/guides/auth/users)
+- [Edge Functions et secrets](https://supabase.com/docs/guides/functions/secrets)
+- [Politiques de sécurité du stockage](https://supabase.com/docs/guides/storage/security/access-control)

@@ -135,7 +135,7 @@ export function KitPage() {
               onClick={() => setPreset(item.id)}
               aria-pressed={preset === item.id}
               className={cn(
-                "rounded-[var(--radius)] border bg-background p-4 text-left text-foreground transition-shadow",
+                "rounded-(--radius) border bg-background p-4 text-left text-foreground transition-shadow",
                 preset === item.id && "ring-2 ring-primary ring-offset-2 ring-offset-background"
               )}
             >
@@ -240,7 +240,9 @@ export function KitPage() {
           title="Confirmer cette action ?"
           description="Cette fenêtre est un exemple réutilisable. L'action réelle n'est pas exécutée."
           confirmLabel="Confirmer"
-          onConfirm={() => toast.success("Confirmation de démonstration")}
+          onConfirm={() => {
+            toast.success("Confirmation de démonstration")
+          }}
         />
 
         <div className="grid gap-8 lg:grid-cols-2">

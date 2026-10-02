@@ -8,7 +8,7 @@ Ce document distingue les éléments déjà utilisables, les vues de démonstrat
 |---|---|---|
 | `/` | Prêt | Accueil public : hero, présentation, quatre fonctionnalités, chiffres, citation et appels à l'action |
 | `/equipe` | Prêt à personnaliser | Membres et démarche ; remplacez les exemples dans `src/lib/site.ts` |
-| `/contact` | Démo | Formulaire avec honeypot ; n'envoie pas de message tant qu'un service de réception n'est pas relié |
+| `/contact` | Serveur requis | Honeypot, limites de fréquence, stockage privé du message ; notification admin et e-mail Resend optionnel |
 | `/conditions`, `/confidentialite` | Modèle | Textes à faire compléter avant publication |
 | `/connexion` | Prêt | E-mail, mot de passe, mot de passe visible/masqué, erreur, accès démo, Google et Facebook |
 | `/inscription` | Prêt | Prénom, nom, e-mail, mot de passe, confirmation, conditions et OAuth |
@@ -17,8 +17,11 @@ Ce document distingue les éléments déjà utilisables, les vues de démonstrat
 | `/app` | Fonctionnel | CRUD Notes : création, liste, recherche, pagination locale, suppression confirmée ; démo locale ou Supabase |
 | `/app/items/:id` | Fonctionnel | Détail et édition de la note par son auteur, copie du lien |
 | `/app/dashboard` | Squelette | Cartes, graphique et liste d'activité à relier aux données du vrai produit |
-| `/app/parametres` | Prêt | Profil en lecture, état Supabase/démo, thème clair/sombre et langue |
-| `/admin`, `/admin/users`, `/admin/moderation`, `/admin/logs`, `/admin/settings` | Squelette protégé | Navigation et états vides ; aucune action d'administration n'est reliée à une base |
+| `/app/parametres` | Fonctionnel avec Supabase | Nom, changement d'e-mail confirmé, mot de passe, suppression du compte, upload privé, thème et langue |
+| `/app/assistant` | Optionnel, fonctions + secrets requis | Proxy OpenRouter côté serveur, quota journalier et historique privé facultatif |
+| `/admin`, `/admin/users` | Fonctionnel avec Supabase | Liste utilisateur et rôles via Edge Function qui revalide le rôle admin |
+| `/admin/moderation` | Fonctionnel avec Supabase | Boîte des messages contact, accès serveur admin et statut lu/fermé |
+| `/admin/logs`, `/admin/settings` | Squelette | À relier à l'audit et à la configuration du sujet |
 | URL inconnue | Prêt | Page 404 du starter |
 | `/kit`, `/modeles/*` | Outils facultatifs | Palette, composants et six pages modèles ; activés en développement ou avec `VITE_ENABLE_KIT=true` |
 
@@ -63,8 +66,11 @@ Autres composants :
 
 ### Logique et données déjà présentes
 
-- Auth Supabase optionnelle et mode démo local dans `src/features/auth/`.
-- Route privée et vérification du rôle administrateur via `app_metadata.role`.
+- Auth Supabase optionnelle et mode démo local dans `src/features/auth/` ; profil éditable, email vérifié, changement de mot de passe et suppression sécurisée du compte.
+- Route privée, vérification du rôle administrateur via `app_metadata.role`, API d'administration Edge Function et policies SQL admin.
+- Contact enregistré par Edge Function, quota anti-spam, boîte admin, notifications RLS et e-mail Resend facultatif.
+- Stockage privé de fichiers Supabase, chemins utilisateur, restrictions de type/taille et liens signés temporaires.
+- Chat OpenRouter via Edge Function ; clé côté serveur, modèle contrôlé par secret, quota journalier et historique désactivé par défaut.
 - OAuth Google/Facebook, demande de réinitialisation, changement de mot de passe.
 - Exemple Notes avec API, hooks TanStack Query, création/lecture/modification/suppression, recherche, pagination locale, confirmation de suppression, formulaire et règles RLS dans `supabase/schema.sql`.
 - Client Supabase optionnel, client HTTP, stockage local de secours, formats Ariary/date d'Antananarivo.
@@ -75,13 +81,15 @@ Autres composants :
 
 ## Ce qui dépend d'une configuration
 
-1. **Supabase** : suivez le guide détaillé [docs/SUPABASE.md](SUPABASE.md), copiez `.env.example` vers `.env.local` et renseignez l'URL ainsi que la clé publishable/anon.
+1. **Supabase** : suivez le guide détaillé [docs/SUPABASE.md](SUPABASE.md), copiez `.env.example` vers `.env.local`, renseignez l'URL et la clé publishable/anon, puis exécutez le schéma SQL actualisé.
 2. **OAuth** : activez Google et Facebook dans Supabase Auth, renseignez leurs secrets dans le tableau de bord du fournisseur, puis ajoutez le callback du fournisseur et les URL de retour du site.
 3. **Récupération e-mail** : ajoutez `/nouveau-mot-de-passe` dans les URL de redirection Supabase et configurez l'envoi d'e-mails.
-4. **Admin réel** : le rôle est lu depuis `app_metadata.role`. Attribuez-le uniquement par un moyen de confiance côté serveur ou tableau de bord ; ne l'enregistrez jamais dans `user_metadata`. Le mode démo est fictif et n'est pas une sécurité.
-5. **Admin et données** : la console a une interface vide. Reliez chaque action à une Edge Function/API et vérifiez la RLS. Le contrôle de route côté navigateur ne remplace jamais les règles du serveur.
-6. **Thème jour J** : changez `SITE.defaultPreset` dans `src/lib/site.ts`; la palette correspondante est dans `src/styles/presets.css`.
-7. **Identité** : remplacez le nom, le slogan et les membres dans `src/lib/site.ts`, le titre/les métadonnées dans `index.html`, puis le texte d'accueil dans `src/pages/home-page.tsx`.
+4. **Admin réel** : le rôle est lu depuis `app_metadata.role`. Attribuez le premier admin depuis le tableau de bord Supabase. Les actions admin vérifient le rôle côté Edge Function ; ne l'enregistrez jamais dans `user_metadata`. Le mode démo est fictif et n'est pas une sécurité.
+5. **OpenRouter** : suivez [docs/OPENROUTER.md](OPENROUTER.md), déployez la fonction et conservez la clé uniquement dans les secrets Edge.
+6. **Contact/courriels** : déployez `contact-submit`; sans les secrets Resend, les messages restent enregistrés et accessibles dans l'inbox admin.
+7. **Production** : configurez HODI, Google/Facebook et SMTP selon [docs/DEPLOIEMENT-HODI.md](DEPLOIEMENT-HODI.md). La compilation Vite inclut toutes les variables `VITE_*`.
+8. **Thème jour J** : changez `SITE.defaultPreset` dans `src/lib/site.ts`; la palette correspondante est dans `src/styles/presets.css`.
+9. **Identité** : remplacez le nom, le slogan et les membres dans `src/lib/site.ts`, le titre/les métadonnées dans `index.html`, puis le texte d'accueil dans `src/pages/home-page.tsx`.
 
 ## Modules présents dans les pages modèles
 
@@ -92,17 +100,17 @@ Ils restent facultatifs : gardez la route et le fichier utiles, adaptez-les ou s
 - Lecteur vidéo.
 - Interactions, like et animations.
 - Sections marketing (hero, tarifs, FAQ, etc.).
-- Tableau de bord de démonstration avec graphiques.
+- Tableau de bord de démonstration avec graphiques SVG légers, déjà disponibles dans `src/components/charts/`.
 
-## Idées du texte de préparation qui ne sont pas encore implémentées
+## Extensions restantes selon le sujet
 
 Ne les déclarez pas comme terminées tant qu'elles ne sont pas réellement reliées et vérifiées :
 
 - Éditeur de pages par blocs, partage public avec QR code, invitations et permissions par ressource.
-- Upload avec compression et stockage Supabase, galerie d'albums, carte ou visite virtuelle.
+- Compression d'images côté navigateur, galerie d'albums, carte ou visite virtuelle (l'upload privé simple est déjà fourni).
 - Révélation programmée, emails différés, tâches cron et compte à rebours métier.
-- Commentaires, signalements, file de modération et notifications en temps réel.
-- IA/OpenRouter, chatbot, quota d'usage et filtrage de contenu.
+- Commentaires, signalements, file de modération de contenu et notifications métier en temps réel (les notifications de contact sont fournies).
+- Prompts métier, filtres de contenu et outils IA (le chatbot OpenRouter sécurisé avec quota et historique optionnel est fourni).
 - Réservation/calendrier, PDF personnalisé, quiz à étapes, memory game, roue, code Konami.
 - Recherche multicritère sur de vraies données, statistiques d'usage et export administrateur.
 - Audio d'ambiance, particules configurables, confettis et lightbox vidéo reliée à du contenu réel.
