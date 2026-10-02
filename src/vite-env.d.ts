@@ -8,6 +8,7 @@ interface ImportMetaEnv {
   readonly VITE_BASE?: string
   readonly VITE_USE_HASH_ROUTER?: string
   readonly VITE_ENABLE_KIT?: string
+  readonly VITE_MAPTILER_API_KEY?: string
 }
 
 interface ImportMeta {

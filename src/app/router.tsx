@@ -57,6 +57,10 @@ const routes: RouteObject[] = [
             ? [
                 { path: "kit", lazy: async () => ({ Component: (await import("@/pages/kit-page")).KitPage }) },
                 { path: "modeles", lazy: async () => ({ Component: (await import("@/pages/templates/templates-index-page")).TemplatesIndexPage }) },
+                { path: "modeles/accueils", lazy: async () => ({ Component: (await import("@/pages/templates/home-variants-page")).HomeVariantsPage }) },
+                { path: "modeles/animations", lazy: async () => ({ Component: (await import("@/pages/templates/animations-page")).AnimationsPage }) },
+                { path: "modeles/carte", lazy: async () => ({ Component: (await import("@/pages/templates/map-page")).MapPage }) },
+                { path: "modeles/agenda", lazy: async () => ({ Component: (await import("@/pages/templates/agenda-page")).AgendaPage }) },
                 { path: "modeles/galerie", lazy: async () => ({ Component: (await import("@/pages/templates/gallery-page")).GalleryPage }) },
                 { path: "modeles/3d", lazy: async () => ({ Component: (await import("@/pages/templates/three-d-page")).ThreeDPage }) },
                 { path: "modeles/video", lazy: async () => ({ Component: (await import("@/pages/templates/video-page")).VideoPage }) },

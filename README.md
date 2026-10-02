@@ -21,6 +21,8 @@ VITE_SUPABASE_PUBLISHABLE_KEY=sb_publishable_...
 
 Redémarrez Vite après une modification des variables. Le guide complet, les redirections OAuth et le rôle admin sont dans [docs/SUPABASE.md](docs/SUPABASE.md). La clé publishable/anon est destinée au navigateur avec RLS activée ; une clé `sb_secret` ou `service_role` doit rester sur le serveur.
 
+Pour afficher la carte détaillée du modèle `/modeles/carte`, créez une clé MapTiler, ajoutez `VITE_MAPTILER_API_KEY=...` dans `.env.local` et restreignez cette clé à l'origine de votre site. Sur HODI, configurez la même variable dans l'environnement de build puis reconstruisez `dist/` (voir [docs/DEPLOIEMENT-HODI.md](docs/DEPLOIEMENT-HODI.md)). Sans clé, la page affiche un aperçu schématique local sans requêtes au serveur de tuiles OpenStreetMap. Les variables `VITE_*` sont publiques dans le navigateur.
+
 ## Importer les composants
 
 L'alias `@/` pointe vers `src/`. Utilisez-le pour garder des imports lisibles :
@@ -40,12 +42,14 @@ import { PageHeader } from "@/components/page-header"
 
 ### Boutons
 
-`Button` accepte les variantes `default`, `secondary`, `outline`, `soft`, `ghost`, `link`, `highlight`, `destructive`; les formes `default`, `rounded`, `pill`, `square`; les tailles `sm`, `default`, `lg`, `icon`.
+`Button` accepte les variantes `default`, `secondary`, `outline`, `soft`, `ghost`, `link`, `highlight`, `destructive`, `gradient`, `glass`, `inverse`; les formes `default`, `rounded`, `squircle`, `pill`, `square`, `asymmetric`; les tailles `sm`, `default`, `lg`, `xl`, `icon-sm`, `icon`, `icon-lg`.
 
 ```tsx
 <Button variant="highlight" shape="pill" size="lg">Commencer</Button>
 <Button variant="soft" shape="rounded">En savoir plus</Button>
 <Button variant="destructive" shape="pill">Supprimer</Button>
+<Button variant="gradient" size="xl">Créer mon projet</Button>
+<Button variant="glass" shape="squircle">En savoir plus</Button>
 ```
 
 La galerie `/kit` présente ces variantes avec les composants de formulaire et les autres primitives.
@@ -54,10 +58,15 @@ La galerie `/kit` présente ces variantes avec les composants de formulaire et l
 
 | Chemin | Rôle | Import / exemple |
 |---|---|---|
-| `src/components/ui/` | Primitives d'interface : `Button`, `Card`, `Badge`, `Dialog`, `Input`, `Label`, `Separator`, `Skeleton`, `Textarea`, `Tooltip`, `Sonner` | `import { Button } from "@/components/ui/button"` |
+| `src/components/ui/` | `Button`, `Card`, `Badge`, `Dialog`, `Input`, `Label`, `Textarea`, `Tooltip`, `Separator`, `Skeleton`, `Accordion`, `Avatar`, `Breadcrumb`, `Checkbox`, `Progress`, `Select`, `Slider`, `Switch`, `Table`, `Tabs`, `Sonner`, `BentoGrid` | `import { Button } from "@/components/ui/button"` |
 | `src/components/layout/` | `RootLayout`, `SiteHeader`, `SiteFooter`, `ApplicationLayout`, `Container` | `import { Container } from "@/components/layout/container"` |
-| `src/components/` | `PageHeader`, `EmptyState`, `ConfirmDialog`, `Pagination`, `Reveal`, `StorageUploader`, `Lightbox`, `VideoPlayer`, thème et langue | `import { EmptyState } from "@/components/empty-state"` |
+| `src/components/` | `PageHeader`, `EmptyState`, `RouteError`, `ConfirmDialog`, `Pagination`, `Reveal`, `StorageUploader`, `Lightbox`, `VideoPlayer`, thème et langue | `import { EmptyState } from "@/components/empty-state"` |
 | `src/components/interactive/` | `AsyncButton` pour les états chargement/réussite/erreur, `LikeButton` avec effet de particules | `import { AsyncButton } from "@/components/interactive/async-button"` |
+| `src/components/animated/` | `TransitionLink`, `AuroraShader` WebGL, `TextReveal`, `AnimatedGradientText`, `Marquee`, `MeteorField`, `BorderBeam` | `import { AuroraShader } from "@/components/animated/aurora-shader"` |
+| `src/components/home-interactive-background.tsx` + `src/lib/home-background-config.ts` | Fond de l'accueil en halos, réglable et réactif au pointeur/scroll | `import { HomeInteractiveBackground } from "@/components/home-interactive-background"` |
+| `src/components/image-parallax-background.tsx` | Fond image local avec parallaxe pointeur/scroll et respect de la réduction des animations | `import { ImageParallaxBackground } from "@/components/image-parallax-background"` |
+| `src/components/home-presets/alternate-home-heroes.tsx` | Heroes réutilisables classique alternatif : gaming futuriste, image animée, objet Three.js central | Page modèle `/modeles/accueils` |
+| `src/components/theme-switcher.tsx` | Sélecteurs de mode clair/sombre, palette, police et morphisme global | `import { MorphismPicker } from "@/components/theme-switcher"` |
 | `src/components/charts/` | `BarChart`, `DonutChart`, `Sparkline` légers en SVG | `import { Sparkline } from "@/components/charts/sparkline"` |
 | `src/components/three/` | Visualiseur 3D et scène Three.js, réservés à la route modèle 3D | `import { ThreeViewer } from "@/components/three/three-viewer"` |
 | `src/features/auth/` | Connexion, inscription, OAuth, mot de passe oublié, rôles et routes protégées | `import { useAuth } from "@/features/auth/auth-context"` |
@@ -67,10 +76,13 @@ La galerie `/kit` présente ces variantes avec les composants de formulaire et l
 | `src/pages/app/` | Tableau de bord et paramètres de l'espace privé | Route `/app/dashboard` |
 | `src/pages/app/assistant-page.tsx` | Chatbot OpenRouter, historique facultatif | Route `/app/assistant` |
 | `supabase/functions/` | Proxy OpenRouter, contact, suppression du compte et API admin | Secrets uniquement côté Edge Function |
-| `src/pages/templates/` | Galerie, 3D, vidéo, interactions, marketing, tableau de bord d'exemple | Index `/modeles` |
+| `src/pages/templates/` | Variantes d'accueil, animations, agenda, carte, galerie, 3D, vidéo, interactions, marketing, tableau de bord d'exemple | Index `/modeles` |
 | `src/hooks/` | `useReveal`, `useCountUp`, `useReducedMotion`, `useNow`, `useMounted` | `import { useReveal } from "@/hooks/use-reveal"` |
-| `src/lib/` | Environnement, Supabase, formatage, stockage, local DB, site, thèmes et utilitaires | `import { SITE } from "@/lib/site"` |
-| `src/styles/presets.css` | Tokens et cinq palettes clair/sombre | sélection dans `/kit` |
+| `src/lib/` | Environnement, Supabase, formatage, stockage, local DB, site, thèmes, polices et utilitaires | `import { SITE } from "@/lib/site"` |
+| `src/lib/typography-presets.ts` | Choix des polices Instrument Sans, Bricolage Grotesque, Fraunces, système ou police de la palette | `import { TYPOGRAPHIES } from "@/lib/typography-presets"` |
+| `src/lib/morphisms.ts` | Styles de surface Standard, glass, clay, skeuomorphique, neumorphique, minimal, néo-brutaliste et liquid glass | Sélection dans `/app/parametres` ou `/kit` |
+| `docs/ANIMATIONS-ET-COMPOSANTS.md` | Catalogue des animations, primitives UI et commandes shadcn/Magic UI à choisir selon le sujet | Guide à garder ouvert pendant le sprint |
+| `src/styles/presets.css` | Tokens et quatorze palettes clair/sombre, dont Miel & sauge et Canopée | sélection dans `/app/parametres` ou `/kit` |
 | `supabase/schema.sql` | Tables de profil, Notes, chat, contact et notifications ; GRANT, RLS, fonctions de quota et Storage privé | À exécuter dans le SQL Editor Supabase |
 
 ### Composants transversaux ajoutés
@@ -112,10 +124,10 @@ import { Reveal } from "@/components/reveal"
 | `/app/dashboard`, `/app/parametres` | Tableau de bord, édition du profil/e-mail, mot de passe, suppression du compte, fichiers privés et préférences |
 | `/app/assistant` | Chat OpenRouter, quota quotidien; activation par `VITE_ENABLE_AI_CHAT=true`, historique facultatif |
 | `/admin/connexion`, `/admin/*` | Console admin, gestion des utilisateurs et boîte contact via Edge Function protégée |
-| `/kit` | Galerie de composants, thèmes et diagnostics |
-| `/modeles` et `/modeles/*` | Index des modèles et six pages de démonstration |
+| `/kit` | Galerie de composants, thèmes, polices et diagnostics |
+| `/modeles` et `/modeles/*` | Index des modèles et dix pages de démonstration, dont `/modeles/accueils`, `/modeles/animations`, `/modeles/agenda` et `/modeles/carte` |
 
-Les pages `/kit` et `/modeles` sont ouvertes en développement. En production, elles sont désactivées par défaut ; ajoutez `VITE_ENABLE_KIT=true` avant le build seulement si vous en avez besoin. Voir [docs/07-modeles-de-pages.md](docs/07-modeles-de-pages.md) pour les URL directes.
+Les pages `/kit` et `/modeles` sont ouvertes en développement. En production, elles sont désactivées par défaut ; ajoutez `VITE_ENABLE_KIT=true` avant le build seulement si vous en avez besoin. Les modèles et leurs routes sont listés dans la section [Pages déjà présentes](#pages-déjà-présentes).
 
 ## Copier le CRUD Notes pour le sujet
 
@@ -133,7 +145,13 @@ L'API de notes donne déjà un exemple de stockage Supabase **et** de secours lo
 
 ## Animations et finition visuelle
 
-La page d'accueil utilise une séquence d'entrée du hero, des cartes révélées au scroll, un aperçu flottant avec mini-graphique animé et des survols discrets. Le panneau login/signup a une entrée latérale et des halos décoratifs. D'autres exemples sont dans `/modeles/interactions`.
+La page d'accueil utilise une séquence d'entrée du hero, des cartes révélées au scroll, un aperçu flottant avec mini-graphique animé et des survols discrets. Son fond suit doucement le pointeur et le défilement. Le panneau login/signup a une entrée latérale et des halos décoratifs ; après une connexion réussie, la zone photo glisse à gauche et le formulaire à droite avant l'ouverture de l'espace. La galerie `/modeles/animations` regroupe les transitions de routes, le navbar flottant, hero, shaders WebGL, animations de texte, slider, marquee et effets bento/Magic UI. Le guide [docs/ANIMATIONS-ET-COMPOSANTS.md](docs/ANIMATIONS-ET-COMPOSANTS.md) liste les imports et commandes pour ajouter d'autres composants shadcn au besoin.
+
+La galerie `/modeles/accueils` prévisualise trois directions alternatives. Essayez-les directement sur l'accueil avec `/?hero=futuriste`, `/?hero=image` ou `/?hero=3d`. Pour choisir celle qui sera utilisée par défaut, changez `HOME_HERO_DEFAULT` dans `src/pages/home-page.tsx` (`"classic"`, `"futuriste"`, `"image"` ou `"3d"`). Le fond image fourni est `public/images/home-aurora.svg`; remplacez ce fichier ou la propriété `src` de `ImageParallaxBackground` par votre image locale.
+
+Le morphisme se choisit dans **Paramètres → Apparence** ou dans l'en-tête de `/kit`. Le choix est mémorisé dans le navigateur et agit sur les cartes, boutons, champs, dialogues, menus et panneaux d'authentification au niveau global. Choisissez **Standard** pour retrouver les formes du thème sans effet de morphisme. Les palettes gardent la responsabilité des couleurs ; le morphisme transforme les surfaces, contours, rayons et ombres.
+
+Pour changer le fond d'accueil, modifiez `HOME_BACKGROUND_CONFIG` dans `src/lib/home-background-config.ts` : couleurs (tokens `var(--primary)`/`var(--highlight)`), nombre et taille des halos, positions, opacité, intensité du pointeur et du scroll. Passez `enabled` à `false` pour le désactiver. Le mouvement du pointeur ne s'active que sur les appareils avec une souris ou un pavé tactile précis ; les préférences `prefers-reduced-motion` coupent le mouvement.
 
 Pour garder un rendu fluide et présentable au jury :
 
@@ -179,4 +197,15 @@ npm run predeploy # build et rapport avant publication
 npm run release   # build strict et contrôle des marqueurs de démo
 ```
 
-Les détails d'inventaire et les fonctions encore non implémentées sont dans [docs/INVENTAIRE.md](docs/INVENTAIRE.md).
+## Tests de parcours automatiques
+
+Les tests Playwright couvrent l'inscription, la connexion, le CRUD complet des notes en mode local, le refus d'accès admin pour un membre et l'application d'une palette. Ils lancent Vite en mode test avec Supabase désactivé ; aucune donnée réelle n'est nécessaire.
+
+```sh
+npx playwright install chromium # à faire une fois par poste
+npm run test:e2e
+```
+
+Le contrôle d'accès testé ici couvre la garde d'interface. Pour vérifier aussi les policies RLS et les fonctions Edge, lancez des tests d'intégration contre un projet Supabase de test.
+
+Pour attribuer le rôle admin ou configurer les fournisseurs et redirections, suivez [docs/SUPABASE.md](docs/SUPABASE.md).

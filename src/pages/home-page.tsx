@@ -1,8 +1,10 @@
 import type { CSSProperties } from "react"
 import { ArrowDown, ArrowRight, Check, Layers3, LockKeyhole, MoonStar, Sparkles, UsersRound } from "lucide-react"
-import { Link } from "react-router"
+import { Link, useSearchParams } from "react-router"
 
 import { Container } from "@/components/layout/container"
+import { HomeInteractiveBackground } from "@/components/home-interactive-background"
+import { AlternateHomeHero, type HomeHeroVariant } from "@/components/home-presets/alternate-home-heroes"
 import { Reveal } from "@/components/reveal"
 import { Button } from "@/components/ui/button"
 import { useAuth } from "@/features/auth/auth-context"
@@ -12,6 +14,9 @@ import { SITE } from "@/lib/site"
 
 /** Rang dans la séquence d'entrée du hero (voir .rise dans index.css). */
 const step = (index: number) => ({ "--i": index }) as CSSProperties
+
+/** Accueil affiché par défaut. Options : "classic", "futuriste", "image", "3d". */
+export const HOME_HERO_DEFAULT: "classic" | HomeHeroVariant = "classic"
 
 const features = [
   { icon: Sparkles, title: "home.feature1", text: "home.feature1Text" },
@@ -23,14 +28,22 @@ const features = [
 export function HomePage() {
   const { user } = useAuth()
   const { t } = useLocale()
+  const [searchParams] = useSearchParams()
   const primaryPath = user ? (user.isAdmin ? "/admin" : "/app") : "/inscription"
+  const requestedHero = searchParams.get("hero")
+  const selectedHero: "classic" | HomeHeroVariant =
+    requestedHero === "futuriste" || requestedHero === "image" || requestedHero === "3d"
+      ? requestedHero
+      : HOME_HERO_DEFAULT
 
   return (
-    <>
+    <div className="home-page-shell relative isolate">
+      <HomeInteractiveBackground />
+      <div className="relative z-10">
       <title>{SITE.name}</title>
       <meta name="description" content={SITE.description} />
 
-      <section className="relative isolate overflow-hidden border-b">
+      {selectedHero === "classic" ? <section className="relative isolate overflow-hidden border-b">
         <Container className="grid min-h-[640px] items-center gap-12 py-14 sm:py-20 lg:grid-cols-[1.02fr_0.98fr] lg:py-24">
           <div className="relative z-10">
             <p className="rise inline-flex items-center gap-2 rounded-full border bg-background/80 px-3 py-1.5 text-xs font-medium text-primary shadow-sm" style={step(0)}>
@@ -101,7 +114,7 @@ export function HomePage() {
             </div>
           </div>
         </Container>
-      </section>
+      </section> : <AlternateHomeHero variant={selectedHero} primaryPath={primaryPath} />}
 
       <Container className="py-14 sm:py-20">
         <div className="text-center">
@@ -149,7 +162,8 @@ export function HomePage() {
           </Reveal>
         </Container>
       </section>
-    </>
+      </div>
+    </div>
   )
 }
 

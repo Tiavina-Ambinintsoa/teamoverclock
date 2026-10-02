@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { ChevronDown, Menu, ShieldCheck, Sparkles, X } from "lucide-react"
 import { Link, NavLink, useNavigate } from "react-router"
 
@@ -15,6 +15,7 @@ function HeaderLink({ to, children, onClick }: { to: string; children: string; o
     <NavLink
       to={to}
       end={to === "/"}
+      viewTransition
       onClick={onClick}
       className={({ isActive }) =>
         cn("shrink-0 rounded-md px-3 py-2 text-sm transition-colors hover:bg-accent", isActive && "bg-accent font-medium")
@@ -30,7 +31,16 @@ export function SiteHeader() {
   const { t } = useLocale()
   const navigate = useNavigate()
   const [menuOpen, setMenuOpen] = useState(false)
+  const [detached, setDetached] = useState(false)
   const closeMenu = () => setMenuOpen(false)
+
+  useEffect(() => {
+    const update = () => setDetached(window.scrollY > 24)
+    update()
+    window.addEventListener("scroll", update, { passive: true })
+    return () => window.removeEventListener("scroll", update)
+  }, [])
+
   const logout = async () => {
     closeMenu()
     await navigate("/")
@@ -38,7 +48,8 @@ export function SiteHeader() {
   }
 
   return (
-    <header className="sticky top-0 z-40 border-b bg-background/90 backdrop-blur supports-[backdrop-filter]:bg-background/75">
+    <div className="site-header-shell" data-detached={detached ? "true" : undefined}>
+    <header className="site-header border-b bg-background/90 backdrop-blur supports-[backdrop-filter]:bg-background/75">
       <Container className="flex min-h-16 items-center gap-3">
         <Link to="/" className="flex shrink-0 items-center gap-2 font-display text-lg font-semibold tracking-tight">
           <span className="grid size-9 place-items-center rounded-xl bg-primary text-primary-foreground">
@@ -49,7 +60,7 @@ export function SiteHeader() {
 
         <nav aria-label="Navigation principale" className="hidden items-center gap-1 md:flex">
           <HeaderLink to="/" onClick={closeMenu}>{t("nav.home")}</HeaderLink>
-          <a href="/#fonctionnalites" className="shrink-0 rounded-md px-3 py-2 text-sm transition-colors hover:bg-accent">{t("nav.features")}</a>
+          <Link to="/#fonctionnalites" viewTransition className="shrink-0 rounded-md px-3 py-2 text-sm transition-colors hover:bg-accent">{t("nav.features")}</Link>
           <HeaderLink to="/equipe" onClick={closeMenu}>{t("nav.team")}</HeaderLink>
           <HeaderLink to="/contact" onClick={closeMenu}>{t("nav.contact")}</HeaderLink>
         </nav>
@@ -108,7 +119,7 @@ export function SiteHeader() {
         <nav id="navigation-mobile" aria-label="Navigation mobile" className="border-t bg-background p-4 md:hidden">
           <div className="mx-auto grid max-w-7xl gap-1">
             <HeaderLink to="/" onClick={closeMenu}>{t("nav.home")}</HeaderLink>
-            <a href="/#fonctionnalites" onClick={closeMenu} className="rounded-md px-3 py-2 text-sm hover:bg-accent">{t("nav.features")}</a>
+              <Link to="/#fonctionnalites" viewTransition onClick={closeMenu} className="rounded-md px-3 py-2 text-sm hover:bg-accent">{t("nav.features")}</Link>
             <HeaderLink to="/equipe" onClick={closeMenu}>{t("nav.team")}</HeaderLink>
             <HeaderLink to="/contact" onClick={closeMenu}>{t("nav.contact")}</HeaderLink>
             <div className="mt-2 grid gap-3 border-t pt-3">
@@ -141,5 +152,6 @@ export function SiteHeader() {
         </nav>
       )}
     </header>
+    </div>
   )
 }

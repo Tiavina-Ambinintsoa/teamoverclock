@@ -6,7 +6,7 @@ import { ConfirmDialog } from "@/components/confirm-dialog"
 import { StorageUploader } from "@/components/storage-uploader"
 import { Container } from "@/components/layout/container"
 import { LanguageSwitcher } from "@/components/language-switcher"
-import { ModeToggle } from "@/components/theme-switcher"
+import { ModeToggle, MorphismPicker, PresetPicker, TypographyPicker } from "@/components/theme-switcher"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -112,6 +112,9 @@ export function SettingsPage() {
         <section className="rounded-xl border bg-card p-5 sm:p-7">
           <h2 className="font-semibold">{t("settings.appearance")}</h2>
           <div className="mt-4 flex flex-wrap items-center justify-between gap-4 border-t pt-4"><span className="text-sm">{t("settings.mode")}</span><ModeToggle /></div>
+          <div className="mt-4 flex flex-wrap items-center justify-between gap-4 border-t pt-4"><PresetPicker /></div>
+          <div className="mt-4 flex flex-wrap items-center justify-between gap-4 border-t pt-4"><TypographyPicker /></div>
+          <div className="mt-4 flex flex-wrap items-center justify-between gap-4 border-t pt-4"><MorphismPicker /></div>
           <div className="mt-4 flex items-center justify-between gap-4 border-t pt-4"><span className="text-sm">{t("settings.language")}</span><LanguageSwitcher /></div>
         </section>
       </div>

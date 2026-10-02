@@ -39,6 +39,7 @@ function Sidebar({ close }: { close?: () => void }) {
             <NavLink
               key={to}
               to={to}
+              viewTransition
               end={to === "/app"}
               onClick={close}
               className={({ isActive }) => cn("flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-muted-foreground hover:bg-accent hover:text-foreground", isActive && "bg-accent font-medium text-foreground")}
@@ -48,7 +49,7 @@ function Sidebar({ close }: { close?: () => void }) {
             </NavLink>
           ))}
           {user?.isAdmin && (
-            <NavLink to="/admin" onClick={close} className={({ isActive }) => cn("flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-muted-foreground hover:bg-accent hover:text-foreground", isActive && "bg-accent font-medium text-foreground")}>
+            <NavLink to="/admin" viewTransition onClick={close} className={({ isActive }) => cn("flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-muted-foreground hover:bg-accent hover:text-foreground", isActive && "bg-accent font-medium text-foreground")}>
               <ShieldCheck className="size-4" aria-hidden /> Administration
             </NavLink>
           )}

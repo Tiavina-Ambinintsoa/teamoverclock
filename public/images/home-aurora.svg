@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" fill="none">
+  <defs>
+    <linearGradient id="sky" x1="120" x2="1720" y1="40" y2="1040" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#11122f"/>
+      <stop offset=".52" stop-color="#201b51"/>
+      <stop offset="1" stop-color="#102b48"/>
+    </linearGradient>
+    <radialGradient id="glowA" cx="0" cy="0" r="1" gradientTransform="matrix(790 470 -410 690 1280 210)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#b76cff" stop-opacity=".9"/>
+      <stop offset=".5" stop-color="#6756e8" stop-opacity=".36"/>
+      <stop offset="1" stop-color="#201b51" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glowB" cx="0" cy="0" r="1" gradientTransform="matrix(640 350 -280 510 440 360)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#22d6c6" stop-opacity=".58"/>
+      <stop offset="1" stop-color="#22d6c6" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="ridge" x1="950" x2="980" y1="510" y2="1080" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#34336c"/>
+      <stop offset="1" stop-color="#0c182d"/>
+    </linearGradient>
+    <linearGradient id="horizon" x1="960" x2="960" y1="690" y2="1080" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#51e8d0" stop-opacity=".34"/>
+      <stop offset="1" stop-color="#51e8d0" stop-opacity="0"/>
+    </linearGradient>
+    <pattern id="stars" width="153" height="137" patternUnits="userSpaceOnUse">
+      <circle cx="17" cy="20" r="1.5" fill="#fff" fill-opacity=".72"/>
+      <circle cx="82" cy="63" r="1" fill="#c8baff" fill-opacity=".8"/>
+      <circle cx="132" cy="111" r="1.4" fill="#fff" fill-opacity=".56"/>
+      <circle cx="44" cy="126" r=".8" fill="#73f2e2" fill-opacity=".8"/>
+    </pattern>
+    <filter id="blur"><feGaussianBlur stdDeviation="42"/></filter>
+  </defs>
+  <path fill="url(#sky)" d="M0 0h1920v1080H0z"/>
+  <path fill="url(#glowA)" d="M0 0h1920v1080H0z"/>
+  <path fill="url(#glowB)" d="M0 0h1920v1080H0z"/>
+  <path fill="url(#stars)" d="M0 0h1920v850H0z"/>
+  <g filter="url(#blur)" opacity=".7">
+    <path stroke="#9c74ff" stroke-linecap="round" stroke-width="48" d="M-100 390c310-210 620-174 871-30 300 172 586 170 1220-154"/>
+    <path stroke="#36e1d0" stroke-linecap="round" stroke-width="26" d="M-70 514c335-180 602-158 854-10 299 176 589 139 1254-145"/>
+  </g>
+  <circle cx="1460" cy="296" r="112" fill="#ffcf87" fill-opacity=".9"/>
+  <circle cx="1460" cy="296" r="170" stroke="#ffd69b" stroke-opacity=".18" stroke-width="2"/>
+  <circle cx="1460" cy="296" r="218" stroke="#d2b9ff" stroke-opacity=".1" stroke-width="2"/>
+  <path fill="url(#ridge)" d="m0 799 214-133 147 58 206-215 171 139 123-91 202 142 162-164 140 111 175-227 185 126 195-167v702H0z"/>
+  <path fill="#10192c" d="m0 910 224-127 194 109 196-152 189 157 158-125 167 107 173-173 208 145 197-143 214 105v267H0z"/>
+  <path fill="url(#horizon)" d="M0 700h1920v380H0z"/>
+  <path stroke="#93f2df" stroke-opacity=".22" d="M0 842h1920M0 898h1920M0 964h1920"/>
+</svg>

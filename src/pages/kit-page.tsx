@@ -3,19 +3,30 @@ import { Play, RotateCcw } from "lucide-react"
 import { toast } from "sonner"
 
 import { ConfirmDialog } from "@/components/confirm-dialog"
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion"
+import { Avatar } from "@/components/ui/avatar"
+import { Breadcrumb } from "@/components/ui/breadcrumb"
+import { BentoCard, BentoGrid } from "@/components/ui/bento-grid"
+import { Checkbox } from "@/components/ui/checkbox"
 import { EmptyState } from "@/components/empty-state"
 import { Container } from "@/components/layout/container"
 import { PageHeader } from "@/components/page-header"
 import { Pagination } from "@/components/pagination"
 import { useTheme } from "@/components/theme-context"
-import { ModeToggle, PresetPicker } from "@/components/theme-switcher"
+import { ModeToggle, MorphismPicker, PresetPicker, TypographyPicker } from "@/components/theme-switcher"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
+import { Progress } from "@/components/ui/progress"
+import { Select } from "@/components/ui/select"
 import { Skeleton } from "@/components/ui/skeleton"
+import { Slider } from "@/components/ui/slider"
+import { Switch } from "@/components/ui/switch"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Textarea } from "@/components/ui/textarea"
 import { useNow } from "@/hooks/use-now"
 import { env } from "@/lib/env"
@@ -96,9 +107,11 @@ function Chrono() {
 }
 
 export function KitPage() {
-  const { preset, setPreset, mode, resolvedMode } = useTheme()
+  const { preset, setPreset, mode, resolvedMode, typography, morphism } = useTheme()
   const [confirmOpen, setConfirmOpen] = useState(false)
   const [demoPage, setDemoPage] = useState(1)
+  const [switchDemo, setSwitchDemo] = useState(true)
+  const [sliderDemo, setSliderDemo] = useState(62)
 
   const diagnostics: [string, string][] = [
     ["Backend", isBackendConfigured ? "Supabase configuré" : "Mode démo local (Supabase absent)"],
@@ -107,6 +120,8 @@ export function KitPage() {
     ["Base d'URL", import.meta.env.BASE_URL],
     ["Environnement", import.meta.env.DEV ? "Développement" : "Production"],
     ["Thème actif", `${preset}, ${mode === "system" ? `système (${resolvedMode})` : mode}`],
+    ["Police active", typography],
+    ["Morphisme actif", morphism],
   ]
 
   return (
@@ -116,7 +131,7 @@ export function KitPage() {
         title="Kit d'équipe"
         description="Galerie de composants, palettes, chrono et diagnostics. Cachez cette page pour le rendu au jury."
         className="mb-10"
-        actions={<><PresetPicker /><ModeToggle /></>}
+        actions={<div className="flex flex-wrap items-center gap-2"><PresetPicker /><TypographyPicker /><MorphismPicker /><ModeToggle /></div>}
       />
 
       <section aria-labelledby="palettes" className="mb-14">
@@ -196,11 +211,19 @@ export function KitPage() {
           <Button variant="soft">Doux</Button>
           <Button variant="destructive">Supprimer</Button>
           <Button variant="link">Lien</Button>
+          <Button variant="gradient">Dégradé</Button>
+          <Button variant="glass">Verre</Button>
+          <Button variant="inverse">Inversé</Button>
           <Button shape="rounded">Arrondi</Button>
+          <Button shape="squircle">Squircle</Button>
+          <Button shape="asymmetric" variant="outline">Asymétrique</Button>
           <Button shape="pill">Pilule</Button>
           <Button shape="square" variant="outline">Carré</Button>
           <Button size="sm">Petit</Button>
           <Button size="lg" shape="pill">Grand pilule</Button>
+          <Button size="xl" shape="squircle">Extra large</Button>
+          <Button size="icon-sm" variant="outline" aria-label="Petit bouton icône">+</Button>
+          <Button size="icon-lg" variant="soft" shape="pill" aria-label="Grand bouton icône">+</Button>
           <Button disabled>Désactivé</Button>
         </div>
 
@@ -211,6 +234,49 @@ export function KitPage() {
           <Badge variant="highlight">Accent</Badge>
           <Badge variant="destructive">Erreur</Badge>
         </div>
+
+        <h3 className="mb-4 text-lg font-semibold">Composants de contenu et de saisie</h3>
+        <div className="mb-10 grid gap-4 lg:grid-cols-2">
+          <Card>
+            <CardHeader><CardTitle>Navigation et contenu</CardTitle><CardDescription>Fil d'Ariane, avatar, progression, accordéon et onglets.</CardDescription></CardHeader>
+            <CardContent className="grid gap-5">
+              <Breadcrumb items={[{ label: "Accueil", to: "/" }, { label: "Kit", to: "/kit" }, { label: "Composants" }]} />
+              <div className="flex items-center gap-3"><Avatar fallback="AN" /><div><p className="font-medium">Andry N.</p><p className="text-xs text-muted-foreground">Membre de l'équipe</p></div></div>
+              <div className="grid gap-2"><div className="flex justify-between text-sm"><span>Avancement</span><span>72 %</span></div><Progress value={72} label="Avancement du projet" /></div>
+              <Accordion><AccordionItem><AccordionTrigger>À quoi sert cet accordéon ?</AccordionTrigger><AccordionContent>Il replie les détails, la FAQ ou les options secondaires sans ajouter de dépendance.</AccordionContent></AccordionItem></Accordion>
+              <Tabs defaultValue="resume">
+                <TabsList><TabsTrigger value="resume">Résumé</TabsTrigger><TabsTrigger value="activite">Activité</TabsTrigger></TabsList>
+                <TabsContent value="resume" className="text-sm text-muted-foreground">Contenu du premier onglet.</TabsContent>
+                <TabsContent value="activite" className="text-sm text-muted-foreground">Contenu du deuxième onglet.</TabsContent>
+              </Tabs>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader><CardTitle>Contrôles et tableau</CardTitle><CardDescription>Éléments contrôlés simples, sémantiques et réutilisables.</CardDescription></CardHeader>
+            <CardContent className="grid gap-5">
+              <div className="flex flex-wrap items-center gap-x-6 gap-y-3">
+                <label htmlFor="kit-updates" className="inline-flex items-center gap-2 text-sm"><Checkbox id="kit-updates" defaultChecked /> Recevoir les mises à jour</label>
+                <div className="inline-flex items-center gap-2 text-sm"><span>Notifications</span><Switch aria-label="Notifications" checked={switchDemo} onCheckedChange={setSwitchDemo} /></div>
+              </div>
+              <div className="grid gap-2"><Label htmlFor="kit-select">Priorité</Label><Select id="kit-select" defaultValue="normale"><option value="basse">Basse</option><option value="normale">Normale</option><option value="haute">Haute</option></Select></div>
+              <div className="grid gap-2"><Label htmlFor="kit-slider">Charge {sliderDemo}%</Label><Slider id="kit-slider" value={sliderDemo} onValueChange={setSliderDemo} aria-label="Charge du projet" /></div>
+              <Table>
+                <TableHeader><TableRow><TableHead>Élément</TableHead><TableHead>État</TableHead><TableHead className="text-right">Score</TableHead></TableRow></TableHeader>
+                <TableBody>
+                  <TableRow><TableCell>Parcours</TableCell><TableCell>Prêt</TableCell><TableCell className="text-right">92</TableCell></TableRow>
+                  <TableRow><TableCell>Contenu</TableCell><TableCell>En cours</TableCell><TableCell className="text-right">68</TableCell></TableRow>
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
+        </div>
+
+        <h3 className="mb-4 text-lg font-semibold">Grille bento</h3>
+        <BentoGrid className="mb-10 lg:grid-cols-3">
+          <BentoCard className="sm:col-span-2" title="Carte principale" description="Présentez ici le bénéfice principal de votre idée." action="Un exemple réutilisable" />
+          <BentoCard title="Un second signal" description="Associez texte court, icône et appel à l'action." />
+        </BentoGrid>
 
         <h3 className="mb-4 text-lg font-semibold">Primitives de parcours</h3>
         <div className="mb-10 grid gap-4 lg:grid-cols-2">

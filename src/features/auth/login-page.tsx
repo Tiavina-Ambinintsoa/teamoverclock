@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { Navigate } from "react-router"
 import { toast } from "sonner"
 
@@ -11,14 +11,33 @@ import { SITE } from "@/lib/site"
 export function LoginPage() {
   const { user, loading, backend, signInDemo } = useAuth()
   const [busy, setBusy] = useState(false)
+  const [phase, setPhase] = useState<"idle" | "authenticating" | "exiting" | "ready">("idle")
 
-  if (!loading && user) return <Navigate to={user.isAdmin ? "/admin" : "/app"} replace />
+  const finishLogin = useCallback(async () => {
+    setPhase("exiting")
+    const prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    await new Promise((resolve) => window.setTimeout(resolve, prefersReducedMotion ? 0 : 520))
+    setPhase("ready")
+  }, [])
+
+  // Couvre aussi le retour OAuth et une session déjà ouverte sur la page de connexion.
+  useEffect(() => {
+    if (!loading && user && phase === "idle") {
+      const timer = window.setTimeout(() => void finishLogin(), 0)
+      return () => window.clearTimeout(timer)
+    }
+  }, [finishLogin, loading, phase, user])
+
+  if (!loading && user && phase === "ready") return <Navigate to={user.isAdmin ? "/admin" : "/app"} replace />
 
   const tryDemo = async () => {
     setBusy(true)
+    setPhase("authenticating")
     try {
       await signInDemo()
+      await finishLogin()
     } catch (error) {
+      setPhase("idle")
       toast.error(error instanceof Error ? error.message : "Connexion impossible")
     } finally {
       setBusy(false)
@@ -28,8 +47,13 @@ export function LoginPage() {
   return (
     <>
       <title>Connexion — {SITE.name}</title>
-      <AuthShell mode="signin">
-        <AuthForm mode="signin" />
+      <AuthShell mode="signin" isExiting={phase === "exiting"}>
+        <AuthForm
+          mode="signin"
+          onLoginStart={() => setPhase("authenticating")}
+          onLoginFailure={() => setPhase("idle")}
+          onLoginSuccess={finishLogin}
+        />
         {backend === "local" && (
           <div className="mt-5 border-t pt-5">
             <p className="mb-3 text-center text-sm text-muted-foreground">

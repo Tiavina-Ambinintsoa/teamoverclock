@@ -1,5 +1,5 @@
 import type { LucideIcon } from "lucide-react"
-import { Box, Images, LayoutDashboard, MousePointerClick, Rows3, Video } from "lucide-react"
+import { Box, CalendarDays, Images, LayoutDashboard, MapPinned, MousePointerClick, PanelsTopLeft, Rows3, Sparkles, Video } from "lucide-react"
 import { Link } from "react-router"
 
 import { Container } from "@/components/layout/container"
@@ -15,6 +15,34 @@ interface Template {
 }
 
 const TEMPLATES: Template[] = [
+  {
+    to: "/modeles/accueils",
+    icon: PanelsTopLeft,
+    title: "Variantes d'accueil",
+    description: "Comparez l'accueil classique, futuriste gaming, avec image en parallaxe et objet 3D central.",
+    tags: ["Hero", "Parallaxe", "3D"],
+  },
+  {
+    to: "/modeles/animations",
+    icon: Sparkles,
+    title: "Animations et transitions",
+    description: "Hero, navigation flottante, WebGL, texte, sliders, bento et effets décoratifs.",
+    tags: ["Motion", "WebGL", "Magic UI"],
+  },
+  {
+    to: "/modeles/agenda",
+    icon: CalendarDays,
+    title: "Agenda d'équipe",
+    description: "Liste d'événements avec recherche, filtres à venir/terminés et dates relatives.",
+    tags: ["Planning", "Événements", "Échéances"],
+  },
+  {
+    to: "/modeles/carte",
+    icon: MapPinned,
+    title: "Carte des lieux",
+    description: "Carte MapTiler détaillée avec aperçu local de secours, recherche par ville et lieux sélectionnables.",
+    tags: ["MapTiler", "Localisation", "Points de service"],
+  },
   {
     to: "/modeles/galerie",
     icon: Images,
@@ -78,13 +106,13 @@ export function TemplatesIndexPage() {
         <p>
           <span className="font-medium text-foreground">Vous n'en avez pas besoin ?</span> Supprimez le fichier et sa
           ligne de route. Rien d'autre n'en dépend — voir{" "}
-          <code className="rounded bg-background px-1 py-0.5">docs/07-modeles-de-pages.md</code>.
+          <code className="rounded bg-background px-1 py-0.5">README.md</code>.
         </p>
       </div>
 
       <div className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {TEMPLATES.map(({ to, icon: Icon, title, description, tags }) => (
-          <Link key={to} to={to} className="group">
+          <Link key={to} to={to} viewTransition className="group">
             <Card className="h-full transition-all duration-200 group-hover:-translate-y-1 group-hover:shadow-md">
               <CardHeader>
                 <Icon className="size-6 text-primary" aria-hidden />

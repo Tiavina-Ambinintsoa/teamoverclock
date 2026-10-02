@@ -7,6 +7,13 @@ const LOCALE_KEY = "webcup:locale"
 
 const messages: Record<Locale, Record<string, string>> = {
   fr: {
+    "error.notFoundTitle": "Page introuvable",
+    "error.notFoundDescription": "Le lien est peut-être incorrect ou la page a été déplacée.",
+    "error.pageTitle": "Cette page n'a pas pu s'afficher",
+    "error.pageDescription": "Un problème inattendu est survenu. Réessayez ou revenez à l'accueil.",
+    "error.tryAgain": "Réessayer",
+    "error.backHome": "Retour à l'accueil",
+    "error.serverHint": "Le service rencontre un problème. Réessayez dans quelques instants.",
     "nav.home": "Accueil", "nav.features": "Fonctionnalités", "nav.team": "L'équipe",
     "nav.contact": "Contact", "nav.login": "Se connecter", "nav.signup": "Créer un compte",
     "nav.admin": "Espace admin",
@@ -149,6 +156,13 @@ const messages: Record<Locale, Record<string, string>> = {
     "footer.privacy": "Confidentialité", "footer.rights": "Tous droits réservés.",
   },
   en: {
+    "error.notFoundTitle": "Page not found",
+    "error.notFoundDescription": "The link may be incorrect or the page may have moved.",
+    "error.pageTitle": "This page could not be displayed",
+    "error.pageDescription": "An unexpected problem occurred. Try again or return to the home page.",
+    "error.tryAgain": "Try again",
+    "error.backHome": "Back to home",
+    "error.serverHint": "The service is having a problem. Please try again shortly.",
     "nav.home": "Home", "nav.features": "Features", "nav.team": "The team",
     "nav.contact": "Contact", "nav.login": "Log in", "nav.signup": "Create an account",
     "nav.admin": "Admin area",

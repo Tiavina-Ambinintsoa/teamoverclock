@@ -16,13 +16,13 @@ const headings: Record<AuthMode, [string, string]> = {
   reset: ["auth.resetTitle", "auth.resetSubtitle"],
 }
 
-export function AuthShell({ mode, children }: { mode: AuthMode; children: ReactNode }) {
+export function AuthShell({ mode, children, isExiting = false }: { mode: AuthMode; children: ReactNode; isExiting?: boolean }) {
   const { t } = useLocale()
   const isSignup = mode === "signup"
 
   return (
     <div className="auth-screen min-h-svh bg-muted/60 px-3 py-4 sm:p-7 lg:grid lg:place-items-center">
-      <div className="auth-card mx-auto grid w-full max-w-6xl overflow-hidden rounded-[1.75rem] border bg-card shadow-2xl lg:min-h-[min(740px,calc(100svh-3.5rem))] lg:grid-cols-[0.92fr_1.08fr]">
+      <div data-auth-exiting={isExiting ? "true" : undefined} className="auth-card mx-auto grid w-full max-w-6xl overflow-hidden rounded-[1.75rem] border bg-card shadow-2xl lg:min-h-[min(740px,calc(100svh-3.5rem))] lg:grid-cols-[0.92fr_1.08fr]">
         <aside className={"auth-art relative m-2 flex min-h-52 flex-col justify-between overflow-hidden rounded-[1.25rem] bg-primary p-6 text-primary-foreground sm:p-8 lg:min-h-0 " + (isSignup ? "auth-art-signup" : "auth-art-signin")}>
           <div className="relative z-10 flex items-center gap-3">
             <span className="grid size-10 place-items-center rounded-xl border border-primary-foreground/25 bg-primary-foreground/10">
