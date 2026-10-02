@@ -8,16 +8,16 @@ import { useAuth } from "@/features/auth/auth-context"
 import { Button } from "@/components/ui/button"
 import { SITE } from "@/lib/site"
 
-export function LoginPage() {
-  const { user, loading, backend, signInDemo } = useAuth()
+export function AdminLoginPage() {
+  const { user, loading, backend, signInAdmin } = useAuth()
   const [busy, setBusy] = useState(false)
 
-  if (!loading && user) return <Navigate to={user.isAdmin ? "/admin" : "/app"} replace />
+  if (!loading && user?.isAdmin) return <Navigate to="/admin" replace />
 
-  const tryDemo = async () => {
+  const openDemo = async () => {
     setBusy(true)
     try {
-      await signInDemo()
+      await signInAdmin("", "")
     } catch (error) {
       toast.error(error instanceof Error ? error.message : "Connexion impossible")
     } finally {
@@ -27,16 +27,16 @@ export function LoginPage() {
 
   return (
     <>
-      <title>Connexion — {SITE.name}</title>
-      <AuthShell mode="signin">
-        <AuthForm mode="signin" />
+      <title>Administration — {SITE.name}</title>
+      <AuthShell mode="admin">
+        <AuthForm mode="admin" />
         {backend === "local" && (
           <div className="mt-5 border-t pt-5">
             <p className="mb-3 text-center text-sm text-muted-foreground">
-              Démo locale : aucune donnée n'est envoyée à un serveur.
+              Mode démo local : ce compte ne protège aucune donnée réelle.
             </p>
-            <Button variant="outline" className="w-full" disabled={busy} onClick={() => void tryDemo()}>
-              {busy ? "Ouverture…" : "Essayer le compte démo"}
+            <Button variant="outline" className="w-full" disabled={busy} onClick={() => void openDemo()}>
+              {busy ? "Ouverture…" : "Ouvrir la démo administrateur"}
             </Button>
           </div>
         )}

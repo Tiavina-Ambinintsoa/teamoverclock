@@ -1,21 +1,46 @@
+import { Link } from "react-router"
+
 import { Container } from "@/components/layout/container"
+import { useLocale } from "@/lib/locale"
 import { SITE } from "@/lib/site"
 
 export function SiteFooter() {
+  const { t } = useLocale()
+
   return (
-    <footer className="mt-24 border-t py-10 text-sm text-muted-foreground">
-      <Container className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
-        <div className="max-w-sm">
-          <p className="font-display text-base font-semibold text-foreground">{SITE.name}</p>
-          <p className="mt-1">Réalisé en 24 heures pour le 24h by Webcup Madagascar 2026.</p>
+    <footer className="mt-20 border-t bg-muted/30 py-12 text-sm text-muted-foreground">
+      <Container>
+        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
+          <div className="max-w-sm">
+            <p className="font-display text-lg font-semibold text-foreground">{SITE.name}</p>
+            <p className="mt-3 leading-6">{SITE.tagline}</p>
+            <p className="mt-5 text-xs">Emplacement du logo Webcup ou de l'équipe</p>
+          </div>
+          <div>
+            <h2 className="font-semibold text-foreground">{t("footer.about")}</h2>
+            <ul className="mt-3 grid gap-2">
+              <li><Link className="hover:text-foreground" to="/equipe">{t("nav.team")}</Link></li>
+              <li><Link className="hover:text-foreground" to="/contact">{t("nav.contact")}</Link></li>
+            </ul>
+          </div>
+          <div>
+            <h2 className="font-semibold text-foreground">{t("footer.links")}</h2>
+            <ul className="mt-3 grid gap-2">
+              <li><Link className="hover:text-foreground" to="/connexion">{t("nav.login")}</Link></li>
+            </ul>
+          </div>
+          <div>
+            <h2 className="font-semibold text-foreground">{t("footer.legal")}</h2>
+            <ul className="mt-3 grid gap-2">
+              <li><Link className="hover:text-foreground" to="/conditions">{t("footer.legal")}</Link></li>
+              <li><Link className="hover:text-foreground" to="/confidentialite">{t("footer.privacy")}</Link></li>
+            </ul>
+          </div>
         </div>
-        <ul className="grid gap-1">
-          {SITE.team.map((member, index) => (
-            <li key={`${member.name}-${index}`}>
-              <span className="text-foreground">{member.name}</span>, {member.role}
-            </li>
-          ))}
-        </ul>
+        <div className="mt-10 flex flex-col gap-2 border-t pt-5 text-xs sm:flex-row sm:items-center sm:justify-between">
+          <p>© {new Date().getFullYear()} {SITE.name}. {t("footer.rights")}</p>
+          <p>24h by Webcup Madagascar · <span>Nom de l'équipe</span>{/* TODO(webcup) */}</p>
+        </div>
       </Container>
     </footer>
   )

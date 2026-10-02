@@ -118,3 +118,75 @@
     scroll-behavior: auto !important;
   }
 }
+
+/* Panneaux d'authentification : entrée latérale courte, avec respect de la réduction des mouvements. */
+@keyframes auth-slide-from-right {
+  from { opacity: 0; transform: translateX(1.4rem); }
+  to { opacity: 1; transform: translateX(0); }
+}
+@keyframes auth-slide-from-left {
+  from { opacity: 0; transform: translateX(-1.4rem); }
+  to { opacity: 1; transform: translateX(0); }
+}
+.auth-slide-right { animation: auth-slide-from-right 520ms cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+.auth-slide-left { animation: auth-slide-from-left 520ms cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+.auth-art { isolation: isolate; }
+.auth-orb {
+  position: absolute;
+  z-index: 0;
+  border-radius: 9999px;
+  pointer-events: none;
+  filter: blur(1px);
+  animation: auth-float 8s ease-in-out infinite alternate;
+}
+.auth-orb-one {
+  top: -5rem;
+  right: -4rem;
+  width: 16rem;
+  height: 16rem;
+  background: color-mix(in oklch, var(--highlight) 35%, transparent);
+}
+.auth-orb-two {
+  bottom: 12%;
+  left: -6rem;
+  width: 14rem;
+  height: 14rem;
+  background: color-mix(in oklch, var(--background) 12%, transparent);
+  animation-delay: -3s;
+}
+@keyframes auth-float {
+  from { transform: translate3d(0, 0, 0) scale(1); }
+  to { transform: translate3d(1rem, -0.75rem, 0) scale(1.06); }
+}
+.feature-card { transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease; }
+.feature-card:hover { transform: translateY(-3px); box-shadow: 0 1rem 2.5rem -2rem var(--foreground); }
+@media (prefers-reduced-motion: reduce) {
+  .auth-slide-right, .auth-slide-left, .auth-orb, .feature-card { animation: none !important; transition: none !important; }
+}
+/* Révélations discrètes et mouvement du visuel d'accueil. */
+.scroll-reveal {
+  opacity: 0;
+  transform: translateY(1rem) scale(0.99);
+  transition: opacity 650ms cubic-bezier(0.2, 0.7, 0.2, 1), transform 650ms cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+.scroll-reveal-visible { opacity: 1; transform: translateY(0) scale(1); }
+.hero-dashboard-float { animation: dashboard-float 7s ease-in-out infinite alternate; }
+.hero-chart-bar {
+  transform: scaleY(0.12);
+  transform-origin: center bottom;
+  animation: chart-rise 850ms cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation-delay: calc(450ms + var(--bar-index, 0) * 85ms);
+}
+@keyframes dashboard-float {
+  from { transform: translateY(0) rotate(0); }
+  to { transform: translateY(-0.5rem) rotate(0.25deg); }
+}
+@keyframes chart-rise {
+  from { opacity: 0.5; transform: scaleY(0.12); }
+  to { opacity: 1; transform: scaleY(1); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scroll-reveal { opacity: 1; transform: none; transition: none; }
+  .hero-dashboard-float, .hero-chart-bar { animation: none !important; transform: none !important; }
+}

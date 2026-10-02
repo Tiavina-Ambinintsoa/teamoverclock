@@ -2,7 +2,11 @@ import { useState } from "react"
 import { Play, RotateCcw } from "lucide-react"
 import { toast } from "sonner"
 
+import { ConfirmDialog } from "@/components/confirm-dialog"
+import { EmptyState } from "@/components/empty-state"
 import { Container } from "@/components/layout/container"
+import { PageHeader } from "@/components/page-header"
+import { Pagination } from "@/components/pagination"
 import { useTheme } from "@/components/theme-context"
 import { ModeToggle, PresetPicker } from "@/components/theme-switcher"
 import { Badge } from "@/components/ui/badge"
@@ -93,6 +97,8 @@ function Chrono() {
 
 export function KitPage() {
   const { preset, setPreset, mode, resolvedMode } = useTheme()
+  const [confirmOpen, setConfirmOpen] = useState(false)
+  const [demoPage, setDemoPage] = useState(1)
 
   const diagnostics: [string, string][] = [
     ["Backend", isBackendConfigured ? "Supabase configuré" : "Mode démo local (Supabase absent)"],
@@ -106,18 +112,12 @@ export function KitPage() {
   return (
     <Container className="py-10">
       <title>Kit d'équipe</title>
-      <header className="mb-10 flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <h1 className="text-3xl font-semibold sm:text-5xl">Kit d'équipe</h1>
-          <p className="mt-2 max-w-prose text-muted-foreground">
-            Galerie de composants, palettes, chrono et diagnostics. Cachez cette page pour le rendu au jury.
-          </p>
-        </div>
-        <div className="flex items-center gap-2">
-          <PresetPicker />
-          <ModeToggle />
-        </div>
-      </header>
+      <PageHeader
+        title="Kit d'équipe"
+        description="Galerie de composants, palettes, chrono et diagnostics. Cachez cette page pour le rendu au jury."
+        className="mb-10"
+        actions={<><PresetPicker /><ModeToggle /></>}
+      />
 
       <section aria-labelledby="palettes" className="mb-14">
         <h2 id="palettes" className="mb-2 text-2xl font-semibold">
@@ -193,10 +193,14 @@ export function KitPage() {
           <Button variant="outline">Contour</Button>
           <Button variant="ghost">Discret</Button>
           <Button variant="highlight">Accent</Button>
+          <Button variant="soft">Doux</Button>
           <Button variant="destructive">Supprimer</Button>
           <Button variant="link">Lien</Button>
+          <Button shape="rounded">Arrondi</Button>
+          <Button shape="pill">Pilule</Button>
+          <Button shape="square" variant="outline">Carré</Button>
           <Button size="sm">Petit</Button>
-          <Button size="lg">Grand</Button>
+          <Button size="lg" shape="pill">Grand pilule</Button>
           <Button disabled>Désactivé</Button>
         </div>
 
@@ -207,6 +211,37 @@ export function KitPage() {
           <Badge variant="highlight">Accent</Badge>
           <Badge variant="destructive">Erreur</Badge>
         </div>
+
+        <h3 className="mb-4 text-lg font-semibold">Primitives de parcours</h3>
+        <div className="mb-10 grid gap-4 lg:grid-cols-2">
+          <Card>
+            <CardHeader>
+              <CardTitle>État vide</CardTitle>
+              <CardDescription>Pour une liste sans résultat ou un espace qui attend son premier contenu.</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <EmptyState title="Aucun élément pour le moment" description="Ajoutez votre premier contenu pour commencer." action={<Button shape="pill">Créer un élément</Button>} />
+            </CardContent>
+          </Card>
+          <Card>
+            <CardHeader>
+              <CardTitle>Actions protégées</CardTitle>
+              <CardDescription>Confirmation accessible, état de chargement et pagination réutilisable.</CardDescription>
+            </CardHeader>
+            <CardContent className="grid gap-5">
+              <Button type="button" variant="destructive" shape="pill" className="w-fit" onClick={() => setConfirmOpen(true)}>Essayer la confirmation</Button>
+              <Pagination page={demoPage} pageCount={4} onPageChange={setDemoPage} label="Pagination de démonstration" />
+            </CardContent>
+          </Card>
+        </div>
+        <ConfirmDialog
+          open={confirmOpen}
+          onOpenChange={setConfirmOpen}
+          title="Confirmer cette action ?"
+          description="Cette fenêtre est un exemple réutilisable. L'action réelle n'est pas exécutée."
+          confirmLabel="Confirmer"
+          onConfirm={() => toast.success("Confirmation de démonstration")}
+        />
 
         <div className="grid gap-8 lg:grid-cols-2">
           <Card>

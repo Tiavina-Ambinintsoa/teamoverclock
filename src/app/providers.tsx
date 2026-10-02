@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/sonner"
 import { TooltipProvider } from "@/components/ui/tooltip"
 import { AuthProvider } from "@/features/auth/auth-provider"
+import { LocaleProvider } from "@/lib/locale"
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -15,14 +16,16 @@ const queryClient = new QueryClient({
 export function Providers({ children }: { children: ReactNode }) {
   return (
     <ThemeProvider>
-      <QueryClientProvider client={queryClient}>
-        <AuthProvider>
-          <TooltipProvider>
-            {children}
-            <Toaster position="bottom-right" closeButton />
-          </TooltipProvider>
-        </AuthProvider>
-      </QueryClientProvider>
+      <LocaleProvider>
+        <QueryClientProvider client={queryClient}>
+          <AuthProvider>
+            <TooltipProvider>
+              {children}
+              <Toaster position="bottom-right" closeButton />
+            </TooltipProvider>
+          </AuthProvider>
+        </QueryClientProvider>
+      </LocaleProvider>
     </ThemeProvider>
   )
 }

@@ -19,6 +19,10 @@ export function useReveal<T extends HTMLElement>(options: { threshold?: number; 
     }
     const node = ref.current
     if (!node) return
+    if (typeof IntersectionObserver === "undefined") {
+      setVisible(true)
+      return
+    }
 
     const observer = new IntersectionObserver(
       ([entry]) => {

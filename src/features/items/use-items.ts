@@ -50,10 +50,8 @@ export function useDeleteItem() {
       void queryClient.invalidateQueries({ queryKey: ["items"] })
       toast.success("Note supprimée")
     },
-    onError: (error: Error) => toast.error(error.message),
   })
 }
-
 export function useUpdateItem() {
   const { user } = useAuth()
   const queryClient = useQueryClient()

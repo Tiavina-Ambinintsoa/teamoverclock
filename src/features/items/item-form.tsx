@@ -2,11 +2,12 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { z } from "zod"
 
+import type { Item } from "@/features/items/items-api"
+import { useCreateItem, useUpdateItem } from "@/features/items/use-items"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
-import { useCreateItem } from "@/features/items/use-items"
 
 const schema = z.object({
   title: z.string().trim().min(3, "3 caractères minimum").max(80, "80 caractères maximum"),
@@ -15,8 +16,14 @@ const schema = z.object({
 })
 type FormValues = z.infer<typeof schema>
 
-export function ItemForm() {
+type ItemFormProps = { item?: Item; onCancel?: () => void }
+
+/** Même formulaire pour créer une note ou modifier celle qui est déjà ouverte. */
+export function ItemForm({ item, onCancel }: ItemFormProps) {
   const create = useCreateItem()
+  const update = useUpdateItem()
+  const editing = item !== undefined
+  const pending = editing ? update.isPending : create.isPending
   const {
     register,
     handleSubmit,
@@ -24,10 +31,14 @@ export function ItemForm() {
     formState: { errors },
   } = useForm<FormValues>({
     resolver: zodResolver(schema),
-    defaultValues: { title: "", content: "", is_public: true },
+    defaultValues: { title: item?.title ?? "", content: item?.content ?? "", is_public: item?.is_public ?? true },
   })
 
   const onSubmit = handleSubmit((values) => {
+    if (item) {
+      update.mutate({ id: item.id, input: values }, { onSuccess: () => onCancel?.() })
+      return
+    }
     create.mutate(values, { onSuccess: () => reset() })
   })
 
@@ -41,11 +52,7 @@ export function ItemForm() {
           aria-describedby={errors.title ? "title-error" : undefined}
           {...register("title")}
         />
-        {errors.title && (
-          <p id="title-error" role="alert" className="text-sm text-destructive">
-            {errors.title.message}
-          </p>
-        )}
+        {errors.title && <p id="title-error" role="alert" className="text-sm text-destructive">{errors.title.message}</p>}
       </div>
 
       <div className="grid gap-2">
@@ -57,11 +64,7 @@ export function ItemForm() {
           aria-describedby={errors.content ? "content-error" : undefined}
           {...register("content")}
         />
-        {errors.content && (
-          <p id="content-error" role="alert" className="text-sm text-destructive">
-            {errors.content.message}
-          </p>
-        )}
+        {errors.content && <p id="content-error" role="alert" className="text-sm text-destructive">{errors.content.message}</p>}
       </div>
 
       <div className="flex items-center gap-2">
@@ -69,9 +72,10 @@ export function ItemForm() {
         <Label htmlFor="is_public">Visible par tous les utilisateurs</Label>
       </div>
 
-      <Button type="submit" disabled={create.isPending}>
-        Publier la note
-      </Button>
+      <div className="flex flex-wrap gap-2">
+        {editing && <Button type="button" variant="outline" onClick={onCancel}>Annuler</Button>}
+        <Button type="submit" disabled={pending}>{editing ? "Enregistrer les changements" : "Publier la note"}</Button>
+      </div>
     </form>
   )
 }

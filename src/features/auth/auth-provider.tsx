@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState, type ReactNode } from "react"
 import type { User } from "@supabase/supabase-js"
 
-import { AuthContext, type AppUser, type AuthState } from "@/features/auth/auth-context"
+import { AuthContext, type AppUser, type AuthState, type OAuthProvider } from "@/features/auth/auth-context"
 import { env } from "@/lib/env"
 import { safeStorage } from "@/lib/storage"
 import { supabase } from "@/lib/supabase"
@@ -12,18 +12,32 @@ const DEMO_USER: AppUser = {
   id: "demo-user",
   email: "demo@webcup.mg",
   displayName: "Compte démo",
+  role: "member",
   isDemo: true,
+  isAdmin: false,
+}
+
+const DEMO_ADMIN: AppUser = {
+  id: "demo-admin",
+  email: "admin@demo.webcup.mg",
+  displayName: "Administrateur démo",
+  role: "admin",
+  isDemo: true,
+  isAdmin: true,
 }
 
 function fromSupabaseUser(user: User | null | undefined): AppUser | null {
   if (!user) return null
   const email = user.email ?? ""
-  const metaName = user.user_metadata?.display_name as string | undefined
+  const displayName = String(user.user_metadata?.display_name ?? "")
+  const isAdmin = user.app_metadata?.role === "admin"
   return {
     id: user.id,
     email,
-    displayName: metaName || email.split("@")[0] || "Utilisateur",
+    displayName: displayName || email.split("@")[0] || "Utilisateur",
+    role: isAdmin ? "admin" : "member",
     isDemo: false,
+    isAdmin,
   }
 }
 
@@ -31,12 +45,27 @@ function readLocalUser(): AppUser | null {
   const raw = safeStorage.get(LOCAL_USER_KEY)
   if (!raw) return null
   try {
-    return JSON.parse(raw) as AppUser
+    const stored = JSON.parse(raw) as Partial<AppUser>
+    if (typeof stored.id !== "string" || typeof stored.email !== "string") return null
+    const isAdmin = stored.isAdmin === true
+    return {
+      id: stored.id,
+      email: stored.email,
+      displayName: typeof stored.displayName === "string" ? stored.displayName : stored.email,
+      role: isAdmin ? "admin" : "member",
+      isDemo: true,
+      isAdmin,
+    }
   } catch {
     return null
   }
 }
 
+function getAppRouteUrl(path: string): string {
+  const basePath = import.meta.env.BASE_URL.endsWith("/") ? import.meta.env.BASE_URL : `${import.meta.env.BASE_URL}/`
+  const appBase = new URL(basePath, window.location.origin)
+  return new URL(path.replace(/^\/+/, ""), appBase).toString()
+}
 /** Messages d'erreur Supabase -> français clair, avec la marche à suivre. */
 function translateAuthError(message: string): string {
   const text = message.toLowerCase()
@@ -82,35 +111,82 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setUser(next)
     }
 
+    const authenticate = async (email: string, password: string) => {
+      if (!supabase) {
+        setLocalUser({
+          id: `local-${email}`,
+          email,
+          displayName: email.split("@")[0] || "Utilisateur",
+          role: "member",
+          isDemo: true,
+          isAdmin: false,
+        })
+        return
+      }
+      const { error } = await supabase.auth.signInWithPassword({ email, password })
+      if (error) throw new Error(translateAuthError(error.message))
+    }
+
     return {
       user,
       loading,
       backend: supabase ? "supabase" : "local",
+      signIn: authenticate,
 
-      async signIn(email, password) {
+      async signInAdmin(email, password) {
         if (!supabase) {
-          // Mode démo : pas de vérification de mot de passe, tout reste dans ce navigateur.
-          setLocalUser({ id: `local-${email}`, email, displayName: email.split("@")[0] || "Utilisateur", isDemo: true })
+          setLocalUser(DEMO_ADMIN)
           return
         }
-        const { error } = await supabase.auth.signInWithPassword({ email, password })
+        const { data, error } = await supabase.auth.signInWithPassword({ email, password })
         if (error) throw new Error(translateAuthError(error.message))
+        if (data.user.app_metadata?.role !== "admin") {
+          await supabase.auth.signOut()
+          throw new Error("Ce compte n'a pas le rôle administrateur.")
+        }
       },
 
       async signUp(email, password, displayName) {
         if (!supabase) {
-          setLocalUser({ id: `local-${email}`, email, displayName, isDemo: true })
+          setLocalUser({
+            id: `local-${email}`,
+            email,
+            displayName,
+            role: "member",
+            isDemo: true,
+            isAdmin: false,
+          })
           return
         }
-        const { data, error } = await supabase.auth.signUp({
+        const { error } = await supabase.auth.signUp({
           email,
           password,
-          options: { data: { display_name: displayName } },
+          options: { data: { display_name: displayName }, emailRedirectTo: getAppRouteUrl("/") },
         })
         if (error) throw new Error(translateAuthError(error.message))
-        if (!data.session) {
-          throw new Error("Compte créé. Confirmez votre e-mail avant de vous connecter (voir docs/03-backend-supabase.md).")
-        }
+      },
+
+      async signInWithOAuth(provider: OAuthProvider) {
+        if (!supabase) throw new Error("Configurez Supabase et le fournisseur OAuth pour activer cette connexion.")
+        const { error } = await supabase.auth.signInWithOAuth({
+          provider,
+          options: { redirectTo: getAppRouteUrl("/connexion") },
+        })
+        if (error) throw new Error(translateAuthError(error.message))
+      },
+
+      async requestPasswordReset(email) {
+        if (!supabase) throw new Error("La récupération du mot de passe demande une connexion Supabase.")
+        const { error } = await supabase.auth.resetPasswordForEmail(email, {
+          redirectTo: getAppRouteUrl("/nouveau-mot-de-passe"),
+        })
+        if (error) throw new Error(translateAuthError(error.message))
+      },
+
+      async updatePassword(password) {
+        if (!supabase) throw new Error("La modification du mot de passe demande une connexion Supabase.")
+        const { error } = await supabase.auth.updateUser({ password })
+        if (error) throw new Error(translateAuthError(error.message))
       },
 
       async signInDemo() {
@@ -131,7 +207,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           return
         }
         if (supabase) {
-          await supabase.auth.signOut()
+          const { error } = await supabase.auth.signOut()
+          if (error) throw new Error(translateAuthError(error.message))
           return
         }
         setLocalUser(null)

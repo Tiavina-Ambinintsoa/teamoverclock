@@ -14,13 +14,13 @@ interface SiteConfig {
 /**
  * Identité du projet : à modifier EN PREMIER quand le sujet est révélé.
  * Tout le reste de l'interface lit ces valeurs (en-tête, pied de page, titres).
- * Gardez les recherches "TODO(webcup)" : `npm run release` échoue tant qu'il en reste.
+ * Gardez les recherches "TODO(webcup)" : npm run release échoue tant qu'il en reste un.
  */
 export const SITE: SiteConfig = {
-  name: "Nom du projet", // TODO(webcup)
-  shortName: "Projet", // TODO(webcup)
-  tagline: "Une phrase qui dit à qui s'adresse l'application et ce qu'elle permet de faire.", // TODO(webcup)
-  description: "Application web réalisée en 24h pour le 24h by Webcup Madagascar 2026.", // TODO(webcup)
+  name: "NOVA", // TODO(webcup)
+  shortName: "NOVA", // TODO(webcup)
+  tagline: "Un espace simple pour partager, créer et faire grandir vos idées.", // TODO(webcup)
+  description: "Une base flexible pour présenter un projet et donner accès à ses outils.", // TODO(webcup)
   defaultPreset: "lagon",
   defaultMode: "system",
   team: [
