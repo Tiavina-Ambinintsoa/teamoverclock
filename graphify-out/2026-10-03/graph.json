@@ -2110,6 +2110,32 @@
       "source_location": "L4"
     },
     {
+      "id": "src_components_home_space_craft_viewer_spacecraftviewerprops",
+      "label": "SpaceCraftViewerProps",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 256,
+      "community_name": "space-craft-viewer.tsx",
+      "file_type": "code",
+      "norm_label": "spacecraftviewerprops",
+      "source_file": "src/components/home/space-craft-viewer.tsx",
+      "source_location": "L15"
+    },
+    {
+      "id": "src_components_home_ship_close_up_shipcloseupprops",
+      "label": "ShipCloseUpProps",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 257,
+      "community_name": "ship-close-up.tsx",
+      "file_type": "code",
+      "norm_label": "shipcloseupprops",
+      "source_file": "src/components/home/ship-close-up.tsx",
+      "source_location": "L5"
+    },
+    {
       "id": "src_components_ui_tabs_tabsstate",
       "label": "TabsState",
       "_callable": true,
@@ -2160,6 +2186,19 @@
       "norm_label": "piece",
       "source_file": "src/pages/templates/gallery-page.tsx",
       "source_location": "L17"
+    },
+    {
+      "id": "src_components_image_parallax_background_imageparallaxbackgroundprops",
+      "label": "ImageParallaxBackgroundProps",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "imageparallaxbackgroundprops",
+      "source_file": "src/components/image-parallax-background.tsx",
+      "source_location": "L6"
     },
     {
       "id": "src_components_lightbox_lightboxprops",
@@ -2773,17 +2812,17 @@
       "source_location": "L11"
     },
     {
-      "id": "src_components_image_parallax_background_imageparallaxbackgroundprops",
-      "label": "ImageParallaxBackgroundProps",
+      "id": "src_components_home_shooting_stars_meteor",
+      "label": "Meteor",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
       "community": 71,
-      "community_name": "image-parallax-background.tsx",
+      "community_name": "shooting-stars.tsx",
       "file_type": "code",
-      "norm_label": "imageparallaxbackgroundprops",
-      "source_file": "src/components/image-parallax-background.tsx",
-      "source_location": "L6"
+      "norm_label": "meteor",
+      "source_file": "src/components/home/shooting-stars.tsx",
+      "source_location": "L3"
     },
     {
       "id": "src_features_voice_voice_commands_actionable",
@@ -3017,7 +3056,7 @@
       "file_type": "code",
       "norm_label": "getstartedprops",
       "source_file": "src/components/home/get-started.tsx",
-      "source_location": "L6"
+      "source_location": "L7"
     },
     {
       "id": "src_vite_env_d_importmeta",
@@ -6277,7 +6316,43 @@
       "file_type": "code",
       "norm_label": "iswithinservicehours()",
       "source_file": "src/features/services/service-availability.ts",
-      "source_location": "L45"
+      "source_location": "L80"
+    },
+    {
+      "id": "src_features_services_service_availability_parseclocktime",
+      "label": "parseClockTime()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 218,
+      "community_name": "service-availability.ts",
+      "file_type": "code",
+      "norm_label": "parseclocktime()",
+      "source_file": "src/features/services/service-availability.ts",
+      "source_location": "L63"
+    },
+    {
+      "id": "src_features_services_service_availability_parsetimeranges",
+      "label": "parseTimeRanges()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 218,
+      "community_name": "service-availability.ts",
+      "file_type": "code",
+      "norm_label": "parsetimeranges()",
+      "source_file": "src/features/services/service-availability.ts",
+      "source_location": "L69"
+    },
+    {
+      "id": "src_features_services_service_availability_tominutes",
+      "label": "toMinutes()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 218,
+      "community_name": "service-availability.ts",
+      "file_type": "code",
+      "norm_label": "tominutes()",
+      "source_file": "src/features/services/service-availability.ts",
+      "source_location": "L47"
     },
     {
       "id": "src_pages_templates_map_page_mapembedurl",
@@ -6964,16 +7039,40 @@
       "source_location": "L10"
     },
     {
-      "id": "src_pages_templates_video_page_videopage",
-      "label": "VideoPage()",
+      "id": "src_components_home_space_craft_viewer_extractscrollvalue",
+      "label": "extractScrollValue()",
       "_callable": true,
       "_origin": "ast",
       "community": 256,
-      "community_name": "video-page.tsx",
+      "community_name": "space-craft-viewer.tsx",
       "file_type": "code",
-      "norm_label": "videopage()",
-      "source_file": "src/pages/templates/video-page.tsx",
-      "source_location": "L19"
+      "norm_label": "extractscrollvalue()",
+      "source_file": "src/components/home/space-craft-viewer.tsx",
+      "source_location": "L6"
+    },
+    {
+      "id": "src_components_home_space_craft_viewer_spacecraftviewer",
+      "label": "SpaceCraftViewer()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 256,
+      "community_name": "space-craft-viewer.tsx",
+      "file_type": "code",
+      "norm_label": "spacecraftviewer()",
+      "source_file": "src/components/home/space-craft-viewer.tsx",
+      "source_location": "L66"
+    },
+    {
+      "id": "src_components_home_ship_close_up_shipcloseup",
+      "label": "ShipCloseUp()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 257,
+      "community_name": "ship-close-up.tsx",
+      "file_type": "code",
+      "norm_label": "shipcloseup()",
+      "source_file": "src/components/home/ship-close-up.tsx",
+      "source_location": "L15"
     },
     {
       "id": "src_features_services_service_availability_test_service",
@@ -6986,6 +7085,18 @@
       "norm_label": "service()",
       "source_file": "src/features/services/service-availability.test.ts",
       "source_location": "L6"
+    },
+    {
+      "id": "src_pages_templates_animations_page_animationspage",
+      "label": "AnimationsPage()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 259,
+      "community_name": "animations-page.tsx",
+      "file_type": "code",
+      "norm_label": "animationspage()",
+      "source_file": "src/pages/templates/animations-page.tsx",
+      "source_location": "L19"
     },
     {
       "id": "src_components_ui_tabs_tabs",
@@ -7034,6 +7145,42 @@
       "norm_label": "tabstrigger()",
       "source_file": "src/components/ui/tabs.tsx",
       "source_location": "L30"
+    },
+    {
+      "id": "src_components_animated_meteor_field_meteorfield",
+      "label": "MeteorField()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 261,
+      "community_name": "meteor-field.tsx",
+      "file_type": "code",
+      "norm_label": "meteorfield()",
+      "source_file": "src/components/animated/meteor-field.tsx",
+      "source_location": "L4"
+    },
+    {
+      "id": "src_components_layout_container_container",
+      "label": "Container()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 262,
+      "community_name": "container.tsx",
+      "file_type": "code",
+      "norm_label": "container()",
+      "source_file": "src/components/layout/container.tsx",
+      "source_location": "L6"
+    },
+    {
+      "id": "src_pages_app_settings_page_settingspage",
+      "label": "SettingsPage()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 263,
+      "community_name": "settings-page.tsx",
+      "file_type": "code",
+      "norm_label": "settingspage()",
+      "source_file": "src/pages/app/settings-page.tsx",
+      "source_location": "L22"
     },
     {
       "id": "src_features_items_use_items_requireuser",
@@ -7180,18 +7327,6 @@
       "source_location": "L4"
     },
     {
-      "id": "src_components_animated_meteor_field_meteorfield",
-      "label": "MeteorField()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "meteorfield()",
-      "source_file": "src/components/animated/meteor-field.tsx",
-      "source_location": "L4"
-    },
-    {
       "id": "src_components_animated_transition_link_transitionlink",
       "label": "TransitionLink()",
       "_callable": true,
@@ -7216,6 +7351,18 @@
       "source_location": "L4"
     },
     {
+      "id": "src_components_image_parallax_background_imageparallaxbackground",
+      "label": "ImageParallaxBackground()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "imageparallaxbackground()",
+      "source_file": "src/components/image-parallax-background.tsx",
+      "source_location": "L14"
+    },
+    {
       "id": "src_components_interactive_like_button_likebutton",
       "label": "LikeButton()",
       "_callable": true,
@@ -7226,18 +7373,6 @@
       "norm_label": "likebutton()",
       "source_file": "src/components/interactive/like-button.tsx",
       "source_location": "L7"
-    },
-    {
-      "id": "src_components_layout_container_container",
-      "label": "Container()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "container()",
-      "source_file": "src/components/layout/container.tsx",
-      "source_location": "L6"
     },
     {
       "id": "src_components_lightbox_lightbox",
@@ -7528,27 +7663,15 @@
       "source_location": "L10"
     },
     {
-      "id": "src_pages_app_settings_page_settingspage",
-      "label": "SettingsPage()",
+      "id": "src_pages_templates_video_page_videopage",
+      "label": "VideoPage()",
       "_callable": true,
       "_origin": "ast",
       "community": 3,
       "community_name": "react",
       "file_type": "code",
-      "norm_label": "settingspage()",
-      "source_file": "src/pages/app/settings-page.tsx",
-      "source_location": "L22"
-    },
-    {
-      "id": "src_pages_templates_animations_page_animationspage",
-      "label": "AnimationsPage()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "animationspage()",
-      "source_file": "src/pages/templates/animations-page.tsx",
+      "norm_label": "videopage()",
+      "source_file": "src/pages/templates/video-page.tsx",
       "source_location": "L19"
     },
     {
@@ -8884,16 +9007,28 @@
       "source_location": "L13"
     },
     {
-      "id": "src_components_image_parallax_background_imageparallaxbackground",
-      "label": "ImageParallaxBackground()",
+      "id": "src_components_home_shooting_stars_meteoritem",
+      "label": "MeteorItem()",
       "_callable": true,
       "_origin": "ast",
       "community": 71,
-      "community_name": "image-parallax-background.tsx",
+      "community_name": "shooting-stars.tsx",
       "file_type": "code",
-      "norm_label": "imageparallaxbackground()",
-      "source_file": "src/components/image-parallax-background.tsx",
-      "source_location": "L14"
+      "norm_label": "meteoritem()",
+      "source_file": "src/components/home/shooting-stars.tsx",
+      "source_location": "L72"
+    },
+    {
+      "id": "src_components_home_shooting_stars_shootingstars",
+      "label": "ShootingStars()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 71,
+      "community_name": "shooting-stars.tsx",
+      "file_type": "code",
+      "norm_label": "shootingstars()",
+      "source_file": "src/components/home/shooting-stars.tsx",
+      "source_location": "L62"
     },
     {
       "id": "src_components_layout_root_layout_assistanceproviders",
@@ -9553,7 +9688,7 @@
       "file_type": "code",
       "norm_label": "getstarted()",
       "source_file": "src/components/home/get-started.tsx",
-      "source_location": "L21"
+      "source_location": "L19"
     },
     {
       "id": "e2e_global_setup_globalsetup",
@@ -14798,6 +14933,17 @@
       "source_location": "L32"
     },
     {
+      "id": "package_devdependencies_jsdom",
+      "label": "jsdom",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "devDependencies",
+      "file_type": "code",
+      "norm_label": "jsdom",
+      "source_file": "package.json",
+      "source_location": "L44"
+    },
+    {
       "id": "package_devdependencies_oxlint",
       "label": "oxlint",
       "_origin": "ast",
@@ -14818,17 +14964,6 @@
       "norm_label": "@tailwindcss/vite",
       "source_file": "package.json",
       "source_location": "L34"
-    },
-    {
-      "id": "package_devdependencies_testing_library_user_event",
-      "label": "@testing-library/user-event",
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "devDependencies",
-      "file_type": "code",
-      "norm_label": "@testing-library/user-event",
-      "source_file": "package.json",
-      "source_location": "L37"
     },
     {
       "id": "package_devdependencies_types_node",
@@ -14875,6 +15010,17 @@
       "source_location": "L42"
     },
     {
+      "id": "jsdom",
+      "label": "jsdom",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "devDependencies",
+      "file_type": "concept",
+      "norm_label": "jsdom",
+      "source_file": "package.json",
+      "source_location": "L44"
+    },
+    {
       "id": "oxlint",
       "label": "oxlint",
       "_origin": "ast",
@@ -14895,17 +15041,6 @@
       "norm_label": "@tailwindcss/vite",
       "source_file": "package.json",
       "source_location": "L34"
-    },
-    {
-      "id": "testing_library_user_event",
-      "label": "@testing-library/user-event",
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "devDependencies",
-      "file_type": "concept",
-      "norm_label": "@testing-library/user-event",
-      "source_file": "package.json",
-      "source_location": "L37"
     },
     {
       "id": "types_node",
@@ -16328,48 +16463,26 @@
       "source_location": "L1"
     },
     {
-      "id": "src_pages_templates_video_page",
-      "label": "video-page.tsx",
+      "id": "src_components_home_space_craft_viewer",
+      "label": "space-craft-viewer.tsx",
       "_origin": "ast",
       "community": 256,
-      "community_name": "video-page.tsx",
+      "community_name": "space-craft-viewer.tsx",
       "file_type": "code",
-      "norm_label": "video-page.tsx",
-      "source_file": "src/pages/templates/video-page.tsx",
+      "norm_label": "space-craft-viewer.tsx",
+      "source_file": "src/components/home/space-craft-viewer.tsx",
       "source_location": "L1"
     },
     {
-      "id": "src_pages_templates_video_page_clips",
-      "label": "CLIPS",
-      "_origin": "ast",
-      "community": 256,
-      "community_name": "video-page.tsx",
-      "file_type": "code",
-      "norm_label": "clips",
-      "source_file": "src/pages/templates/video-page.tsx",
-      "source_location": "L17"
-    },
-    {
-      "id": "package_devdependencies_jsdom",
-      "label": "jsdom",
+      "id": "src_components_home_ship_close_up",
+      "label": "ship-close-up.tsx",
       "_origin": "ast",
       "community": 257,
-      "community_name": "jsdom",
+      "community_name": "ship-close-up.tsx",
       "file_type": "code",
-      "norm_label": "jsdom",
-      "source_file": "package.json",
-      "source_location": "L44"
-    },
-    {
-      "id": "jsdom",
-      "label": "jsdom",
-      "_origin": "ast",
-      "community": 257,
-      "community_name": "jsdom",
-      "file_type": "concept",
-      "norm_label": "jsdom",
-      "source_file": "package.json",
-      "source_location": "L44"
+      "norm_label": "ship-close-up.tsx",
+      "source_file": "src/components/home/ship-close-up.tsx",
+      "source_location": "L1"
     },
     {
       "id": "src_features_services_service_availability_test",
@@ -16381,6 +16494,28 @@
       "norm_label": "service-availability.test.ts",
       "source_file": "src/features/services/service-availability.test.ts",
       "source_location": "L1"
+    },
+    {
+      "id": "src_pages_templates_animations_page",
+      "label": "animations-page.tsx",
+      "_origin": "ast",
+      "community": 259,
+      "community_name": "animations-page.tsx",
+      "file_type": "code",
+      "norm_label": "animations-page.tsx",
+      "source_file": "src/pages/templates/animations-page.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_pages_templates_animations_page_tags",
+      "label": "tags",
+      "_origin": "ast",
+      "community": 259,
+      "community_name": "animations-page.tsx",
+      "file_type": "code",
+      "norm_label": "tags",
+      "source_file": "src/pages/templates/animations-page.tsx",
+      "source_location": "L17"
     },
     {
       "id": "src_components_ui_tabs",
@@ -16403,6 +16538,61 @@
       "norm_label": "tabscontext",
       "source_file": "src/components/ui/tabs.tsx",
       "source_location": "L5"
+    },
+    {
+      "id": "package_devdependencies_testing_library_user_event",
+      "label": "@testing-library/user-event",
+      "_origin": "ast",
+      "community": 260,
+      "community_name": "@testing-library/user-event",
+      "file_type": "code",
+      "norm_label": "@testing-library/user-event",
+      "source_file": "package.json",
+      "source_location": "L37"
+    },
+    {
+      "id": "testing_library_user_event",
+      "label": "@testing-library/user-event",
+      "_origin": "ast",
+      "community": 260,
+      "community_name": "@testing-library/user-event",
+      "file_type": "concept",
+      "norm_label": "@testing-library/user-event",
+      "source_file": "package.json",
+      "source_location": "L37"
+    },
+    {
+      "id": "src_components_animated_meteor_field",
+      "label": "meteor-field.tsx",
+      "_origin": "ast",
+      "community": 261,
+      "community_name": "meteor-field.tsx",
+      "file_type": "code",
+      "norm_label": "meteor-field.tsx",
+      "source_file": "src/components/animated/meteor-field.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_components_layout_container",
+      "label": "container.tsx",
+      "_origin": "ast",
+      "community": 262,
+      "community_name": "container.tsx",
+      "file_type": "code",
+      "norm_label": "container.tsx",
+      "source_file": "src/components/layout/container.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_pages_app_settings_page",
+      "label": "settings-page.tsx",
+      "_origin": "ast",
+      "community": 263,
+      "community_name": "settings-page.tsx",
+      "file_type": "code",
+      "norm_label": "settings-page.tsx",
+      "source_file": "src/pages/app/settings-page.tsx",
+      "source_location": "L1"
     },
     {
       "id": "src_features_items_use_items",
@@ -16515,17 +16705,6 @@
       "source_location": "L1"
     },
     {
-      "id": "src_components_animated_meteor_field",
-      "label": "meteor-field.tsx",
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "meteor-field.tsx",
-      "source_file": "src/components/animated/meteor-field.tsx",
-      "source_location": "L1"
-    },
-    {
       "id": "src_components_animated_transition_link",
       "label": "transition-link.tsx",
       "_origin": "ast",
@@ -16548,6 +16727,17 @@
       "source_location": "L1"
     },
     {
+      "id": "src_components_image_parallax_background",
+      "label": "image-parallax-background.tsx",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "image-parallax-background.tsx",
+      "source_file": "src/components/image-parallax-background.tsx",
+      "source_location": "L1"
+    },
+    {
       "id": "src_components_interactive_like_button",
       "label": "like-button.tsx",
       "_origin": "ast",
@@ -16556,17 +16746,6 @@
       "file_type": "code",
       "norm_label": "like-button.tsx",
       "source_file": "src/components/interactive/like-button.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_components_layout_container",
-      "label": "container.tsx",
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "container.tsx",
-      "source_file": "src/components/layout/container.tsx",
       "source_location": "L1"
     },
     {
@@ -16845,36 +17024,25 @@
       "source_location": "L1"
     },
     {
-      "id": "src_pages_app_settings_page",
-      "label": "settings-page.tsx",
+      "id": "src_pages_templates_video_page",
+      "label": "video-page.tsx",
       "_origin": "ast",
       "community": 3,
       "community_name": "react",
       "file_type": "code",
-      "norm_label": "settings-page.tsx",
-      "source_file": "src/pages/app/settings-page.tsx",
+      "norm_label": "video-page.tsx",
+      "source_file": "src/pages/templates/video-page.tsx",
       "source_location": "L1"
     },
     {
-      "id": "src_pages_templates_animations_page",
-      "label": "animations-page.tsx",
+      "id": "src_pages_templates_video_page_clips",
+      "label": "CLIPS",
       "_origin": "ast",
       "community": 3,
       "community_name": "react",
       "file_type": "code",
-      "norm_label": "animations-page.tsx",
-      "source_file": "src/pages/templates/animations-page.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_pages_templates_animations_page_tags",
-      "label": "tags",
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "tags",
-      "source_file": "src/pages/templates/animations-page.tsx",
+      "norm_label": "clips",
+      "source_file": "src/pages/templates/video-page.tsx",
       "source_location": "L17"
     },
     {
@@ -19950,15 +20118,26 @@
       "source_location": "L1"
     },
     {
-      "id": "src_components_image_parallax_background",
-      "label": "image-parallax-background.tsx",
+      "id": "src_components_home_shooting_stars",
+      "label": "shooting-stars.tsx",
       "_origin": "ast",
       "community": 71,
-      "community_name": "image-parallax-background.tsx",
+      "community_name": "shooting-stars.tsx",
       "file_type": "code",
-      "norm_label": "image-parallax-background.tsx",
-      "source_file": "src/components/image-parallax-background.tsx",
+      "norm_label": "shooting-stars.tsx",
+      "source_file": "src/components/home/shooting-stars.tsx",
       "source_location": "L1"
+    },
+    {
+      "id": "src_components_home_shooting_stars_meteors",
+      "label": "METEORS",
+      "_origin": "ast",
+      "community": 71,
+      "community_name": "shooting-stars.tsx",
+      "file_type": "code",
+      "norm_label": "meteors",
+      "source_file": "src/components/home/shooting-stars.tsx",
+      "source_location": "L19"
     },
     {
       "id": "src_components_layout_root_layout",
@@ -22253,6 +22432,18 @@
       "weight": 1.0
     },
     {
+      "source": "src_components_home_space_craft_viewer_spacecraftviewer",
+      "target": "src_components_home_space_craft_viewer_extractscrollvalue",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/components/home/space-craft-viewer.tsx",
+      "source_location": "L323",
+      "weight": 1.0
+    },
+    {
       "source": "src_components_layout_nav_config_test_ids",
       "target": "src_components_layout_nav_config_navforrole",
       "relation": "calls",
@@ -23809,7 +24000,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/features/services/service-appointments.tsx",
-      "source_location": "L119",
+      "source_location": "L123",
       "weight": 1.0
     },
     {
@@ -23834,6 +24025,54 @@
       "context": "call",
       "source_file": "src/features/services/service-availability.ts",
       "source_location": "L22",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_services_service_availability_iswithinservicehours",
+      "target": "src_features_services_service_availability_parsetimeranges",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/features/services/service-availability.ts",
+      "source_location": "L104",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_services_service_availability_iswithinservicehours",
+      "target": "src_features_services_service_availability_parseclocktime",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/features/services/service-availability.ts",
+      "source_location": "L89",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_services_service_availability_parseclocktime",
+      "target": "src_features_services_service_availability_tominutes",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/features/services/service-availability.ts",
+      "source_location": "L66",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_services_service_availability_parsetimeranges",
+      "target": "src_features_services_service_availability_tominutes",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/features/services/service-availability.ts",
+      "source_location": "L73",
       "weight": 1.0
     },
     {
@@ -27229,6 +27468,30 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/components/home-interactive-background.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_home_ship_close_up",
+      "target": "ref_react",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/home/ship-close-up.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_home_space_craft_viewer",
+      "target": "ref_react",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/components/home/space-craft-viewer.tsx",
       "source_location": "L1",
       "weight": 1.0
     },
@@ -33656,7 +33919,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/home/get-started.tsx",
-      "source_location": "L21",
+      "source_location": "L19",
       "weight": 1.0
     },
     {
@@ -33667,7 +33930,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/home/get-started.tsx",
-      "source_location": "L6",
+      "source_location": "L7",
       "weight": 1.0
     },
     {
@@ -33778,6 +34041,105 @@
       "confidence_score": 1.0,
       "source_file": "src/components/home-presets/alternate-home-heroes.tsx",
       "source_location": "L13",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_home_ship_close_up",
+      "target": "src_components_home_ship_close_up_shipcloseup",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/home/ship-close-up.tsx",
+      "source_location": "L15",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_home_ship_close_up",
+      "target": "src_components_home_ship_close_up_shipcloseupprops",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/home/ship-close-up.tsx",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_home_shooting_stars",
+      "target": "src_components_home_shooting_stars_meteors",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/home/shooting-stars.tsx",
+      "source_location": "L19",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_home_shooting_stars",
+      "target": "src_components_home_shooting_stars_meteor",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/home/shooting-stars.tsx",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_home_shooting_stars",
+      "target": "src_components_home_shooting_stars_shootingstars",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/home/shooting-stars.tsx",
+      "source_location": "L62",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_home_shooting_stars",
+      "target": "src_components_home_shooting_stars_meteoritem",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/home/shooting-stars.tsx",
+      "source_location": "L72",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_home_space_craft_viewer",
+      "target": "src_components_home_space_craft_viewer_spacecraftviewerprops",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/home/space-craft-viewer.tsx",
+      "source_location": "L15",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_home_space_craft_viewer",
+      "target": "src_components_home_space_craft_viewer_extractscrollvalue",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/home/space-craft-viewer.tsx",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_home_space_craft_viewer",
+      "target": "src_components_home_space_craft_viewer_spacecraftviewer",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/home/space-craft-viewer.tsx",
+      "source_location": "L66",
       "weight": 1.0
     },
     {
@@ -40184,13 +40546,46 @@
     },
     {
       "source": "src_features_services_service_availability",
+      "target": "src_features_services_service_availability_tominutes",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/services/service-availability.ts",
+      "source_location": "L47",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_services_service_availability",
+      "target": "src_features_services_service_availability_parseclocktime",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/services/service-availability.ts",
+      "source_location": "L63",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_services_service_availability",
+      "target": "src_features_services_service_availability_parsetimeranges",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/services/service-availability.ts",
+      "source_location": "L69",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_services_service_availability",
       "target": "src_features_services_service_availability_iswithinservicehours",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/features/services/service-availability.ts",
-      "source_location": "L45",
+      "source_location": "L80",
       "weight": 1.0
     },
     {
@@ -45920,5 +46315,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "64509cab7f5851ec45b6e6c03669381c50be20cf"
+  "built_at_commit": "b9e326493a57582a1d76a7c595f0840d55d406ce"
 }
