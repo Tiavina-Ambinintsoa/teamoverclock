@@ -19,6 +19,7 @@ import { formatDateTime, isOverdue, unwrap } from "@/lib/query-helpers"
 import { statusLabel } from "@/lib/status-labels"
 import { supabase } from "@/lib/supabase"
 import type { RequestStatus } from "@/lib/types"
+import { AuroraTitle } from "@/components/magic-ui/aurora-title"
 
 /** F22 — fiche d'une demande : citoyen (suivi, réponse, annulation, note) ou agent (statut, affectation, notes internes). */
 export function RequestDetail({ mode }: { mode: "citizen" | "agent" }) {
@@ -132,7 +133,7 @@ export function RequestDetail({ mode }: { mode: "citizen" | "agent" }) {
     return (
       <Container className="max-w-3xl">
         <div role="alert" className="rounded-xl border p-8 text-center">
-          <h1 className="text-2xl font-semibold">{tx("Demande introuvable", "Request not found")}</h1>
+          <h1 className="text-2xl font-semibold"><AuroraTitle>{tx("Demande introuvable", "Request not found")}</AuroraTitle></h1>
           <p className="mt-2 text-muted-foreground">{tx("Elle n'existe pas ou vous n'y avez pas accès.", "It does not exist or you do not have access to it.")}</p>
         </div>
       </Container>
@@ -160,7 +161,7 @@ export function RequestDetail({ mode }: { mode: "citizen" | "agent" }) {
 
       <header className="mb-6">
         <div className="flex flex-wrap items-center gap-2">
-          <h1 className="font-display text-2xl font-semibold sm:text-3xl">{request.subject}</h1>
+          <h1 className="font-display text-2xl font-semibold sm:text-3xl"><AuroraTitle>{request.subject}</AuroraTitle></h1>
           <StatusBadge kind="request" value={request.status} />
           <StatusBadge kind="priority" value={request.priority} />
           {overdue && <Badge variant="destructive">{tx("En retard", "Overdue")}</Badge>}

@@ -2,6 +2,7 @@ import type { ReactNode } from "react"
 import { Outlet, ScrollRestoration, useLocation } from "react-router"
 
 import { SiteFooter } from "@/components/layout/site-footer"
+import { JetCursor } from "@/components/magic-ui"
 import { SiteHeader } from "@/components/layout/site-header"
 import { ChatbotPage } from "@/features/chatbot/chatbot-page"
 import { GuideProvider } from "@/features/guide/guide-provider"
@@ -13,7 +14,10 @@ const AUTH_ROUTES = ["/connexion", "/inscription", "/mot-de-passe-oublie", "/nou
 function AssistanceProviders({ children }: { children: ReactNode }) {
   return (
     <GuideProvider>
-      <VoiceProvider>{children}</VoiceProvider>
+      <VoiceProvider>
+        <JetCursor />
+        {children}
+      </VoiceProvider>
     </GuideProvider>
   )
 }

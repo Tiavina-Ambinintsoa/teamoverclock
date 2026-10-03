@@ -4,6 +4,7 @@ import { Link, NavLink, Outlet, useNavigate } from "react-router"
 
 import { navForRole } from "@/components/layout/nav-config"
 import { ModeToggle } from "@/components/theme-switcher"
+import { AuroraTitle } from "@/components/magic-ui"
 import { Button } from "@/components/ui/button"
 import { HelpMenu } from "@/features/guide/help-menu"
 import { useAuth } from "@/features/auth/auth-context"
@@ -23,7 +24,7 @@ function Sidebar({ close }: { close?: () => void }) {
       <div className="flex h-16 shrink-0 items-center justify-between border-b px-5">
         <Link to="/" className="flex items-center gap-3 font-display text-lg font-semibold" onClick={close}>
           <span className="grid size-9 place-items-center rounded-xl bg-primary text-primary-foreground">N</span>
-          {SITE.shortName}
+          <AuroraTitle>{SITE.shortName}</AuroraTitle>
         </Link>
         {close && (
           <Button type="button" variant="ghost" size="icon" aria-label={tx("Fermer le menu", "Close menu")} onClick={close}>

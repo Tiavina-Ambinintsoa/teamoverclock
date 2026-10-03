@@ -17,6 +17,7 @@ import { describeClosingDays, describeOpeningHours } from "@/features/services/h
 import { useLocale } from "@/lib/locale"
 import { formatDate } from "@/lib/query-helpers"
 import { FACILITY_TYPE_LABELS, pickLabel } from "@/lib/status-labels"
+import { AuroraTitle } from "@/components/magic-ui/aurora-title"
 
 const FACILITY_MAP_LAYERS: MapLayers = {
   sectors: true, buildings: true, transports: false, dangers: false, reports: false, observations: false,
@@ -41,7 +42,7 @@ export function ServiceDetailPage() {
       <Container className="py-16">
         <title>{tx("Service introuvable", "Service not found")}</title>
         <div role="alert" className="rounded-xl border p-8 text-center">
-          <h1 className="text-2xl font-semibold">{tx("Service introuvable", "Service not found")}</h1>
+          <h1 className="text-2xl font-semibold"><AuroraTitle>{tx("Service introuvable", "Service not found")}</AuroraTitle></h1>
           <p className="mt-2 text-muted-foreground">{tx("Ce service n'existe pas ou n'est pas publié.", "This service does not exist or is not published.")}</p>
           <Button asChild className="mt-4"><Link to="/services">{tx("Tous les services", "All services")}</Link></Button>
         </div>
@@ -77,7 +78,7 @@ export function ServiceDetailPage() {
       </nav>
       <header className="mb-6">
         <div className="flex flex-wrap items-center gap-2">
-          <h1 className="font-display text-3xl font-semibold">{s.name}</h1>
+          <h1 className="font-display text-3xl font-semibold"><AuroraTitle>{s.name}</AuroraTitle></h1>
           <Badge variant="secondary">{s.category}</Badge>
           {s.is_emergency && <Badge variant="destructive">{tx("Urgence", "Emergency")}</Badge>}
           <StatusBadge kind="service" value={s.status} />

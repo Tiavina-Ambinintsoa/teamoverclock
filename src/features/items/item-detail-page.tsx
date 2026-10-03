@@ -12,6 +12,7 @@ import { ItemForm } from "@/features/items/item-form"
 import { useItem } from "@/features/items/use-items"
 import { formatDate } from "@/lib/format"
 import { SITE } from "@/lib/site"
+import { AuroraTitle } from "@/components/magic-ui/aurora-title"
 
 export function ItemDetailPage() {
   const { id } = useParams()
@@ -48,7 +49,7 @@ export function ItemDetailPage() {
       {item.isSuccess && item.data === null && (
         <div>
           <title>{`Note introuvable — ${SITE.name}`}</title>
-          <h1 className="text-3xl font-semibold">Note introuvable</h1>
+          <h1 className="text-3xl font-semibold"><AuroraTitle>Note introuvable</AuroraTitle></h1>
           <p className="mt-2 text-muted-foreground">Elle a été supprimée ou elle est privée.</p>
         </div>
       )}
@@ -61,7 +62,7 @@ export function ItemDetailPage() {
               {item.data.is_public ? "Publique" : "Privée"}
             </Badge>
           </div>
-          <h1 className="text-3xl font-semibold sm:text-5xl">{item.data.title}</h1>
+          <h1 className="text-3xl font-semibold sm:text-5xl"><AuroraTitle>{item.data.title}</AuroraTitle></h1>
           <p className="mt-3 text-sm text-muted-foreground">
             Par {item.data.author_name ?? "un utilisateur"}, le {formatDate(item.data.created_at)}
           </p>

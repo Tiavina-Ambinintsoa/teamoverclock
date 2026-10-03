@@ -1,0 +1,167 @@
+/*
+ * NOVA TERRA — habillage sci-fi (orbe, étoiles, verre sombre, lueurs).
+ * Tout est scopé sur html[data-theme="nova-terra"] : aucun effet sur les autres thèmes.
+ * Les couleurs viennent des tokens de presets.css (--primary, --highlight, --nova-*).
+ */
+
+/* ---------- Décor global : orbe qui respire + étoiles + lignes de balayage ---------- */
+html[data-theme="nova-terra"] body {
+  background-color: var(--background);
+}
+
+html[data-theme="nova-terra"] body::before {
+  content: "";
+  position: fixed;
+  z-index: -2;
+  left: 50%;
+  top: 46%;
+  width: min(86vmin, 880px);
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  border-radius: 50%;
+  pointer-events: none;
+  background:
+    radial-gradient(120% 90% at 50% 112%, var(--nova-lavender) 0%, oklch(0.7 0.2 285) 26%, transparent 62%),
+    radial-gradient(circle at 40% 32%, oklch(0.18 0.12 275) 0%, transparent 48%),
+    radial-gradient(circle at 50% 56%, var(--nova-indigo) 0%, oklch(0.3 0.22 272) 62%, oklch(0.13 0.08 275) 100%);
+  box-shadow:
+    inset 24px 28px 40px -18px var(--nova-ember),
+    inset 0 0 70px 6px oklch(0.55 0.25 285 / 0.55),
+    0 0 80px 16px oklch(0.5 0.27 275 / 0.5),
+    0 0 220px 70px oklch(0.4 0.25 300 / 0.32),
+    -20px -26px 70px -12px oklch(0.66 0.25 34 / 0.5);
+  opacity: 0.62;
+  will-change: transform;
+  animation:
+    nova-orb-breathe 12s ease-in-out infinite,
+    nova-orb-morph 19s ease-in-out infinite;
+}
+
+html[data-theme="nova-terra"] body::after {
+  content: "";
+  position: fixed;
+  z-index: -1;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    radial-gradient(1px 1px at 8% 14%, oklch(1 0 0 / 0.85), transparent 60%),
+    radial-gradient(1px 1px at 23% 62%, oklch(1 0 0 / 0.6), transparent 60%),
+    radial-gradient(1.5px 1.5px at 37% 28%, oklch(1 0 0 / 0.9), transparent 60%),
+    radial-gradient(1px 1px at 52% 81%, oklch(1 0 0 / 0.55), transparent 60%),
+    radial-gradient(1px 1px at 66% 12%, oklch(1 0 0 / 0.75), transparent 60%),
+    radial-gradient(1.5px 1.5px at 78% 47%, oklch(1 0 0 / 0.8), transparent 60%),
+    radial-gradient(1px 1px at 91% 73%, oklch(1 0 0 / 0.6), transparent 60%),
+    radial-gradient(1px 1px at 14% 90%, oklch(1 0 0 / 0.5), transparent 60%),
+    radial-gradient(ellipse at 50% 46%, transparent 38%, oklch(0.1 0.03 272 / 0.78) 100%),
+    repeating-linear-gradient(0deg, oklch(1 0 0 / 0.016) 0 1px, transparent 1px 3px);
+  background-size: 640px 640px, 640px 640px, 640px 640px, 640px 640px, 640px 640px, 640px 640px, 640px 640px, 640px 640px, 100% 100%, 100% 100%;
+  animation: nova-stars-drift 160s linear infinite;
+}
+
+@keyframes nova-orb-breathe {
+  0%, 100% { scale: 1; filter: hue-rotate(0deg); }
+  50% { scale: 1.07; filter: hue-rotate(-16deg); }
+}
+@keyframes nova-orb-morph {
+  0%, 100% { border-radius: 50% 50% 50% 50% / 50% 50% 50% 50%; }
+  33% { border-radius: 46% 54% 51% 49% / 53% 46% 54% 47%; }
+  66% { border-radius: 53% 47% 48% 52% / 47% 54% 46% 53%; }
+}
+@keyframes nova-stars-drift {
+  to { background-position: 640px 320px, 640px 320px, 640px 320px, 640px 320px, 640px 320px, 640px 320px, 640px 320px, 640px 320px, 0 0, 0 0; }
+}
+
+/* ---------- Surfaces en verre sombre (morphisme « standard » uniquement) ---------- */
+html[data-theme="nova-terra"][data-morphism="standard"] :is([data-slot="card"], .bg-card, .feature-card, .auth-card) {
+  background: linear-gradient(145deg, oklch(1 0 0 / 0.1), oklch(1 0 0 / 0.03));
+  border: 1px solid oklch(1 0 0 / 0.16);
+  border-radius: var(--radius-xl);
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  box-shadow: 0 8px 32px oklch(0 0 0 / 0.28), inset 0 1px 0 oklch(1 0 0 / 0.12);
+  transition: border-color 300ms ease, box-shadow 300ms ease, background 300ms ease, transform 300ms cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+html[data-theme="nova-terra"][data-morphism="standard"] :is([data-slot="card"], .bg-card, .feature-card):hover {
+  border-color: oklch(0.82 0.13 215 / 0.45);
+  box-shadow: 0 12px 40px oklch(0 0 0 / 0.34), 0 0 46px -14px var(--primary), inset 0 1px 0 oklch(1 0 0 / 0.16);
+}
+
+html[data-theme="nova-terra"][data-morphism="standard"] :is(.site-header, [data-slot="dialog-content"], .bg-popover) {
+  background: oklch(0.15 0.04 272 / 0.62);
+  border: 1px solid oklch(1 0 0 / 0.16);
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  box-shadow: 0 12px 40px oklch(0 0 0 / 0.4);
+}
+html[data-theme="nova-terra"] :is([data-slot="dialog-content"], .bg-popover) {
+  background: var(--popover);
+}
+
+html[data-theme="nova-terra"][data-morphism="standard"] :is([data-slot="input"], [data-slot="textarea"], input:not([type="checkbox"]):not([type="radio"]), select, textarea) {
+  background: oklch(0.1 0.03 272 / 0.5);
+  border: 1px solid oklch(1 0 0 / 0.16);
+  backdrop-filter: blur(10px);
+  transition: border-color 240ms ease, box-shadow 240ms ease, background 240ms ease;
+}
+html[data-theme="nova-terra"] :is([data-slot="input"], [data-slot="textarea"], input, select, textarea):hover {
+  border-color: oklch(0.82 0.13 215 / 0.5);
+}
+html[data-theme="nova-terra"] :is([data-slot="input"], [data-slot="textarea"], input, select, textarea):focus-visible {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px oklch(0.82 0.13 215 / 0.18), 0 0 28px -6px var(--primary);
+  outline: none;
+}
+
+/* ---------- Boutons : lueur néon, un seul accent par zone ---------- */
+html[data-theme="nova-terra"] [data-slot="button"] {
+  transition: box-shadow 240ms ease, transform 240ms cubic-bezier(0.2, 0.7, 0.2, 1), background-color 240ms ease, border-color 240ms ease;
+}
+html[data-theme="nova-terra"] [data-slot="button"][data-variant="default"] {
+  background-image: linear-gradient(120deg, var(--primary), oklch(0.7 0.17 285));
+  color: var(--primary-foreground);
+  box-shadow: 0 0 26px -6px var(--primary);
+}
+html[data-theme="nova-terra"] [data-slot="button"][data-variant="default"]:hover {
+  box-shadow: 0 0 38px -4px var(--primary), 0 0 70px -20px oklch(0.68 0.17 285);
+  transform: translateY(-1px);
+}
+html[data-theme="nova-terra"] [data-slot="button"][data-variant="outline"] {
+  background: oklch(1 0 0 / 0.05);
+  border-color: oklch(1 0 0 / 0.2);
+}
+html[data-theme="nova-terra"] [data-slot="button"][data-variant="outline"]:hover {
+  border-color: var(--primary);
+  box-shadow: 0 0 26px -8px var(--primary);
+}
+
+/* ---------- Panneau d'art de l'authentification : mini-orbe au lieu d'un aplat ---------- */
+html[data-theme="nova-terra"] .auth-art {
+  --primary-foreground: oklch(0.97 0.004 250);
+  background:
+    radial-gradient(120% 70% at 50% 118%, var(--nova-lavender) 0%, oklch(0.62 0.22 285) 30%, transparent 64%),
+    radial-gradient(circle at 30% 12%, oklch(0.55 0.25 34 / 0.75) 0%, transparent 38%),
+    linear-gradient(160deg, oklch(0.3 0.2 272), oklch(0.16 0.08 275));
+  box-shadow: inset 0 0 0 1px oklch(1 0 0 / 0.14), inset 0 0 80px oklch(0.5 0.27 275 / 0.35);
+}
+html[data-theme="nova-terra"] .auth-art .auth-orb-one { background: color-mix(in oklch, var(--nova-ember) 38%, transparent); }
+html[data-theme="nova-terra"] .auth-art .auth-orb-two { background: color-mix(in oklch, var(--primary) 22%, transparent); }
+
+/* ---------- Détails ---------- */
+html[data-theme="nova-terra"] ::selection {
+  background: oklch(0.68 0.17 285 / 0.5);
+  color: var(--foreground);
+}
+html[data-theme="nova-terra"] {
+  scrollbar-width: thin;
+  scrollbar-color: oklch(1 0 0 / 0.22) transparent;
+}
+html[data-theme="nova-terra"] main h1 {
+  text-shadow: 0 0 48px oklch(0.82 0.13 215 / 0.3);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html[data-theme="nova-terra"] body::before,
+  html[data-theme="nova-terra"] body::after {
+    animation: none !important;
+  }
+}

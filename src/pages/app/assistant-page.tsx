@@ -10,6 +10,7 @@ import { useAuth } from "@/features/auth/auth-context"
 import { env } from "@/lib/env"
 import { supabase } from "@/lib/supabase"
 import { SITE } from "@/lib/site"
+import { AuroraTitle } from "@/components/magic-ui/aurora-title"
 
 type Conversation = { id: string; title: string; updated_at: string }
 type ChatMessage = { role: "user" | "assistant"; content: string; created_at?: string }
@@ -80,7 +81,7 @@ export function AssistantPage() {
       <title>Assistant IA — {SITE.name}</title>
       <header className="mb-6">
         <p className="text-sm font-medium text-primary">Module facultatif · OpenRouter</p>
-        <h1 className="mt-1 text-3xl font-semibold">Assistant IA</h1>
+        <h1 className="mt-1 text-3xl font-semibold"><AuroraTitle>Assistant IA</AuroraTitle></h1>
         <p className="mt-2 text-muted-foreground">Les conversations sont privées. Le quota serveur est limité à 20 demandes par jour et par compte.</p>
       </header>
 

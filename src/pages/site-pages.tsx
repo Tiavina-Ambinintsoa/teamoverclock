@@ -11,13 +11,14 @@ import { Textarea } from "@/components/ui/textarea"
 import { useLocale } from "@/lib/locale"
 import { SITE } from "@/lib/site"
 import { supabase } from "@/lib/supabase"
+import { AuroraTitle } from "@/components/magic-ui/aurora-title"
 
 export function TeamPage() {
   const { t } = useLocale()
   return (
     <Container className="py-16 sm:py-24">
       <p className="text-sm font-medium uppercase tracking-[0.16em] text-primary">À propos</p>
-      <h1 className="mt-3 max-w-3xl text-4xl font-semibold sm:text-6xl">{t("team.title")}</h1>
+      <h1 className="mt-3 max-w-3xl text-4xl font-semibold sm:text-6xl"><AuroraTitle>{t("team.title")}</AuroraTitle></h1>
       <p className="mt-5 max-w-2xl text-lg text-muted-foreground">{t("team.intro")}</p>
 
       <section className="mt-14" aria-labelledby="team-title">
@@ -79,7 +80,7 @@ export function ContactPage() {
     <Container className="grid gap-12 py-16 lg:grid-cols-[0.85fr_1.15fr] lg:py-24">
       <div>
         <p className="text-sm font-medium uppercase tracking-[0.16em] text-primary">Échangeons</p>
-        <h1 className="mt-3 text-4xl font-semibold sm:text-6xl">Une question ?</h1>
+        <h1 className="mt-3 text-4xl font-semibold sm:text-6xl"><AuroraTitle>Une question ?</AuroraTitle></h1>
         <p className="mt-5 max-w-lg text-lg text-muted-foreground">Laissez un message. Le formulaire est prêt à être relié à une adresse ou à une fonction serveur.</p>
         <div className="mt-8 flex items-center gap-3 text-sm text-muted-foreground"><Mail className="size-4 text-primary" aria-hidden />Formulaire de contact</div>
       </div>
@@ -100,7 +101,7 @@ function LegalPage({ privacy = false }: { privacy?: boolean }) {
   return (
     <Container className="max-w-4xl py-16 sm:py-24">
       <div className="flex size-12 items-center justify-center rounded-xl bg-primary/10 text-primary"><ShieldCheck aria-hidden /></div>
-      <h1 className="mt-5 text-4xl font-semibold">{title}</h1>
+      <h1 className="mt-5 text-4xl font-semibold"><AuroraTitle>{title}</AuroraTitle></h1>
       <p className="mt-3 text-sm text-muted-foreground">Modèle à compléter avant publication · TODO(webcup)</p>
       <div className="mt-10 grid gap-6 leading-7 text-muted-foreground">
         <section><h2 className="text-xl font-semibold text-foreground">Responsable du site</h2><p className="mt-2">Ajoutez le nom de l'équipe, les coordonnées de contact et les informations requises pour votre projet.</p></section>
