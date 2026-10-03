@@ -4,51 +4,74 @@ import { Link, useSearchParams } from "react-router"
 
 import { Container } from "@/components/layout/container"
 import { PageHeader } from "@/components/page-header"
-import { StatusBadge } from "@/components/status-badge"
-import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select } from "@/components/ui/select"
 import { useAuth } from "@/features/auth/auth-context"
 import { filterBuildingsForService, filterFacilities, useBuildings, useDangers, useSectors, useServices, useTransports } from "@/features/city/city-queries"
+import type { MapData, MapReport, Observation, Pick } from "@/features/map/engine"
 import { estimateMinutes, findRoute, isBuildingOpen } from "@/features/map/hex"
 import { HexMap, type MapLayers, type MapMarker, type MapSelection } from "@/features/map/hex-map"
-import { usePublicReports } from "@/features/reports/report-queries"
+import { HologramMap } from "@/features/map/hologram-map"
+import { MapDetailPanel } from "@/features/map/map-detail-panel"
+import { DEFAULT_FILTERS, filterMapBuildings, filterMapReports, MapFilters, type MapFilterState } from "@/features/map/map-filters"
+import { usePublicReports, type PublicReport } from "@/features/reports/report-queries"
 import { useLocale } from "@/lib/locale"
 import { unwrap } from "@/lib/query-helpers"
-import { BUILDING_TYPE_LABELS, FACILITY_TYPE_LABELS, pickLabel, TRANSPORT_TYPE_LABELS } from "@/lib/status-labels"
 import { supabase } from "@/lib/supabase"
-import { describeOpeningHours } from "@/features/services/hours"
 
 const DANGEROUS = ["moderate", "high", "extreme"]
 
-/** Carte interactive : secteurs en ruche, bâtiments, transports, zones d'alerte, signalements validés, itinéraires. */
+interface ObservationItem extends Observation {
+  x: number
+  y: number
+  label: string
+}
+
+const toMapReport = (r: PublicReport): MapReport => ({
+  id: r.id,
+  title: r.title,
+  description: r.description,
+  sector_id: r.sector_id,
+  x: r.x,
+  y: r.y,
+  status: r.status,
+  source: r.category,
+  confidence_score: null,
+})
+
+/** Carte holographique 3D : secteurs en ruche, bâtiments, transports, zones d'alerte, signalements, itinéraires. */
 export function MapPage() {
   const { user } = useAuth()
-  const { tx, locale } = useLocale()
+  const { tx } = useLocale()
   const [params, setSearchParams] = useSearchParams()
   const sectors = useSectors()
   const buildings = useBuildings()
   const transports = useTransports()
   const services = useServices({})
+  const dangers = useDangers()
+  const reports = usePublicReports()
+
   const serviceFilterId = params.get("service")
   const serviceFilter = (services.data ?? []).find((service) => service.id === serviceFilterId)
   const facilitySearch = params.get("q") ?? ""
   const facilityType = params.get("type") ?? ""
   const serviceBuildings = useMemo(() => filterBuildingsForService(buildings.data ?? [], serviceFilterId), [buildings.data, serviceFilterId])
   const visibleBuildings = useMemo(() => filterFacilities(serviceBuildings, facilitySearch, facilityType), [serviceBuildings, facilitySearch, facilityType])
-  const facilityTypes = Array.from(new Set(serviceBuildings.flatMap((building) => building.facility_type ? [building.facility_type] : []))).sort()
-  const dangers = useDangers()
-  const reports = usePublicReports()
 
-  const [layers, setLayers] = useState<MapLayers>({ sectors: true, buildings: true, transports: true, dangers: true, reports: true, observations: false })
-  const [selected, setSelected] = useState<MapSelection>(() => {
+  const [filters, setFilters] = useState<MapFilterState>(DEFAULT_FILTERS)
+  const patchFilters = (patch: Partial<MapFilterState>) => setFilters((current) => ({ ...current, ...patch }))
+  const [pending, setSelected] = useState<Pick | null>(() => {
     const buildingId = params.get("building")
-    if (buildingId) return { type: "building", id: buildingId }
+    if (buildingId) return { kind: "building", id: buildingId }
+    const reportId = params.get("report")
+    if (reportId) return { kind: "report", id: reportId }
     const sectorId = params.get("sector")
-    return sectorId ? { type: "sector", id: sectorId } : null
+    return sectorId ? { kind: "sector", id: sectorId } : null
   })
+  const [view, setView] = useState<"3d" | "2d">("3d")
+  const [webglMissing, setWebglMissing] = useState(false)
   const [search, setSearch] = useState(facilitySearch)
   const [from, setFrom] = useState("")
   const [to, setTo] = useState("")
@@ -57,20 +80,48 @@ export function MapPage() {
   const observations = useQuery({
     queryKey: ["observations"],
     enabled: Boolean(supabase && canSeeObservations),
-    queryFn: async (): Promise<MapMarker[]> => {
+    queryFn: async (): Promise<ObservationItem[]> => {
       if (!supabase) return []
-      const sats = unwrap(await supabase.from("satellite_observations").select("id,satellite_code,x,y,confidence_score"), []) as { id: string; satellite_code: string; x: number; y: number; confidence_score: number | null }[]
-      const cams = unwrap(await supabase.from("cameras").select("id,code,x,y,status"), []) as { id: string; code: string; x: number; y: number; status: string }[]
+      const sats = unwrap(await supabase.from("satellite_observations").select("id,satellite_code,sector_id,x,y,confidence_score"), []) as { id: string; satellite_code: string; sector_id: string; x: number; y: number; confidence_score: number | null }[]
+      const cams = unwrap(await supabase.from("cameras").select("id,code,sector_id,x,y,status"), []) as { id: string; code: string; sector_id: string; x: number; y: number; status: string }[]
       return [
-        ...sats.map((s) => ({ id: s.id, x: s.x, y: s.y, label: `${s.satellite_code} (${Math.round((s.confidence_score ?? 0) * 100)} %)` })),
-        ...cams.map((c) => ({ id: c.id, x: c.x, y: c.y, label: `${c.code} (${c.status})` })),
+        ...sats.map((s): ObservationItem => ({ kind: "satellite", id: s.id, sector_id: s.sector_id, online: true, x: s.x, y: s.y, label: `${s.satellite_code} (${Math.round((s.confidence_score ?? 0) * 100)} %)` })),
+        ...cams.map((c): ObservationItem => ({ kind: "camera", id: c.id, sector_id: c.sector_id, online: c.status === "online", x: c.x, y: c.y, label: `${c.code} (${c.status})` })),
       ]
     },
   })
 
-  const activeDangers = (dangers.data ?? []).filter((d) => d.status === "active")
+  const activeDangers = useMemo(() => (dangers.data ?? []).filter((d) => d.status === "active"), [dangers.data])
   const avoidSectorIds = useMemo(() => Array.from(new Set(activeDangers.filter((d) => DANGEROUS.includes(d.severity)).flatMap((d) => d.affected_sector_ids))), [activeDangers])
-  const reportMarkers: MapMarker[] = (reports.data ?? []).filter((r) => r.x !== null && r.y !== null).map((r) => ({ id: r.id, x: r.x as number, y: r.y as number, label: r.title }))
+
+  const shownBuildings = useMemo(() => filterMapBuildings(visibleBuildings, filters), [visibleBuildings, filters])
+  const shownReports = useMemo(() => filterMapReports(reports.data ?? [], filters), [reports.data, filters])
+
+  // Une sélection masquée par un filtre est ignorée (et revient dès que le filtre est levé).
+  const selected = useMemo<Pick | null>(() => {
+    if (!pending) return null
+    if (pending.kind === "building") return shownBuildings.some((b) => b.id === pending.id) ? pending : null
+    if (pending.kind === "report") return shownReports.some((r) => r.id === pending.id) ? pending : null
+    return pending
+  }, [pending, shownBuildings, shownReports])
+  const buildingTypes = useMemo(() => Array.from(new Set(visibleBuildings.map((b) => b.type))).sort(), [visibleBuildings])
+  const reportStatuses = useMemo(() => Array.from(new Set((reports.data ?? []).map((r) => r.status))).sort(), [reports.data])
+
+  const engineData = useMemo<MapData>(
+    () => ({
+      sectors: sectors.data ?? [],
+      buildings: shownBuildings,
+      transports: transports.data ?? [],
+      dangers: dangers.data ?? [],
+      reports: shownReports.map(toMapReport),
+      observations: filters.observations && canSeeObservations ? (observations.data ?? []) : [],
+    }),
+    [sectors.data, shownBuildings, transports.data, dangers.data, shownReports, filters.observations, canSeeObservations, observations.data]
+  )
+  const engineLayers = useMemo(
+    () => ({ transit: filters.transit, dangers: filters.dangers, reports: filters.reports, labels: filters.labels, observations: filters.observations && canSeeObservations }),
+    [filters.transit, filters.dangers, filters.reports, filters.labels, filters.observations, canSeeObservations]
+  )
 
   const matches = useMemo(() => {
     const term = search.trim().toLowerCase()
@@ -93,11 +144,9 @@ export function MapPage() {
   const routeTransports = route ? (transports.data ?? []).filter((t) => t.visibility === "public" && t.status === "active" && route.sectorIds.includes(t.sector_id)) : []
   const crossesDanger = route ? route.sectorIds.some((id) => avoidSectorIds.includes(id)) : false
 
-  const selBuilding = selected?.type === "building" ? visibleBuildings.find((b) => b.id === selected.id) : undefined
-  const selSector = selected?.type === "sector" ? sectors.data?.find((s) => s.id === selected.id) : undefined
-  const selTransport = selected?.type === "transport" ? transports.data?.find((t) => t.id === selected.id) : undefined
-  const buildingServices = selBuilding ? (services.data ?? []).filter((s) => s.building_id === selBuilding.id) : []
-  const toggle = (key: keyof MapLayers) => setLayers((l) => ({ ...l, [key]: !l[key] }))
+  const staff = user?.profileRole === "agent" || user?.profileRole === "service_admin"
+  const reportHref = (id: string) => (staff ? `/agent/reports/${id}` : `/app/reports/${id}`)
+
   const updateFacilityFilters = (patch: { q?: string; type?: string }) => {
     const next = new URLSearchParams(params)
     for (const [key, value] of Object.entries(patch)) {
@@ -107,12 +156,28 @@ export function MapPage() {
     setSearchParams(next, { replace: true })
   }
 
-  const layerLabels: [keyof MapLayers, string][] = [
-    ["sectors", tx("Secteurs", "Sectors")], ["buildings", tx("Bâtiments", "Buildings")], ["transports", tx("Transports", "Transports")],
-    ["dangers", tx("Zones d'alerte", "Alert zones")], ["reports", tx("Signalements validés", "Validated reports")],
-    ...(canSeeObservations ? [["observations", tx("Observations (admin)", "Observations (admin)")] as [keyof MapLayers, string]] : []),
-  ]
   const openBuildings = visibleBuildings.filter(isBuildingOpen)
+  const detail = selected ? (
+    <MapDetailPanel
+      selected={selected}
+      sectors={sectors.data ?? []}
+      buildings={buildings.data ?? []}
+      transports={transports.data ?? []}
+      reports={reports.data ?? []}
+      dangers={dangers.data ?? []}
+      services={services.data ?? []}
+      reportHref={reportHref}
+      onSelect={setSelected}
+      onRouteTo={setTo}
+    />
+  ) : null
+
+  const layers2d: MapLayers = { sectors: true, buildings: filters.buildings, transports: filters.transit, dangers: filters.dangers, reports: filters.reports, observations: filters.observations && canSeeObservations }
+  const reportMarkers: MapMarker[] = shownReports.filter((r) => r.x !== null && r.y !== null).map((r) => ({ id: r.id, x: r.x as number, y: r.y as number, label: r.title }))
+  const observationMarkers: MapMarker[] = (observations.data ?? []).map((o) => ({ id: o.id, x: o.x, y: o.y, label: o.label }))
+  const selected2d: MapSelection = selected && selected.kind !== "report" ? { type: selected.kind, id: selected.id } : null
+  const showSidebarDetail = view === "2d" && detail
+  const mapReady = (sectors.data?.length ?? 0) > 0
 
   return (
     <Container className="py-8">
@@ -122,46 +187,54 @@ export function MapPage() {
         title={serviceFilter ? `${tx("Carte :", "Map:")} ${serviceFilter.name}` : tx("Carte de Nova Terra", "Nova Terra map")}
         description={serviceFilter
           ? tx("Cette vue conserve la carte de la ville et filtre les bâtiments sur les établissements de ce service.", "This view keeps the city map and filters buildings to this service's facilities.")
-          : tx("La ruche est divisée en secteurs. Cliquez sur un secteur, un bâtiment ou un transport pour le détail.", "The hive is divided into sectors. Select a sector, a building or a transport for details.")}
+          : tx("Hologramme de la ruche : cliquez sur un secteur, un bâtiment, un transport ou un signalement pour afficher sa fiche.", "Hologram of the hive: select a sector, building, transport or report to open its card.")}
       />
       {serviceFilter && <p className="mb-4 text-sm"><Link className="underline underline-offset-4" to={`/services/${serviceFilter.slug}?q=${encodeURIComponent(facilitySearch)}&type=${encodeURIComponent(facilityType)}`}>{tx("Retour au service", "Back to service")}</Link> · {tx(`${visibleBuildings.length} établissement(s)`, `${visibleBuildings.length} facility/facilities`)}</p>}
 
-      <div className="grid gap-5 lg:grid-cols-[1fr_22rem]" data-tour="map">
-        <div className="grid gap-3">
-          {serviceFilter && (
-            <section className="grid gap-3 rounded-xl border bg-card p-3 sm:grid-cols-[minmax(0,1fr)_14rem]" aria-label={tx("Filtres des établissements", "Facility filters")}>
-              <div className="grid gap-1">
-                <Label htmlFor="map-facility-search">{tx("Rechercher un établissement ou une prestation", "Search facilities or services offered")}</Label>
-                <Input
-                  id="map-facility-search"
-                  type="search"
-                  value={facilitySearch}
-                  onChange={(event) => updateFacilityFilters({ q: event.target.value })}
-                  placeholder={tx("Urgences, chirurgie, pharmacie…", "Emergency care, surgery, pharmacy…")}
-                />
-              </div>
-              <div className="grid gap-1">
-                <Label htmlFor="map-facility-type">{tx("Type d'établissement", "Facility type")}</Label>
-                <Select id="map-facility-type" value={facilityType} onChange={(event) => updateFacilityFilters({ type: event.target.value })}>
-                  <option value="">{tx("Tous les types", "All types")}</option>
-                  {facilityTypes.map((type) => <option key={type} value={type}>{pickLabel(FACILITY_TYPE_LABELS, type, locale)}</option>)}
-                </Select>
-              </div>
-            </section>
-          )}
-          <fieldset className="flex flex-wrap gap-x-4 gap-y-2 rounded-xl border bg-card p-3">
-            <legend className="sr-only">{tx("Couches de la carte", "Map layers")}</legend>
-            {layerLabels.map(([key, label]) => (
-              <label key={key} className="flex items-center gap-2 text-sm"><input type="checkbox" className="size-4 accent-primary" checked={layers[key]} onChange={() => toggle(key)} />{label}</label>
-            ))}
-          </fieldset>
-          <HexMap
-            sectors={sectors.data ?? []} buildings={visibleBuildings} transports={transports.data ?? []}
-            layers={layers} dangerSectorIds={avoidSectorIds} reportMarkers={reportMarkers} observationMarkers={observations.data ?? []}
-            selected={selected} onSelect={setSelected} routePoints={routePoints}
+      <div className="grid gap-5 xl:grid-cols-[1fr_21rem]" data-tour="map">
+        <div className="grid min-w-0 content-start gap-3">
+          <MapFilters
+            value={filters}
+            onChange={patchFilters}
+            sectors={sectors.data ?? []}
+            activeDangers={activeDangers}
+            buildingTypes={buildingTypes}
+            reportStatuses={reportStatuses}
+            canSeeObservations={canSeeObservations}
+            selectedSectorId={selected?.kind === "sector" ? selected.id : ""}
+            onFocusSector={(id) => setSelected({ kind: "sector", id })}
+            counts={{ buildings: shownBuildings.length, reports: shownReports.length }}
           />
+
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <fieldset className="flex gap-2"><legend className="sr-only">{tx("Mode d'affichage", "Display mode")}</legend>
+              <Button type="button" size="sm" variant={view === "3d" ? "default" : "outline"} aria-pressed={view === "3d"} disabled={webglMissing} onClick={() => setView("3d")}>{tx("Hologramme 3D", "3D hologram")}</Button>
+              <Button type="button" size="sm" variant={view === "2d" ? "default" : "outline"} aria-pressed={view === "2d"} onClick={() => setView("2d")}>{tx("Plan 2D", "2D plan")}</Button>
+            </fieldset>
+            {webglMissing && <output className="text-xs text-muted-foreground">{tx("WebGL indisponible : plan 2D affiché.", "WebGL unavailable: showing the 2D plan.")}</output>}
+          </div>
+
+          {view === "3d" && !webglMissing ? (
+            <HologramMap
+              className="h-[min(74vh,46rem)]"
+              data={engineData}
+              layers={engineLayers}
+              selected={selected}
+              onSelect={setSelected}
+              routeSectorIds={route?.sectorIds ?? null}
+              dangerId={filters.dangerId || null}
+              panel={detail ?? undefined}
+              onUnsupported={() => { setWebglMissing(true); setView("2d") }}
+            />
+          ) : (
+            <HexMap
+              sectors={sectors.data ?? []} buildings={shownBuildings} transports={transports.data ?? []}
+              layers={layers2d} dangerSectorIds={avoidSectorIds} reportMarkers={reportMarkers} observationMarkers={observationMarkers}
+              selected={selected2d} onSelect={(s) => setSelected(s ? { kind: s.type, id: s.id } : null)} routePoints={routePoints}
+            />
+          )}
           {sectors.isLoading && <p className="text-sm text-muted-foreground">{tx("Chargement de la carte…", "Loading the map…")}</p>}
-          {!sectors.isLoading && (sectors.data?.length ?? 0) === 0 && <p role="alert" className="text-sm text-destructive">{tx("Aucune donnée de carte disponible.", "No map data available.")}</p>}
+          {!sectors.isLoading && !mapReady && <p role="alert" className="text-sm text-destructive">{tx("Aucune donnée de carte disponible.", "No map data available.")}</p>}
         </div>
 
         <aside className="grid content-start gap-4" aria-label={tx("Détails et navigation", "Details and navigation")}>
@@ -174,42 +247,12 @@ export function MapPage() {
             }} placeholder={tx("Hôpital, mairie…", "Hospital, city hall…")} />
             {matches.length > 0 && (
               <ul className="mt-2 grid gap-1">
-                {matches.map((b) => <li key={b.id}><Button variant="ghost" size="sm" className="w-full justify-start" onClick={() => setSelected({ type: "building", id: b.id })}>{b.name}</Button></li>)}
+                {matches.map((b) => <li key={b.id}><Button variant="ghost" size="sm" className="w-full justify-start" onClick={() => setSelected({ kind: "building", id: b.id })}>{b.name}</Button></li>)}
               </ul>
             )}
           </section>
 
-          {(selBuilding || selSector || selTransport) && (
-            <section className="rounded-xl border bg-card p-4" aria-labelledby="map-detail" aria-live="polite">
-              <h2 id="map-detail" className="font-semibold">{selBuilding?.name ?? (selSector ? `${selSector.code} — ${selSector.name}` : selTransport?.code)}</h2>
-              {selBuilding && (
-                <div className="mt-2 grid gap-2 text-sm">
-                  <div className="flex flex-wrap items-center gap-2"><Badge variant="secondary">{selBuilding.facility_type ? pickLabel(FACILITY_TYPE_LABELS, selBuilding.facility_type, locale) : pickLabel(BUILDING_TYPE_LABELS, selBuilding.type, locale)}</Badge><StatusBadge kind="building" value={selBuilding.status} /></div>
-                  <p>{sectorName(selBuilding.sector_id)?.name} · {selBuilding.address}</p>
-                  {selBuilding.phone && <a className="underline-offset-4 hover:underline" href={`tel:${selBuilding.phone.replace(/\s/g, "")}`}>{selBuilding.phone}</a>}
-                  {selBuilding.email && <a className="underline-offset-4 hover:underline" href={`mailto:${selBuilding.email}`}>{selBuilding.email}</a>}
-                  <p className="text-muted-foreground">{selBuilding.description}</p>
-                  {(selBuilding.offerings ?? []).length > 0 && (
-                    <div>
-                      <p className="font-medium">{tx("Prestations proposées", "Services offered")}</p>
-                      <ul className="flex flex-wrap gap-1">{(selBuilding.offerings ?? []).map((offering) => <li key={offering}><Badge variant="secondary">{offering}</Badge></li>)}</ul>
-                    </div>
-                  )}
-                  <ul>{describeOpeningHours(selBuilding.opening_hours, locale).map((h) => <li key={h.days}>{h.days} : {h.hours}</li>)}</ul>
-                  <p className="text-xs text-muted-foreground">{tx("Accessibilité :", "Accessibility:")} {Object.entries(selBuilding.accessibility).filter(([, v]) => v).map(([k]) => k).join(", ") || "—"}</p>
-                  {buildingServices.length > 0 && (
-                    <div><p className="font-medium">{tx("Services présents", "Services here")}</p><ul className="list-disc pl-5">{buildingServices.map((s) => <li key={s.id}><Link className="underline underline-offset-4" to={`/services/${s.slug}`}>{s.name}</Link></li>)}</ul></div>
-                  )}
-                  <div className="flex flex-wrap gap-2">
-                    <Button size="sm" variant="outline" disabled={!isBuildingOpen(selBuilding)} onClick={() => setTo(selBuilding.id)}>{tx("Itinéraire vers ici", "Route here")}</Button>
-                    <Button asChild size="sm" variant="outline"><Link to={`/app/reports/new?sector=${selBuilding.sector_id}&building=${selBuilding.id}`}>{tx("Signaler ici", "Report here")}</Link></Button>
-                  </div>
-                </div>
-              )}
-              {selSector && <p className="mt-2 text-sm text-muted-foreground">{selSector.description}<br />{tx("Activité", "Activity")} : {selSector.activity_level} %</p>}
-              {selTransport && <p className="mt-2 text-sm">{pickLabel(TRANSPORT_TYPE_LABELS, selTransport.type, locale)} · {selTransport.status} · {selTransport.route_name ?? "—"} · {tx("capacité", "capacity")} {selTransport.capacity}</p>}
-            </section>
-          )}
+          {showSidebarDetail}
 
           <section className="rounded-xl border bg-card p-4" aria-labelledby="map-route">
             <h2 id="map-route" className="mb-2 font-semibold">{tx("Itinéraire", "Route")}</h2>
@@ -247,12 +290,19 @@ export function MapPage() {
       </div>
 
       <details className="mt-6 rounded-xl border bg-card p-4">
-        <summary className="cursor-pointer font-medium">{tx("Version texte de la carte (liste des bâtiments)", "Text version of the map (list of buildings)")}</summary>
-        <ul className="mt-3 grid gap-1 text-sm md:grid-cols-2">
-          {visibleBuildings.map((b) => (
-            <li key={b.id}><button type="button" className="underline underline-offset-4" onClick={() => setSelected({ type: "building", id: b.id })}>{b.name}</button> — {sectorName(b.sector_id)?.code} · {b.status}</li>
-          ))}
-        </ul>
+        <summary className="cursor-pointer font-medium">{tx("Version texte de la carte (bâtiments et signalements)", "Text version of the map (buildings and reports)")}</summary>
+        <div className="mt-3 grid gap-4 md:grid-cols-2">
+          <ul className="grid gap-1 text-sm">
+            {shownBuildings.map((b) => (
+              <li key={b.id}><button type="button" className="underline underline-offset-4" onClick={() => setSelected({ kind: "building", id: b.id })}>{b.name}</button> — {sectorName(b.sector_id)?.code} · {b.status}</li>
+            ))}
+          </ul>
+          <ul className="grid gap-1 text-sm">
+            {shownReports.map((r) => (
+              <li key={r.id}><button type="button" className="underline underline-offset-4" onClick={() => setSelected({ kind: "report", id: r.id })}>{r.title}</button> — {sectorName(r.sector_id)?.code} · {r.status}</li>
+            ))}
+          </ul>
+        </div>
       </details>
     </Container>
   )
