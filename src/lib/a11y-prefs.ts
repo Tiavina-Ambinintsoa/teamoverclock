@@ -34,6 +34,8 @@ export interface A11yPrefs {
   voiceGuide: boolean
   ttsRate: number
   speechLang: string
+  /** Browser/device-specific voice identifier; intentionally not synchronized to the database. */
+  speechVoiceURI: string
   captions: boolean
   visualAlerts: boolean
 }
@@ -50,6 +52,7 @@ export const DEFAULT_A11Y_PREFS: A11yPrefs = {
   voiceGuide: false,
   ttsRate: 1,
   speechLang: "fr-FR",
+  speechVoiceURI: "",
   captions: false,
   visualAlerts: false,
 }
@@ -94,6 +97,7 @@ export function normalizePrefs(raw: unknown): A11yPrefs {
     voiceGuide: bool(r.voiceGuide, d.voiceGuide),
     ttsRate: clampNumber(r.ttsRate, TTS_RATE_MIN, TTS_RATE_MAX, d.ttsRate),
     speechLang: typeof r.speechLang === "string" && /^[a-z]{2}(-[A-Z]{2})?$/.test(r.speechLang) ? r.speechLang : d.speechLang,
+    speechVoiceURI: typeof r.speechVoiceURI === "string" && r.speechVoiceURI.length <= 500 ? r.speechVoiceURI : d.speechVoiceURI,
     captions: bool(r.captions, d.captions),
     visualAlerts: bool(r.visualAlerts, d.visualAlerts),
   }

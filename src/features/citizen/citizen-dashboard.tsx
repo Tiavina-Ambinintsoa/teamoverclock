@@ -89,7 +89,7 @@ export function CitizenDashboard() {
         <Button asChild size="lg" variant="soft" className="h-auto justify-start py-4"><Link to="/app/requests/new"><FilePlus2 aria-hidden />{tx("Contacter un service", "Contact a service")}</Link></Button>
         <Button asChild size="lg" variant="soft" className="h-auto justify-start py-4" aria-disabled={!canReport}><Link to={canReport ? "/app/reports/new" : "/app/verification"}><FileWarning aria-hidden />{tx("Signaler un problème", "Report a problem")}</Link></Button>
         <Button asChild size="lg" variant="soft" className="h-auto justify-start py-4"><Link to="/map"><MapPin aria-hidden />{tx("Ouvrir la carte", "Open the map")}</Link></Button>
-        <Button asChild size="lg" variant="soft" className="h-auto justify-start py-4"><Link to="/app/assistant"><Bot aria-hidden />{tx("Poser une question", "Ask a question")}</Link></Button>
+        <Button asChild size="lg" variant="soft" className="h-auto justify-start py-4"><Link to="/app?assistant=open"><Bot aria-hidden />{tx("Poser une question", "Ask a question")}</Link></Button>
       </div>
     </Container>
   )

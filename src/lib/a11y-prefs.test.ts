@@ -58,7 +58,7 @@ describe("storage", () => {
   beforeEach(() => window.localStorage.clear())
 
   it("round-trips preferences", () => {
-    const prefs = normalizePrefs({ theme: "high_contrast_light", fontScale: 1.75, readScreenAloud: true })
+    const prefs = normalizePrefs({ theme: "high_contrast_light", fontScale: 1.75, readScreenAloud: true, speechVoiceURI: "voice://local-french" })
     storePrefs(prefs)
     expect(readStoredPrefs()).toEqual(prefs)
   })
@@ -123,7 +123,7 @@ describe("database mapping", () => {
   })
   it("round-trips through the row format", () => {
     const prefs = normalizePrefs({ needs: ["hard_of_hearing"], theme: "yellow_on_black", fontScale: 1.5, captions: true, tourCompleted: ["welcome", "map"] })
-    expect(prefsFromRow(prefsToRow(prefs))).toEqual(prefs)
+    expect(prefsFromRow(prefsToRow(prefs))).toEqual({ ...prefs, speechVoiceURI: "" })
   })
 })
 

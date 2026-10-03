@@ -49,7 +49,6 @@ const citizenGroup: NavGroup = {
     { to: "/app", fr: "Tableau de bord", en: "Dashboard", icon: LayoutDashboard, exact: true },
     { to: "/app/requests", fr: "Mes demandes", en: "My requests", icon: ClipboardList },
     { to: "/app/reports", fr: "Mes signalements", en: "My reports", icon: FileWarning },
-    { to: "/app/assistant", fr: "Assistant", en: "Assistant", icon: Bot },
     { to: "/app/support", fr: "Appeler un conseiller", en: "Call an agent", icon: Phone },
     { to: "/app/verification", fr: "Vérification d'identité", en: "Identity verification", icon: UserCheck },
     { to: "/app/accessibility", fr: "Accessibilité", en: "Accessibility", icon: Accessibility },

@@ -18,5 +18,6 @@ export const env = {
   /** Les pages /kit et /modeles (outillage d'équipe) : toujours en dev, opt-in en prod. */
   enableKit: import.meta.env.DEV || flag(import.meta.env.VITE_ENABLE_KIT),
   enableAIChat: flag(import.meta.env.VITE_ENABLE_AI_CHAT),
+  enableGoogleAIStudioVoice: flag(import.meta.env.VITE_ENABLE_GOOGLE_AI_STUDIO_VOICE),
   enableAIHistory: flag(import.meta.env.VITE_ENABLE_AI_HISTORY),
 } as const
