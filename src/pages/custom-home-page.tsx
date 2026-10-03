@@ -79,14 +79,14 @@ export function CustomHomePage() {
             animate={{ x: phase === "video" ? "100vw" : "0vw" }}
             transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
           >
-            <GetStarted />
+            <GetStarted enableModel={phase === "started"} />
           </motion.div>
         </div>
       )}
 
       {/* 3. PAGE NORMALE : Flux DOM standard sans aucun transform parent pour que CloudCity sticky fonctionne à 100% */}
       <div className="w-full">
-        <GetStarted />
+        <GetStarted enableModel={isTransitionComplete} />
         <CloudCity />
       </div>
     </div>

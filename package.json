@@ -61,6 +61,7 @@
     "typecheck": "tsc -b",
     "predeploy": "npm run build && node scripts/predeploy.mjs",
     "release": "npm run build && node scripts/predeploy.mjs --strict",
+    "upload:hero-assets": "node scripts/upload-hero-assets.mjs",
     "lint": "oxlint"
   },
   "description": "Modèle de départ pour le 24h by Webcup Madagascar 2026 (React, TypeScript, Tailwind, shadcn/ui, Supabase)",

@@ -2,6 +2,7 @@ import { useRef } from "react"
 import { motion, useScroll, useSpring, useTransform } from "framer-motion"
 
 import { CloudLayer } from "@/components/home/cloud-layer"
+import { homeAsset } from "@/lib/home-assets"
 
 interface CloudCityProps {
   /** Image de la ville flottante (arrière-plan) */
@@ -32,9 +33,9 @@ interface CloudCityProps {
  *   dévoilant majestueusement la mégapole Terra Nova !
  */
 export function CloudCity({
-  cityImage = `${import.meta.env.BASE_URL}city-terra-nova.png`,
-  cloudImage = `${import.meta.env.BASE_URL}cloud.png`,
-  cloudSeaImage = `${import.meta.env.BASE_URL}cloud_sea.jpg`,
+  cityImage = homeAsset("city-terra-nova.webp"),
+  cloudImage = homeAsset("cloud.webp"),
+  cloudSeaImage = homeAsset("cloud_sea.webp"),
 }: CloudCityProps) {
   const containerRef = useRef<HTMLDivElement>(null)
 
@@ -77,6 +78,8 @@ export function CloudCity({
           <img
             src={cityImage}
             alt="Cité sous dôme Terra Nova"
+            loading="lazy"
+            decoding="async"
             className="size-full object-cover object-center"
           />
           {/* Voile sombre subtil */}
@@ -102,6 +105,8 @@ export function CloudCity({
           <img
             src={cloudSeaImage}
             alt="Mer de nuages"
+            loading="lazy"
+            decoding="async"
             className="size-full object-cover object-top"
             style={{
               maskImage:
