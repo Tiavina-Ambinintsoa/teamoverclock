@@ -1,6 +1,5 @@
 import { useRef } from "react"
 import { motion, useScroll, useSpring, useTransform } from "framer-motion"
-import { Sparkles } from "lucide-react"
 
 import { CloudLayer } from "@/components/home/cloud-layer"
 
@@ -33,7 +32,7 @@ interface CloudCityProps {
  *   dévoilant majestueusement la mégapole Terra Nova !
  */
 export function CloudCity({
-  cityImage = `${import.meta.env.BASE_URL}futurist.jpg`,
+  cityImage = `${import.meta.env.BASE_URL}city-terra-nova.png`,
   cloudImage = `${import.meta.env.BASE_URL}cloud.png`,
   cloudSeaImage = `${import.meta.env.BASE_URL}cloud_sea.jpg`,
 }: CloudCityProps) {
@@ -55,13 +54,13 @@ export function CloudCity({
   // 3. Léger zoom sur la ville (1.0 → 1.15) pour donner l'impression de s'en approcher
   const cityScale = useTransform(smoothProgress, [0, 1], [1.0, 1.15])
 
-  // 4. Nappe dense de nuages (fond homogène) : 100% opaque au départ, s'efface entre 0.1 et 0.45
-  const cloudSeaOpacity = useTransform(smoothProgress, [0, 0.12, 0.45], [1, 0.95, 0])
-  const cloudSeaScale = useTransform(smoothProgress, [0, 0.5], [1.0, 1.3])
+  // 4. Nappe dense de nuages (fond homogène) : 100% opaque au départ, s'efface entre 0.08 et 0.35
+  const cloudSeaOpacity = useTransform(smoothProgress, [0, 0.08, 0.35], [1, 0.9, 0])
+  const cloudSeaScale = useTransform(smoothProgress, [0, 0.45], [1.0, 1.25])
 
-  // 5. Apparition du texte de conclusion (entre 75% et 95% du scroll)
-  const textOpacity = useTransform(smoothProgress, [0.75, 0.95], [0, 1])
-  const textY = useTransform(smoothProgress, [0.75, 0.95], [30, 0])
+  // 5. Apparition du texte de conclusion (entre 40% et 65% du scroll pour être bien visible)
+  const textOpacity = useTransform(smoothProgress, [0.4, 0.65], [0, 1])
+  const textY = useTransform(smoothProgress, [0.4, 0.65], [25, 0])
 
   return (
     <section ref={containerRef} className="relative h-[300vh] w-full">
@@ -77,8 +76,8 @@ export function CloudCity({
         >
           <img
             src={cityImage}
-            alt="Ville flottante Terra Nova"
-            className="size-full object-cover object-top"
+            alt="Cité sous dôme Terra Nova"
+            className="size-full object-cover object-center"
           />
           {/* Voile sombre subtil */}
           <div className="absolute inset-0 bg-black/20 pointer-events-none" />
@@ -123,8 +122,8 @@ export function CloudCity({
         <CloudLayer
           image={cloudImage}
           progress={smoothProgress}
-          speed={0.85}
-          maxScale={1.9}
+          speed={0.55}
+          maxScale={1.8}
           translateX={-100}
           translateY={-30}
           zIndex={10}
@@ -135,8 +134,8 @@ export function CloudCity({
         <CloudLayer
           image={cloudImage}
           progress={smoothProgress}
-          speed={0.65}
-          maxScale={2.3}
+          speed={0.45}
+          maxScale={2.2}
           translateX={130}
           translateY={25}
           zIndex={20}
@@ -147,8 +146,8 @@ export function CloudCity({
         <CloudLayer
           image={cloudImage}
           progress={smoothProgress}
-          speed={0.45}
-          maxScale={2.8}
+          speed={0.35}
+          maxScale={2.6}
           translateX={-160}
           translateY={40}
           zIndex={30}
@@ -163,10 +162,6 @@ export function CloudCity({
           style={{ opacity: textOpacity, y: textY }}
           className="absolute inset-0 z-40 flex flex-col items-center justify-center text-center px-6 pointer-events-none"
         >
-          <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/40 backdrop-blur-md px-4 py-1.5 text-xs font-mono tracking-widest text-primary shadow-lg mb-6">
-            <Sparkles className="size-3.5" />
-            TERRA NOVA DÉCOUVERTE
-          </div>
 
           <h2 className="font-display text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight text-white drop-shadow-[0_4px_20px_rgba(0,0,0,0.9)] max-w-4xl leading-tight">
             La cité par-delà les cieux
