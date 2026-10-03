@@ -42,6 +42,41 @@ const DAY_ALIASES: Record<string, number> = {
   sat: 6, saturday: 6, samedi: 6,
 }
 
+const TIME_RANGE_PATTERN = /(\d{1,2})(?::(\d{2}))?\s*(a\.?m\.?|p\.?m\.?)?\s*[-–—]\s*(\d{1,2})(?::(\d{2}))?\s*(a\.?m\.?|p\.?m\.?)?/gi
+
+function toMinutes(hourValue: string, minuteValue: string | undefined, meridiemValue: string | undefined): number | null {
+  const hour = Number(hourValue)
+  const minute = Number(minuteValue ?? "0")
+  if (!Number.isInteger(minute) || minute < 0 || minute > 59) return null
+
+  if (meridiemValue) {
+    if (hour < 1 || hour > 12) return null
+    const meridiem = meridiemValue.replaceAll(".", "").toLowerCase()
+    return ((hour % 12) + (meridiem === "pm" ? 12 : 0)) * 60 + minute
+  }
+
+  if (hour < 0 || hour > 23) return null
+  return hour * 60 + minute
+}
+
+/** Parses either the native time-input value (24-hour) or a localized 12-hour value. */
+export function parseClockTime(value: string): number | null {
+  const match = value.trim().match(/^(\d{1,2})(?::(\d{2}))?\s*(a\.?m\.?|p\.?m\.?)?$/i)
+  if (!match) return null
+  return toMinutes(match[1], match[2], match[3])
+}
+
+function parseTimeRanges(value: string): [number, number][] {
+  const ranges: [number, number][] = []
+  for (const match of value.matchAll(TIME_RANGE_PATTERN)) {
+    const [, startHour, startMinute, startMeridiem, endHour, endMinute, endMeridiem] = match
+    const start = toMinutes(startHour, startMinute, startMeridiem)
+    const end = toMinutes(endHour, endMinute, endMeridiem)
+    if (start !== null && end !== null) ranges.push([start, end])
+  }
+  return ranges
+}
+
 export function isWithinServiceHours(
   service: Pick<Service, "opening_hours">,
   localDate: string,
@@ -51,7 +86,8 @@ export function isWithinServiceHours(
   if (schedules.length === 0) return true
   const date = new Date(`${localDate}T12:00:00`)
   const day = date.getDay()
-  const selectedMinute = Number(localTime.slice(0, 2)) * 60 + Number(localTime.slice(3, 5))
+  const selectedMinute = parseClockTime(localTime)
+  if (selectedMinute === null) return false
 
   return schedules.some(([rawDays, hours]) => {
     const days = rawDays.trim().toLocaleLowerCase()
@@ -65,11 +101,6 @@ export function isWithinServiceHours(
       : DAY_ALIASES[days] === day
     if (!matchesDay) return false
 
-    const ranges = Array.from(hours.matchAll(/(\d{2}):(\d{2})\s*[-–]\s*(\d{2}):(\d{2})/g))
-    return ranges.some((range) => {
-      const start = Number(range[1]) * 60 + Number(range[2])
-      const end = Number(range[3]) * 60 + Number(range[4])
-      return selectedMinute >= start && selectedMinute < end
-    })
+    return parseTimeRanges(hours).some(([start, end]) => selectedMinute >= start && selectedMinute < end)
   })
 }

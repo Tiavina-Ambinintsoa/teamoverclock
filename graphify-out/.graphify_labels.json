@@ -70,7 +70,7 @@
   "68": "3. Cahier des charges par entrée de la Todo List",
   "69": "confirm-dialog.tsx",
   "70": "alternate-home-heroes.tsx",
-  "71": "image-parallax-background.tsx",
+  "71": "shooting-stars.tsx",
   "72": "root-layout.tsx",
   "73": "site-header.tsx",
   "74": "voice-commands.ts",
@@ -255,7 +255,12 @@
   "253": "notifications-menu.tsx",
   "254": "reveal.tsx",
   "255": "progress.tsx",
-  "256": "video-page.tsx",
-  "257": "jsdom",
-  "258": "service-availability.test.ts"
+  "256": "space-craft-viewer.tsx",
+  "257": "ship-close-up.tsx",
+  "258": "service-availability.test.ts",
+  "259": "animations-page.tsx",
+  "260": "@testing-library/user-event",
+  "261": "meteor-field.tsx",
+  "262": "container.tsx",
+  "263": "settings-page.tsx"
 }
