@@ -235,14 +235,17 @@ export function ChatbotPage() {
       buildings: knowledge.data?.buildings ?? [],
       sectorId: user?.sectorId,
     })
+    const resolvedReply = reply.kind === "unknown"
+      ? { ...reply, kind: "normal" as const, pendingAction: undefined }
+      : reply
     push({
       role: "assistant",
       content: answer,
-      kind: reply.kind,
-      sources: reply.sources,
-      pending: reply.pendingAction ?? null,
+      kind: resolvedReply.kind,
+      sources: resolvedReply.sources,
+      pending: resolvedReply.pendingAction ?? null,
       channel: "voice",
-      choices: getChatChoices(reply, locale),
+      choices: getChatChoices(resolvedReply, locale),
     })
     if (!readAloud) speakChat(answer)
   }
@@ -330,8 +333,10 @@ export function ChatbotPage() {
     })
     let content = reply.content
     let sources = reply.sources
+    let responseKind = reply.kind
+    let pendingAction = reply.pendingAction ?? null
     const availableKnowledge = knowledge.data
-    if (env.enableAIChat && supabase && user && !user.isDemo && availableKnowledge && (reply.intent === "info" || reply.intent === "emergency")) {
+    if (supabase && user && !user.isDemo && availableKnowledge && (reply.intent === "info" || reply.intent === "emergency")) {
       const knowledgeContext = JSON.stringify(availableKnowledge)
       if (knowledgeContext.length <= 60_000) {
         setBusy(true)
@@ -344,6 +349,10 @@ export function ChatbotPage() {
           if (data?.error) throw new Error(data.error)
           if (typeof data?.answer !== "string" || !data.answer.trim()) throw new Error("Gemini did not return an answer.")
           content = data.answer
+          if (reply.kind === "unknown") {
+            responseKind = "normal"
+            pendingAction = null
+          }
           const sourceCandidates: ChatSource[] = [
             ...availableKnowledge.kb.filter((entry): entry is KbEntry & { url: string } => Boolean(entry.url))
               .map((entry) => ({ type: entry.entity_type, title: entry.title, url: entry.url })),
@@ -372,10 +381,10 @@ export function ChatbotPage() {
     push({
       role: "assistant",
       content,
-      kind: reply.kind,
+      kind: responseKind,
       sources,
-      pending: reply.pendingAction ?? null,
-      choices: getChatChoices(reply, locale),
+      pending: pendingAction,
+      choices: getChatChoices({ ...reply, kind: responseKind }, locale),
     })
   }
 

@@ -12,7 +12,7 @@ VITE_SUPABASE_PUBLISHABLE_KEY=sb_publishable_...
 VITE_MAPTILER_API_KEY=...        # optionnel ; active la carte détaillée /modeles/carte
 VITE_BASE=/                         # ou /sous-dossier/ si le site n'est pas à la racine
 VITE_USE_HASH_ROUTER=false          # passez à true si HODI ne permet pas de réécrire les URL
-VITE_ENABLE_AI_CHAT=false           # true seulement après le déploiement de la fonction IA
+VITE_ENABLE_AI_CHAT=false           # module Assistant IA historique (OpenRouter), pas le chatbot flottant Gemini
 VITE_ENABLE_AI_HISTORY=false        # historique de l'ancien module Assistant IA
 ```
 

@@ -1,6 +1,6 @@
 # Chat texte Google AI Studio
 
-Le chatbot flottant utilise Gemini via la fonction Supabase `gemini-chat`. Il transmet la question, jusqu'à 12 tours précédents et les contenus publiés de la base de connaissances (guides d'écran, étapes, services, alertes et documents requis). La réponse structurée peut inclure des sources ; le navigateur n'affiche que les liens qui existent dans les données publiées reçues. Si Gemini est indisponible, le chatbot utilise les réponses locales fondées sur les contenus publiés.
+Le chatbot flottant utilise Gemini via la fonction Supabase `gemini-chat` pour les questions d'information et d'urgence posées depuis un compte connecté non-démo. Il transmet la question, jusqu'à 12 tours précédents et les contenus publiés de la base de connaissances (guides d'écran, étapes, services, alertes et documents requis). Gemini doit rechercher tous les faits pertinents et fournir des réponses complètes. La réponse structurée peut inclure des sources ; le navigateur n'affiche que les liens qui existent dans les données publiées reçues. Si Gemini est indisponible, le chatbot utilise les réponses locales fondées sur les contenus publiés.
 
 ## Configuration et déploiement
 
@@ -11,7 +11,7 @@ supabase secrets set GOOGLE_AI_STUDIO_API_KEY=VOTRE_CLE
 supabase functions deploy gemini-chat
 ```
 
-`GOOGLE_AI_STUDIO_MODEL` est facultatif ; par défaut, la fonction utilise `gemini-3.8-flash`. Pour activer les réponses Gemini après le build du site, définissez `VITE_ENABLE_AI_CHAT=true`. Cette variable est un simple indicateur public ; la clé API ne doit jamais être exposée dans une variable `VITE_*`.
+`GOOGLE_AI_STUDIO_MODEL` est facultatif ; par défaut, la fonction utilise `gemini-3.8-flash`. Le chatbot flottant n'a pas besoin d'un indicateur `VITE_*` : il appelle la fonction lorsqu'un compte réel est connecté. La clé API ne doit jamais être exposée dans une variable `VITE_*`.
 
 L'utilisateur doit être connecté à un compte Supabase réel. Les requêtes sont authentifiées et partagent le quota existant de 20 appels IA par jour et par compte. Une erreur de service n'est pas silencieuse : le widget conserve la réponse locale publiée et l'indique à l'utilisateur.
 

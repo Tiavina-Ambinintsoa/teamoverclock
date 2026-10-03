@@ -182,6 +182,27 @@ describe("buildReply", () => {
     expect(reply.sources.some((s) => s.url === "/news/inspection-coque")).toBe(true)
   })
 
+  it("returns every matching knowledge entry without truncating published details", () => {
+    const fullKnowledge = Array.from({ length: 4 }, (_, index) => ({
+      id: `news-${index}`,
+      entity_type: "news",
+      title: `Inspection Ferrum Docks ${index}`,
+      content: `Détail publié ${index}. ${"Information complémentaire. ".repeat(12)}`,
+      url: `/news/inspection-${index}`,
+    }))
+    const reply = buildReply({
+      ...ctx,
+      kb: fullKnowledge,
+      locale: "fr",
+      text: "Informations sur l'inspection Ferrum Docks",
+    })
+
+    expect(reply.kind).toBe("normal")
+    expect(reply.sources).toHaveLength(4)
+    expect(reply.content).toContain("Détail publié 3.")
+    expect(reply.content).toContain("Information complémentaire. ".repeat(12))
+  })
+
   it("asks for confirmation before creating a report or a request (no side effect)", () => {
     const report = buildReply({ ...ctx, locale: "fr", text: "Je veux signaler un lampadaire cassé dans le secteur 3" })
     expect(report.pendingAction?.type).toBe("create_report")

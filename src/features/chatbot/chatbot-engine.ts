@@ -383,11 +383,11 @@ export function buildReply(context: ReplyContext): ChatReply {
     }
   }
 
-  const hits = searchKnowledge(kb, text, 3).filter((h) => h.score >= MIN_CONFIDENCE)
+  const hits = searchKnowledge(kb, text, kb.length).filter((h) => h.score >= MIN_CONFIDENCE)
   if (hits.length === 0) {
     return { intent, kind: "unknown", content: t.unknown, sources: [], confidence: 0, pendingAction: { type: "escalate" } }
   }
   const sources = hits.filter((h) => h.item.url).map((h) => ({ type: h.item.entity_type, title: h.item.title, url: h.item.url as string }))
-  const content = [t.more, ...hits.map((h) => `• ${h.item.title} — ${clip(h.item.content, 220)}`)].join("\n")
+  const content = [t.more, ...hits.map((h) => `• ${h.item.title} — ${h.item.content}`)].join("\n")
   return { intent, kind: "normal", content, sources, confidence: hits[0].score }
 }

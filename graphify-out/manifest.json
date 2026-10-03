@@ -930,9 +930,9 @@
     "semantic_hash": ""
   },
   "docs/DEPLOIEMENT-HODI.md": {
-    "mtime": 1791043567.057437,
-    "seen": 1791043623.44551,
-    "ast_hash": "ffdb2d27e3ee41aa22324576b20403dc",
+    "mtime": 1791044476.808997,
+    "seen": 1791044537.390279,
+    "ast_hash": "6e276b2893e375b91e34c0c8a4ea414c",
     "semantic_hash": ""
   },
   "docs/OPENROUTER.md": {
@@ -1182,21 +1182,21 @@
     "semantic_hash": ""
   },
   "src/features/chatbot/chatbot-engine.test.ts": {
-    "mtime": 1791043541.579407,
-    "seen": 1791043623.3131864,
-    "ast_hash": "51aaa1879b154ccb37fc29e6bea0d334",
+    "mtime": 1791044476.7303705,
+    "seen": 1791044537.0790775,
+    "ast_hash": "dfcd305f6b5c92014a4fbc1add638efa",
     "semantic_hash": ""
   },
   "src/features/chatbot/chatbot-engine.ts": {
-    "mtime": 1791043537.5333602,
-    "seen": 1791043623.3131864,
-    "ast_hash": "93ae71997db8b8b18daac951a52355e2",
+    "mtime": 1791044476.6384737,
+    "seen": 1791044537.0790775,
+    "ast_hash": "0752efd0e06602890ea9c6b0326aa846",
     "semantic_hash": ""
   },
   "src/features/chatbot/chatbot-page.tsx": {
-    "mtime": 1791043920.3010774,
-    "seen": 1791043954.038626,
-    "ast_hash": "b61fc24c6e82ca11aff95980cb8d74d6",
+    "mtime": 1791044490.3185375,
+    "seen": 1791044537.0790775,
+    "ast_hash": "924b0eece4e9a7055bf27be7c98342ac",
     "semantic_hash": ""
   },
   "src/features/citizen/citizen-dashboard.tsx": {
@@ -1692,33 +1692,39 @@
     "semantic_hash": ""
   },
   "src/features/voice/audio.test.ts": {
-    "mtime": 1791039602.3401523,
-    "seen": 1791039833.7038696,
-    "ast_hash": "83633ba9b0f7be430958353a2dd8c510",
+    "mtime": 1791044186.206437,
+    "seen": 1791044537.169323,
+    "ast_hash": "2584de07be09521aa36134ee65f7f1df",
     "semantic_hash": ""
   },
   "src/features/voice/audio.ts": {
-    "mtime": 1791039602.3067293,
-    "seen": 1791039833.7038696,
-    "ast_hash": "eb86b0bb8a6e1c0e3d651433a200aa73",
+    "mtime": 1791044186.2086713,
+    "seen": 1791044537.1703222,
+    "ast_hash": "b7df165188469efa4d54e742f0431031",
     "semantic_hash": ""
   },
   "supabase/functions/gemini-voice-chat/index.ts": {
-    "mtime": 1791041600.8325348,
-    "seen": 1791041827.9067366,
-    "ast_hash": "c9f17a0f62c8cc85b16aa9ed6f800a52",
+    "mtime": 1791044186.213692,
+    "seen": 1791044537.3757644,
+    "ast_hash": "152bb8f884e6d437d3eb0b9c49f2cbdc",
     "semantic_hash": ""
   },
   "docs/GOOGLE-AI-STUDIO-VOICE.md": {
-    "mtime": 1791041569.1559522,
-    "seen": 1791043347.2886996,
-    "ast_hash": "0fcc7074dd2a5e9a70dcee30b2effcfe",
+    "mtime": 1791044186.1893768,
+    "seen": 1791044537.390279,
+    "ast_hash": "bd716fcf9a2ab3140397dbeb13aba9e8",
     "semantic_hash": ""
   },
   "supabase/functions/gemini-chat/index.ts": {
-    "mtime": 1791043799.3102913,
-    "seen": 1791043954.0596247,
-    "ast_hash": "1d8cc323b1e514334186e998ad691b91",
+    "mtime": 1791044476.754147,
+    "seen": 1791044537.3757644,
+    "ast_hash": "3185857dc0f617277d6708dc08a76d85",
+    "semantic_hash": ""
+  },
+  "docs/GOOGLE-AI-STUDIO-TEXT.md": {
+    "mtime": 1791044476.7785618,
+    "seen": 1791044537.390279,
+    "ast_hash": "7056973bf212fdea928602ac31111efb",
     "semantic_hash": ""
   }
 }
