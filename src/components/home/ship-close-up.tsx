@@ -1,6 +1,7 @@
 import { useRef } from "react"
 import { motion, useScroll, useSpring, useTransform } from "framer-motion"
 import { SpaceCraftViewer } from "@/components/home/space-craft-viewer"
+import { homeAsset } from "@/lib/home-assets"
 
 interface ShipCloseUpProps {
   cloudSeaImage?: string
@@ -13,8 +14,8 @@ interface ShipCloseUpProps {
  * Au fil du scroll, la caméra Three.js plonge vers le corps du vaisseau spatial.
  */
 export function ShipCloseUp({
-  cloudSeaImage = `${import.meta.env.BASE_URL}cloud_sea.jpg`,
-  cloudImage = `${import.meta.env.BASE_URL}cloud.png`,
+  cloudSeaImage = homeAsset("cloud_sea.webp"),
+  cloudImage = homeAsset("cloud.webp"),
 }: ShipCloseUpProps) {
   const containerRef = useRef<HTMLDivElement>(null)
 

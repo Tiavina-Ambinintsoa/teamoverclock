@@ -1925,7 +1925,7 @@
       "file_type": "code",
       "norm_label": "cloudcityprops",
       "source_file": "src/components/home/cloud-city.tsx",
-      "source_location": "L6"
+      "source_location": "L7"
     },
     {
       "id": "src_components_page_header_pageheaderprops",
@@ -2120,7 +2120,7 @@
       "file_type": "code",
       "norm_label": "spacecraftviewerprops",
       "source_file": "src/components/home/space-craft-viewer.tsx",
-      "source_location": "L15"
+      "source_location": "L16"
     },
     {
       "id": "src_components_home_ship_close_up_shipcloseupprops",
@@ -2133,7 +2133,7 @@
       "file_type": "code",
       "norm_label": "shipcloseupprops",
       "source_file": "src/components/home/ship-close-up.tsx",
-      "source_location": "L5"
+      "source_location": "L6"
     },
     {
       "id": "src_components_ui_tabs_tabsstate",
@@ -2199,6 +2199,19 @@
       "norm_label": "piece",
       "source_file": "src/pages/templates/gallery-page.tsx",
       "source_location": "L17"
+    },
+    {
+      "id": "src_components_ui_switch_switchprops",
+      "label": "SwitchProps",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "switchprops",
+      "source_file": "src/components/ui/switch.tsx",
+      "source_location": "L4"
     },
     {
       "id": "src_features_profile_verification_page_verificationrow",
@@ -2991,7 +3004,7 @@
       "file_type": "code",
       "norm_label": "heroprops",
       "source_file": "src/components/home/hero.tsx",
-      "source_location": "L49"
+      "source_location": "L50"
     },
     {
       "id": "src_components_home_hero_positionkey",
@@ -3004,7 +3017,7 @@
       "file_type": "code",
       "norm_label": "positionkey",
       "source_file": "src/components/home/hero.tsx",
-      "source_location": "L36"
+      "source_location": "L37"
     },
     {
       "id": "src_features_requests_request_workflow_requestsort",
@@ -3018,19 +3031,6 @@
       "norm_label": "requestsort",
       "source_file": "src/features/requests/request-workflow.ts",
       "source_location": "L34"
-    },
-    {
-      "id": "src_components_ui_switch_switchprops",
-      "label": "SwitchProps",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 84,
-      "community_name": "switch.tsx",
-      "file_type": "code",
-      "norm_label": "switchprops",
-      "source_file": "src/components/ui/switch.tsx",
-      "source_location": "L4"
     },
     {
       "id": "src_lib_site_siteconfig",
@@ -3056,7 +3056,7 @@
       "file_type": "code",
       "norm_label": "getstartedprops",
       "source_file": "src/components/home/get-started.tsx",
-      "source_location": "L7"
+      "source_location": "L8"
     },
     {
       "id": "src_vite_env_d_importmeta",
@@ -3069,7 +3069,7 @@
       "file_type": "code",
       "norm_label": "importmeta",
       "source_file": "src/vite-env.d.ts",
-      "source_location": "L14"
+      "source_location": "L15"
     },
     {
       "id": "src_vite_env_d_importmetaenv",
@@ -6604,7 +6604,7 @@
       "file_type": "code",
       "norm_label": "cloudcity()",
       "source_file": "src/components/home/cloud-city.tsx",
-      "source_location": "L34"
+      "source_location": "L35"
     },
     {
       "id": "src_features_auth_signup_form_signupform",
@@ -6665,6 +6665,18 @@
       "norm_label": "pageheader()",
       "source_file": "src/components/page-header.tsx",
       "source_location": "L17"
+    },
+    {
+      "id": "src_lib_home_assets_homeasset",
+      "label": "homeAsset()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 233,
+      "community_name": "home-assets.ts",
+      "file_type": "code",
+      "norm_label": "homeasset()",
+      "source_file": "src/lib/home-assets.ts",
+      "source_location": "L3"
     },
     {
       "id": "src_features_map_map_page_mappage",
@@ -7048,7 +7060,7 @@
       "file_type": "code",
       "norm_label": "extractscrollvalue()",
       "source_file": "src/components/home/space-craft-viewer.tsx",
-      "source_location": "L6"
+      "source_location": "L7"
     },
     {
       "id": "src_components_home_space_craft_viewer_spacecraftviewer",
@@ -7060,7 +7072,7 @@
       "file_type": "code",
       "norm_label": "spacecraftviewer()",
       "source_file": "src/components/home/space-craft-viewer.tsx",
-      "source_location": "L66"
+      "source_location": "L68"
     },
     {
       "id": "src_components_home_ship_close_up_shipcloseup",
@@ -7072,7 +7084,7 @@
       "file_type": "code",
       "norm_label": "shipcloseup()",
       "source_file": "src/components/home/ship-close-up.tsx",
-      "source_location": "L15"
+      "source_location": "L16"
     },
     {
       "id": "src_features_services_service_availability_test_service",
@@ -7169,6 +7181,18 @@
       "norm_label": "myrequestspage()",
       "source_file": "src/features/requests/my-requests-page.tsx",
       "source_location": "L18"
+    },
+    {
+      "id": "src_pages_app_settings_page_settingspage",
+      "label": "SettingsPage()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 264,
+      "community_name": "settings-page.tsx",
+      "file_type": "code",
+      "norm_label": "settingspage()",
+      "source_file": "src/pages/app/settings-page.tsx",
+      "source_location": "L22"
     },
     {
       "id": "src_features_items_use_items_requireuser",
@@ -7447,6 +7471,18 @@
       "source_location": "L7"
     },
     {
+      "id": "src_components_ui_switch_switch",
+      "label": "Switch()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "switch()",
+      "source_file": "src/components/ui/switch.tsx",
+      "source_location": "L9"
+    },
+    {
       "id": "src_components_ui_textarea_textarea",
       "label": "Textarea()",
       "_callable": true,
@@ -7649,18 +7685,6 @@
       "norm_label": "usereveal()",
       "source_file": "src/hooks/use-reveal.ts",
       "source_location": "L10"
-    },
-    {
-      "id": "src_pages_app_settings_page_settingspage",
-      "label": "SettingsPage()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "settingspage()",
-      "source_file": "src/pages/app/settings-page.tsx",
-      "source_location": "L22"
     },
     {
       "id": "src_pages_templates_video_page_videopage",
@@ -9400,7 +9424,7 @@
       "file_type": "code",
       "norm_label": "hero()",
       "source_file": "src/components/home/hero.tsx",
-      "source_location": "L60"
+      "source_location": "L61"
     },
     {
       "id": "src_features_requests_request_workflow_allowedtransitions",
@@ -9511,16 +9535,16 @@
       "source_location": "L74"
     },
     {
-      "id": "src_components_ui_switch_switch",
-      "label": "Switch()",
+      "id": "scripts_upload_hero_assets_readlocalenv",
+      "label": "readLocalEnv()",
       "_callable": true,
       "_origin": "ast",
       "community": 84,
-      "community_name": "switch.tsx",
+      "community_name": "upload-hero-assets.mjs",
       "file_type": "code",
-      "norm_label": "switch()",
-      "source_file": "src/components/ui/switch.tsx",
-      "source_location": "L9"
+      "norm_label": "readlocalenv()",
+      "source_file": "scripts/upload-hero-assets.mjs",
+      "source_location": "L20"
     },
     {
       "id": "src_features_auth_password_pages_passwordrecoverypage",
@@ -9688,7 +9712,7 @@
       "file_type": "code",
       "norm_label": "getstarted()",
       "source_file": "src/components/home/get-started.tsx",
-      "source_location": "L19"
+      "source_location": "L21"
     },
     {
       "id": "e2e_global_setup_globalsetup",
@@ -13555,7 +13579,7 @@
       "file_type": "code",
       "norm_label": "description",
       "source_file": "package.json",
-      "source_location": "L66"
+      "source_location": "L67"
     },
     {
       "id": "package_engines",
@@ -13566,7 +13590,7 @@
       "file_type": "code",
       "norm_label": "engines",
       "source_file": "package.json",
-      "source_location": "L67"
+      "source_location": "L68"
     },
     {
       "id": "package_engines_node",
@@ -13577,7 +13601,7 @@
       "file_type": "code",
       "norm_label": "node",
       "source_file": "package.json",
-      "source_location": "L68"
+      "source_location": "L69"
     },
     {
       "id": "package_name",
@@ -14999,15 +15023,15 @@
       "source_location": "L40"
     },
     {
-      "id": "package_devdependencies_vitejs_plugin_react",
-      "label": "@vitejs/plugin-react",
+      "id": "package_devdependencies_vitest",
+      "label": "vitest",
       "_origin": "ast",
       "community": 2,
       "community_name": "devDependencies",
       "file_type": "code",
-      "norm_label": "@vitejs/plugin-react",
+      "norm_label": "vitest",
       "source_file": "package.json",
-      "source_location": "L42"
+      "source_location": "L50"
     },
     {
       "id": "jsdom",
@@ -15076,15 +15100,15 @@
       "source_location": "L40"
     },
     {
-      "id": "vitejs_plugin_react",
-      "label": "@vitejs/plugin-react",
+      "id": "vitest",
+      "label": "vitest",
       "_origin": "ast",
       "community": 2,
       "community_name": "devDependencies",
       "file_type": "concept",
-      "norm_label": "@vitejs/plugin-react",
+      "norm_label": "vitest",
       "source_file": "package.json",
-      "source_location": "L42"
+      "source_location": "L50"
     },
     {
       "id": "src_components_ui_card",
@@ -16067,26 +16091,26 @@
       "source_location": "L41"
     },
     {
-      "id": "package_devdependencies_vitest",
-      "label": "vitest",
+      "id": "src_lib_home_assets",
+      "label": "home-assets.ts",
       "_origin": "ast",
       "community": 233,
-      "community_name": "vitest",
+      "community_name": "home-assets.ts",
       "file_type": "code",
-      "norm_label": "vitest",
-      "source_file": "package.json",
-      "source_location": "L50"
+      "norm_label": "home-assets.ts",
+      "source_file": "src/lib/home-assets.ts",
+      "source_location": "L1"
     },
     {
-      "id": "vitest",
-      "label": "vitest",
+      "id": "src_lib_home_assets_remoteassetbase",
+      "label": "remoteAssetBase",
       "_origin": "ast",
       "community": 233,
-      "community_name": "vitest",
-      "file_type": "concept",
-      "norm_label": "vitest",
-      "source_file": "package.json",
-      "source_location": "L50"
+      "community_name": "home-assets.ts",
+      "file_type": "code",
+      "norm_label": "remoteassetbase",
+      "source_file": "src/lib/home-assets.ts",
+      "source_location": "L1"
     },
     {
       "id": "hologram_map",
@@ -16584,6 +16608,39 @@
       "source_location": "L1"
     },
     {
+      "id": "package_devdependencies_vitejs_plugin_react",
+      "label": "@vitejs/plugin-react",
+      "_origin": "ast",
+      "community": 263,
+      "community_name": "@vitejs/plugin-react",
+      "file_type": "code",
+      "norm_label": "@vitejs/plugin-react",
+      "source_file": "package.json",
+      "source_location": "L42"
+    },
+    {
+      "id": "vitejs_plugin_react",
+      "label": "@vitejs/plugin-react",
+      "_origin": "ast",
+      "community": 263,
+      "community_name": "@vitejs/plugin-react",
+      "file_type": "concept",
+      "norm_label": "@vitejs/plugin-react",
+      "source_file": "package.json",
+      "source_location": "L42"
+    },
+    {
+      "id": "src_pages_app_settings_page",
+      "label": "settings-page.tsx",
+      "_origin": "ast",
+      "community": 264,
+      "community_name": "settings-page.tsx",
+      "file_type": "code",
+      "norm_label": "settings-page.tsx",
+      "source_file": "src/pages/app/settings-page.tsx",
+      "source_location": "L1"
+    },
+    {
       "id": "src_features_items_use_items",
       "label": "use-items.ts",
       "_origin": "ast",
@@ -16815,6 +16872,17 @@
       "source_location": "L1"
     },
     {
+      "id": "src_components_ui_switch",
+      "label": "switch.tsx",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "switch.tsx",
+      "source_file": "src/components/ui/switch.tsx",
+      "source_location": "L1"
+    },
+    {
       "id": "src_components_ui_textarea",
       "label": "textarea.tsx",
       "_origin": "ast",
@@ -17010,17 +17078,6 @@
       "file_type": "code",
       "norm_label": "main.tsx",
       "source_file": "src/main.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_pages_app_settings_page",
-      "label": "settings-page.tsx",
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "settings-page.tsx",
-      "source_file": "src/pages/app/settings-page.tsx",
       "source_location": "L1"
     },
     {
@@ -17307,7 +17364,7 @@
       "file_type": "code",
       "norm_label": "lint",
       "source_file": "package.json",
-      "source_location": "L64"
+      "source_location": "L65"
     },
     {
       "id": "package_scripts_predeploy",
@@ -17407,6 +17464,17 @@
       "norm_label": "typecheck",
       "source_file": "package.json",
       "source_location": "L61"
+    },
+    {
+      "id": "package_scripts_upload_hero_assets",
+      "label": "upload:hero-assets",
+      "_origin": "ast",
+      "community": 39,
+      "community_name": "scripts",
+      "file_type": "code",
+      "norm_label": "upload:hero-assets",
+      "source_file": "package.json",
+      "source_location": "L64"
     },
     {
       "id": "tsconfig_app",
@@ -20588,7 +20656,7 @@
       "file_type": "code",
       "norm_label": "captions",
       "source_file": "src/components/home/hero.tsx",
-      "source_location": "L12"
+      "source_location": "L13"
     },
     {
       "id": "src_components_home_hero_position_classes",
@@ -20599,7 +20667,7 @@
       "file_type": "code",
       "norm_label": "position_classes",
       "source_file": "src/components/home/hero.tsx",
-      "source_location": "L43"
+      "source_location": "L44"
     },
     {
       "id": "src_features_requests_request_workflow",
@@ -20701,15 +20769,48 @@
       "source_location": "L6"
     },
     {
-      "id": "src_components_ui_switch",
-      "label": "switch.tsx",
+      "id": "scripts_upload_hero_assets",
+      "label": "upload-hero-assets.mjs",
       "_origin": "ast",
       "community": 84,
-      "community_name": "switch.tsx",
+      "community_name": "upload-hero-assets.mjs",
       "file_type": "code",
-      "norm_label": "switch.tsx",
-      "source_file": "src/components/ui/switch.tsx",
+      "norm_label": "upload-hero-assets.mjs",
+      "source_file": "scripts/upload-hero-assets.mjs",
       "source_location": "L1"
+    },
+    {
+      "id": "scripts_upload_hero_assets_assets",
+      "label": "assets",
+      "_origin": "ast",
+      "community": 84,
+      "community_name": "upload-hero-assets.mjs",
+      "file_type": "code",
+      "norm_label": "assets",
+      "source_file": "scripts/upload-hero-assets.mjs",
+      "source_location": "L9"
+    },
+    {
+      "id": "scripts_upload_hero_assets_projecturl",
+      "label": "projectUrl",
+      "_origin": "ast",
+      "community": 84,
+      "community_name": "upload-hero-assets.mjs",
+      "file_type": "code",
+      "norm_label": "projecturl",
+      "source_file": "scripts/upload-hero-assets.mjs",
+      "source_location": "L32"
+    },
+    {
+      "id": "scripts_upload_hero_assets_root",
+      "label": "root",
+      "_origin": "ast",
+      "community": 84,
+      "community_name": "upload-hero-assets.mjs",
+      "file_type": "code",
+      "norm_label": "root",
+      "source_file": "scripts/upload-hero-assets.mjs",
+      "source_location": "L5"
     },
     {
       "id": "src_features_auth_password_pages",
@@ -22451,7 +22552,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/components/home/space-craft-viewer.tsx",
-      "source_location": "L323",
+      "source_location": "L330",
       "weight": 1.0
     },
     {
@@ -31852,7 +31953,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "package.json",
-      "source_location": "L66",
+      "source_location": "L67",
       "weight": 1.0
     },
     {
@@ -31863,7 +31964,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "package.json",
-      "source_location": "L67",
+      "source_location": "L68",
       "weight": 1.0
     },
     {
@@ -32336,7 +32437,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "package.json",
-      "source_location": "L68",
+      "source_location": "L69",
       "weight": 1.0
     },
     {
@@ -32462,13 +32563,24 @@
     },
     {
       "source": "package_scripts",
-      "target": "package_scripts_lint",
+      "target": "package_scripts_upload_hero_assets",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "package.json",
       "source_location": "L64",
+      "weight": 1.0
+    },
+    {
+      "source": "package_scripts",
+      "target": "package_scripts_lint",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "package.json",
+      "source_location": "L65",
       "weight": 1.0
     },
     {
@@ -33572,6 +33684,50 @@
       "weight": 1.0
     },
     {
+      "source": "scripts_upload_hero_assets",
+      "target": "scripts_upload_hero_assets_readlocalenv",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "scripts/upload-hero-assets.mjs",
+      "source_location": "L20",
+      "weight": 1.0
+    },
+    {
+      "source": "scripts_upload_hero_assets",
+      "target": "scripts_upload_hero_assets_projecturl",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "scripts/upload-hero-assets.mjs",
+      "source_location": "L32",
+      "weight": 1.0
+    },
+    {
+      "source": "scripts_upload_hero_assets",
+      "target": "scripts_upload_hero_assets_root",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "scripts/upload-hero-assets.mjs",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
+      "source": "scripts_upload_hero_assets",
+      "target": "scripts_upload_hero_assets_assets",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "scripts/upload-hero-assets.mjs",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
       "source": "src_app_providers",
       "target": "src_app_providers_queryclient",
       "relation": "contains",
@@ -33898,7 +34054,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/home/cloud-city.tsx",
-      "source_location": "L34",
+      "source_location": "L35",
       "weight": 1.0
     },
     {
@@ -33909,7 +34065,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/home/cloud-city.tsx",
-      "source_location": "L6",
+      "source_location": "L7",
       "weight": 1.0
     },
     {
@@ -33942,7 +34098,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/home/get-started.tsx",
-      "source_location": "L19",
+      "source_location": "L21",
       "weight": 1.0
     },
     {
@@ -33953,7 +34109,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/home/get-started.tsx",
-      "source_location": "L7",
+      "source_location": "L8",
       "weight": 1.0
     },
     {
@@ -33964,7 +34120,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/home/hero.tsx",
-      "source_location": "L12",
+      "source_location": "L13",
       "weight": 1.0
     },
     {
@@ -33975,7 +34131,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/home/hero.tsx",
-      "source_location": "L36",
+      "source_location": "L37",
       "weight": 1.0
     },
     {
@@ -33986,7 +34142,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/home/hero.tsx",
-      "source_location": "L43",
+      "source_location": "L44",
       "weight": 1.0
     },
     {
@@ -33997,7 +34153,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/home/hero.tsx",
-      "source_location": "L49",
+      "source_location": "L50",
       "weight": 1.0
     },
     {
@@ -34008,7 +34164,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/home/hero.tsx",
-      "source_location": "L60",
+      "source_location": "L61",
       "weight": 1.0
     },
     {
@@ -34074,7 +34230,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/home/ship-close-up.tsx",
-      "source_location": "L15",
+      "source_location": "L16",
       "weight": 1.0
     },
     {
@@ -34085,7 +34241,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/home/ship-close-up.tsx",
-      "source_location": "L5",
+      "source_location": "L6",
       "weight": 1.0
     },
     {
@@ -34140,18 +34296,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/home/space-craft-viewer.tsx",
-      "source_location": "L15",
-      "weight": 1.0
-    },
-    {
-      "source": "src_components_home_space_craft_viewer",
-      "target": "src_components_home_space_craft_viewer_extractscrollvalue",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/components/home/space-craft-viewer.tsx",
-      "source_location": "L6",
+      "source_location": "L16",
       "weight": 1.0
     },
     {
@@ -34162,7 +34307,18 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/home/space-craft-viewer.tsx",
-      "source_location": "L66",
+      "source_location": "L68",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_home_space_craft_viewer",
+      "target": "src_components_home_space_craft_viewer_extractscrollvalue",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/home/space-craft-viewer.tsx",
+      "source_location": "L7",
       "weight": 1.0
     },
     {
@@ -41987,6 +42143,28 @@
       "weight": 1.0
     },
     {
+      "source": "src_lib_home_assets",
+      "target": "src_lib_home_assets_remoteassetbase",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/lib/home-assets.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "src_lib_home_assets",
+      "target": "src_lib_home_assets_homeasset",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/lib/home-assets.ts",
+      "source_location": "L3",
+      "weight": 1.0
+    },
+    {
       "source": "src_lib_home_background_config",
       "target": "src_lib_home_background_config_home_background_config",
       "relation": "contains",
@@ -43490,7 +43668,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/vite-env.d.ts",
-      "source_location": "L14",
+      "source_location": "L15",
       "weight": 1.0
     },
     {
@@ -46338,5 +46516,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "4c8a2889d5f2ced18ad6fa0a9b8ba94ac0a2f402"
+  "built_at_commit": "33b86fca5c0c56b0446678754c9c186402d18117"
 }

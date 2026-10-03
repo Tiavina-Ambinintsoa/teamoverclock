@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react"
 import * as THREE from "three"
 import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader.js"
 import { motion, type MotionValue } from "framer-motion"
+import { homeAsset } from "@/lib/home-assets"
 
 function extractScrollValue(val: number | MotionValue<number> | undefined): number | undefined {
   if (typeof val === "number" && !Number.isNaN(val)) return val
@@ -14,6 +15,7 @@ function extractScrollValue(val: number | MotionValue<number> | undefined): numb
 
 export interface SpaceCraftViewerProps {
   modelPath?: string
+  enabled?: boolean
   className?: string
   /** Field of view in degrees (default: 48) */
   cameraFov?: number
@@ -64,7 +66,8 @@ export interface SpaceCraftViewerProps {
 }
 
 export function SpaceCraftViewer({
-  modelPath = `${import.meta.env.BASE_URL}explorative_space_craft.glb`,
+  modelPath = homeAsset("explorative_space_craft.glb"),
+  enabled = true,
   className = "",
   cameraFov = 48,
   targetCameraFov,
@@ -147,15 +150,19 @@ export function SpaceCraftViewer({
   })
 
   useEffect(() => {
+    if (!enabled) return
+
     const container = mountRef.current
     if (!container) return
 
     let animationFrameId: number
-    let rafInit: number
+    let rafInit = 0
+    let visibilityObserver: IntersectionObserver | undefined
 
     // On diffère l'initialisation au prochain frame de rendu pour que le DOM
     // ait ses vraies dimensions CSS calculées (important avec Framer Motion / flex)
-    rafInit = requestAnimationFrame(() => {
+    const initialize = () => {
+      rafInit = requestAnimationFrame(() => {
       const w = container.offsetWidth || 560
       const h = container.offsetHeight || 500
 
@@ -426,14 +433,31 @@ export function SpaceCraftViewer({
         renderer.dispose()
         scene.clear()
       }
-    }) // fin du requestAnimationFrame
+      }) // fin du requestAnimationFrame
+    }
+
+    if ("IntersectionObserver" in window) {
+      visibilityObserver = new IntersectionObserver(
+        (entries) => {
+          if (entries.some((entry) => entry.isIntersecting)) {
+            visibilityObserver?.disconnect()
+            initialize()
+          }
+        },
+        { rootMargin: "200px 0px" },
+      )
+      visibilityObserver.observe(container)
+    } else {
+      initialize()
+    }
 
     return () => {
+      visibilityObserver?.disconnect()
       cancelAnimationFrame(rafInit)
       cleanupRef.current?.()
       cleanupRef.current = null
     }
-  }, [modelPath])
+  }, [enabled, modelPath])
 
   return (
     <div

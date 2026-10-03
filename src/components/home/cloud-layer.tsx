@@ -66,6 +66,8 @@ export function CloudLayer({
       <img
         src={image}
         alt="Nuage"
+        loading="lazy"
+        decoding="async"
         className="size-full object-cover object-center"
         style={flipY ? { transform: "scaleY(-1)" } : undefined}
       />

@@ -42,9 +42,9 @@
     "semantic_hash": ""
   },
   "package.json": {
-    "mtime": 1791055640.7286263,
-    "seen": 1791055886.3529954,
-    "ast_hash": "e023e4be5220ea9ec3006c31f997b343",
+    "mtime": 1791057453.0562124,
+    "seen": 1791057670.0463717,
+    "ast_hash": "7e04853d682302f089ed8bcf164aab99",
     "semantic_hash": ""
   },
   "playwright.config.ts": {
@@ -828,9 +828,9 @@
     "semantic_hash": ""
   },
   "src/vite-env.d.ts": {
-    "mtime": 1790960132.4565818,
-    "seen": 1791017711.3662786,
-    "ast_hash": "eb78acb8b60052a961ba2750e88d636a",
+    "mtime": 1791057078.6219912,
+    "seen": 1791057670.1229203,
+    "ast_hash": "6cf774cfdd71b6f93b6e0f2183f6c656",
     "semantic_hash": ""
   },
   "supabase/functions/_shared/http.ts": {
@@ -864,8 +864,8 @@
     "semantic_hash": ""
   },
   "tsconfig.app.json": {
-    "mtime": 1791055832.426234,
-    "seen": 1791055886.4308114,
+    "mtime": 1791056370.2807212,
+    "seen": 1791057670.127923,
     "ast_hash": "f6649130db59ac24646f3ac2851b3944",
     "semantic_hash": ""
   },
@@ -894,8 +894,8 @@
     "semantic_hash": ""
   },
   "vitest.setup.ts": {
-    "mtime": 1791055832.4088695,
-    "seen": 1791055886.4330413,
+    "mtime": 1791056370.2840588,
+    "seen": 1791057670.127923,
     "ast_hash": "4deb3d3d26482c850211b16591478a0c",
     "semantic_hash": ""
   },
@@ -1206,8 +1206,8 @@
     "semantic_hash": ""
   },
   "src/features/city/city-queries.test.ts": {
-    "mtime": 1791055832.4407997,
-    "seen": 1791055886.399783,
+    "mtime": 1791056370.266401,
+    "seen": 1791057670.0928795,
     "ast_hash": "8183feb18bbce3e4f193ada663d42d70",
     "semantic_hash": ""
   },
@@ -1578,27 +1578,27 @@
     "semantic_hash": ""
   },
   "src/components/home/cloud-city.tsx": {
-    "mtime": 1791055641.1559474,
-    "seen": 1791055886.3650112,
-    "ast_hash": "c4d428e7105bf2c831d42f265bc17255",
+    "mtime": 1791057535.7156658,
+    "seen": 1791057670.0503721,
+    "ast_hash": "21f0d217cdf1ac70b923b744978c3856",
     "semantic_hash": ""
   },
   "src/components/home/cloud-layer.tsx": {
-    "mtime": 1791055641.1569428,
-    "seen": 1791055886.3650112,
-    "ast_hash": "7fc0a5160519b3a3e75f88187a600ba8",
+    "mtime": 1791057535.8229015,
+    "seen": 1791057670.0503721,
+    "ast_hash": "b31330edbebfecb02a8f961dfe5045d0",
     "semantic_hash": ""
   },
   "src/components/home/get-started.tsx": {
-    "mtime": 1791055641.158944,
-    "seen": 1791055886.3650112,
-    "ast_hash": "371e25308e2b00f3e08ee7a47737dae3",
+    "mtime": 1791057764.0542893,
+    "seen": 1791057856.7492812,
+    "ast_hash": "cc7c682862fb3f6e4ea7ab6398075842",
     "semantic_hash": ""
   },
   "src/components/home/hero.tsx": {
-    "mtime": 1791055641.1609423,
-    "seen": 1791055886.3650112,
-    "ast_hash": "3db1a185b37f6a5ea6cac5b72478bf30",
+    "mtime": 1791058063.1741734,
+    "seen": 1791058183.440492,
+    "ast_hash": "8c6d63ef0cbc6ab8384b426e107b2f33",
     "semantic_hash": ""
   },
   "src/components/home/navbar.tsx": {
@@ -1638,39 +1638,15 @@
     "semantic_hash": ""
   },
   "src/pages/custom-home-page.tsx": {
-    "mtime": 1791055641.7156136,
-    "seen": 1791055886.417284,
-    "ast_hash": "ef39a3da084f1dceef62817806d846b2",
+    "mtime": 1791057774.5691652,
+    "seen": 1791057856.8788226,
+    "ast_hash": "251dfd958db071a42984ff98941baa37",
     "semantic_hash": ""
   },
   "supabase/functions/dispatch-heat-alert/index.ts": {
     "mtime": 1791055641.861582,
     "seen": 1791055886.4308114,
     "ast_hash": "3d271f9ef4b052b702fe5a69da8917f0",
-    "semantic_hash": ""
-  },
-  "public/bg-getStarted.jpg": {
-    "mtime": 1791055640.862484,
-    "seen": 1791055886.4340417,
-    "ast_hash": "dd3839dd1ca4599e9e14b5f357eddaf1",
-    "semantic_hash": ""
-  },
-  "public/cloud.png": {
-    "mtime": 1791055640.8841736,
-    "seen": 1791055886.4340417,
-    "ast_hash": "dfa0de54cc748d3245b1c8d821ed8959",
-    "semantic_hash": ""
-  },
-  "public/cloud_sea.jpg": {
-    "mtime": 1791055640.906096,
-    "seen": 1791055886.4340417,
-    "ast_hash": "50ba25157a6615cb66dc0e4671d70ecd",
-    "semantic_hash": ""
-  },
-  "public/space_enter_30fps.mp4": {
-    "mtime": 1791055641.1398482,
-    "seen": 1791055886.4363213,
-    "ast_hash": "488e70799152c0ef92f48daf9ad8d991",
     "semantic_hash": ""
   },
   "src/features/profile/citizen-residence-form.tsx": {
@@ -1683,12 +1659,6 @@
     "mtime": 1791055641.8139362,
     "seen": 1791055886.428812,
     "ast_hash": "35716a0d6f02137a4145f5447942f1bd",
-    "semantic_hash": ""
-  },
-  "public/city-terra-nova.png": {
-    "mtime": 1791055640.8791733,
-    "seen": 1791055886.4340417,
-    "ast_hash": "4e6bdd8efe7fbfe6a0070fbd6b2ca319",
     "semantic_hash": ""
   },
   "src/features/voice/audio.test.ts": {
@@ -1812,27 +1782,27 @@
     "semantic_hash": ""
   },
   "src/features/services/service-appointments.tsx": {
-    "mtime": 1791055641.5241039,
-    "seen": 1791055886.4031441,
+    "mtime": 1791056370.2699413,
+    "seen": 1791057670.1038826,
     "ast_hash": "37eb8be43de96634a5dfeba8e7fa2407",
     "semantic_hash": ""
   },
   "src/features/services/service-availability.test.ts": {
-    "mtime": 1791055641.527878,
-    "seen": 1791055886.4031441,
+    "mtime": 1791056370.2734466,
+    "seen": 1791057670.1038826,
     "ast_hash": "0aee50a11d388ab64888e8ab6215d188",
     "semantic_hash": ""
   },
   "src/features/services/service-availability.ts": {
-    "mtime": 1791055641.529875,
-    "seen": 1791055886.4031441,
+    "mtime": 1791056370.2774909,
+    "seen": 1791057670.1038826,
     "ast_hash": "f96496447faff3050f80e9267039228f",
     "semantic_hash": ""
   },
   "src/components/home/ship-close-up.tsx": {
-    "mtime": 1791055641.163943,
-    "seen": 1791055886.3650112,
-    "ast_hash": "f8e21dee2533cafc16aabe920db6e82a",
+    "mtime": 1791057078.534632,
+    "seen": 1791057670.0503721,
+    "ast_hash": "4109974c8800d6b196dc85827f7167a6",
     "semantic_hash": ""
   },
   "src/components/home/shooting-stars.tsx": {
@@ -1842,9 +1812,87 @@
     "semantic_hash": ""
   },
   "src/components/home/space-craft-viewer.tsx": {
-    "mtime": 1791055641.1669424,
-    "seen": 1791055886.3650112,
-    "ast_hash": "5d4eef9debb3f124e4b353f9342be117",
+    "mtime": 1791057763.924271,
+    "seen": 1791057856.7512813,
+    "ast_hash": "26f966dfbf5d44ab3e7966b1ef723c59",
+    "semantic_hash": ""
+  },
+  "scripts/upload-hero-assets.mjs": {
+    "mtime": 1791058063.2824612,
+    "seen": 1791058183.4244947,
+    "ast_hash": "b36fd889e08c7ca6a9ae638a03988ee2",
+    "semantic_hash": ""
+  },
+  "src/lib/home-assets.ts": {
+    "mtime": 1791057030.6204903,
+    "seen": 1791057670.1134074,
+    "ast_hash": "8309601c6290e5c15b571127c18a5421",
+    "semantic_hash": ""
+  },
+  "assets-source/home/bg-getStarted.jpg": {
+    "mtime": 1791055640.862484,
+    "seen": 1791057670.130922,
+    "ast_hash": "dd3839dd1ca4599e9e14b5f357eddaf1",
+    "semantic_hash": ""
+  },
+  "assets-source/home/city-terra-nova.png": {
+    "mtime": 1791055640.8791733,
+    "seen": 1791057670.130922,
+    "ast_hash": "4e6bdd8efe7fbfe6a0070fbd6b2ca319",
+    "semantic_hash": ""
+  },
+  "assets-source/home/cloud.png": {
+    "mtime": 1791055640.8841736,
+    "seen": 1791057670.130922,
+    "ast_hash": "dfa0de54cc748d3245b1c8d821ed8959",
+    "semantic_hash": ""
+  },
+  "assets-source/home/cloud_sea.jpg": {
+    "mtime": 1791055640.906096,
+    "seen": 1791057670.130922,
+    "ast_hash": "50ba25157a6615cb66dc0e4671d70ecd",
+    "semantic_hash": ""
+  },
+  "public/bg-getStarted.webp": {
+    "mtime": 1791056858.889804,
+    "seen": 1791057670.130922,
+    "ast_hash": "cac2f9eff930fd4d2d751a81b4497447",
+    "semantic_hash": ""
+  },
+  "public/city-terra-nova.webp": {
+    "mtime": 1791056858.9001405,
+    "seen": 1791057670.130922,
+    "ast_hash": "cfea11e64b269243b8ea27173fcf0398",
+    "semantic_hash": ""
+  },
+  "public/cloud.webp": {
+    "mtime": 1791056858.9104333,
+    "seen": 1791057670.130922,
+    "ast_hash": "887e64e4faf9f93f0da511e8d6de8a70",
+    "semantic_hash": ""
+  },
+  "public/cloud_sea.webp": {
+    "mtime": 1791056858.9038742,
+    "seen": 1791057670.130922,
+    "ast_hash": "5c2c84dc521e29d4397e5f048b27a0d3",
+    "semantic_hash": ""
+  },
+  "public/hero-intro.webm": {
+    "mtime": 1791056931.7211993,
+    "seen": 1791057670.1319234,
+    "ast_hash": "c4efd08a1a199a77b873ccc222a3c6da",
+    "semantic_hash": ""
+  },
+  "assets-source/home/space_enter_30fps.mp4": {
+    "mtime": 1791055641.1398482,
+    "seen": 1791058183.6909316,
+    "ast_hash": "488e70799152c0ef92f48daf9ad8d991",
+    "semantic_hash": ""
+  },
+  "public/hero-intro.mp4": {
+    "mtime": 1791058056.1838074,
+    "seen": 1791058183.6909316,
+    "ast_hash": "93dcb32f9644a97f4e1e9f3c0c7cdf5e",
     "semantic_hash": ""
   }
 }
