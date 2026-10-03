@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest"
 
 import type { Service } from "@/lib/db-types"
-import { effectiveServiceStatus, isUnexpectedServiceClosure, isWithinServiceHours } from "@/features/services/service-availability"
+import { effectiveServiceStatus, isUnexpectedServiceClosure, isWithinServiceHours, parseClockTime } from "@/features/services/service-availability"
 
 const service = (patch: Partial<Service> = {}): Service => ({
   id: "service-1",
@@ -60,5 +60,23 @@ describe("effectiveServiceStatus", () => {
     expect(isWithinServiceHours(weekdays, "2026-10-05", "09:00")).toBe(true)
     expect(isWithinServiceHours(weekdays, "2026-10-05", "17:00")).toBe(false)
     expect(isWithinServiceHours(weekdays, "2026-10-03", "10:00")).toBe(false)
+  })
+
+  it("validates opening hours written in 12-hour or 24-hour format", () => {
+    const weekdays12Hour = service({ opening_hours: { "mon-fri": "8:00 AM - 5:00 PM" } })
+    const weekdays24Hour = service({ opening_hours: { "mon-fri": "08:00–17:00" } })
+
+    expect(isWithinServiceHours(weekdays12Hour, "2026-10-05", "09:00")).toBe(true)
+    expect(isWithinServiceHours(weekdays12Hour, "2026-10-05", "4:30 PM")).toBe(true)
+    expect(isWithinServiceHours(weekdays12Hour, "2026-10-05", "17:00")).toBe(false)
+    expect(isWithinServiceHours(weekdays24Hour, "2026-10-05", "1:00 PM")).toBe(true)
+  })
+
+  it("converts noon and midnight correctly when parsing 12-hour times", () => {
+    expect(parseClockTime("12:00 AM")).toBe(0)
+    expect(parseClockTime("12:00 PM")).toBe(12 * 60)
+    expect(parseClockTime("1:30 PM")).toBe(13 * 60 + 30)
+    expect(parseClockTime("24:00")).toBeNull()
+    expect(parseClockTime("13:00 PM")).toBeNull()
   })
 })

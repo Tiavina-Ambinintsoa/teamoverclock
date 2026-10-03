@@ -1,16 +1,16 @@
 # Graph Report - teamoverclock  (2026-10-03)
 
 ## Corpus Check
-- 314 files · ~360,950 words
+- 317 files · ~535,464 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1885 nodes · 2119 edges · 259 communities (148 shown, 111 thin omitted)
+- 1900 nodes · 2138 edges · 264 communities (152 shown, 112 thin omitted)
 - Extraction: 97% EXTRACTED · 3% INFERRED · 0% AMBIGUOUS · INFERRED: 65 edges (avg confidence: 0.85)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `64509cab`
+- Built from commit: `b9e32649`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -80,7 +80,7 @@
 - 3. Cahier des charges par entrée de la Todo List
 - confirm-dialog.tsx
 - alternate-home-heroes.tsx
-- image-parallax-background.tsx
+- shooting-stars.tsx
 - root-layout.tsx
 - site-header.tsx
 - voice-commands.ts
@@ -233,11 +233,13 @@
 - notifications-menu.tsx
 - reveal.tsx
 - progress.tsx
-- video-page.tsx
-- jsdom
+- space-craft-viewer.tsx
+- ship-close-up.tsx
+- animations-page.tsx
+- @testing-library/user-event
 
 ## God Nodes (most connected - your core abstractions)
-1. `react` - 130 edges
+1. `react` - 132 edges
 2. `NovaTerraEngine` - 32 edges
 3. `compilerOptions` - 20 edges
 4. `AI Development Ruleset for Webcup 2026 Starter` - 19 edges
@@ -263,7 +265,7 @@
 ## Import Cycles
 - None detected.
 
-## Communities (259 total, 111 thin omitted)
+## Communities (264 total, 112 thin omitted)
 
 ### Community 0 - "dependencies"
 Cohesion: 0.04
@@ -275,11 +277,11 @@ Nodes (46): Admin Console, Alternate Home Hero Presets, Items API Module, Applic
 
 ### Community 2 - "devDependencies"
 Cohesion: 0.13
-Nodes (15): oxlint, devDependencies, oxlint, @tailwindcss/vite, @testing-library/user-event, @types/node, @types/react, @types/react-dom (+7 more)
+Nodes (15): jsdom, oxlint, devDependencies, jsdom, oxlint, @tailwindcss/vite, @types/node, @types/react (+7 more)
 
 ### Community 3 - "react"
 Cohesion: 0.03
-Nodes (3): react, LightboxProps, tags
+Nodes (4): react, ImageParallaxBackgroundProps, LightboxProps, CLIPS
 
 ### Community 4 - "compilerOptions"
 Cohesion: 0.07
@@ -674,8 +676,8 @@ Cohesion: 0.33
 Nodes (6): 5.1 Routes, 5.2 Hex map specifics, 5.3 Chatbot rules (REQUESTS §4.1), 5.4 Reputation rules, 5.5 Accessibility, voice & guidance, 5. Architecture (frontend)
 
 ### Community 218 - "service-availability.ts"
-Cohesion: 0.33
-Nodes (3): DAY_ALIASES, effectiveServiceStatus(), isUnexpectedServiceClosure()
+Cohesion: 0.31
+Nodes (7): DAY_ALIASES, effectiveServiceStatus(), isUnexpectedServiceClosure(), isWithinServiceHours(), parseClockTime(), parseTimeRanges(), toMinutes()
 
 ### Community 219 - "4. Fictional data (10 rows per table)"
 Cohesion: 0.50
@@ -701,22 +703,26 @@ Nodes (3): describeAppointmentTime(), localDate(), ServiceAppointmentCalendar()
 Cohesion: 0.67
 Nodes (3): 18. GETTING HELP, Check These Files First, Run These Commands
 
+### Community 256 - "space-craft-viewer.tsx"
+Cohesion: 0.67
+Nodes (3): extractScrollValue(), SpaceCraftViewer(), SpaceCraftViewerProps
+
 ## Knowledge Gaps
-- **818 isolated node(s):** `supabase`, `$schema`, `typescript`, `jsx-a11y`, `oxc` (+813 more)
+- **822 isolated node(s):** `supabase`, `$schema`, `typescript`, `jsx-a11y`, `oxc` (+817 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **111 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **112 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `react` connect `react` to `.oxlintrc.json`, `dialog.tsx`, `table.tsx`, `admin-page.tsx`, `card.tsx`, `auth-provider.tsx`, `map-page.tsx`, `tabs.tsx`, `locale.tsx`, `gallery-page.tsx`, `theme-provider.tsx`, `auth-context.ts`, `auth-form.tsx`, `home-page.tsx`, `site-pages.tsx`, `agenda-page.tsx`, `three-viewer.tsx`, `aurora-shader.tsx`, `empty-state.tsx`, `theme-context.ts`, `accordion.tsx`, `tooltip.tsx`, `kit-page.tsx`, `async-button.tsx`, `avatar.tsx`, `bento-grid.tsx`, `video-player.tsx`, `auth-shell.tsx`, `assistant-page.tsx`, `providers.tsx`, `text-reveal.tsx`, `confirm-dialog.tsx`, `image-parallax-background.tsx`, `root-layout.tsx`, `site-header.tsx`, `news-detail-page.tsx`, `theme-choice-dialog.tsx`, `badge.tsx`, `heat-alert-create-dialog.tsx`, `button.tsx`, `hero.tsx`, `switch.tsx`, `citizen-residence-form.tsx`, `home-variants-page.tsx`, `get-started.tsx`, `heat-alert-dialog.tsx`, `accessibility-context.ts`, `animated-gradient-text.tsx`, `accessibility-panel.tsx`, `hex-map.tsx`, `admin-extra-pages.tsx`, `users-page.tsx`, `support-pages.tsx`, `news-manager.tsx`, `services-manager.tsx`, `map-editor-page.tsx`, `dangers-manager.tsx`, `guide-provider.tsx`, `chatbot-page.tsx`, `dangers-pages.tsx`, `guide-context.ts`, `report-detail.tsx`, `reports-lists.tsx`, `request-detail.tsx`, `voice-context.ts`, `data-state.tsx`, `verification-page.tsx`, `report-new-page.tsx`, `use-dictation.ts`, `voice-provider.tsx`, `facilities-manager.tsx`, `text-animate.tsx`, `home-interactive-background.tsx`, `hologram-map.tsx`, `request-new-page.tsx`, `citizen-health-form.tsx`, `cloud-city.tsx`, `signup-form.tsx`, `storage-uploader.tsx`, `page-header.tsx`, `map/map-page.tsx`, `service-detail-page.tsx`, `service-appointments.tsx`, `application-layout.tsx`, `breadcrumb.tsx`, `custom-home-page.tsx`, `slider.tsx`, `agent-team-page.tsx`, `notifications-menu.tsx`, `reveal.tsx`, `progress.tsx`, `video-page.tsx`?**
-  _High betweenness centrality (0.077) - this node is a cross-community bridge._
+- **Why does `react` connect `react` to `.oxlintrc.json`, `dialog.tsx`, `table.tsx`, `admin-page.tsx`, `card.tsx`, `auth-provider.tsx`, `map-page.tsx`, `tabs.tsx`, `locale.tsx`, `gallery-page.tsx`, `theme-provider.tsx`, `auth-context.ts`, `auth-form.tsx`, `home-page.tsx`, `site-pages.tsx`, `agenda-page.tsx`, `three-viewer.tsx`, `aurora-shader.tsx`, `empty-state.tsx`, `theme-context.ts`, `accordion.tsx`, `tooltip.tsx`, `kit-page.tsx`, `async-button.tsx`, `avatar.tsx`, `bento-grid.tsx`, `video-player.tsx`, `auth-shell.tsx`, `assistant-page.tsx`, `providers.tsx`, `text-reveal.tsx`, `confirm-dialog.tsx`, `root-layout.tsx`, `site-header.tsx`, `news-detail-page.tsx`, `theme-choice-dialog.tsx`, `badge.tsx`, `heat-alert-create-dialog.tsx`, `button.tsx`, `hero.tsx`, `switch.tsx`, `citizen-residence-form.tsx`, `home-variants-page.tsx`, `get-started.tsx`, `heat-alert-dialog.tsx`, `accessibility-context.ts`, `animated-gradient-text.tsx`, `accessibility-panel.tsx`, `hex-map.tsx`, `admin-extra-pages.tsx`, `users-page.tsx`, `support-pages.tsx`, `news-manager.tsx`, `services-manager.tsx`, `map-editor-page.tsx`, `dangers-manager.tsx`, `guide-provider.tsx`, `chatbot-page.tsx`, `dangers-pages.tsx`, `guide-context.ts`, `report-detail.tsx`, `reports-lists.tsx`, `request-detail.tsx`, `voice-context.ts`, `data-state.tsx`, `verification-page.tsx`, `report-new-page.tsx`, `use-dictation.ts`, `voice-provider.tsx`, `facilities-manager.tsx`, `text-animate.tsx`, `home-interactive-background.tsx`, `hologram-map.tsx`, `request-new-page.tsx`, `citizen-health-form.tsx`, `cloud-city.tsx`, `signup-form.tsx`, `storage-uploader.tsx`, `page-header.tsx`, `map/map-page.tsx`, `service-detail-page.tsx`, `service-appointments.tsx`, `application-layout.tsx`, `breadcrumb.tsx`, `custom-home-page.tsx`, `slider.tsx`, `agent-team-page.tsx`, `notifications-menu.tsx`, `reveal.tsx`, `progress.tsx`, `space-craft-viewer.tsx`, `ship-close-up.tsx`, `animations-page.tsx`, `meteor-field.tsx`, `container.tsx`, `settings-page.tsx`?**
+  _High betweenness centrality (0.080) - this node is a cross-community bridge._
 - **Why does `plugins` connect `.oxlintrc.json` to `react`?**
   _High betweenness centrality (0.006) - this node is a cross-community bridge._
 - **Why does `4. Fonctionnalités complémentaires` connect `4. Fonctionnalités complémentaires` to `REQUESTS.md`?**
-  _High betweenness centrality (0.005) - this node is a cross-community bridge._
+  _High betweenness centrality (0.004) - this node is a cross-community bridge._
 - **What connects `supabase`, `$schema`, `typescript` to the rest of the system?**
-  _818 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _822 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `dependencies` be split into smaller, more focused modules?**
   _Cohesion score 0.0425531914893617 - nodes in this community are weakly interconnected._
 - **Should `Component UI Library` be split into smaller, more focused modules?**
