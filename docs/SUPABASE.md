@@ -73,3 +73,9 @@ Après l'import de 10, ouvrez **/admin/ai-content → Reconstruire la base du ch
 
 Pour repartir de zéro (données fictives uniquement) : `set app.allow_nova_reset = 'yes';` puis `00_reset_dev.sql`, puis relancer 06 et 07a-c.
 Le plan complet et les décisions sont dans [PLAN.md](./PLAN.md).
+
+## Établissements associés aux services
+
+Les établissements sont des lignes de `public.buildings` avec `service_id`, `facility_type` et `offerings` renseignés ; le bâtiment principal du service continue d'utiliser `services.building_id`. Les administrateurs généraux peuvent gérer tous les bâtiments. Les administrateurs de service ne peuvent créer, modifier ou supprimer que les établissements des services qu'ils administrent, conformément à `can_manage_service()` et aux politiques RLS. Les bâtiments restent visibles par la carte partagée ; `/map?service=<service-id>` limite les marqueurs à ceux du service. Sur une fiche de service et sa carte filtrée, la recherche porte sur les noms, descriptions, adresses et prestations ; le type d'établissement peut aussi être filtré.
+
+Pour mettre à jour un projet Nova Terra déjà initialisé, réexécutez `02_tables.sql`, `04_rls_grants.sql`, puis `07a_seed_city_identity.sql`, dans cet ordre. Le seed fournit dix établissements fictifs pour chacun des dix services ; il est relançable sans dupliquer ces exemples.

@@ -11,13 +11,13 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select } from "@/components/ui/select"
 import { useAuth } from "@/features/auth/auth-context"
-import { useBuildings, useDangers, useSectors, useServices, useTransports } from "@/features/city/city-queries"
+import { filterBuildingsForService, filterFacilities, useBuildings, useDangers, useSectors, useServices, useTransports } from "@/features/city/city-queries"
 import { estimateMinutes, findRoute, isBuildingOpen } from "@/features/map/hex"
 import { HexMap, type MapLayers, type MapMarker, type MapSelection } from "@/features/map/hex-map"
 import { usePublicReports } from "@/features/reports/report-queries"
 import { useLocale } from "@/lib/locale"
 import { unwrap } from "@/lib/query-helpers"
-import { BUILDING_TYPE_LABELS, pickLabel, TRANSPORT_TYPE_LABELS } from "@/lib/status-labels"
+import { BUILDING_TYPE_LABELS, FACILITY_TYPE_LABELS, pickLabel, TRANSPORT_TYPE_LABELS } from "@/lib/status-labels"
 import { supabase } from "@/lib/supabase"
 import { describeOpeningHours } from "@/features/services/hours"
 
@@ -27,17 +27,24 @@ const DANGEROUS = ["moderate", "high", "extreme"]
 export function MapPage() {
   const { user } = useAuth()
   const { tx, locale } = useLocale()
-  const [params] = useSearchParams()
+  const [params, setSearchParams] = useSearchParams()
   const sectors = useSectors()
   const buildings = useBuildings()
   const transports = useTransports()
   const services = useServices({})
+  const serviceFilterId = params.get("service")
+  const serviceFilter = (services.data ?? []).find((service) => service.id === serviceFilterId)
+  const facilitySearch = params.get("q") ?? ""
+  const facilityType = params.get("type") ?? ""
+  const serviceBuildings = useMemo(() => filterBuildingsForService(buildings.data ?? [], serviceFilterId), [buildings.data, serviceFilterId])
+  const visibleBuildings = useMemo(() => filterFacilities(serviceBuildings, facilitySearch, facilityType), [serviceBuildings, facilitySearch, facilityType])
+  const facilityTypes = Array.from(new Set(serviceBuildings.flatMap((building) => building.facility_type ? [building.facility_type] : []))).sort()
   const dangers = useDangers()
   const reports = usePublicReports()
 
   const [layers, setLayers] = useState<MapLayers>({ sectors: true, buildings: true, transports: true, dangers: true, reports: true, observations: false })
   const [selected, setSelected] = useState<MapSelection>(() => (params.get("building") ? { type: "building", id: params.get("building") as string } : null))
-  const [search, setSearch] = useState("")
+  const [search, setSearch] = useState(facilitySearch)
   const [from, setFrom] = useState("")
   const [to, setTo] = useState("")
 
@@ -62,45 +69,81 @@ export function MapPage() {
 
   const matches = useMemo(() => {
     const term = search.trim().toLowerCase()
-    return term ? (buildings.data ?? []).filter((b) => b.name.toLowerCase().includes(term)) : []
-  }, [buildings.data, search])
+    return term ? visibleBuildings.filter((b) => b.name.toLowerCase().includes(term)) : []
+  }, [visibleBuildings, search])
 
   const sectorName = (id: string) => sectors.data?.find((s) => s.id === id)
   const route = useMemo(() => {
     if (!from || !to || !sectors.data || !buildings.data) return null
     const routeSectors = sectors.data.map((sector) => ({ ...sector, q: sector.hex_q, r: sector.hex_r }))
-    return findRoute(routeSectors, buildings.data, from, to, { avoidSectorIds })
-  }, [from, to, sectors.data, buildings.data, avoidSectorIds])
+    return findRoute(routeSectors, visibleBuildings, from, to, { avoidSectorIds })
+  }, [from, to, sectors.data, buildings.data, visibleBuildings, avoidSectorIds])
   const routePoints = useMemo(() => {
     if (!route) return undefined
     return route.nodes.map((id) => {
-      const s = sectors.data?.find((x) => x.id === id) ?? buildings.data?.find((x) => x.id === id)
+      const s = sectors.data?.find((x) => x.id === id) ?? visibleBuildings.find((x) => x.id === id)
       return { x: s?.x ?? 0, y: s?.y ?? 0 }
     })
-  }, [route, sectors.data, buildings.data])
+  }, [route, sectors.data, visibleBuildings])
   const routeTransports = route ? (transports.data ?? []).filter((t) => t.visibility === "public" && t.status === "active" && route.sectorIds.includes(t.sector_id)) : []
   const crossesDanger = route ? route.sectorIds.some((id) => avoidSectorIds.includes(id)) : false
 
-  const selBuilding = selected?.type === "building" ? buildings.data?.find((b) => b.id === selected.id) : undefined
+  const selBuilding = selected?.type === "building" ? visibleBuildings.find((b) => b.id === selected.id) : undefined
   const selSector = selected?.type === "sector" ? sectors.data?.find((s) => s.id === selected.id) : undefined
   const selTransport = selected?.type === "transport" ? transports.data?.find((t) => t.id === selected.id) : undefined
   const buildingServices = selBuilding ? (services.data ?? []).filter((s) => s.building_id === selBuilding.id) : []
   const toggle = (key: keyof MapLayers) => setLayers((l) => ({ ...l, [key]: !l[key] }))
+  const updateFacilityFilters = (patch: { q?: string; type?: string }) => {
+    const next = new URLSearchParams(params)
+    for (const [key, value] of Object.entries(patch)) {
+      if (value) next.set(key, value)
+      else next.delete(key)
+    }
+    setSearchParams(next, { replace: true })
+  }
 
   const layerLabels: [keyof MapLayers, string][] = [
     ["sectors", tx("Secteurs", "Sectors")], ["buildings", tx("Bâtiments", "Buildings")], ["transports", tx("Transports", "Transports")],
     ["dangers", tx("Zones d'alerte", "Alert zones")], ["reports", tx("Signalements validés", "Validated reports")],
     ...(canSeeObservations ? [["observations", tx("Observations (admin)", "Observations (admin)")] as [keyof MapLayers, string]] : []),
   ]
-  const openBuildings = (buildings.data ?? []).filter(isBuildingOpen)
+  const openBuildings = visibleBuildings.filter(isBuildingOpen)
 
   return (
     <Container className="py-8">
       <title>{tx("Carte interactive", "Interactive map")}</title>
-      <PageHeader eyebrow={tx("La ville", "The city")} title={tx("Carte de Nova Terra", "Nova Terra map")} description={tx("La ruche est divisée en secteurs. Cliquez sur un secteur, un bâtiment ou un transport pour le détail.", "The hive is divided into sectors. Select a sector, a building or a transport for details.")} />
+      <PageHeader
+        eyebrow={tx("La ville", "The city")}
+        title={serviceFilter ? `${tx("Carte :", "Map:")} ${serviceFilter.name}` : tx("Carte de Nova Terra", "Nova Terra map")}
+        description={serviceFilter
+          ? tx("Cette vue conserve la carte de la ville et filtre les bâtiments sur les établissements de ce service.", "This view keeps the city map and filters buildings to this service's facilities.")
+          : tx("La ruche est divisée en secteurs. Cliquez sur un secteur, un bâtiment ou un transport pour le détail.", "The hive is divided into sectors. Select a sector, a building or a transport for details.")}
+      />
+      {serviceFilter && <p className="mb-4 text-sm"><Link className="underline underline-offset-4" to={`/services/${serviceFilter.slug}?q=${encodeURIComponent(facilitySearch)}&type=${encodeURIComponent(facilityType)}`}>{tx("Retour au service", "Back to service")}</Link> · {tx(`${visibleBuildings.length} établissement(s)`, `${visibleBuildings.length} facility/facilities`)}</p>}
 
       <div className="grid gap-5 lg:grid-cols-[1fr_22rem]" data-tour="map">
         <div className="grid gap-3">
+          {serviceFilter && (
+            <section className="grid gap-3 rounded-xl border bg-card p-3 sm:grid-cols-[minmax(0,1fr)_14rem]" aria-label={tx("Filtres des établissements", "Facility filters")}>
+              <div className="grid gap-1">
+                <Label htmlFor="map-facility-search">{tx("Rechercher un établissement ou une prestation", "Search facilities or services offered")}</Label>
+                <Input
+                  id="map-facility-search"
+                  type="search"
+                  value={facilitySearch}
+                  onChange={(event) => updateFacilityFilters({ q: event.target.value })}
+                  placeholder={tx("Urgences, chirurgie, pharmacie…", "Emergency care, surgery, pharmacy…")}
+                />
+              </div>
+              <div className="grid gap-1">
+                <Label htmlFor="map-facility-type">{tx("Type d'établissement", "Facility type")}</Label>
+                <Select id="map-facility-type" value={facilityType} onChange={(event) => updateFacilityFilters({ type: event.target.value })}>
+                  <option value="">{tx("Tous les types", "All types")}</option>
+                  {facilityTypes.map((type) => <option key={type} value={type}>{pickLabel(FACILITY_TYPE_LABELS, type, locale)}</option>)}
+                </Select>
+              </div>
+            </section>
+          )}
           <fieldset className="flex flex-wrap gap-x-4 gap-y-2 rounded-xl border bg-card p-3">
             <legend className="sr-only">{tx("Couches de la carte", "Map layers")}</legend>
             {layerLabels.map(([key, label]) => (
@@ -108,7 +151,7 @@ export function MapPage() {
             ))}
           </fieldset>
           <HexMap
-            sectors={sectors.data ?? []} buildings={buildings.data ?? []} transports={transports.data ?? []}
+            sectors={sectors.data ?? []} buildings={visibleBuildings} transports={transports.data ?? []}
             layers={layers} dangerSectorIds={avoidSectorIds} reportMarkers={reportMarkers} observationMarkers={observations.data ?? []}
             selected={selected} onSelect={setSelected} routePoints={routePoints}
           />
@@ -120,7 +163,10 @@ export function MapPage() {
           <section className="rounded-xl border bg-card p-4" aria-labelledby="map-search">
             <h2 id="map-search" className="mb-2 font-semibold">{tx("Rechercher un bâtiment", "Search a building")}</h2>
             <Label htmlFor="b-search" className="sr-only">{tx("Nom du bâtiment", "Building name")}</Label>
-            <Input id="b-search" type="search" value={search} onChange={(e) => setSearch(e.target.value)} placeholder={tx("Hôpital, mairie…", "Hospital, city hall…")} />
+            <Input id="b-search" type="search" value={serviceFilter ? facilitySearch : search} onChange={(event) => {
+              if (serviceFilter) updateFacilityFilters({ q: event.target.value })
+              else setSearch(event.target.value)
+            }} placeholder={tx("Hôpital, mairie…", "Hospital, city hall…")} />
             {matches.length > 0 && (
               <ul className="mt-2 grid gap-1">
                 {matches.map((b) => <li key={b.id}><Button variant="ghost" size="sm" className="w-full justify-start" onClick={() => setSelected({ type: "building", id: b.id })}>{b.name}</Button></li>)}
@@ -133,9 +179,17 @@ export function MapPage() {
               <h2 id="map-detail" className="font-semibold">{selBuilding?.name ?? (selSector ? `${selSector.code} — ${selSector.name}` : selTransport?.code)}</h2>
               {selBuilding && (
                 <div className="mt-2 grid gap-2 text-sm">
-                  <div className="flex flex-wrap items-center gap-2"><Badge variant="secondary">{pickLabel(BUILDING_TYPE_LABELS, selBuilding.type, locale)}</Badge><StatusBadge kind="building" value={selBuilding.status} /></div>
+                  <div className="flex flex-wrap items-center gap-2"><Badge variant="secondary">{selBuilding.facility_type ? pickLabel(FACILITY_TYPE_LABELS, selBuilding.facility_type, locale) : pickLabel(BUILDING_TYPE_LABELS, selBuilding.type, locale)}</Badge><StatusBadge kind="building" value={selBuilding.status} /></div>
                   <p>{sectorName(selBuilding.sector_id)?.name} · {selBuilding.address}</p>
+                  {selBuilding.phone && <a className="underline-offset-4 hover:underline" href={`tel:${selBuilding.phone.replace(/\s/g, "")}`}>{selBuilding.phone}</a>}
+                  {selBuilding.email && <a className="underline-offset-4 hover:underline" href={`mailto:${selBuilding.email}`}>{selBuilding.email}</a>}
                   <p className="text-muted-foreground">{selBuilding.description}</p>
+                  {(selBuilding.offerings ?? []).length > 0 && (
+                    <div>
+                      <p className="font-medium">{tx("Prestations proposées", "Services offered")}</p>
+                      <ul className="flex flex-wrap gap-1">{(selBuilding.offerings ?? []).map((offering) => <li key={offering}><Badge variant="secondary">{offering}</Badge></li>)}</ul>
+                    </div>
+                  )}
                   <ul>{describeOpeningHours(selBuilding.opening_hours, locale).map((h) => <li key={h.days}>{h.days} : {h.hours}</li>)}</ul>
                   <p className="text-xs text-muted-foreground">{tx("Accessibilité :", "Accessibility:")} {Object.entries(selBuilding.accessibility).filter(([, v]) => v).map(([k]) => k).join(", ") || "—"}</p>
                   {buildingServices.length > 0 && (
@@ -190,7 +244,7 @@ export function MapPage() {
       <details className="mt-6 rounded-xl border bg-card p-4">
         <summary className="cursor-pointer font-medium">{tx("Version texte de la carte (liste des bâtiments)", "Text version of the map (list of buildings)")}</summary>
         <ul className="mt-3 grid gap-1 text-sm md:grid-cols-2">
-          {(buildings.data ?? []).map((b) => (
+          {visibleBuildings.map((b) => (
             <li key={b.id}><button type="button" className="underline underline-offset-4" onClick={() => setSelected({ type: "building", id: b.id })}>{b.name}</button> — {sectorName(b.sector_id)?.code} · {b.status}</li>
           ))}
         </ul>

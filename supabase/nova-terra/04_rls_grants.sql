@@ -115,6 +115,10 @@ begin
   end loop;
 end
 $$;
+drop policy if exists "buildings_write_service_manager" on public.buildings;
+create policy "buildings_write_service_manager" on public.buildings for all to authenticated
+  using (service_id is not null and (select public.can_manage_service(service_id)))
+  with check (service_id is not null and (select public.can_manage_service(service_id)));
 
 -- ---------------------------------------------------------------------------
 -- services (D05) : publiés visibles par tous ; admin de service modifie son périmètre

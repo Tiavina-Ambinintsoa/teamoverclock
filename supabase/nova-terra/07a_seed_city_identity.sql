@@ -77,6 +77,134 @@ values
   (pg_temp.nid(4,10), pg_temp.nid(2,4),  pg_temp.nid(3,1),  'Urban Planning',           'urban-planning',    'urbanism',       'Permis de construire et plans d''aménagement (non publié).',              '1 Place du Nexus, S-01', '+999 200 0010', 'urbanism@novaterra.test',  '{"mon-fri":"09:00-15:00"}', array['saturday','sunday'], array['fr'], '[]', array['Plans'], 'Selon dossier', 240, 'hidden', null, false)
 on conflict (id) do nothing;
 
+-- 4b. dix établissements fictifs pour chacun des neuf services hors santé (90 au total)
+-- Retirer les établissements santé générés par les versions précédentes de ce seed.
+delete from public.buildings b
+using public.services s
+where b.service_id = s.id
+  and s.slug = 'emergency-medical'
+  and b.id::text like '00000021-%';
+
+insert into public.buildings (
+  id, name, type, service_id, facility_type, sector_id, x, y, lat, lng, address,
+  phone, email, opening_hours, accessibility, status, description, is_fictional, offerings
+)
+select
+  pg_temp.nid(21, (split_part(s.id::text, '-', 5)::bigint * 10 + f.slot)::int),
+  s.name || ' — ' || f.suffix || ' (' || sector.name || ')',
+  case
+    when ft.facility_type in ('hospital', 'clinic', 'care_center') then 'hospital'::public.building_type
+    when ft.facility_type in ('police_station', 'fire_station') then 'security'::public.building_type
+    when ft.facility_type = 'school' then 'school'::public.building_type
+    when ft.facility_type = 'mobility_hub' then 'transport_hub'::public.building_type
+    when ft.facility_type = 'administrative_office' then 'administrative'::public.building_type
+    when ft.facility_type = 'utility_center' then 'energy'::public.building_type
+    else 'public_place'::public.building_type
+  end,
+  s.id,
+  ft.facility_type,
+  main.sector_id,
+  sector.x + f.dx,
+  sector.y + f.dy,
+  round(-18.9 - (sector.y + f.dy) / 10000.0, 6),
+  round(47.5 + (sector.x + f.dx) / 10000.0, 6),
+  f.suffix || ', ' || sector.name || ' (' || sector.code || ')',
+  '+999 210 ' || lpad((split_part(s.id::text, '-', 5)::int * 10 + f.slot)::text, 4, '0'),
+  'facility-' || split_part(s.id::text, '-', 5) || '-' || f.slot || '@novaterra.test',
+  case
+    when s.category in ('emergency', 'security') then '{"always":"24/7"}'::jsonb
+    when s.category = 'mobility' then '{"mon-sun":"06:00-22:00"}'::jsonb
+    when s.category = 'education' then '{"mon-fri":"07:30-18:00"}'::jsonb
+    when s.category = 'environment' then '{"tue-sat":"08:00-17:00"}'::jsonb
+    else '{"mon-fri":"08:00-17:00","sat":"09:00-12:00"}'::jsonb
+  end,
+  '{"step_free":true,"hearing_loop":true,"braille":true}'::jsonb,
+  'operational'::public.building_status,
+  case
+    when s.category = 'emergency' or (s.category = 'security' and ft.facility_type = 'fire_station') then
+      'Caserne de proximité pour ' || sector.name || ' : les équipes partent d''ici pour les incendies, les accidents et les secours aux personnes. Appelez le 118 en cas de danger immédiat.'
+    when s.category = 'security' then
+      'Commissariat de quartier pour ' || sector.name || ' : dépôt de plainte, aide en cas de problème et objets trouvés. Appelez le 112 en cas de danger immédiat.'
+    when s.category = 'administration' then
+      'Guichet de proximité pour les habitants de ' || sector.name || ' : renseignements, dépôt de dossiers et aide pour les démarches municipales. Pensez à apporter une pièce d''identité.'
+    when s.category = 'urbanism' then
+      'Permanence d''urbanisme de ' || sector.name || ' : vérification des règles locales et accompagnement pour les permis de construire ou les travaux. Les plans du projet sont utiles lors du rendez-vous.'
+    when s.category = 'infrastructure' then
+      'Antenne travaux de ' || sector.name || ' : les équipes organisent les réparations de chaussée, l''éclairage public et l''entretien des équipements. Une adresse précise et une photo aident à traiter un signalement.'
+    when s.category = 'utilities' then
+      'Agence énergie et eau de ' || sector.name || ' : signalement des coupures, demandes de raccordement et questions de facturation. Indiquez votre adresse ou votre numéro de compteur pour accélérer le suivi.'
+    when s.category = 'mobility' then
+      'Point d''accueil voyageurs de ' || sector.name || ' : informations sur les lignes, aide pour les titres de transport et conseils pour préparer un trajet accessible.'
+    when s.category = 'environment' then
+      'Maison de l''environnement de ' || sector.name || ' : conseils sur le tri, les jours de collecte et les espaces verts. Vous pouvez aussi y signaler un dépôt sauvage ou une nuisance locale.'
+    when s.category = 'education' then
+      'Établissement scolaire et accueil des familles de ' || sector.name || ' : renseignements sur les inscriptions, les activités jeunesse et l''accompagnement des élèves. Contactez l''équipe pour connaître les pièces à fournir.'
+    else
+      'Point de service de ' || sector.name || ' pour obtenir des renseignements et un accompagnement en personne auprès du service ' || s.name || '.'
+  end,
+  true,
+  case ft.facility_type
+    when 'hospital' then array['Urgences 24 h/24', 'Chirurgie générale', 'Pédiatrie', 'Imagerie médicale', 'Hospitalisation']
+    when 'clinic' then array['Consultations générales', 'Soins infirmiers', 'Vaccination', 'Dépistage']
+    when 'care_center' then array['Soins infirmiers', 'Suivi des maladies chroniques', 'Rééducation', 'Conseil santé']
+    when 'pharmacy' then array['Délivrance de médicaments', 'Conseil pharmaceutique', 'Vaccination', 'Matériel médical']
+    when 'dentist' then array['Soins dentaires', 'Détartrage', 'Traitement des caries', 'Urgences dentaires']
+    when 'police_station' then array['Accueil des plaintes', 'Assistance d''urgence', 'Prévention', 'Objets trouvés']
+    when 'fire_station' then array['Intervention incendie', 'Secours aux personnes', 'Sauvetage', 'Prévention des risques']
+    when 'administrative_office' then array['Information citoyenne', 'Dépôt de dossier', 'Accompagnement administratif']
+    when 'utility_center' then array['Signalement de panne', 'Raccordement', 'Conseil énergie et eau']
+    when 'mobility_hub' then array['Information voyageurs', 'Billetterie', 'Accessibilité des transports']
+    when 'environment_center' then array['Collecte sélective', 'Conseil environnemental', 'Qualité de l''air']
+    when 'school' then array['Enseignement', 'Inscription scolaire', 'Accompagnement des élèves']
+    else array['Accueil et information', 'Accompagnement des usagers', 'Orientation vers les services']
+  end
+from public.services s
+join public.buildings main on main.id = s.building_id
+join public.sectors sector on sector.id = main.sector_id
+cross join (values
+  (1, -36::numeric, -24::numeric, 'Centre principal'),
+  (2, -18::numeric, -40::numeric, 'Guichet de proximité'),
+  (3,   0::numeric, -46::numeric, 'Antenne Nord'),
+  (4,  20::numeric, -38::numeric, 'Centre spécialisé'),
+  (5,  38::numeric, -20::numeric, 'Antenne Est'),
+  (6,  40::numeric,   4::numeric, 'Maison de quartier'),
+  (7,  24::numeric,  28::numeric, 'Antenne Sud'),
+  (8,   0::numeric,  42::numeric, 'Centre de proximité Sud'),
+  (9, -22::numeric,  34::numeric, 'Antenne Ouest'),
+  (10,-40::numeric,  14::numeric, 'Maison de quartier Ouest')
+) as f(slot, dx, dy, suffix)
+cross join lateral (
+  select case
+    when s.category = 'emergency' then 'fire_station'
+    when s.category = 'security' then case when f.slot <= 5 then 'police_station' else 'fire_station' end
+    when s.category = 'administration' or s.category = 'urbanism' then 'administrative_office'
+    when s.category = 'infrastructure' then 'service_center'
+    when s.category = 'utilities' then 'utility_center'
+    when s.category = 'mobility' then 'mobility_hub'
+    when s.category = 'environment' then 'environment_center'
+    when s.category = 'education' then 'school'
+    else 'service_center'
+  end as facility_type
+) ft
+where s.id::text like '00000004-%'
+  and s.category <> 'health'
+on conflict (id) do update set
+  name = excluded.name,
+  facility_type = excluded.facility_type,
+  sector_id = excluded.sector_id,
+  x = excluded.x,
+  y = excluded.y,
+  lat = excluded.lat,
+  lng = excluded.lng,
+  address = excluded.address,
+  phone = excluded.phone,
+  email = excluded.email,
+  opening_hours = excluded.opening_hours,
+  accessibility = excluded.accessibility,
+  status = excluded.status,
+  description = excluded.description,
+  offerings = excluded.offerings;
+
 -- 5. service_relations
 insert into public.service_relations (id, from_service_id, to_service_id, relation_type, note) values
   (pg_temp.nid(5,1),  pg_temp.nid(4,1),  pg_temp.nid(4,2),  'escalates_to',      'Les urgences de sécurité sont transmises à la police.'),

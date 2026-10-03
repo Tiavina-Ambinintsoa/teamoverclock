@@ -94,6 +94,32 @@ create index if not exists services_search_idx on public.services
   using gin (to_tsvector('simple', coalesce(name, '') || ' ' || coalesce(description, '') || ' ' || coalesce(category, '')));
 comment on table public.services is 'classification: public (si published_at is not null et status <> hidden)';
 
+-- Les installations restent des bâtiments de la carte, rattachés à un service.
+alter table public.buildings
+  add column if not exists service_id uuid references public.services (id) on delete set null,
+  add column if not exists facility_type text,
+  add column if not exists offerings text[] not null default '{}',
+  add column if not exists phone text,
+  add column if not exists email text;
+do $$
+begin
+  if not exists (
+    select 1 from pg_constraint
+    where conrelid = 'public.buildings'::regclass and conname = 'buildings_facility_type_check'
+  ) then
+    alter table public.buildings add constraint buildings_facility_type_check check (
+      service_id is null
+      or (facility_type is not null and facility_type in (
+        'hospital','pharmacy','dentist','clinic','care_center','administrative_office',
+        'police_station','fire_station','service_center','utility_center','mobility_hub',
+        'environment_center','school','other'
+      ))
+    );
+  end if;
+end
+$$;
+create index if not exists buildings_service_idx on public.buildings (service_id) where service_id is not null;
+
 create table if not exists public.service_relations (
   id              uuid primary key default gen_random_uuid(),
   from_service_id uuid not null references public.services (id) on delete cascade,
