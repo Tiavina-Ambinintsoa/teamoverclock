@@ -19,7 +19,7 @@ export function Navbar() {
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
       transition={{ duration: 0.6, ease: "easeOut" }}
-      className="fixed top-0 inset-x-0 z-50 h-16 border-b border-white/10 bg-background/80 backdrop-blur-md supports-[backdrop-filter]:bg-background/60"
+      className="fixed top-0 inset-x-0 z-50 h-16 bg-transparent border-b border-transparent"
     >
       <div className="max-w-7xl mx-auto h-full px-4 sm:px-6 lg:px-8 flex items-center justify-between">
         {/* Logo / Nom du projet */}
