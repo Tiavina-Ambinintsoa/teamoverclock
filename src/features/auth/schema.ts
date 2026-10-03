@@ -51,8 +51,7 @@ export const signupSchema = z
     lastName: z.string().trim().min(1, "Le nom est obligatoire.").max(60),
     email: z.email("Adresse e-mail invalide."),
     birthDate: z.string().refine((value) => ageFromBirthDate(value) !== null, "Date de naissance invalide."),
-    // Facultatif : la décision n° 2 du plan ne rend pas le secteur obligatoire (zone de résidence « si nécessaire »).
-    sectorId: z.string(),
+    sectorId: z.string().min(1, "Choisissez votre secteur de résidence."),
     password: z
       .string()
       .refine((value) => passwordStrength(value).ok, "Mot de passe trop faible : 8 caractères, une minuscule, une majuscule et un chiffre."),

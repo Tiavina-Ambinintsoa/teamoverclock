@@ -1,16 +1,16 @@
 # Graph Report - teamoverclock  (2026-10-03)
 
 ## Corpus Check
-- 274 files · ~150,182 words
+- 289 files · ~750,808 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
-- 1675 nodes · 1820 edges · 237 communities (135 shown, 102 thin omitted)
+- 1730 nodes · 1878 edges · 250 communities (141 shown, 109 thin omitted)
 - Extraction: 97% EXTRACTED · 3% INFERRED · 0% AMBIGUOUS · INFERRED: 62 edges (avg confidence: 0.85)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `31f0998a`
+- Built from commit: `40e2b1f5`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -53,6 +53,7 @@
 - scripts
 - three-viewer.tsx
 - aurora-shader.tsx
+- empty-state.tsx
 - theme-context.ts
 - item-form.tsx
 - lib/http.ts
@@ -88,16 +89,14 @@
 - reveal.tsx
 - storage-uploader.tsx
 - badge.tsx
-- breadcrumb.tsx
+- heat-alert-create-dialog.tsx
 - button.tsx
-- progress.tsx
+- hero.tsx
 - request-workflow.ts
 - switch.tsx
-- notifications-menu.tsx
 - site.ts
 - supabase.ts
 - app/dashboard-page.tsx
-- animations-page.tsx
 - home-variants-page.tsx
 - video-page.tsx
 - vite-env.d.ts
@@ -138,7 +137,7 @@
 - 1. CORE CONSTRAINTS
 - 6. CREATING NEW PAGES
 - Nova Terra — Master Plan
-- 9. DATA FETCHING & MUTATIONS
+- heat-alert-dialog.tsx
 - accessibility-context.ts
 - RootLayout Component
 - 3. Database design
@@ -147,7 +146,7 @@
 - CLAUDE.md
 - Reveal Component
 - report-workflow.ts
-- 3.3 Tables (39) — each gets **10 seed rows**
+- 3.3 Tables (40) — each gets **10 seed rows**
 - package.json
 - vitest.config.ts
 - Home Interactive Background
@@ -201,30 +200,41 @@
 - 5. Architecture (frontend)
 - service-detail-page.tsx
 - 4. Fictional data (10 rows per table)
-- 18. GETTING HELP
+- heatwave-guidance.ts
 - lightbox.tsx
-- @types/three
+- 9. DATA FETCHING & MUTATIONS
+- breadcrumb.tsx
 - request-new-page.tsx
-- @playwright/test
+- citizen-health-form.tsx
+- 18. GETTING HELP
 - tailwindcss
 - @testing-library/jest-dom
 - @testing-library/react
-- @types/node
-- @types/react
-- @vitejs/plugin-react
+- supabase
+- @testing-library/user-event
+- @types/three
 - vitest
+- progress.tsx
+- vite
+- @playwright/test
+- cloud-city.tsx
+- cloud-layer.tsx
+- get-started.tsx
+- page-header.tsx
+- slider.tsx
+- @vitest/ui
 
 ## God Nodes (most connected - your core abstractions)
-1. `react` - 112 edges
+1. `react` - 120 edges
 2. `compilerOptions` - 20 edges
 3. `AI Development Ruleset for Webcup 2026 Starter` - 19 edges
 4. `compilerOptions` - 16 edges
 5. `Vitest Setup Complete ✅` - 15 edges
-6. `Test Templates & Examples` - 14 edges
-7. `Component UI Library` - 14 edges
-8. `scripts` - 13 edges
-9. `Nova Terra — Master Plan` - 13 edges
-10. `9. Implementation roadmap (ordered by REQUESTS "priorité de réalisation")` - 13 edges
+6. `9. Implementation roadmap (ordered by REQUESTS "priorité de réalisation")` - 14 edges
+7. `Test Templates & Examples` - 14 edges
+8. `Component UI Library` - 14 edges
+9. `scripts` - 13 edges
+10. `Nova Terra — Master Plan` - 13 edges
 
 ## Surprising Connections (you probably didn't know these)
 - `Vite Bundler` ----> `react-router`  [INFERRED]
@@ -241,11 +251,11 @@
 ## Import Cycles
 - None detected.
 
-## Communities (237 total, 102 thin omitted)
+## Communities (250 total, 109 thin omitted)
 
 ### Community 0 - "dependencies"
 Cohesion: 0.04
-Nodes (45): class-variance-authority, clsx, @fontsource-variable/bricolage-grotesque, @fontsource-variable/fraunces, @fontsource-variable/instrument-sans, @hookform/resolvers, lucide-react, dependencies (+37 more)
+Nodes (47): class-variance-authority, clsx, @fontsource-variable/bricolage-grotesque, @fontsource-variable/fraunces, @fontsource-variable/instrument-sans, framer-motion, @hookform/resolvers, lucide-react (+39 more)
 
 ### Community 1 - "Component UI Library"
 Cohesion: 0.05
@@ -253,11 +263,11 @@ Nodes (46): Admin Console, Alternate Home Hero Presets, Items API Module, Applic
 
 ### Community 2 - "devDependencies"
 Cohesion: 0.13
-Nodes (15): jsdom, oxlint, devDependencies, jsdom, oxlint, @tailwindcss/vite, @testing-library/user-event, @types/react-dom (+7 more)
+Nodes (15): jsdom, oxlint, devDependencies, jsdom, oxlint, @tailwindcss/vite, @types/node, @types/react (+7 more)
 
 ### Community 3 - "react"
 Cohesion: 0.03
-Nodes (5): react, EmptyStateProps, PageHeaderProps, SliderProps, VerificationRow
+Nodes (4): react, AppNotification, VerificationRow, tags
 
 ### Community 4 - "compilerOptions"
 Cohesion: 0.07
@@ -280,8 +290,8 @@ Cohesion: 0.12
 Nodes (10): dist, files, IMAGES, leftovers, MARKERS, root, sourceFiles, STRICT (+2 more)
 
 ### Community 10 - "_shared/http.ts"
-Cohesion: 0.33
-Nodes (10): allowedOrigins, authenticatedUser(), corsHeaders(), getBearerToken(), htmlEscape(), json(), originAllowed(), preflight() (+2 more)
+Cohesion: 0.30
+Nodes (11): WebhookRecord, allowedOrigins, authenticatedUser(), corsHeaders(), getBearerToken(), htmlEscape(), json(), originAllowed() (+3 more)
 
 ### Community 11 - "Vitest Setup Complete ✅"
 Cohesion: 0.06
@@ -391,6 +401,14 @@ Nodes (48): 3. Cahier des charges par entrée de la Todo List, Administrateur de
 Cohesion: 0.18
 Nodes (17): Actionable, canUseCommand(), CommandMatch, DEFAULT_COMMANDS, dictateIntoField(), findActionable(), isVisible(), labelOf() (+9 more)
 
+### Community 80 - "heat-alert-create-dialog.tsx"
+Cohesion: 0.32
+Nodes (7): DEFAULT_ACTIONS, describeObservation(), HeatAlertCreateDialog(), HeatAlertResult, SatelliteObservation, SourceMode, splitRecommendations()
+
+### Community 82 - "hero.tsx"
+Cohesion: 0.33
+Nodes (4): CAPTIONS, HeroProps, POSITION_CLASSES, PositionKey
+
 ### Community 83 - "request-workflow.ts"
 Cohesion: 0.16
 Nodes (16): allowedTransitions(), ATTACHMENT_MAX_BYTES, ATTACHMENT_MAX_COUNT, ATTACHMENT_MIME_TYPES, dueDateFor(), isTerminal(), needsAction(), PRIORITY_RANK (+8 more)
@@ -400,8 +418,8 @@ Cohesion: 0.22
 Nodes (16): Axial, axialToPixel(), distance(), estimateMinutes(), findRoute(), hexDistance(), hexPoints(), isBuildingOpen() (+8 more)
 
 ### Community 99 - "REQUESTS.md"
-Cohesion: 0.06
-Nodes (32): Authentification, Google/Facebook et courriels, Avant le build HODI, Déploiement HODI et configuration de production, Fonctions serveur et secrets, Première mise en place Supabase, Assistant OpenRouter, Historique facultatif, Prérequis (+24 more)
+Cohesion: 0.05
+Nodes (33): Authentification, Google/Facebook et courriels, Avant le build HODI, Déploiement HODI et configuration de production, Fonctions serveur et secrets, Première mise en place Supabase, Assistant OpenRouter, Historique facultatif, Prérequis (+25 more)
 
 ### Community 104 - "11.1 Unit Tests for New Functionality"
 Cohesion: 0.17
@@ -440,8 +458,8 @@ Cohesion: 0.43
 Nodes (6): can(), homeForRole(), isStaffRole(), MATRIX, PermissionCode, permissionScope
 
 ### Community 121 - "9. Implementation roadmap (ordered by REQUESTS "priorité de réalisation")"
-Cohesion: 0.15
-Nodes (13): 9. Implementation roadmap (ordered by REQUESTS "priorité de réalisation"), Implementation status and known gaps (updated after phases 1–10), Phase 0 — Foundations, Phase 10 — Accessibility, voice & guidance (starts after Phase 1; re-checked in Phase 9), Phase 1 — Identity & access (D01, D03, D08, D09), Phase 2 — Public portal (D05, D06, D07), Phase 3 — Requests (D04, F22), Phase 4 — Agent workspace (D19) (+5 more)
+Cohesion: 0.14
+Nodes (14): 9. Implementation roadmap (ordered by REQUESTS "priorité de réalisation"), Implementation status and known gaps (updated after phases 1–10), Phase 0 — Foundations, Phase 10 — Accessibility, voice & guidance (starts after Phase 1; re-checked in Phase 9), Phase 11 — Heatwave risk alerts and tailored guidance, Phase 1 — Identity & access (D01, D03, D08, D09), Phase 2 — Public portal (D05, D06, D07), Phase 3 — Requests (D04, F22) (+6 more)
 
 ### Community 134 - "Animations et composants à choisir pendant le sprint"
 Cohesion: 0.29
@@ -487,9 +505,9 @@ Nodes (4): 6.1 Page Template, 6.2 Register in Router, 6.3 Styling, 6. CREATING N
 Cohesion: 0.22
 Nodes (9): 10. Requirement traceability, 11. Out of scope (for now), 12. Changelog, 1. Product summary, 2. Decisions taken (defaults — change here if the team disagrees), 6. Security & compliance checklist, 7. Accessibility, performance, UX, 8. Testing (+1 more)
 
-### Community 146 - "9. DATA FETCHING & MUTATIONS"
-Cohesion: 0.50
-Nodes (4): 9.1 Query Data (Read), 9.2 Mutate Data (Create/Update/Delete), 9.3 Existing Hooks for CRUD Items, 9. DATA FETCHING & MUTATIONS
+### Community 146 - "heat-alert-dialog.tsx"
+Cohesion: 0.33
+Nodes (4): AlertNotification, HealthProfile, HeatAlert, NearbyPlace
 
 ### Community 148 - "RootLayout Component"
 Cohesion: 0.67
@@ -503,9 +521,9 @@ Nodes (9): 3.1 Conventions, 3.2 Enums, 3.4 Key relations (ER overview), 3.5 Func
 Cohesion: 0.19
 Nodes (13): canPublish(), canValidateReport(), GroupableReport, groupReports(), PUBLISHABLE, REPORT_CATEGORIES, REPORT_PRIORITY_VALUES, ReportFormValues (+5 more)
 
-### Community 155 - "3.3 Tables (39) — each gets **10 seed rows**"
+### Community 155 - "3.3 Tables (40) — each gets **10 seed rows**"
 Cohesion: 0.22
-Nodes (9): 3.3 Tables (39) — each gets **10 seed rows**, A. Geography & organisation, B. Identity, roles & reputation, C. Requests (D04 / F22), D. Reports (signalements), E. Content & communication, F. Dangers & observation, G. Platform, AI & traceability (+1 more)
+Nodes (9): 3.3 Tables (40) — each gets **10 seed rows**, A. Geography & organisation, B. Identity, roles & reputation, C. Requests (D04 / F22), D. Reports (signalements), E. Content & communication, F. Dangers & observation, G. Platform, AI & traceability (+1 more)
 
 ### Community 156 - "package.json"
 Cohesion: 0.25
@@ -623,28 +641,32 @@ Nodes (6): 5.1 Routes, 5.2 Hex map specifics, 5.3 Chatbot rules (REQUESTS §4.1)
 Cohesion: 0.50
 Nodes (4): 4.1 The city, 4.2 Stable IDs, 4.3 Seed content per table (10 rows each), 4. Fictional data (10 rows per table)
 
-### Community 220 - "18. GETTING HELP"
+### Community 222 - "9. DATA FETCHING & MUTATIONS"
+Cohesion: 0.50
+Nodes (4): 9.1 Query Data (Read), 9.2 Mutate Data (Create/Update/Delete), 9.3 Existing Hooks for CRUD Items, 9. DATA FETCHING & MUTATIONS
+
+### Community 226 - "18. GETTING HELP"
 Cohesion: 0.67
 Nodes (3): 18. GETTING HELP, Check These Files First, Run These Commands
 
 ## Knowledge Gaps
-- **745 isolated node(s):** `supabase`, `$schema`, `typescript`, `jsx-a11y`, `oxc` (+740 more)
+- **768 isolated node(s):** `supabase`, `$schema`, `typescript`, `jsx-a11y`, `oxc` (+763 more)
   These have ≤1 connection - possible missing edges or undocumented components.
-- **102 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **109 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `react` connect `react` to `.oxlintrc.json`, `dialog.tsx`, `table.tsx`, `admin-page.tsx`, `card.tsx`, `auth-provider.tsx`, `map-page.tsx`, `tabs.tsx`, `locale.tsx`, `gallery-page.tsx`, `theme-provider.tsx`, `auth-context.ts`, `auth-form.tsx`, `home-page.tsx`, `site-pages.tsx`, `agenda-page.tsx`, `three-viewer.tsx`, `aurora-shader.tsx`, `application-layout.tsx`, `theme-context.ts`, `accordion.tsx`, `tooltip.tsx`, `kit-page.tsx`, `async-button.tsx`, `avatar.tsx`, `bento-grid.tsx`, `video-player.tsx`, `auth-shell.tsx`, `assistant-page.tsx`, `providers.tsx`, `text-reveal.tsx`, `confirm-dialog.tsx`, `home-interactive-background.tsx`, `image-parallax-background.tsx`, `root-layout.tsx`, `site-header.tsx`, `news-detail-page.tsx`, `reveal.tsx`, `storage-uploader.tsx`, `badge.tsx`, `breadcrumb.tsx`, `button.tsx`, `progress.tsx`, `switch.tsx`, `notifications-menu.tsx`, `animations-page.tsx`, `home-variants-page.tsx`, `video-page.tsx`, `accessibility-context.ts`, `animated-gradient-text.tsx`, `hex-map.tsx`, `admin-extra-pages.tsx`, `users-page.tsx`, `support-pages.tsx`, `news-manager.tsx`, `services-manager.tsx`, `map-editor-page.tsx`, `dangers-manager.tsx`, `guide-provider.tsx`, `chatbot-page.tsx`, `dangers-pages.tsx`, `guide-context.ts`, `report-detail.tsx`, `reports-lists.tsx`, `request-detail.tsx`, `voice-context.ts`, `data-state.tsx`, `agent-team-page.tsx`, `map/map-page.tsx`, `signup-form.tsx`, `report-new-page.tsx`, `use-dictation.ts`, `voice-provider.tsx`, `facilities-manager.tsx`, `service-detail-page.tsx`, `lightbox.tsx`, `transition-link.tsx`, `request-new-page.tsx`, `input.tsx`, `accessibility-provider.tsx`, `item-detail-page.tsx`, `items-page.tsx`?**
-  _High betweenness centrality (0.077) - this node is a cross-community bridge._
-- **Why does `3. Cahier des charges par entrée de la Todo List` connect `3. Cahier des charges par entrée de la Todo List` to `REQUESTS.md`?**
+- **Why does `react` connect `react` to `.oxlintrc.json`, `dialog.tsx`, `table.tsx`, `admin-page.tsx`, `card.tsx`, `auth-provider.tsx`, `map-page.tsx`, `tabs.tsx`, `locale.tsx`, `gallery-page.tsx`, `theme-provider.tsx`, `auth-context.ts`, `auth-form.tsx`, `home-page.tsx`, `site-pages.tsx`, `agenda-page.tsx`, `three-viewer.tsx`, `aurora-shader.tsx`, `empty-state.tsx`, `theme-context.ts`, `accordion.tsx`, `tooltip.tsx`, `kit-page.tsx`, `async-button.tsx`, `avatar.tsx`, `bento-grid.tsx`, `video-player.tsx`, `auth-shell.tsx`, `assistant-page.tsx`, `providers.tsx`, `text-reveal.tsx`, `confirm-dialog.tsx`, `home-interactive-background.tsx`, `image-parallax-background.tsx`, `root-layout.tsx`, `site-header.tsx`, `news-detail-page.tsx`, `reveal.tsx`, `storage-uploader.tsx`, `badge.tsx`, `heat-alert-create-dialog.tsx`, `button.tsx`, `hero.tsx`, `switch.tsx`, `application-layout.tsx`, `citizen-residence-form.tsx`, `home-variants-page.tsx`, `video-page.tsx`, `heat-alert-dialog.tsx`, `accessibility-context.ts`, `animated-gradient-text.tsx`, `hex-map.tsx`, `admin-extra-pages.tsx`, `users-page.tsx`, `support-pages.tsx`, `news-manager.tsx`, `services-manager.tsx`, `map-editor-page.tsx`, `dangers-manager.tsx`, `guide-provider.tsx`, `chatbot-page.tsx`, `dangers-pages.tsx`, `guide-context.ts`, `report-detail.tsx`, `reports-lists.tsx`, `request-detail.tsx`, `voice-context.ts`, `data-state.tsx`, `agent-team-page.tsx`, `map/map-page.tsx`, `signup-form.tsx`, `report-new-page.tsx`, `use-dictation.ts`, `voice-provider.tsx`, `facilities-manager.tsx`, `service-detail-page.tsx`, `lightbox.tsx`, `breadcrumb.tsx`, `request-new-page.tsx`, `citizen-health-form.tsx`, `progress.tsx`, `items-page.tsx`, `cloud-city.tsx`, `get-started.tsx`, `page-header.tsx`, `slider.tsx`, `label.tsx`, `use-reduced-motion.ts`, `textarea.tsx`, `custom-home-page.tsx`?**
+  _High betweenness centrality (0.097) - this node is a cross-community bridge._
+- **Why does `plugins` connect `.oxlintrc.json` to `react`?**
   _High betweenness centrality (0.007) - this node is a cross-community bridge._
 - **Why does `Nova Terra — Master Plan` connect `Nova Terra — Master Plan` to `REQUESTS.md`, `5. Architecture (frontend)`, `3. Database design`, `9. Implementation roadmap (ordered by REQUESTS "priorité de réalisation")`, `4. Fictional data (10 rows per table)`?**
   _High betweenness centrality (0.006) - this node is a cross-community bridge._
 - **What connects `supabase`, `$schema`, `typescript` to the rest of the system?**
-  _745 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _768 weakly-connected nodes found - possible documentation gaps or missing edges._
 - **Should `dependencies` be split into smaller, more focused modules?**
-  _Cohesion score 0.044444444444444446 - nodes in this community are weakly interconnected._
+  _Cohesion score 0.0425531914893617 - nodes in this community are weakly interconnected._
 - **Should `Component UI Library` be split into smaller, more focused modules?**
   _Cohesion score 0.04927536231884058 - nodes in this community are weakly interconnected._
 - **Should `devDependencies` be split into smaller, more focused modules?**

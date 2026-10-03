@@ -71,8 +71,8 @@ describe("signupSchema", () => {
   it("rejects a weak password", () => {
     expect(signupSchema.safeParse({ ...valid, password: "abc", confirmPassword: "abc" }).success).toBe(false)
   })
-  it("does not require a home sector (plan decision 2)", () => {
-    expect(signupSchema.safeParse({ ...valid, sectorId: "" }).success).toBe(true)
+  it("requires a home sector for local alert delivery", () => {
+    expect(signupSchema.safeParse({ ...valid, sectorId: "" }).success).toBe(false)
   })
 })
 
