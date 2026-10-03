@@ -1260,9 +1260,9 @@
     "semantic_hash": ""
   },
   "src/features/map/hex-map.tsx": {
-    "mtime": 1791033275.1739564,
-    "seen": 1791034045.4448354,
-    "ast_hash": "bf10e7589ba2477a8cf1a4e33544064c",
+    "mtime": 1791051221.9305415,
+    "seen": 1791051332.39054,
+    "ast_hash": "13633003a7d64237f2950f3cec2d1ace",
     "semantic_hash": ""
   },
   "src/features/map/hex.test.ts": {
@@ -1284,9 +1284,9 @@
     "semantic_hash": ""
   },
   "src/features/map/map-page.tsx": {
-    "mtime": 1791048689.8037243,
-    "seen": 1791049013.4523244,
-    "ast_hash": "9b1b8cf94971261751f098c10127da1a",
+    "mtime": 1791051462.8832335,
+    "seen": 1791051530.3825624,
+    "ast_hash": "4c41eb0671d4c5b740659ef026f7ab1c",
     "semantic_hash": ""
   },
   "src/features/news/news-detail-page.tsx": {
@@ -1770,21 +1770,21 @@
     "semantic_hash": ""
   },
   "src/features/map/engine.ts": {
-    "mtime": 1791048617.0281594,
-    "seen": 1791049013.449671,
-    "ast_hash": "cae5f58455f29eef2fe77de942ef58e4",
+    "mtime": 1791049699.6801322,
+    "seen": 1791049790.4055607,
+    "ast_hash": "15b46d47e34b1057002c3d291df4fc02",
     "semantic_hash": ""
   },
   "src/features/map/hologram-map.tsx": {
-    "mtime": 1791048755.934567,
-    "seen": 1791049013.4511216,
-    "ast_hash": "8df142296859a28eefadfbb3213204d3",
+    "mtime": 1791049600.110051,
+    "seen": 1791049686.9838753,
+    "ast_hash": "efdba163d54899d5a4df256eea5106c6",
     "semantic_hash": ""
   },
   "src/features/map/map-detail-panel.tsx": {
-    "mtime": 1791048716.8520598,
-    "seen": 1791049013.4511216,
-    "ast_hash": "ba5fdc8b0ee0f26c3bf03ed1e4b38cf0",
+    "mtime": 1791051453.2600765,
+    "seen": 1791051530.3791986,
+    "ast_hash": "cbdc855f73f69cdbf4b1ff37ae21d715",
     "semantic_hash": ""
   },
   "src/features/map/map-filters.test.ts": {

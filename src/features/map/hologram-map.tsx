@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState, type ReactNode } from "react"
+import { Maximize2, Minimize2 } from "lucide-react"
 
 import { useReducedMotion } from "@/hooks/use-reduced-motion"
 import { NovaTerraEngine, type Anchor, type Layers, type MapData, type Pick } from "@/features/map/engine"
+import { Button } from "@/components/ui/button"
 import { useLocale } from "@/lib/locale"
 import { cn } from "@/lib/utils"
 
@@ -40,6 +42,8 @@ export function HologramMap({ data, layers, selected, onSelect, routeSectorIds, 
   const dataRef = useRef(data)
   const [docked, setDocked] = useState(false)
   const [hover, setHover] = useState("")
+  const [fullscreen, setFullscreen] = useState(false)
+  const [fullscreenError, setFullscreenError] = useState<string | null>(null)
 
   useEffect(() => {
     onSelectRef.current = onSelect
@@ -65,8 +69,8 @@ export function HologramMap({ data, layers, selected, onSelect, routeSectorIds, 
       const W = box.clientWidth
       const H = box.clientHeight
       const { w, h } = panelSize.current
-      const toRight = anchor.x + 40 + w <= W - 8
-      const x = clamp(toRight ? anchor.x + 40 : anchor.x - 40 - w, 8, Math.max(8, W - w - 8))
+      const toRight = anchor.x < W / 2
+      const x = clamp(toRight ? anchor.x + 72 : anchor.x - 72 - w, 8, Math.max(8, W - w - 8))
       const y = clamp(anchor.y - h / 2, 8, Math.max(8, H - h - 8))
       wrap.style.transform = `translate(${x.toFixed(1)}px, ${y.toFixed(1)}px)`
       const opacity = anchor.visible ? "1" : "0"
@@ -111,6 +115,24 @@ export function HologramMap({ data, layers, selected, onSelect, routeSectorIds, 
     return () => observer.disconnect()
   }, [])
 
+  useEffect(() => {
+    const syncFullscreen = () => setFullscreen(document.fullscreenElement === boxRef.current)
+    document.addEventListener("fullscreenchange", syncFullscreen)
+    return () => document.removeEventListener("fullscreenchange", syncFullscreen)
+  }, [])
+
+  const toggleFullscreen = async () => {
+    const box = boxRef.current
+    if (!box) return
+    setFullscreenError(null)
+    try {
+      if (document.fullscreenElement === box) await document.exitFullscreen()
+      else await box.requestFullscreen()
+    } catch {
+      setFullscreenError(tx("Le mode plein écran n’est pas disponible.", "Fullscreen mode is unavailable."))
+    }
+  }
+
   const showPanel = selected !== null && panel !== undefined
 
   useEffect(() => {
@@ -135,7 +157,7 @@ export function HologramMap({ data, layers, selected, onSelect, routeSectorIds, 
   return (
     <section
       ref={boxRef}
-      className={cn("relative isolate min-h-[28rem] overflow-hidden rounded-2xl border border-primary/30 bg-[oklch(0.08_0.03_272)] shadow-[0_0_60px_-20px_var(--primary)]", className)}
+      className={cn("holo-map relative isolate min-h-[28rem] overflow-hidden rounded-2xl border border-primary/30 bg-[oklch(0.08_0.03_272)] shadow-[0_0_40px_-24px_var(--primary)]", className)}
       aria-label={tx("Carte holographique 3D de Nova Terra. Une version texte et des filtres sont disponibles autour de la carte.", "3D holographic map of Nova Terra. A text version and filters are available around the map.")}
     >
       <div ref={hostRef} className="absolute inset-0 [&>canvas]:size-full" />
@@ -146,6 +168,22 @@ export function HologramMap({ data, layers, selected, onSelect, routeSectorIds, 
       </svg>
 
       <div className="holo-hud pointer-events-none absolute top-3 left-4 z-10" aria-hidden="true">Nova Terra // Holo survey</div>
+      <Button
+        type="button"
+        size="icon"
+        variant="outline"
+        className="absolute top-2 right-2 z-30"
+        aria-label={fullscreen ? tx("Quitter le plein écran", "Exit fullscreen") : tx("Plein écran", "Enter fullscreen")}
+        title={fullscreen ? tx("Quitter le plein écran", "Exit fullscreen") : tx("Plein écran", "Fullscreen")}
+        onClick={() => void toggleFullscreen()}
+      >
+        {fullscreen ? <Minimize2 aria-hidden="true" /> : <Maximize2 aria-hidden="true" />}
+      </Button>
+      {fullscreenError && (
+        <p className="absolute right-3 bottom-3 z-30 rounded-md bg-background/90 px-3 py-2 text-sm text-destructive" role="alert">
+          {fullscreenError}
+        </p>
+      )}
       {(!showPanel || hover) && (
         <div className="holo-hud pointer-events-none absolute bottom-3 left-4 z-10 hidden sm:block" aria-hidden="true">
           {hover || tx("Glisser : pivoter · Molette : zoom · Clic : détails", "Drag: rotate · Wheel: zoom · Click: details")}

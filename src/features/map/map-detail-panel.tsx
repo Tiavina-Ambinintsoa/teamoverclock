@@ -6,7 +6,6 @@ import { StatusBadge } from "@/components/status-badge"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import type { Pick } from "@/features/map/engine"
-import { isBuildingOpen } from "@/features/map/hex"
 import type { PublicReport } from "@/features/reports/report-queries"
 import { describeOpeningHours } from "@/features/services/hours"
 import type { Building, DangerRow, Sector, Service, Transport } from "@/lib/db-types"
@@ -23,7 +22,8 @@ interface MapDetailPanelProps {
   services: Service[]
   reportHref: (id: string) => string
   onSelect: (pick: Pick | null) => void
-  onRouteTo: (buildingId: string) => void
+  showReportLink?: boolean
+  presentation?: "hologram" | "dialog"
 }
 
 function Row({ label, children }: { label: string; children: React.ReactNode }) {
@@ -36,7 +36,7 @@ function Row({ label, children }: { label: string; children: React.ReactNode }) 
 }
 
 /** Fiche holographique de l'élément sélectionné : bâtiment, secteur, signalement ou transport. */
-export function MapDetailPanel({ selected, sectors, buildings, transports, reports, dangers, services, reportHref, onSelect, onRouteTo }: MapDetailPanelProps) {
+export function MapDetailPanel({ selected, sectors, buildings, transports, reports, dangers, services, reportHref, onSelect, showReportLink = true, presentation = "hologram" }: MapDetailPanelProps) {
   const { tx, locale } = useLocale()
   const sectorOf = (id: string) => sectors.find((s) => s.id === id)
   const sectorLabel = (id: string) => {
@@ -58,8 +58,8 @@ export function MapDetailPanel({ selected, sectors, buildings, transports, repor
   const buildingServices = building ? services.filter((s) => s.building_id === building.id) : []
 
   return (
-    <section className="holo-panel" aria-labelledby="map-detail-title" aria-live="polite">
-      <div className="holo-panel__body grid gap-3 text-sm">
+    <section className={presentation === "dialog" ? "map-detail-dialog" : "holo-panel"} aria-labelledby="map-detail-title" aria-live="polite">
+      <div className={presentation === "dialog" ? "grid gap-4 text-sm" : "holo-panel__body grid gap-3 text-sm"}>
         <div className="flex items-start justify-between gap-2">
           <div className="min-w-0">
             <p className="holo-eyebrow">{eyebrow}</p>
@@ -67,9 +67,11 @@ export function MapDetailPanel({ selected, sectors, buildings, transports, repor
               <AuroraTitle>{title}</AuroraTitle>
             </h2>
           </div>
-          <Button type="button" size="icon" variant="ghost" className="-mt-1 -mr-2 shrink-0" aria-label={tx("Fermer la fiche", "Close details")} onClick={() => onSelect(null)}>
-            <X className="size-4" aria-hidden />
-          </Button>
+          {presentation === "hologram" && (
+            <Button type="button" size="icon" variant="ghost" className="-mt-1 -mr-2 shrink-0" aria-label={tx("Fermer la fiche", "Close details")} onClick={() => onSelect(null)}>
+              <X className="size-4" aria-hidden />
+            </Button>
+          )}
         </div>
 
         {building && (
@@ -102,7 +104,6 @@ export function MapDetailPanel({ selected, sectors, buildings, transports, repor
               </div>
             )}
             <div className="flex flex-wrap gap-2">
-              <Button size="sm" variant="outline" disabled={!isBuildingOpen(building)} onClick={() => onRouteTo(building.id)}>{tx("Itinéraire vers ici", "Route here")}</Button>
               <Button asChild size="sm" variant="outline"><Link to={`/app/reports/new?sector=${building.sector_id}&building=${building.id}`}>{tx("Signaler ici", "Report here")}</Link></Button>
             </div>
           </>
@@ -152,12 +153,14 @@ export function MapDetailPanel({ selected, sectors, buildings, transports, repor
               <Row label={tx("Priorité", "Priority")}>{report.priority}</Row>
             </dl>
             <p className="line-clamp-5 text-muted-foreground">{report.description}</p>
-            <Button asChild size="sm">
-              <Link to={reportHref(report.id)}>
-                {tx("Voir le signalement", "View full report")}
-                <ArrowUpRight className="size-4" aria-hidden />
-              </Link>
-            </Button>
+            {showReportLink && (
+              <Button asChild size="sm">
+                <Link to={reportHref(report.id)}>
+                  {tx("Voir le signalement", "View full report")}
+                  <ArrowUpRight className="size-4" aria-hidden />
+                </Link>
+              </Button>
+            )}
           </>
         )}
 

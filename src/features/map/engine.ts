@@ -40,7 +40,7 @@ const LINES: { code: string; c: number; y: number; s?: string[]; ring?: number; 
   { code: 'D1', c: 0xb6ff4d, y: 4.3, s: ['S-01', 'S-03', 'S-08', 'S-10', 'S-06'], cl: true, r: .02, k: 2, v: .04 },
   { code: 'F1', c: 0x3a8dff, y: .35, ring: 13.4, cl: true, r: .04, k: 2, v: .02 },
 ]
-const neon = (c: number, k = 2.2) => new THREE.MeshBasicMaterial({ color: new THREE.Color(c).multiplyScalar(k), toneMapped: false })
+const neon = (c: number, k = 1.25) => new THREE.MeshBasicMaterial({ color: new THREE.Color(c).multiplyScalar(k), toneMapped: false })
 const clear = (g: THREE.Object3D) => { g.traverse((o: any) => { o.geometry?.dispose?.(); for (const m of [].concat(o.material ?? [])) { const x = m as any; if (x.map && !x.map.userData.keep) x.map.dispose(); x.dispose?.() } }); g.clear() }
 const keep = <T extends THREE.Texture>(t: T) => { t.userData.keep = true; return t }
 
@@ -61,7 +61,7 @@ export class NovaTerraEngine {
     const w = el.clientWidth || 800, h = el.clientHeight || 600
     this.ren = new THREE.WebGLRenderer({ antialias: false, powerPreference: 'high-performance' })
     this.ren.setPixelRatio(Math.min(devicePixelRatio, 2)); this.ren.setSize(w, h)
-    this.ren.toneMapping = THREE.ACESFilmicToneMapping; this.ren.toneMappingExposure = 1.1
+    this.ren.toneMapping = THREE.ACESFilmicToneMapping; this.ren.toneMappingExposure = .85
     this.ren.shadowMap.enabled = true; this.ren.shadowMap.type = THREE.PCFSoftShadowMap
     el.appendChild(this.ren.domElement); this.ren.domElement.style.touchAction = 'none'
     this.sc.background = new THREE.Color(0x050816); this.sc.fog = new THREE.FogExp2(0x050816, 0.011)
@@ -71,7 +71,7 @@ export class NovaTerraEngine {
     const pm = new THREE.PMREMGenerator(this.ren); this.sc.environment = pm.fromScene(new RoomEnvironment(), .04).texture; (this.sc as any).environmentIntensity = .35
     const rt = new THREE.WebGLRenderTarget(w, h, { type: THREE.HalfFloatType, samples: 4 })
     this.comp = new EffectComposer(this.ren, rt); this.comp.setPixelRatio(Math.min(devicePixelRatio, 2)); this.comp.setSize(w, h)
-    this.bloom = new UnrealBloomPass(new THREE.Vector2(w, h), .4, .5, .85)
+    this.bloom = new UnrealBloomPass(new THREE.Vector2(w, h), .18, .5, .92)
     this.comp.addPass(new RenderPass(this.sc, this.cam)); this.comp.addPass(this.bloom); this.comp.addPass(new OutputPass())
     // textures
     const mk = (n: number, f: (g: CanvasRenderingContext2D) => void, h2 = n) => { const c = document.createElement('canvas'); c.width = n; c.height = h2; f(c.getContext('2d')!); return keep(new THREE.CanvasTexture(c)) }
@@ -79,11 +79,11 @@ export class NovaTerraEngine {
     this.hatch = mk(64, g => { g.fillStyle = '#fff'; for (let i = -64; i < 128; i += 16) { g.beginPath(); g.moveTo(i, 0); g.lineTo(i + 8, 0); g.lineTo(i + 72, 64); g.lineTo(i + 64, 64); g.fill() } }); this.hatch.wrapS = this.hatch.wrapT = THREE.RepeatWrapping; this.hatch.repeat.set(3, 3)
     this.win = mk(32, g => { g.fillStyle = '#000'; g.fillRect(0, 0, 32, 64); for (let y = 2; y < 64; y += 4) for (let x = 2; x < 32; x += 4) if (rnd() < .45) { g.fillStyle = rnd() < .7 ? '#9fe9ff' : '#ffd89a'; g.fillRect(x, y, 2, 2) } }, 64); this.win.colorSpace = THREE.SRGBColorSpace; this.win.magFilter = THREE.NearestFilter; this.win.wrapS = this.win.wrapT = THREE.RepeatWrapping
     // lights (moon key with soft shadows + cyan under-glow + magenta core accent)
-    this.sc.add(new THREE.HemisphereLight(0x8fa4ff, 0x0a1020, .7))
-    const key = new THREE.DirectionalLight(0xbcd0ff, 2.2); key.position.set(-14, 26, 12); key.castShadow = true; key.shadow.mapSize.set(2048, 2048)
+    this.sc.add(new THREE.HemisphereLight(0x8fa4ff, 0x0a1020, .55))
+    const key = new THREE.DirectionalLight(0xbcd0ff, 1.7); key.position.set(-14, 26, 12); key.castShadow = true; key.shadow.mapSize.set(2048, 2048)
     Object.assign(key.shadow.camera, { left: -18, right: 18, top: 18, bottom: -18, near: 1, far: 70 }); key.shadow.bias = -.0005; this.sc.add(key)
-    const un = new THREE.PointLight(0x4de1ff, 260, 40); un.position.set(0, -3, 0); this.sc.add(un)
-    const mg = new THREE.PointLight(0xff4fd8, 60, 24); mg.position.set(0, 5, 0); this.sc.add(mg)
+    const un = new THREE.PointLight(0x4de1ff, 130, 40); un.position.set(0, -3, 0); this.sc.add(un)
+    const mg = new THREE.PointLight(0xff4fd8, 32, 24); mg.position.set(0, 5, 0); this.sc.add(mg)
     this.selRing = new THREE.Mesh(new THREE.TorusGeometry(1, .035, 6, 6), neon(0xffffff, 2.4)); this.selRing.rotation.x = Math.PI / 2; this.selRing.visible = false; this.sc.add(this.selRing)
     this.buildStatic(mk); this.sc.add(this.city, this.rep, this.dz, this.rt)
     const cv = this.ren.domElement
@@ -118,14 +118,21 @@ export class NovaTerraEngine {
     m.onBeforeCompile = sh => {
       sh.uniforms.uT = U
       sh.vertexShader = sh.vertexShader.replace('#include <common>', '#include <common>\nvarying float vWy;').replace('#include <begin_vertex>', '#include <begin_vertex>\nvec4 hp_=vec4(transformed,1.0);\n#ifdef USE_INSTANCING\nhp_=instanceMatrix*hp_;\n#endif\nvWy=(modelMatrix*hp_).y;')
-      sh.fragmentShader = sh.fragmentShader.replace('#include <common>', '#include <common>\nvarying float vWy;\nuniform float uT;').replace('#include <emissivemap_fragment>', '#include <emissivemap_fragment>\nfloat fr_=pow(1.0-abs(dot(normalize(normal),normalize(vViewPosition))),2.2);float sl_=.5+.5*sin(gl_FragCoord.y*1.5+uT*5.0);float bd_=pow(max(0.0,sin(vWy*2.0-uT*2.5)),30.0);float gt_=step(.975,fract(sin(floor(uT*5.0)*91.7)*437.5));totalEmissiveRadiance+=diffuseColor.rgb*(fr_*2.2+.18*sl_+bd_*1.4+gt_*.5)+vec3(.0,.03,.06);')
+      sh.fragmentShader = sh.fragmentShader.replace('#include <common>', '#include <common>\nvarying float vWy;\nuniform float uT;').replace('#include <emissivemap_fragment>', '#include <emissivemap_fragment>\nfloat fr_=pow(1.0-abs(dot(normalize(normal),normalize(vViewPosition))),2.2);float sl_=.5+.5*sin(gl_FragCoord.y*1.5+uT*5.0);float bd_=pow(max(0.0,sin(vWy*2.0-uT*2.5)),30.0);float gt_=step(.975,fract(sin(floor(uT*5.0)*91.7)*437.5));totalEmissiveRadiance+=diffuseColor.rgb*(fr_*1.2+.1*sl_+bd_*.7+gt_*.2)+vec3(.0,.015,.03);')
     }
     return m
   }
   private label(t: string, t2: string, p: THREE.Vector3, col: string) {
+    const direction = p.lengthSq() > .01 ? new THREE.Vector3(p.x, 0, p.z).normalize() : new THREE.Vector3(1, 0, 0)
+    const labelPosition = p.clone().addScaledVector(direction, 3.2)
+    const leader = new THREE.BufferGeometry().setFromPoints([
+      new THREE.Vector3(p.x, 1.8, p.z),
+      new THREE.Vector3(labelPosition.x, 3.5, labelPosition.z),
+    ])
+    this.gL.add(new THREE.Line(leader, new THREE.LineBasicMaterial({ color: col, transparent: true, opacity: .55, depthTest: false })))
     const c = document.createElement('canvas'); c.width = 640; c.height = 160; const g = c.getContext('2d')!; g.textAlign = 'center'; g.shadowColor = '#000'; g.shadowBlur = 8
     g.fillStyle = col; g.font = 'bold 52px system-ui'; g.fillText(t, 320, 64); g.font = '40px system-ui'; g.fillStyle = '#cfe8ff'; g.fillText(t2, 320, 122)
-    const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(c), transparent: true, depthTest: false })); s.position.set(p.x, 3.9, p.z); s.scale.set(4.4, 1.1, 1); this.gL.add(s)
+    const s = new THREE.Sprite(new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(c), transparent: true, depthTest: false })); s.position.set(labelPosition.x, 4.3, labelPosition.z); s.scale.set(4.4, 1.1, 1); this.gL.add(s)
   }
   private visibleChain(o: THREE.Object3D | null) { for (let n = o; n; n = n.parent) if (!n.visible) return false; return true }
   private hit(e: PointerEvent, platesOnly = false) {
@@ -193,7 +200,7 @@ export class NovaTerraEngine {
   }
   // ---------- city (rebuilt when data changes) ----------
   private building(t: string, col: number) {
-    const g = new THREE.Group(), m = this.holo({ color: col, emissive: col, emissiveIntensity: .45, metalness: .5, roughness: .25 }), w = this.holo({ color: 0xdff3ff, emissive: 0xffffff, emissiveMap: this.win, emissiveIntensity: 1.1, metalness: .3, roughness: .2 }), rd = new THREE.MeshBasicMaterial({ color: 0xff4d6d })
+    const g = new THREE.Group(), m = this.holo({ color: col, emissive: col, emissiveIntensity: .45, metalness: .5, roughness: .25 }), w = this.holo({ color: 0xdff3ff, emissive: 0xffffff, emissiveMap: this.win, emissiveIntensity: .7, metalness: .3, roughness: .2 }), rd = new THREE.MeshBasicMaterial({ color: 0xff4d6d })
     const cy = new THREE.CylinderGeometry(.5, .5, 1, 6), cn = new THREE.ConeGeometry(.5, 1, 6), bx = new THREE.BoxGeometry(1, 1, 1), sg = new THREE.SphereGeometry(.5, 16, 12)
     const a = (geo: THREE.BufferGeometry, mt: THREE.Material, x: number, y: number, z: number, sx: number, sy: number, sz: number) => { const o = new THREE.Mesh(geo, mt); o.scale.set(sx, sy, sz); o.position.set(x, y + sy / 2, z); o.castShadow = o.receiveShadow = true; g.add(o) }
     if (t === 'administrative') { a(cy, w, 0, 0, 0, 1, 2.3, 1); a(cy, m, 0, 2.3, 0, .6, .5, .6); a(cn, m, 0, 2.8, 0, .3, .9, .3) }
@@ -227,7 +234,7 @@ export class NovaTerraEngine {
     L.forEach((l, i) => { M.makeScale(1, l.h, 1).setPosition(l.x, 0, l.z); im.setMatrixAt(i, M); C.setHex(l.c).multiplyScalar(.3 + rnd() * .5); im.setColorAt(i, C); C.setHex(l.c)
       for (let q = 0; q < 6; q++) { const a = q * Math.PI / 3, b = (q + 1) * Math.PI / 3; ep.push(l.x + .3 * Math.sin(a), l.h + .01, l.z + .3 * Math.cos(a), l.x + .3 * Math.sin(b), l.h + .01, l.z + .3 * Math.cos(b)); ec.push(C.r, C.g, C.b, C.r, C.g, C.b) } })
     const eg = new THREE.BufferGeometry(); eg.setAttribute('position', new THREE.Float32BufferAttribute(ep, 3)); eg.setAttribute('color', new THREE.Float32BufferAttribute(ec, 3))
-    const tm = new THREE.InstancedMesh(new THREE.BoxGeometry(1, 1, 1), this.holo({ color: 0xffffff, emissive: 0xffffff, emissiveMap: this.win, emissiveIntensity: 1.2, metalness: .6, roughness: .2 }), TW.length); tm.castShadow = tm.receiveShadow = true
+    const tm = new THREE.InstancedMesh(new THREE.BoxGeometry(1, 1, 1), this.holo({ color: 0xffffff, emissive: 0xffffff, emissiveMap: this.win, emissiveIntensity: .75, metalness: .6, roughness: .2 }), TW.length); tm.castShadow = tm.receiveShadow = true
     TW.forEach((w, i) => { const wd = .1 + rnd() * .1; M.makeScale(wd, w.h, wd).setPosition(w.x, w.y + w.h / 2, w.z); tm.setMatrixAt(i, M); C.setHex(w.c).multiplyScalar(.7 + rnd() * .5); tm.setColorAt(i, C) })
     this.city.add(im, tm, new THREE.LineSegments(eg, new THREE.LineBasicMaterial({ vertexColors: true, toneMapped: false })))
     // buildings (first at sector centre, extras on a ring), status rings, labels, light shafts

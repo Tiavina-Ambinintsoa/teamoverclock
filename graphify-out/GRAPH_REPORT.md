@@ -1,7 +1,7 @@
 # Graph Report - teamoverclock  (2026-10-03)
 
 ## Corpus Check
-- 308 files · ~355,736 words
+- 308 files · ~356,208 words
 - Verdict: corpus is large enough that graph structure adds value.
 
 ## Summary
@@ -10,7 +10,7 @@
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `bd0032c7`
+- Built from commit: `924bf3b3`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
@@ -220,12 +220,12 @@
 - service-detail-page.tsx
 - animations-page.tsx
 - cloud-layer.tsx
-- @playwright/test
+- 18. GETTING HELP
 - map-detail-panel.tsx
 - lightbox.tsx
 - @vitest/ui
-- 18. GETTING HELP
 - supabase
+- @playwright/test
 - custom-home-page.tsx
 - slider.tsx
 - agent-team-page.tsx
@@ -683,9 +683,9 @@ Nodes (3): clamp(), HologramMap(), HologramMapProps
 
 ### Community 234 - "map/map-page.tsx"
 Cohesion: 0.50
-Nodes (4): DANGEROUS, MapPage(), ObservationItem, toMapReport()
+Nodes (4): MapListItem, MapPage(), ObservationItem, toMapReport()
 
-### Community 244 - "18. GETTING HELP"
+### Community 240 - "18. GETTING HELP"
 Cohesion: 0.67
 Nodes (3): 18. GETTING HELP, Check These Files First, Run These Commands
 
