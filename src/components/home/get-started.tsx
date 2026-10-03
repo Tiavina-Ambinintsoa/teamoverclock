@@ -1,6 +1,7 @@
 import { useRef } from "react"
 import { motion, useScroll, useTransform } from "framer-motion"
-
+import { ShootingStars } from "@/components/home/shooting-stars"
+import { SpaceCraftViewer } from "@/components/home/space-craft-viewer"
 import { Container } from "@/components/layout/container"
 
 interface GetStartedProps {
@@ -51,6 +52,9 @@ export function GetStarted({
       {/* 2. Léger overlay (≈15 % d'opacité) */}
       <div className="absolute inset-0 bg-black/15 pointer-events-none" />
 
+      {/* Étoiles filantes dans le ciel supérieur */}
+      <ShootingStars />
+
       {/* 3. Nappe de nuages et brume au bas de GetStarted (transition 100% invisible vers CloudCity) */}
       <div className="absolute inset-x-0 -bottom-1 h-[48vh] pointer-events-none z-10 overflow-hidden">
         {/* Dégradé de brume lumineuse fondue vers le blanc pur au bord inférieur */}
@@ -100,35 +104,45 @@ export function GetStarted({
 
 
 
+
+
       {/* ──────────────────────────────────────────────────────────────
-          4. Contenu textuel centré (avec fondu de sortie au scroll)
+          4. Vaisseau spatial 3D à gauche + Contenu textuel à droite
       ────────────────────────────────────────────────────────────── */}
-      <Container className="relative z-30 max-w-4xl mx-auto text-center px-6">
+      <Container className="relative z-30 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           style={{
             opacity: contentOpacity,
             y: contentY,
             scale: contentScale,
           }}
-          className="flex flex-col items-center justify-center"
+          className="grid grid-cols-1 sm:grid-cols-12 items-center gap-6 md:gap-8 lg:gap-12 w-full"
         >
-          <motion.h1
-            initial={{ opacity: 0, y: 25 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.15 }}
-            className="font-display text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight text-white drop-shadow-[0_4px_20px_rgba(0,0,0,0.9)] leading-tight"
-          >
-            Bienvenue à <span className="text-primary">Terra Nova</span>
-          </motion.h1>
+          {/* Gauche : Vaisseau 3D interactif géant en lévitation (toujours à gauche du texte) */}
+          <div className="sm:col-span-6 lg:col-span-6 flex items-center justify-center">
+            <SpaceCraftViewer className="w-full max-w-[560px] md:max-w-[620px] lg:max-w-[680px] h-[360px] sm:h-[440px] md:h-[500px] lg:h-[560px] xl:h-[600px]" />
+          </div>
 
-          <motion.p
-            initial={{ opacity: 0, y: 25 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="mt-6 text-lg sm:text-xl text-white/90 drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)] max-w-2xl mx-auto leading-relaxed font-light"
-          >
-            Découvrez une cité où l'homme et la technologie s'élèvent ensemble vers les étoiles.
-            Initiez votre voyage au cœur d'une gouvernance citoyenne innovante.
-          </motion.p>
+          {/* Droite : Titre et description (toujours à droite du vaisseau) */}
+          <div className="sm:col-span-6 lg:col-span-6 text-center sm:text-left flex flex-col items-center sm:items-start">
+            <motion.h1
+              initial={{ opacity: 0, y: 25 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.15 }}
+              className="font-display text-4xl sm:text-5xl md:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight text-white drop-shadow-[0_4px_20px_rgba(0,0,0,0.9)] leading-tight"
+            >
+              Bienvenue à <span className="text-primary">Terra Nova</span>
+            </motion.h1>
+
+            <motion.p
+              initial={{ opacity: 0, y: 25 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="mt-6 text-base sm:text-lg lg:text-xl text-white/90 drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)] max-w-xl leading-relaxed font-light"
+            >
+              Découvrez une cité où l'homme et la technologie s'élèvent ensemble vers les étoiles.
+              Initiez votre voyage au cœur d'une gouvernance citoyenne innovante.
+            </motion.p>
+          </div>
         </motion.div>
       </Container>
     </section>
