@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import { HelpMenu } from "@/features/guide/help-menu"
 import { useAuth } from "@/features/auth/auth-context"
 import { NotificationsMenu } from "@/features/notifications/notifications-menu"
+import { HeatAlertDialog } from "@/features/notifications/heat-alert-dialog"
 import { useLocale } from "@/lib/locale"
 import { SITE } from "@/lib/site"
 import { cn } from "@/lib/utils"
@@ -100,6 +101,7 @@ export function ApplicationLayout() {
       )}
 
       <div className="flex min-w-0 flex-1 flex-col">
+        <HeatAlertDialog />
         <header data-tour="header" className="sticky top-0 z-30 flex h-16 items-center gap-3 border-b bg-background/90 px-4 backdrop-blur sm:px-6">
           <Button type="button" variant="ghost" size="icon" className="md:hidden" aria-label={tx("Ouvrir le menu", "Open menu")} aria-expanded={mobileOpen} onClick={() => setMobileOpen(true)}>
             <Menu aria-hidden />

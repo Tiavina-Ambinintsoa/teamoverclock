@@ -120,6 +120,17 @@ select 'facilities have complete public and map details',
          or accessibility = '{}'::jsonb or nullif(description, '') is null or cardinality(offerings) = 0
        )) = 0;
 
+select 'health profile has owner-only RLS policy' as check_name,
+       count(*) as value,
+       count(*) = 1 as ok
+from pg_policies
+where schemaname = 'public'
+  and tablename = 'citizen_health_profiles'
+  and policyname = 'citizen_health_profiles_own'
+  and roles = array['authenticated']::name[]
+  and qual ilike '%auth.uid%'
+  and with_check ilike '%auth.uid%';
+
 -- 3) Sécurité : toute table de `public` doit avoir RLS activée (attendu : aucune ligne)
 select c.relname as table_without_rls
 from pg_class c join pg_namespace n on n.oid = c.relnamespace

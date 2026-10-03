@@ -43,7 +43,12 @@ export function MapPage() {
   const reports = usePublicReports()
 
   const [layers, setLayers] = useState<MapLayers>({ sectors: true, buildings: true, transports: true, dangers: true, reports: true, observations: false })
-  const [selected, setSelected] = useState<MapSelection>(() => (params.get("building") ? { type: "building", id: params.get("building") as string } : null))
+  const [selected, setSelected] = useState<MapSelection>(() => {
+    const buildingId = params.get("building")
+    if (buildingId) return { type: "building", id: buildingId }
+    const sectorId = params.get("sector")
+    return sectorId ? { type: "sector", id: sectorId } : null
+  })
   const [search, setSearch] = useState(facilitySearch)
   const [from, setFrom] = useState("")
   const [to, setTo] = useState("")

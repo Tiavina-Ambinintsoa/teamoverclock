@@ -113,14 +113,15 @@ export function SignupForm() {
           {fieldError("birthDate")}
         </div>
         <div className="grid gap-2">
-          <Label htmlFor="sectorId">{tx("Secteur de résidence (facultatif)", "Home sector (optional)")}</Label>
+          <Label htmlFor="sectorId">{tx("Secteur de résidence", "Home sector")}</Label>
           <Select id="sectorId" aria-invalid={errors.sectorId ? true : undefined} aria-describedby={describedBy("sectorId")} {...register("sectorId")}>
-            <option value="">{tx("Non précisé", "Not specified")}</option>
+            <option value="">{tx("Choisissez votre secteur…", "Choose your sector…")}</option>
             {(sectors.data ?? []).map((sector) => (
               <option key={sector.id} value={sector.id}>{sector.code} — {sector.name}</option>
             ))}
           </Select>
           {fieldError("sectorId")}
+          {sectors.isError && <p role="alert" className="text-sm text-destructive">{sectors.error.message}</p>}
         </div>
       </div>
 

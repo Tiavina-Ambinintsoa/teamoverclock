@@ -1,2 +1,5 @@
 [functions.contact-submit]
 verify_jwt = false
+
+[functions.dispatch-heat-alert]
+verify_jwt = false
