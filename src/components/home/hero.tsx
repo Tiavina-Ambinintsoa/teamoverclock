@@ -13,7 +13,7 @@ export const CAPTIONS = [
   {
     start: 1,
     end: 4.5,
-    text: "Bienvenue à Terra Nova",
+    text: "Terre en vue",
     subtext: "Approche orbitale et verrouillage des coordonnées",
     position: "top-right",
   },

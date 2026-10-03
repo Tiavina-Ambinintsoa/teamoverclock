@@ -1,12 +1,7 @@
 import { useRef } from "react"
-import { Link } from "react-router"
 import { motion, useScroll, useTransform } from "framer-motion"
-import { ArrowRight, Sparkles } from "lucide-react"
 
 import { Container } from "@/components/layout/container"
-import { Button } from "@/components/ui/button"
-import { useAuth } from "@/features/auth/auth-context"
-import { SITE } from "@/lib/site"
 
 interface GetStartedProps {
   /** Image d'arrière-plan */
@@ -28,8 +23,6 @@ export function GetStarted({
   cloudSeaImage = `${import.meta.env.BASE_URL}cloud_sea.jpg`,
   cloudImage = `${import.meta.env.BASE_URL}cloud.png`,
 }: GetStartedProps) {
-  const { user } = useAuth()
-  const primaryPath = user ? (user.isAdmin ? "/admin" : "/app") : "/inscription"
   const sectionRef = useRef<HTMLElement>(null)
 
   // Fondu de sortie des textes pendant le défilement vers le bas
@@ -119,54 +112,23 @@ export function GetStarted({
           }}
           className="flex flex-col items-center justify-center"
         >
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/35 backdrop-blur-md px-4 py-1.5 text-xs font-medium text-white shadow-sm mb-6"
-          >
-            <Sparkles className="size-3.5 text-primary" />
-            Bienvenue sur {SITE.name}
-          </motion.div>
-
           <motion.h1
             initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.15 }}
             className="font-display text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight text-white drop-shadow-[0_4px_20px_rgba(0,0,0,0.9)] leading-tight"
           >
-            Construisons l'avenir de <span className="text-primary">Terra Nova</span>
+            Bienvenue à <span className="text-primary">Terra Nova</span>
           </motion.h1>
 
           <motion.p
             initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.3 }}
             className="mt-6 text-lg sm:text-xl text-white/90 drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)] max-w-2xl mx-auto leading-relaxed font-light"
           >
             Découvrez une cité où l'homme et la technologie s'élèvent ensemble vers les étoiles.
             Initiez votre voyage au cœur d'une gouvernance citoyenne innovante.
           </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 25 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.45 }}
-            className="mt-10 flex flex-wrap items-center justify-center gap-4"
-          >
-            <Button asChild size="lg" className="text-base font-semibold px-8 h-12 shadow-xl shadow-primary/30">
-              <Link to={primaryPath}>
-                {user ? "Accéder à mon espace" : "Get Started"}
-                <ArrowRight className="ml-2 size-5" />
-              </Link>
-            </Button>
-
-            {!user && (
-              <Button asChild size="lg" variant="outline" className="border-white/30 bg-black/40 text-white backdrop-blur-md hover:bg-white/20">
-                <Link to="/connexion">Connexion</Link>
-              </Button>
-            )}
-          </motion.div>
         </motion.div>
       </Container>
     </section>

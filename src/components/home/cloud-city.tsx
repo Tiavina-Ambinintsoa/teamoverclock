@@ -1,6 +1,5 @@
 import { useRef } from "react"
 import { motion, useScroll, useSpring, useTransform } from "framer-motion"
-import { Sparkles } from "lucide-react"
 
 import { CloudLayer } from "@/components/home/cloud-layer"
 
@@ -33,7 +32,7 @@ interface CloudCityProps {
  *   dévoilant majestueusement la mégapole Terra Nova !
  */
 export function CloudCity({
-  cityImage = `${import.meta.env.BASE_URL}futurist.jpg`,
+  cityImage = `${import.meta.env.BASE_URL}city-terra-nova.png`,
   cloudImage = `${import.meta.env.BASE_URL}cloud.png`,
   cloudSeaImage = `${import.meta.env.BASE_URL}cloud_sea.jpg`,
 }: CloudCityProps) {
@@ -77,8 +76,8 @@ export function CloudCity({
         >
           <img
             src={cityImage}
-            alt="Ville flottante Terra Nova"
-            className="size-full object-cover object-top"
+            alt="Cité sous dôme Terra Nova"
+            className="size-full object-cover object-center"
           />
           {/* Voile sombre subtil */}
           <div className="absolute inset-0 bg-black/20 pointer-events-none" />
@@ -163,10 +162,6 @@ export function CloudCity({
           style={{ opacity: textOpacity, y: textY }}
           className="absolute inset-0 z-40 flex flex-col items-center justify-center text-center px-6 pointer-events-none"
         >
-          <div className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-black/40 backdrop-blur-md px-4 py-1.5 text-xs font-mono tracking-widest text-primary shadow-lg mb-6">
-            <Sparkles className="size-3.5" />
-            TERRA NOVA DÉCOUVERTE
-          </div>
 
           <h2 className="font-display text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight text-white drop-shadow-[0_4px_20px_rgba(0,0,0,0.9)] max-w-4xl leading-tight">
             La cité par-delà les cieux
