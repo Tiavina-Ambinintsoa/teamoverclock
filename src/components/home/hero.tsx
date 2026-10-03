@@ -82,6 +82,12 @@ export function Hero({
         })
       }
     }
+
+    return () => {
+      if (video) {
+        video.pause()
+      }
+    }
   }, [])
 
   /**

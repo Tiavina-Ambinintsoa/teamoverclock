@@ -64,22 +64,12 @@ export function CustomHomePage() {
               onEnded={handleGoToStarted}
             />
           </motion.div>
-
-          {/* Panneau 2 : Aperçu GetStarted (glisse depuis 100vw vers 0vw) */}
-          <motion.div
-            className="absolute inset-0 size-full pointer-events-none"
-            initial={{ x: "100vw" }}
-            animate={{ x: phase === "video" ? "100vw" : "0vw" }}
-            transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <GetStarted />
-          </motion.div>
         </div>
       )}
 
       {/* 3. PAGE NORMALE : Flux DOM standard sans aucun transform parent pour que CloudCity sticky fonctionne à 100% */}
       <div className="w-full">
-        <GetStarted />
+        <GetStarted isPaused={phase === "video"} />
         <CloudCity />
         <HistoriqueSection />
         <RaisonSection />

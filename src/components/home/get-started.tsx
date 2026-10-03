@@ -7,6 +7,8 @@ import { Container } from "@/components/layout/container"
 interface GetStartedProps {
   /** Image d'arrière-plan */
   backgroundImage?: string
+  /** Met en pause le rendu Three.js et les particules (pendant le preloader vidéo) */
+  isPaused?: boolean
 }
 
 /**
@@ -18,6 +20,7 @@ interface GetStartedProps {
  */
 export function GetStarted({
   backgroundImage = `${import.meta.env.BASE_URL}bg-getStarted.jpg`,
+  isPaused = false,
 }: GetStartedProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const [isMobile, setIsMobile] = useState(false)
@@ -75,7 +78,7 @@ export function GetStarted({
         <div className="absolute inset-0 bg-black/15 pointer-events-none" />
 
         {/* Étoiles filantes dans le ciel supérieur */}
-        <ShootingStars />
+        {!isPaused && <ShootingStars />}
 
         {/* Halo cyan volumétrique doux qui accompagne le vaisseau */}
         <div
@@ -101,6 +104,7 @@ export function GetStarted({
         ────────────────────────────────────────────────────────────── */}
         <SpaceCraftViewer
           className="absolute inset-0 w-full h-full"
+          paused={isPaused}
           cameraFov={48}
           targetCameraFov={36}
           cameraZ={4.6}
