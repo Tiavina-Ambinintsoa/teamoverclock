@@ -33,7 +33,7 @@ export function CustomHomePage() {
   }
 
   return (
-    <div className="relative w-full min-h-screen overflow-x-hidden bg-[#c8d8e8]">
+    <div className="relative w-full bg-[#c8d8e8]">
       <title>{SITE.name} - Terra Nova</title>
       <meta name="description" content={SITE.description} />
 
@@ -51,37 +51,44 @@ export function CustomHomePage() {
         )}
       </AnimatePresence>
 
-      {/* 2. PANNEAU 1 : Vidéo Preloader (glisse vers la gauche à -100vw) */}
+      {/* 2. OVERLAYS DE GLISSADE HORIZONTALE (uniquement actifs pendant la phase vidéo + transition) */}
       {!isTransitionComplete && (
-        <motion.div
-          className="fixed inset-0 z-50 size-full bg-black"
-          initial={{ x: "0vw" }}
-          animate={{ x: phase === "video" ? "0vw" : "-100vw" }}
-          transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
-          onAnimationComplete={() => {
-            if (phase === "started") {
-              setIsTransitionComplete(true)
-            }
-          }}
-        >
-          <Hero
-            onSkip={handleGoToStarted}
-            onEnded={handleGoToStarted}
-          />
-        </motion.div>
+        <div className="fixed inset-0 z-50 pointer-events-none overflow-hidden">
+          {/* Panneau 1 : Vidéo Preloader (glisse vers la gauche à -100vw) */}
+          <motion.div
+            className="absolute inset-0 size-full bg-black pointer-events-auto"
+            initial={{ x: "0vw" }}
+            animate={{ x: phase === "video" ? "0vw" : "-100vw" }}
+            transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
+            onAnimationComplete={() => {
+              if (phase === "started") {
+                setIsTransitionComplete(true)
+              }
+            }}
+          >
+            <Hero
+              onSkip={handleGoToStarted}
+              onEnded={handleGoToStarted}
+            />
+          </motion.div>
+
+          {/* Panneau 2 : Aperçu GetStarted (glisse depuis 100vw vers 0vw) */}
+          <motion.div
+            className="absolute inset-0 size-full pointer-events-none"
+            initial={{ x: "100vw" }}
+            animate={{ x: phase === "video" ? "100vw" : "0vw" }}
+            transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <GetStarted />
+          </motion.div>
+        </div>
       )}
 
-      {/* 3. PANNEAU 2 : Contenu principal (glisse de 100vw vers 0vw, puis libère les styles pour le sticky) */}
-      <motion.div
-        className="w-full"
-        initial={{ x: "100vw" }}
-        animate={{ x: phase === "video" ? "100vw" : "0vw" }}
-        transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
-        style={isTransitionComplete ? { transform: "none" } : undefined}
-      >
+      {/* 3. PAGE NORMALE : Flux DOM standard sans aucun transform parent pour que CloudCity sticky fonctionne à 100% */}
+      <div className="w-full">
         <GetStarted />
         <CloudCity />
-      </motion.div>
+      </div>
     </div>
   )
 }

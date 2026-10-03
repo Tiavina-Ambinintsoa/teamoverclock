@@ -54,13 +54,13 @@ export function CloudCity({
   // 3. Léger zoom sur la ville (1.0 → 1.15) pour donner l'impression de s'en approcher
   const cityScale = useTransform(smoothProgress, [0, 1], [1.0, 1.15])
 
-  // 4. Nappe dense de nuages (fond homogène) : 100% opaque au départ, s'efface entre 0.1 et 0.45
-  const cloudSeaOpacity = useTransform(smoothProgress, [0, 0.12, 0.45], [1, 0.95, 0])
-  const cloudSeaScale = useTransform(smoothProgress, [0, 0.5], [1.0, 1.3])
+  // 4. Nappe dense de nuages (fond homogène) : 100% opaque au départ, s'efface entre 0.08 et 0.35
+  const cloudSeaOpacity = useTransform(smoothProgress, [0, 0.08, 0.35], [1, 0.9, 0])
+  const cloudSeaScale = useTransform(smoothProgress, [0, 0.45], [1.0, 1.25])
 
-  // 5. Apparition du texte de conclusion (entre 75% et 95% du scroll)
-  const textOpacity = useTransform(smoothProgress, [0.75, 0.95], [0, 1])
-  const textY = useTransform(smoothProgress, [0.75, 0.95], [30, 0])
+  // 5. Apparition du texte de conclusion (entre 40% et 65% du scroll pour être bien visible)
+  const textOpacity = useTransform(smoothProgress, [0.4, 0.65], [0, 1])
+  const textY = useTransform(smoothProgress, [0.4, 0.65], [25, 0])
 
   return (
     <section ref={containerRef} className="relative h-[300vh] w-full">
@@ -122,8 +122,8 @@ export function CloudCity({
         <CloudLayer
           image={cloudImage}
           progress={smoothProgress}
-          speed={0.85}
-          maxScale={1.9}
+          speed={0.55}
+          maxScale={1.8}
           translateX={-100}
           translateY={-30}
           zIndex={10}
@@ -134,8 +134,8 @@ export function CloudCity({
         <CloudLayer
           image={cloudImage}
           progress={smoothProgress}
-          speed={0.65}
-          maxScale={2.3}
+          speed={0.45}
+          maxScale={2.2}
           translateX={130}
           translateY={25}
           zIndex={20}
@@ -146,8 +146,8 @@ export function CloudCity({
         <CloudLayer
           image={cloudImage}
           progress={smoothProgress}
-          speed={0.45}
-          maxScale={2.8}
+          speed={0.35}
+          maxScale={2.6}
           translateX={-160}
           translateY={40}
           zIndex={30}
