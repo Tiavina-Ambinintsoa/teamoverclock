@@ -3,6 +3,7 @@ import { Outlet, ScrollRestoration, useLocation } from "react-router"
 
 import { SiteFooter } from "@/components/layout/site-footer"
 import { SiteHeader } from "@/components/layout/site-header"
+import { ChatbotPage } from "@/features/chatbot/chatbot-page"
 import { GuideProvider } from "@/features/guide/guide-provider"
 import { VoiceProvider } from "@/features/voice/voice-provider"
 
@@ -39,6 +40,7 @@ export function RootLayout() {
       <AssistanceProviders>
         <SkipLink />
         <div id="contenu"><Outlet /></div>
+        {!AUTH_ROUTES.includes(pathname) && <ChatbotPage />}
         <ScrollRestoration />
       </AssistanceProviders>
     )
@@ -58,6 +60,7 @@ export function RootLayout() {
           <Outlet />
         </main>
         {pathname !== "/" && <SiteFooter />}
+        {!AUTH_ROUTES.includes(pathname) && <ChatbotPage />}
         <ScrollRestoration />
       </div>
     </AssistanceProviders>

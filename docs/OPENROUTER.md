@@ -1,6 +1,6 @@
 # Assistant OpenRouter
 
-Le module fournit `/app/assistant`, une Edge Function Supabase, un quota fixe de 20 demandes par jour et par compte, et un historique privé facultatif. L'appel navigateur ne reçoit jamais la clé OpenRouter. La fonction envoie les requêtes au point de terminaison officiel Chat Completions d'OpenRouter.
+L'assistant est disponible dans une bulle flottante en bas à droite des pages publiques et de l'espace connecté (sauf les écrans de connexion). Le chat texte peut demander à OpenRouter de reformuler les informations publiées, avec leurs sources. Le chat vocal utilise séparément Google AI Studio ; voir [Google AI Studio Voice](./GOOGLE-AI-STUDIO-VOICE.md). Chaque appel IA conserve le quota serveur de 20 requêtes par jour et par compte. L'appel navigateur ne reçoit jamais la clé OpenRouter.
 
 ## Prérequis
 
@@ -14,7 +14,7 @@ VITE_ENABLE_AI_CHAT=true
 VITE_ENABLE_AI_HISTORY=false
 ```
 
-4. Connectez le CLI Supabase au projet puis déployez :
+4. Connectez le CLI Supabase au projet puis déployez la fonction avec le prompt de réponse fondée sur les sources :
 
 ```sh
 supabase login
@@ -22,7 +22,7 @@ supabase link --project-ref VOTRE_PROJECT_REF
 supabase functions deploy openrouter-chat
 ```
 
-Ajoutez les secrets depuis un terminal privé. Ne les mettez pas dans `.env.local`, une variable `VITE_*`, le dépôt ou le code du navigateur :
+Ajoutez les secrets depuis un terminal privé. Ne mettez aucun secret dans `.env.local`, une variable `VITE_*`, le dépôt ou le code du navigateur :
 
 ```sh
 supabase secrets set OPENROUTER_API_KEY=VOTRE_CLE OPENROUTER_MODEL=identifiant-modele
@@ -44,7 +44,7 @@ supabase secrets set OPENROUTER_SAVE_HISTORY=true
 VITE_ENABLE_AI_HISTORY=true
 ```
 
-La table `ai_messages` est lisible par son propriétaire, mais ses écritures passent par l'Edge Function. Les conversations et messages sont supprimés avec le compte. Le contrôle des tokens impose au plus 600 tokens de sortie par demande, 4 000 caractères en entrée et 20 demandes par jour. Ajustez ces constantes et le quota SQL dans `supabase/functions/openrouter-chat/index.ts` et `supabase/schema.sql` selon le sujet et le budget.
+La table `ai_messages` est lisible par son propriétaire, mais ses écritures passent par l'Edge Function. Les conversations et messages sont supprimés avec le compte. Le contrôle des tokens impose au plus 1 400 tokens de sortie par demande, 4 000 caractères par question, 12 000 caractères de références et 20 demandes par jour. Ajustez ces constantes et le quota SQL dans `supabase/functions/openrouter-chat/index.ts` et `supabase/schema.sql` selon le sujet et le budget.
 
 ## Sécurité et limites
 

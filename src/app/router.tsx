@@ -1,4 +1,4 @@
-import { createBrowserRouter, createHashRouter, type RouteObject } from "react-router"
+import { createBrowserRouter, createHashRouter, Navigate, type RouteObject } from "react-router"
 
 import { ApplicationLayout } from "@/components/layout/application-layout"
 import { RootLayout } from "@/components/layout/root-layout"
@@ -55,7 +55,7 @@ const routes: RouteObject[] = [
                   { path: "app/reports/new", lazy: async () => ({ Component: (await import("@/features/reports/report-new-page")).ReportNewPage }) },
                   { path: "app/reports/:id", lazy: async () => ({ Component: (await import("@/features/reports/report-detail")).CitizenReportDetailPage }) },
                   { path: "app/newsletter", lazy: async () => ({ Component: (await import("@/features/newsletter/newsletter-page")).NewsletterPage }) },
-                  { path: "app/assistant", lazy: async () => ({ Component: (await import("@/features/chatbot/chatbot-page")).ChatbotPage }) },
+                  { path: "app/assistant", element: <Navigate to="/app?assistant=open" replace /> },
                   {
                     element: <RequireRole allow={["agent", "service_admin"]} />,
                     children: [

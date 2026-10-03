@@ -1,4 +1,4 @@
-import type { ReportCategory } from "@/lib/db-types"
+import type { Building, DangerRow, ReportCategory, Sector } from "@/lib/db-types"
 
 /**
  * Moteur de l'assistant : il ne répond qu'à partir des contenus PUBLIÉS (base de connaissances et fiches de services),
@@ -17,6 +17,7 @@ export interface KbEntry {
 }
 
 export interface ServiceFacts {
+  id?: string
   slug: string
   name: string
   category: string
@@ -28,6 +29,8 @@ export interface ServiceFacts {
   status: string
   is_emergency: boolean
 }
+
+export type DangerFacts = DangerRow
 
 export type Intent = "greeting" | "emergency" | "create_report" | "create_request" | "human" | "info"
 
@@ -220,25 +223,109 @@ export interface ReplyContext {
   locale: Locale
   kb: KbEntry[]
   services: ServiceFacts[]
+  dangers?: DangerFacts[]
+  sectors?: Sector[]
+  buildings?: Pick<Building, "id" | "name" | "address" | "sector_id">[]
+  sectorId?: string | null
 }
 
 /** Construit la réponse de l'assistant. Aucun effet de bord : les actions sont proposées via `pendingAction`. */
-export function buildReply({ text, locale, kb, services }: ReplyContext): ChatReply {
+export function buildReply(context: ReplyContext): ChatReply {
+  const { text, locale, kb, services } = context
   const t = T[locale]
   const intent = detectIntent(text)
 
   if (intent === "greeting") return { intent, kind: "normal", content: t.greeting, sources: [], confidence: 1 }
 
   if (intent === "emergency") {
-    const danger = searchKnowledge(kb.filter((e) => e.entity_type === "danger"), text, 1)[0]
+    const isSectorQuestion = /(mon secteur|dans mon secteur|mon quartier|my sector|in my sector|my neighborhood)/.test(normalize(text))
+    const isGeneralDangerQuestion = /(danger|risque|alerte|protocol)/.test(normalize(text))
+    const sectorDangers = (context.dangers ?? []).filter((danger) =>
+      !isSectorQuestion || !context.sectorId || danger.affected_sector_ids.includes(context.sectorId)
+    )
+    const dangerEntries = sectorDangers.map((danger) => {
+      const affectedSectors = (context.sectors ?? [])
+        .filter((sector) => danger.affected_sector_ids.includes(sector.id))
+        .map((sector) => `${sector.code} ${sector.name}`)
+      const knownSectorIds = new Set((context.sectors ?? []).map((sector) => sector.id))
+      const unknownSectorIds = danger.affected_sector_ids.filter((id) => !knownSectorIds.has(id))
+      const assemblyPoints = (context.buildings ?? [])
+        .filter((building) => danger.assembly_building_ids.includes(building.id))
+        .map((building) => `${building.name}${building.address ? ` (${building.address})` : ""}`)
+      const knownBuildingIds = new Set((context.buildings ?? []).map((building) => building.id))
+      const unknownBuildingIds = danger.assembly_building_ids.filter((id) => !knownBuildingIds.has(id))
+      const responsibleService = context.services.find((service) => service.id === danger.responsible_service_id)?.name
+      const details = [
+        danger.summary,
+        `${locale === "en" ? "Severity" : "Gravité"}: ${danger.severity}`,
+        `${locale === "en" ? "Status" : "Statut"}: ${danger.status}`,
+        `${locale === "en" ? "Affected sectors" : "Secteurs concernés"}: ${[...affectedSectors, ...unknownSectorIds].join(", ") || "—"}`,
+        `${locale === "en" ? "Assembly points" : "Points de rassemblement"}: ${[...assemblyPoints, ...unknownBuildingIds].join("; ") || "—"}`,
+        `${locale === "en" ? "Valid from" : "Valable depuis"}: ${danger.valid_from}${danger.valid_until ? ` ${locale === "en" ? "to" : "jusqu'au"} ${danger.valid_until}` : ""}`,
+        `${locale === "en" ? "Recommended actions" : "À faire"}: ${danger.recommended_actions.join("; ") || "—"}`,
+        `${locale === "en" ? "Forbidden actions" : "À ne pas faire"}: ${danger.forbidden_actions.join("; ") || "—"}`,
+        `${locale === "en" ? "Protocol" : "Protocole"}: ${[...danger.protocol_steps]
+          .sort((a, b) => a.order - b.order)
+          .map((step) => `${step.order}. ${step.title}: ${step.detail}`)
+          .join("; ") || "—"}`,
+        `${locale === "en" ? "Emergency contacts" : "Contacts d'urgence"}: ${danger.emergency_contacts.map((contact) => `${contact.service}: ${contact.phone}`).join("; ") || "—"}`,
+        `${locale === "en" ? "Procedure version" : "Version de procédure"}: ${danger.procedure_version}`,
+        `${locale === "en" ? "Validated at" : "Validée le"}: ${danger.validated_at ?? "—"}`,
+        `${locale === "en" ? "Responsible service" : "Service responsable"}: ${responsibleService ?? danger.responsible_service_id ?? "—"}`,
+        `${locale === "en" ? "Source" : "Source"}: ${danger.source ?? "—"}`,
+        danger.is_fictional_alert ? (locale === "en" ? "Fictional simulation alert" : "Alerte fictive de simulation") : "",
+      ].filter(Boolean)
+      return {
+        item: {
+          id: danger.id,
+          entity_type: "danger",
+          title: danger.title,
+          content: details.join("\n"),
+          url: `/dangers/${danger.slug}`,
+        },
+        score: 1,
+      }
+    })
+    const dangerKnowledge = [...dangerEntries.map((entry) => entry.item), ...kb.filter((entry) => entry.entity_type === "danger")]
+      .filter((entry, index, entries) => entries.findIndex((candidate) =>
+        entry.url ? candidate.url === entry.url : candidate.id === entry.id
+      ) === index)
+    const matchedDangerEntries = isSectorQuestion
+      ? dangerEntries
+      : isGeneralDangerQuestion
+        ? dangerEntries.length > 0
+          ? dangerEntries
+          : dangerKnowledge.map((item) => ({ item, score: 1 }))
+        : searchKnowledge(dangerKnowledge, text, 5).filter((entry) => entry.score >= MIN_CONFIDENCE)
+    const dangerEntriesToShow = matchedDangerEntries
     const lines = [t.emergencyIntro, ...EMERGENCY_NUMBERS.map((n) => `• ${locale === "en" ? n.en : n.fr} : ${n.phone}`)]
     const sources: ChatSource[] = [{ type: "service", title: locale === "en" ? "Emergency contacts" : "Contacts d'urgence", url: "/dangers" }]
-    if (danger) {
-      lines.push(`${t.emergencyDanger} ${clip(danger.item.content, 360)}`)
-      if (danger.item.url) sources.unshift({ type: "danger", title: danger.item.title, url: danger.item.url })
+    if (isSectorQuestion && !context.sectorId) {
+      lines.push(locale === "en"
+        ? "Your residential sector is not linked to your profile, so I cannot filter alerts by sector."
+        : "Votre secteur de résidence n'est pas associé à votre profil : je ne peux pas filtrer les alertes par secteur.")
+    }
+    if (dangerEntriesToShow.length > 0) {
+      lines.push(isSectorQuestion
+        ? (locale === "en" ? "Published dangers for your sector:" : "Dangers publiés pour votre secteur :")
+        : isGeneralDangerQuestion
+          ? (locale === "en" ? "Published danger information:" : "Informations sur les dangers publiées :")
+        : t.emergencyDanger)
+      for (const danger of dangerEntriesToShow) {
+        lines.push(`\n${danger.item.title}\n${danger.item.content}`)
+        if (danger.item.url) sources.unshift({ type: "danger", title: danger.item.title, url: danger.item.url })
+      }
+    } else if (isSectorQuestion && context.sectorId) {
+      lines.push(locale === "en" ? "No published danger is linked to your sector." : "Aucun danger publié n'est associé à votre secteur.")
+    } else if (!isSectorQuestion && !isGeneralDangerQuestion) {
+      const danger = searchKnowledge(dangerKnowledge, text, 1)[0]
+      if (danger) {
+        lines.push(`${t.emergencyDanger} ${clip(danger.item.content, 360)}`)
+        if (danger.item.url) sources.unshift({ type: "danger", title: danger.item.title, url: danger.item.url })
+      }
     }
     lines.push(t.emergencyNote)
-    return { intent, kind: "emergency", content: lines.join("\n"), sources, confidence: danger ? Math.max(0.6, danger.score) : 0.6 }
+    return { intent, kind: "emergency", content: lines.join("\n"), sources, confidence: dangerEntriesToShow.length ? 1 : 0.6 }
   }
 
   if (intent === "human") {

@@ -13,6 +13,7 @@ import {
   type KbEntry,
   type ServiceFacts,
 } from "./chatbot-engine"
+import type { DangerRow, Sector } from "@/lib/db-types"
 
 const kb: KbEntry[] = [
   { id: "1", entity_type: "service", title: "Nova Police", content: "Sécurité publique ouverte 24 h/24. Téléphone +999 112 0002.", url: "/services/nova-police" },
@@ -118,6 +119,48 @@ describe("buildReply", () => {
     expect(reply.content).toContain("+999 112")
     expect(reply.content).toContain("Huit étapes")
     expect(reply.sources.some((s) => s.url === "/dangers/alien-invasion-protocol")).toBe(true)
+  })
+
+  it("lists every danger for the user's sector with full details and links", () => {
+    const danger: DangerRow = {
+      id: "danger-1", slug: "reactor-leak", title: "Fuite du réacteur", severity: "high", status: "active",
+      summary: "Une fuite est détectée près du réacteur.", affected_sector_ids: ["sector-1"],
+      valid_from: "2026-10-01", valid_until: null, recommended_actions: ["Rester à l'abri"],
+      forbidden_actions: ["Ne pas approcher"], emergency_contacts: [{ service: "Pompiers", phone: "118" }],
+      assembly_building_ids: ["assembly-1"], protocol_steps: [{ order: 1, title: "Se protéger", detail: "Fermer les fenêtres." }],
+      source: "Centre de sécurité", responsible_service_id: null, validated_at: null, procedure_version: 2,
+      is_fictional_alert: false,
+    }
+    const otherSectorDanger = { ...danger, id: "danger-2", slug: "other-sector", title: "Alerte autre secteur", affected_sector_ids: ["sector-2"] }
+    const sectors: Sector[] = [
+      { id: "sector-1", code: "S1", name: "Orbis Port", description: null, hex_q: 0, hex_r: 0, x: 0, y: 0, color: "#000000", activity_level: 0, is_active: true },
+      { id: "sector-2", code: "S2", name: "Sentinel Ward", description: null, hex_q: 1, hex_r: 0, x: 1, y: 0, color: "#000000", activity_level: 0, is_active: true },
+    ]
+    const reply = buildReply({
+      kb, services, locale: "fr", dangers: [danger, otherSectorDanger], sectors,
+      buildings: [{ id: "assembly-1", name: "Abri central", address: "1 avenue Nova", sector_id: "sector-1" }],
+      sectorId: "sector-1",
+      text: "Quels sont les dangers dans mon secteur ?",
+    })
+
+    expect(reply.content).toContain("Fuite du réacteur")
+    expect(reply.content).toContain("Rester à l'abri")
+    expect(reply.content).toContain("Ne pas approcher")
+    expect(reply.content).toContain("Fermer les fenêtres")
+    expect(reply.content).toContain("Pompiers: 118")
+    expect(reply.content).toContain("S1 Orbis Port")
+    expect(reply.content).toContain("Abri central (1 avenue Nova)")
+    expect(reply.content).toContain("Centre de sécurité")
+    expect(reply.content).not.toContain("Alerte autre secteur")
+    expect(reply.sources.some((source) => source.url === "/dangers/reactor-leak")).toBe(true)
+
+    const allDangers = buildReply({
+      kb, services, locale: "fr", dangers: [danger, otherSectorDanger], sectors,
+      text: "Quels sont les dangers connus ?",
+    })
+    expect(allDangers.content).toContain("Fuite du réacteur")
+    expect(allDangers.content).toContain("Alerte autre secteur")
+    expect(allDangers.sources.some((source) => source.url === "/dangers/other-sector")).toBe(true)
   })
 
   it("never invents: unknown questions are flagged and offer an agent", () => {
