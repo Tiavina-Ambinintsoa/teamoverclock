@@ -59,9 +59,12 @@ export function CloudCity({
   const cloudSeaOpacity = useTransform(smoothProgress, [0, 0.08, 0.35], [1, 0.9, 0])
   const cloudSeaScale = useTransform(smoothProgress, [0, 0.45], [1.0, 1.25])
 
-  // 5. Apparition du texte de conclusion (entre 40% et 65% du scroll pour être bien visible)
-  const textOpacity = useTransform(smoothProgress, [0.4, 0.65], [0, 1])
+  // 5. Apparition puis estompement du texte de conclusion
+  const textOpacity = useTransform(smoothProgress, [0.4, 0.6, 0.82, 0.94], [0, 1, 1, 0])
   const textY = useTransform(smoothProgress, [0.4, 0.65], [25, 0])
+
+  // 6. Fondu de transition sombre fluide vers la section Historique (0.85 -> 1.0)
+  const exitFade = useTransform(smoothProgress, [0.85, 1], [0, 1])
 
   return (
     <section ref={containerRef} className="relative h-[300vh] w-full">
@@ -99,7 +102,7 @@ export function CloudCity({
           className="absolute inset-0 z-5 size-full pointer-events-none select-none"
         >
           {/* Fond de brume blanche uniforme qui relie les deux sections sans aucune couture */}
-          <div className="absolute inset-0 size-full bg-gradient-to-b from-white via-white/90 to-transparent pointer-events-none" />
+          <div className="absolute inset-0 size-full bg-linear-to-b from-white via-white/90 to-transparent pointer-events-none" />
 
           {/* Mer de nuages avec transition douce depuis la brume blanche */}
           <img
@@ -169,14 +172,23 @@ export function CloudCity({
         >
 
           <h2 className="font-display text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight text-white drop-shadow-[0_4px_20px_rgba(0,0,0,0.9)] max-w-4xl leading-tight">
-            La cité par-delà les cieux
+            Une ville où citoyens et technologie avancent ensemble
           </h2>
 
           <p className="mt-6 text-base sm:text-xl text-white/90 drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)] max-w-2xl font-light leading-relaxed">
             Là où l'horizon s'ouvre sur un monde nouveau. Bienvenue au cœur de la mégapole
-            flottante, prête à accueillir ses premiers pionniers.
+            flottante, prête à accueillir ses nouveaux pionniers.
           </p>
         </motion.div>
+
+        {/* ─────────────────────────────────────────────
+            COUCHE z-50 : Fondu de transition sombre
+            Permet une entrée naturelle dans la section Historique.
+        ───────────────────────────────────────────── */}
+        <motion.div
+          style={{ opacity: exitFade }}
+          className="absolute inset-0 z-50 bg-[#070b14] pointer-events-none"
+        />
 
       </div>
     </section>

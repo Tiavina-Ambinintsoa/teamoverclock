@@ -8,7 +8,8 @@ import { homeAsset } from "@/lib/home-assets"
 interface GetStartedProps {
   /** Image d'arrière-plan */
   backgroundImage?: string
-  enableModel?: boolean
+  /** Met en pause le rendu Three.js et les particules (pendant le preloader vidéo) */
+  isPaused?: boolean
 }
 
 /**
@@ -19,8 +20,8 @@ interface GetStartedProps {
  *    panoramique en haute atmosphère avec une nouvelle vue complète de profil et télémétrie active.
  */
 export function GetStarted({
-  backgroundImage = homeAsset("bg-getStarted.webp"),
-  enableModel = true,
+  backgroundImage = `${import.meta.env.BASE_URL}bg-getStarted.webp`,
+  isPaused = false,
 }: GetStartedProps) {
   const containerRef = useRef<HTMLDivElement>(null)
   const [isMobile, setIsMobile] = useState(false)
@@ -80,7 +81,7 @@ export function GetStarted({
         <div className="absolute inset-0 bg-black/15 pointer-events-none" />
 
         {/* Étoiles filantes dans le ciel supérieur */}
-        <ShootingStars />
+        {!isPaused && <ShootingStars />}
 
         {/* Halo cyan volumétrique doux qui accompagne le vaisseau */}
         <div
@@ -105,8 +106,9 @@ export function GetStarted({
                  (remplace entièrement la section de nuage)
         ────────────────────────────────────────────────────────────── */}
         <SpaceCraftViewer
-          enabled={enableModel}
+          enabled={!isPaused}
           className="absolute inset-0 w-full h-full"
+          paused={isPaused}
           cameraFov={48}
           targetCameraFov={36}
           cameraZ={4.6}

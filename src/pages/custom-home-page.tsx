@@ -4,7 +4,9 @@ import { AnimatePresence, motion } from "framer-motion"
 import { CloudCity } from "@/components/home/cloud-city"
 import { GetStarted } from "@/components/home/get-started"
 import { Hero } from "@/components/home/hero"
+import { HistoriqueSection } from "@/components/home/historique-section"
 import { Navbar } from "@/components/home/navbar"
+import { RaisonSection } from "@/components/home/raison-section"
 import { SITE } from "@/lib/site"
 
 type Phase = "video" | "started"
@@ -39,16 +41,7 @@ export function CustomHomePage() {
 
       {/* 1. NAVBAR : N'apparaît JAMAIS pendant la vidéo, s'affiche en fondu uniquement en phase 'started' */}
       <AnimatePresence>
-        {phase === "started" && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="fixed top-0 inset-x-0 z-40"
-          >
-            <Navbar />
-          </motion.div>
-        )}
+        {phase === "started" && <Navbar />}
       </AnimatePresence>
 
       {/* 2. OVERLAYS DE GLISSADE HORIZONTALE (uniquement actifs pendant la phase vidéo + transition) */}
@@ -71,23 +64,15 @@ export function CustomHomePage() {
               onEnded={handleGoToStarted}
             />
           </motion.div>
-
-          {/* Panneau 2 : Aperçu GetStarted (glisse depuis 100vw vers 0vw) */}
-          <motion.div
-            className="absolute inset-0 size-full pointer-events-none"
-            initial={{ x: "100vw" }}
-            animate={{ x: phase === "video" ? "100vw" : "0vw" }}
-            transition={{ duration: 0.85, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <GetStarted enableModel={phase === "started"} />
-          </motion.div>
         </div>
       )}
 
       {/* 3. PAGE NORMALE : Flux DOM standard sans aucun transform parent pour que CloudCity sticky fonctionne à 100% */}
       <div className="w-full">
-        <GetStarted enableModel={isTransitionComplete} />
+        <GetStarted isPaused={phase === "video"} />
         <CloudCity />
+        <HistoriqueSection />
+        <RaisonSection />
       </div>
     </div>
   )
