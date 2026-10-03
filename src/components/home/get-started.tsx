@@ -3,6 +3,7 @@ import { motion, useScroll, useSpring, useTransform } from "framer-motion"
 import { ShootingStars } from "@/components/home/shooting-stars"
 import { SpaceCraftViewer } from "@/components/home/space-craft-viewer"
 import { Container } from "@/components/layout/container"
+import { homeAsset } from "@/lib/home-assets"
 
 interface GetStartedProps {
   /** Image d'arrière-plan */
@@ -19,7 +20,7 @@ interface GetStartedProps {
  *    panoramique en haute atmosphère avec une nouvelle vue complète de profil et télémétrie active.
  */
 export function GetStarted({
-  backgroundImage = `${import.meta.env.BASE_URL}bg-getStarted.jpg`,
+  backgroundImage = `${import.meta.env.BASE_URL}bg-getStarted.webp`,
   isPaused = false,
 }: GetStartedProps) {
   const containerRef = useRef<HTMLDivElement>(null)
@@ -71,6 +72,8 @@ export function GetStarted({
         <img
           src={backgroundImage}
           alt="Arrière-plan Terra Nova"
+          loading="lazy"
+          decoding="async"
           className="absolute inset-0 size-full object-cover object-center pointer-events-none"
         />
 
@@ -103,6 +106,7 @@ export function GetStarted({
                  (remplace entièrement la section de nuage)
         ────────────────────────────────────────────────────────────── */}
         <SpaceCraftViewer
+          enabled={!isPaused}
           className="absolute inset-0 w-full h-full"
           paused={isPaused}
           cameraFov={48}

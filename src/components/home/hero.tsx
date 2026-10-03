@@ -3,6 +3,7 @@ import { AnimatePresence, motion } from "framer-motion"
 import { FastForward, Radio } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
+import { homeAsset } from "@/lib/home-assets"
 
 /**
  * Configuration des messages synchronisés avec la vidéo.
@@ -58,8 +59,8 @@ interface HeroProps {
 }
 
 export function Hero({
-  videoSrc = `${import.meta.env.BASE_URL}space_enter_30fps.mp4`,
-  poster = `${import.meta.env.BASE_URL}og.png`,
+  videoSrc,
+  poster = homeAsset("og.png"),
   onSkip,
   onEnded,
 }: HeroProps) {
@@ -122,12 +123,19 @@ export function Hero({
         autoPlay
         muted
         playsInline
-        preload="auto"
+        preload="metadata"
         onTimeUpdate={handleTimeUpdate}
         onEnded={handleEnded}
         className="absolute inset-0 h-full w-full object-cover z-0"
       >
-        <source src={videoSrc} type="video/mp4" />
+        {videoSrc ? (
+          <source src={videoSrc} type="video/mp4" />
+        ) : (
+          <>
+            <source src={homeAsset("hero-intro.webm")} type="video/webm" />
+            <source src={homeAsset("hero-intro.mp4")} type="video/mp4" />
+          </>
+        )}
       </video>
 
       {/* 2. OVERLAY LÉGER : voile noir à environ 20-25% d'opacité (z-index 1) */}

@@ -12,7 +12,7 @@ import { useAuth } from "@/features/auth/auth-context"
 import type { Service, ServiceAppointment } from "@/lib/db-types"
 import { useLocale } from "@/lib/locale"
 import { supabase } from "@/lib/supabase"
-import { effectiveServiceStatus, isWithinServiceHours } from "@/features/services/service-availability"
+import { effectiveServiceStatus, isWithinServiceHours, parseClockTime } from "@/features/services/service-availability"
 import { useNow } from "@/hooks/use-now"
 
 const APPOINTMENT_SELECT = "id,service_id,profile_id,starts_at,purpose,status,created_at,updated_at"
@@ -24,7 +24,7 @@ function localDate(value: string | number): string {
 }
 
 function describeAppointmentTime(value: string, locale: string): string {
-  return new Intl.DateTimeFormat(locale === "en" ? "en-GB" : "fr-FR", {
+  return new Intl.DateTimeFormat(locale === "en" ? "en-US" : "fr-FR", {
     dateStyle: "medium",
     timeStyle: "short",
   }).format(new Date(value))
@@ -68,7 +68,11 @@ export function ServiceAppointmentCalendar({ service, mode }: { service: Service
     mutationFn: async () => {
       if (!supabase || !user || user.isDemo) throw new Error(tx("Connectez-vous avec un compte actif pour demander un rendez-vous.", "Sign in with an active account to request an appointment."))
       if (status !== "open") throw new Error(tx("Ce service n'accepte pas de rendez-vous pour le moment.", "This service is not accepting appointments right now."))
-      const startsAt = new Date(`${date}T${time}:00`)
+      const selectedMinute = parseClockTime(time)
+      const [year, month, day] = date.split("-").map(Number)
+      const startsAt = selectedMinute === null
+        ? new Date(Number.NaN)
+        : new Date(year, month - 1, day, Math.floor(selectedMinute / 60), selectedMinute % 60)
       if (!Number.isFinite(startsAt.getTime()) || startsAt.getTime() <= Date.now()) {
         throw new Error(tx("Choisissez une date et une heure dans le futur.", "Choose a date and time in the future."))
       }
