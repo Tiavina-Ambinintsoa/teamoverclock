@@ -1,6 +1,9 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "./styles/presets.css";
+@import "./styles/accessibility.css";
+@import "./styles/nova-terra.css";
+@import "./styles/hologram.css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -40,6 +43,22 @@
   --color-chart-3: var(--chart-3);
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
+
+  /* Animations requises par les composants Magic UI (aurora-text, shine-border). */
+  --animate-aurora: aurora 8s ease-in-out infinite alternate;
+  --animate-shine: shine var(--duration, 14s) infinite linear;
+  @keyframes aurora {
+    0% { background-position: 0% 50%; transform: rotate(-5deg) scale(0.9); }
+    25% { background-position: 50% 100%; transform: rotate(5deg) scale(1.1); }
+    50% { background-position: 100% 50%; transform: rotate(-3deg) scale(0.95); }
+    75% { background-position: 50% 0%; transform: rotate(3deg) scale(1.05); }
+    100% { background-position: 0% 50%; transform: rotate(-5deg) scale(0.9); }
+  }
+  @keyframes shine {
+    0% { background-position: 0% 0%; }
+    50% { background-position: 100% 100%; }
+    to { background-position: 0% 0%; }
+  }
 }
 
 :root {

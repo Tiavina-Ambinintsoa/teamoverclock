@@ -10,9 +10,14 @@ import { ModeToggle, MorphismPicker, PresetPicker, TypographyPicker } from "@/co
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { ProfileDetailsForm } from "@/features/profile/profile-details-form"
+import { CitizenHealthForm } from "@/features/profile/citizen-health-form"
+import { CitizenResidenceForm } from "@/features/profile/citizen-residence-form"
+import { AccessibilityPanel } from "@/features/accessibility/accessibility-panel"
 import { useAuth } from "@/features/auth/auth-context"
 import { useLocale } from "@/lib/locale"
 import { SITE } from "@/lib/site"
+import { AuroraTitle } from "@/components/magic-ui/aurora-title"
 
 export function SettingsPage() {
   const { user, backend, updateProfile, requestEmailChange, updatePassword, deleteAccount } = useAuth()
@@ -72,11 +77,15 @@ export function SettingsPage() {
     <Container className="max-w-4xl px-4 sm:px-6">
       <title>{t("app.settings")} — {SITE.name}</title>
       <header className="mb-8">
-        <h1 className="text-3xl font-semibold sm:text-4xl">{t("app.settings")}</h1>
+        <h1 className="text-3xl font-semibold sm:text-4xl"><AuroraTitle>{t("app.settings")}</AuroraTitle></h1>
         <p className="mt-2 text-muted-foreground">{t("settings.description")}</p>
       </header>
 
       <div className="grid gap-5">
+        <ProfileDetailsForm />
+        <CitizenResidenceForm />
+        <CitizenHealthForm />
+        <AccessibilityPanel />
         <section className="rounded-xl border bg-card p-5 sm:p-7">
           <h2 className="font-semibold">Modifier le profil</h2>
           <form onSubmit={saveProfile} className="mt-5 grid gap-4 sm:grid-cols-2">

@@ -837,3 +837,115 @@
   --chart-4: #2A6B5C;
   --chart-5: #9FB69D;
 }
+
+/* ===== NOVA TERRA — sci-fi nocturne : verre sombre, orbe indigo et braise (Dune) =====
+ * Placé en DERNIER et sans ":root" / ".dark" nus : sinon les blocs des autres thèmes l'emportent.
+ * Sombre dans les deux modes (le fournisseur de thème force la classe "dark"). */
+[data-theme="nova-terra"],
+[data-theme="nova-terra"].dark,
+.dark [data-theme="nova-terra"] {
+  --font-heading: "Instrument Sans Variable", ui-sans-serif, system-ui, sans-serif;
+  --radius: 1rem;
+  --background: oklch(0.12 0.03 272);
+  --foreground: oklch(0.97 0.004 250);
+  --card: oklch(1 0 0 / 0.07);
+  --card-foreground: oklch(0.97 0.004 250);
+  --popover: oklch(0.17 0.04 272 / 0.94);
+  --popover-foreground: oklch(0.97 0.004 250);
+  --primary: oklch(0.82 0.13 215);
+  --primary-foreground: oklch(0.15 0.04 265);
+  --secondary: oklch(1 0 0 / 0.09);
+  --secondary-foreground: oklch(0.97 0.004 250);
+  --muted: oklch(1 0 0 / 0.06);
+  --muted-foreground: oklch(0.76 0.03 255);
+  --accent: oklch(0.68 0.17 285 / 0.28);
+  --accent-foreground: oklch(0.97 0.004 250);
+  --highlight: oklch(0.7 0.21 38);
+  --highlight-foreground: oklch(0.15 0.04 30);
+  --destructive: oklch(0.7 0.19 22);
+  --border: oklch(1 0 0 / 0.16);
+  --input: oklch(1 0 0 / 0.14);
+  --ring: oklch(0.82 0.13 215);
+  --chart-1: oklch(0.82 0.13 215);
+  --chart-2: oklch(0.68 0.17 285);
+  --chart-3: oklch(0.72 0.2 340);
+  --chart-4: oklch(0.8 0.2 150);
+  --chart-5: oklch(0.82 0.14 75);
+  --nova-indigo: oklch(0.46 0.27 272);
+  --nova-lavender: oklch(0.93 0.05 290);
+  --nova-ember: oklch(0.68 0.25 34);
+}
+
+/* ===== MINIMALISTE — palette neutre et interface sans effets ===== */
+[data-theme="minimalist"],
+[data-theme="minimalist"].dark,
+.dark [data-theme="minimalist"] {
+  --font-heading: system-ui, -apple-system, "Segoe UI", sans-serif;
+  --radius: 0.25rem;
+  --background: oklch(0.99 0 0);
+  --foreground: oklch(0.18 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.18 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.18 0 0);
+  --primary: oklch(0.34 0 0);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.94 0 0);
+  --secondary-foreground: oklch(0.2 0 0);
+  --muted: oklch(0.95 0 0);
+  --muted-foreground: oklch(0.4 0 0);
+  --accent: oklch(0.92 0 0);
+  --accent-foreground: oklch(0.18 0 0);
+  --highlight: oklch(0.7 0 0);
+  --highlight-foreground: oklch(0.15 0 0);
+  --destructive: oklch(0.5 0.18 25);
+  --border: oklch(0.82 0 0);
+  --input: oklch(0.78 0 0);
+  --ring: oklch(0.35 0 0);
+  --chart-1: oklch(0.34 0 0);
+  --chart-2: oklch(0.5 0 0);
+  --chart-3: oklch(0.6 0 0);
+  --chart-4: oklch(0.7 0 0);
+  --chart-5: oklch(0.42 0 0);
+}
+.dark [data-theme="minimalist"],
+[data-theme="minimalist"].dark {
+  --background: oklch(0.14 0 0);
+  --foreground: oklch(0.94 0 0);
+  --card: oklch(0.19 0 0);
+  --card-foreground: oklch(0.94 0 0);
+  --popover: oklch(0.19 0 0);
+  --popover-foreground: oklch(0.94 0 0);
+  --primary: oklch(0.82 0 0);
+  --primary-foreground: oklch(0.15 0 0);
+  --secondary: oklch(0.25 0 0);
+  --secondary-foreground: oklch(0.92 0 0);
+  --muted: oklch(0.23 0 0);
+  --muted-foreground: oklch(0.7 0 0);
+  --accent: oklch(0.27 0 0);
+  --accent-foreground: oklch(0.94 0 0);
+  --highlight: oklch(0.68 0 0);
+  --highlight-foreground: oklch(0.12 0 0);
+  --destructive: oklch(0.72 0.16 25);
+  --border: oklch(0.36 0 0);
+  --input: oklch(0.4 0 0);
+  --ring: oklch(0.78 0 0);
+  --chart-1: oklch(0.82 0 0);
+  --chart-2: oklch(0.68 0 0);
+  --chart-3: oklch(0.58 0 0);
+  --chart-4: oklch(0.48 0 0);
+  --chart-5: oklch(0.74 0 0);
+}
+
+:root[data-theme="minimalist"] *,
+:root[data-theme="minimalist"] *::before,
+:root[data-theme="minimalist"] *::after {
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+  box-shadow: none !important;
+  text-shadow: none !important;
+  filter: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}

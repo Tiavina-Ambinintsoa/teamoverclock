@@ -1,7 +1,16 @@
-import { useEffect, useMemo, useState, type ReactNode } from "react"
+import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react"
 import type { User } from "@supabase/supabase-js"
+import { toast } from "sonner"
 
+import { useTheme } from "@/components/theme-context"
 import { AuthContext, type AppUser, type AuthState, type OAuthProvider } from "@/features/auth/auth-context"
+import {
+  baseExtras,
+  blockedAccountMessage,
+  fetchProfileExtras,
+  isBlockedAccount,
+  type ProfileExtras,
+} from "@/features/auth/profile-api"
 import { env } from "@/lib/env"
 import { safeStorage } from "@/lib/storage"
 import { supabase } from "@/lib/supabase"
@@ -15,6 +24,7 @@ const DEMO_USER: AppUser = {
   role: "member",
   isDemo: true,
   isAdmin: false,
+  ...baseExtras(false, true),
 }
 
 const DEMO_ADMIN: AppUser = {
@@ -24,6 +34,7 @@ const DEMO_ADMIN: AppUser = {
   role: "admin",
   isDemo: true,
   isAdmin: true,
+  ...baseExtras(true, true),
 }
 
 function fromSupabaseUser(user: User | null | undefined): AppUser | null {
@@ -38,6 +49,19 @@ function fromSupabaseUser(user: User | null | undefined): AppUser | null {
     role: isAdmin ? "admin" : "member",
     isDemo: false,
     isAdmin,
+    ...baseExtras(isAdmin, false),
+  }
+}
+
+/** Fusionne les données de profil dans l'utilisateur ; admin = claim JWT OU profil general_admin. */
+function withExtras(user: AppUser, extras: ProfileExtras): AppUser {
+  const isAdmin = user.role === "admin" || extras.profileRole === "general_admin"
+  return {
+    ...user,
+    ...extras,
+    isAdmin,
+    role: isAdmin ? "admin" : "member",
+    displayName: user.displayName,
   }
 }
 
@@ -55,6 +79,7 @@ function readLocalUser(): AppUser | null {
       role: isAdmin ? "admin" : "member",
       isDemo: true,
       isAdmin,
+      ...baseExtras(isAdmin, true),
     }
   } catch {
     return null
@@ -72,7 +97,7 @@ function translateAuthError(message: string): string {
   if (text.includes("invalid login credentials")) return "E-mail ou mot de passe incorrect."
   if (text.includes("already registered")) return "Un compte existe déjà avec cet e-mail : connectez-vous."
   if (text.includes("email not confirmed"))
-    return "E-mail non confirmé. Désactivez « Confirm email » dans Supabase > Authentication > Providers > Email."
+    return "E-mail non confirmé : ouvrez le lien de confirmation reçu par e-mail avant de vous connecter."
   if (text.includes("rate limit")) return "Trop de tentatives : patientez une minute avant de réessayer."
   if (text.includes("password should be")) return "Mot de passe trop court : 6 caractères minimum."
   if (text.includes("failed to fetch") || text.includes("network")) return "Connexion impossible : vérifiez votre réseau."
@@ -80,35 +105,77 @@ function translateAuthError(message: string): string {
 }
 
 export function AuthProvider({ children }: { children: ReactNode }) {
+  const { resetTheme } = useTheme()
   const [user, setUser] = useState<AppUser | null>(() => (supabase ? null : readLocalUser()))
   const [loading, setLoading] = useState<boolean>(supabase !== null)
+  const authenticatedUserId = useRef(user?.id ?? null)
+
+  /** Charge le profil ; un compte suspendu/désactivé est déconnecté immédiatement (D03, D08). */
+  const loadExtras = useCallback(async (base: AppUser): Promise<boolean> => {
+    if (!supabase) return true
+    try {
+      const extras = await fetchProfileExtras(supabase, base.id)
+      if (isBlockedAccount(extras.accountStatus)) {
+        toast.error(blockedAccountMessage(extras.accountStatus))
+        await supabase.auth.signOut()
+        setUser(null)
+        return false
+      }
+      setUser((current) => (current?.id === base.id ? withExtras(current, extras) : current))
+      return true
+    } catch {
+      // Profil illisible : on garde un citoyen de base plutôt que de bloquer l'accès aux pages publiques.
+      setUser((current) => (current?.id === base.id ? { ...current, profileLoaded: true } : current))
+      return true
+    }
+  }, [])
 
   useEffect(() => {
     if (!supabase) return
     let active = true
 
-    void supabase.auth.getSession().then(({ data }) => {
-      if (!active) return
-      setUser(fromSupabaseUser(data.session?.user))
+    const apply = (supabaseUser: User | null | undefined) => {
+      const base = fromSupabaseUser(supabaseUser)
+      if (!base && authenticatedUserId.current) resetTheme()
+      authenticatedUserId.current = base?.id ?? null
+      setUser(base)
       setLoading(false)
+      if (base) void loadExtras(base)
+    }
+
+    void supabase.auth.getSession().then(({ data }) => {
+      if (active) apply(data.session?.user)
     })
 
     const { data: subscription } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(fromSupabaseUser(session?.user))
-      setLoading(false)
+      // Appel différé : ne jamais appeler Supabase de façon synchrone dans ce callback.
+      setTimeout(() => {
+        if (active) apply(session?.user)
+      }, 0)
     })
 
     return () => {
       active = false
       subscription.subscription.unsubscribe()
     }
-  }, [])
+  }, [loadExtras, resetTheme])
 
   const value = useMemo<AuthState>(() => {
     const setLocalUser = (next: AppUser | null) => {
       if (next) safeStorage.set(LOCAL_USER_KEY, JSON.stringify(next))
       else safeStorage.remove(LOCAL_USER_KEY)
       setUser(next)
+    }
+
+    /** Vérifie le statut du compte juste après la connexion ; déconnecte et lève une erreur si bloqué. */
+    const assertAccountAllowed = async (userId: string) => {
+      if (!supabase) return
+      const extras = await fetchProfileExtras(supabase, userId)
+      if (isBlockedAccount(extras.accountStatus)) {
+        await supabase.auth.signOut()
+        throw new Error(blockedAccountMessage(extras.accountStatus))
+      }
+      void supabase.rpc("touch_last_login")
     }
 
     const authenticate = async (email: string, password: string) => {
@@ -120,11 +187,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           role: "member",
           isDemo: true,
           isAdmin: false,
+          ...baseExtras(false, true),
         })
         return
       }
-      const { error } = await supabase.auth.signInWithPassword({ email, password })
+      const { data, error } = await supabase.auth.signInWithPassword({ email, password })
       if (error) throw new Error(translateAuthError(error.message))
+      await assertAccountAllowed(data.user.id)
     }
 
     return {
@@ -140,13 +209,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         }
         const { data, error } = await supabase.auth.signInWithPassword({ email, password })
         if (error) throw new Error(translateAuthError(error.message))
-        if (data.user.app_metadata?.role !== "admin") {
+        await assertAccountAllowed(data.user.id)
+        const extras = await fetchProfileExtras(supabase, data.user.id)
+        if (data.user.app_metadata?.role !== "admin" && extras.profileRole !== "general_admin") {
           await supabase.auth.signOut()
           throw new Error("Ce compte n'a pas le rôle administrateur.")
         }
       },
 
-      async signUp(email, password, displayName) {
+      async signUp(email, password, displayName, details) {
         if (!supabase) {
           setLocalUser({
             id: `local-${email}`,
@@ -155,13 +226,27 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             role: "member",
             isDemo: true,
             isAdmin: false,
+            ...baseExtras(false, true),
           })
           return
         }
         const { error } = await supabase.auth.signUp({
           email,
           password,
-          options: { data: { display_name: displayName }, emailRedirectTo: getAppRouteUrl("/") },
+          options: {
+            data: {
+              display_name: displayName,
+              ...(details
+                ? {
+                    first_name: details.firstName,
+                    last_name: details.lastName,
+                    birth_date: details.birthDate,
+                    sector_id: details.sectorId,
+                  }
+                : {}),
+            },
+            emailRedirectTo: getAppRouteUrl("/connexion"),
+          },
         })
         if (error) throw new Error(translateAuthError(error.message))
       },
@@ -202,6 +287,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         if (authError) throw new Error(translateAuthError(authError.message))
         const { error: profileError } = await supabase.from("profiles").upsert({ id: user.id, display_name: name })
         if (profileError) throw new Error("Profil Auth mis à jour, mais impossible d'enregistrer la fiche publique : " + profileError.message)
+        setUser((current) => (current ? { ...current, displayName: name } : current))
       },
 
       async requestEmailChange(email) {
@@ -216,12 +302,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         if (!user) throw new Error("Connexion requise.")
         if (!supabase || user.isDemo) {
           setLocalUser(null)
+          resetTheme()
           return
         }
         const { error } = await supabase.functions.invoke("account-delete", { body: {} })
         if (error) throw new Error(error.message || "La suppression du compte a échoué.")
         await supabase.auth.signOut({ scope: "local" })
         setUser(null)
+        resetTheme()
       },
 
       async signInDemo() {
@@ -239,17 +327,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       async signOut() {
         if (user?.isDemo) {
           setLocalUser(null)
+          resetTheme()
           return
         }
         if (supabase) {
           const { error } = await supabase.auth.signOut()
           if (error) throw new Error(translateAuthError(error.message))
+          resetTheme()
           return
         }
         setLocalUser(null)
+        resetTheme()
+      },
+
+      async refreshProfile() {
+        if (user && supabase && !user.isDemo) await loadExtras(user)
       },
     }
-  }, [user, loading])
+  }, [user, loading, loadExtras, resetTheme])
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }

@@ -8,7 +8,7 @@ import { SITE } from "@/lib/site"
 import { safeStorage } from "@/lib/storage"
 
 const MODE_KEY = "webcup:mode"
-const PRESET_KEY = "webcup:preset"
+const PRESET_KEY = "webcup:preset:v2"
 const TYPOGRAPHY_KEY = "webcup:typography"
 const MORPHISM_KEY = "webcup:morphism"
 
@@ -53,9 +53,12 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   // Le script inline de index.html applique déjà le thème avant le rendu (pas de flash).
   useEffect(() => {
     const root = document.documentElement
-    root.classList.toggle("dark", resolvedMode === "dark")
+    // Un thème d'accessibilité contrasté impose clair/sombre (voir AccessibilityProvider).
+    const contrast = root.dataset.contrast
+    const forcedDark = contrast === "high_contrast_light" ? false : contrast || preset === "nova-terra" ? true : null
+    root.classList.toggle("dark", forcedDark ?? resolvedMode === "dark")
     root.dataset.theme = preset
-    root.dataset.typography = typography
+    root.dataset.typography = preset === "minimalist" ? "system" : typography
     root.dataset.morphism = morphism
   }, [resolvedMode, preset, typography, morphism])
 
@@ -69,6 +72,21 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     safeStorage.set(PRESET_KEY, next)
   }, [])
 
+  const resetTheme = useCallback(() => {
+    const nextMode = SITE.defaultMode
+    const nextPreset = SITE.defaultPreset
+    const nextTypography: TypographyId = "theme"
+    const nextMorphism: MorphismId = "standard"
+    setModeState(nextMode)
+    setPresetState(nextPreset)
+    setTypographyState(nextTypography)
+    setMorphismState(nextMorphism)
+    safeStorage.set(MODE_KEY, nextMode)
+    safeStorage.set(PRESET_KEY, nextPreset)
+    safeStorage.set(TYPOGRAPHY_KEY, nextTypography)
+    safeStorage.set(MORPHISM_KEY, nextMorphism)
+  }, [])
+
   const setTypography = useCallback((next: TypographyId) => {
     setTypographyState(next)
     safeStorage.set(TYPOGRAPHY_KEY, next)
@@ -80,8 +98,8 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   }, [])
 
   const value = useMemo<ThemeState>(
-    () => ({ mode, setMode, resolvedMode, preset, setPreset, typography, setTypography, morphism, setMorphism }),
-    [mode, setMode, resolvedMode, preset, setPreset, typography, setTypography, morphism, setMorphism]
+    () => ({ mode, setMode, resolvedMode, preset, setPreset, resetTheme, typography, setTypography, morphism, setMorphism }),
+    [mode, setMode, resolvedMode, preset, setPreset, resetTheme, typography, setTypography, morphism, setMorphism]
   )
 
   return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>

@@ -1,6 +1,7 @@
 import { Link } from "react-router"
 
 import { Container } from "@/components/layout/container"
+import { AuroraTitle, TextAnimate } from "@/components/magic-ui"
 import { useLocale } from "@/lib/locale"
 import { SITE } from "@/lib/site"
 
@@ -12,9 +13,13 @@ export function SiteFooter() {
       <Container>
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
           <div className="max-w-sm">
-            <p className="font-display text-lg font-semibold text-foreground">{SITE.name}</p>
-            <p className="mt-3 leading-6">{SITE.tagline}</p>
-            <p className="mt-5 text-xs">Emplacement du logo Webcup ou de l'équipe</p>
+            <p className="font-display text-lg font-semibold text-foreground">
+              <AuroraTitle>{SITE.name}</AuroraTitle>
+            </p>
+            <TextAnimate as="p" by="word" animation="blurInUp" className="mt-3 leading-6">
+              {SITE.tagline}
+            </TextAnimate>
+            <p className="mt-5 text-xs">Simulation : toutes les données de Nova Terra sont fictives.</p>
           </div>
           <div>
             <h2 className="font-semibold text-foreground">{t("footer.about")}</h2>
@@ -39,7 +44,7 @@ export function SiteFooter() {
         </div>
         <div className="mt-10 flex flex-col gap-2 border-t pt-5 text-xs sm:flex-row sm:items-center sm:justify-between">
           <p>© {new Date().getFullYear()} {SITE.name}. {t("footer.rights")}</p>
-          <p>24h by Webcup Madagascar · <span>Nom de l'équipe</span>{/* TODO(webcup) */}</p>
+          <p>24h by Webcup Madagascar · Team Overclock</p>
         </div>
       </Container>
     </footer>

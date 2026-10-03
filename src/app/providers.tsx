@@ -4,6 +4,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/sonner"
 import { TooltipProvider } from "@/components/ui/tooltip"
+import { AccessibilityProvider } from "@/features/accessibility/accessibility-provider"
+import { ThemeChoiceDialog } from "@/features/accessibility/theme-choice-dialog"
 import { AuthProvider } from "@/features/auth/auth-provider"
 import { LocaleProvider } from "@/lib/locale"
 
@@ -19,10 +21,13 @@ export function Providers({ children }: { children: ReactNode }) {
       <LocaleProvider>
         <QueryClientProvider client={queryClient}>
           <AuthProvider>
-            <TooltipProvider>
-              {children}
-              <Toaster position="bottom-right" closeButton />
-            </TooltipProvider>
+            <AccessibilityProvider>
+              <TooltipProvider>
+                {children}
+                <ThemeChoiceDialog />
+                <Toaster position="bottom-right" closeButton />
+              </TooltipProvider>
+            </AccessibilityProvider>
           </AuthProvider>
         </QueryClientProvider>
       </LocaleProvider>
