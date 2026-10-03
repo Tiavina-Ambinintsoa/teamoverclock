@@ -9,6 +9,7 @@ import { StatusBadge } from "@/components/status-badge"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Select } from "@/components/ui/select"
+import { Textarea } from "@/components/ui/textarea"
 import { useAuth } from "@/features/auth/auth-context"
 import { useBuildings, useSectors, useServices } from "@/features/city/city-queries"
 import { canPublish, canValidateReport, reportTransitions } from "@/features/reports/report-workflow"
@@ -34,6 +35,26 @@ export function ReportDetail({ mode }: { mode: "citizen" | "agent" }) {
   const report = detail.data?.report
   const agent = mode === "agent"
   const [assignee, setAssignee] = useState("")
+  const [guidanceDraft, setGuidanceDraft] = useState<{
+    reportId: string
+    nextSteps: string
+    requiredDocuments: string
+    postponementReason: string
+  } | null>(null)
+  const guidance = guidanceDraft && report && guidanceDraft.reportId === report.id ? guidanceDraft : {
+    reportId: report?.id ?? "",
+    nextSteps: report?.next_steps ?? "",
+    requiredDocuments: (report?.required_documents ?? []).join("\n"),
+    postponementReason: report?.postponement_reason ?? "",
+  }
+  const updateGuidance = (patch: Partial<typeof guidance>) => {
+    if (report) setGuidanceDraft({
+      reportId: report.id,
+      nextSteps: patch.nextSteps ?? guidance.nextSteps,
+      requiredDocuments: patch.requiredDocuments ?? guidance.requiredDocuments,
+      postponementReason: patch.postponementReason ?? guidance.postponementReason,
+    })
+  }
 
   const members = useQuery({
     queryKey: ["report-members", report?.service_id],
@@ -60,6 +81,25 @@ export function ReportDetail({ mode }: { mode: "citizen" | "agent" }) {
       if (error) throw new Error(error.message)
     },
     onSuccess: async () => { toast.success(tx("Signalement mis à jour.", "Report updated.")); await refresh() },
+    onError: (error: Error) => toast.error(error.message),
+  })
+
+  const postpone = useMutation({
+    mutationFn: async () => {
+      if (!supabase || !report) throw new Error("Supabase")
+      const { error } = await supabase.rpc("postpone_report_with_notice", {
+        p_report_id: report.id,
+        p_reason: guidance.postponementReason.trim(),
+        p_next_steps: guidance.nextSteps.trim(),
+        p_required_documents: guidance.requiredDocuments.split("\n").map((value) => value.trim()).filter(Boolean),
+        p_locale: locale,
+      })
+      if (error) throw new Error(error.message)
+    },
+    onSuccess: async () => {
+      toast.success(tx("Report et notification envoyés au citoyen.", "Report and notification sent to the citizen."))
+      await refresh()
+    },
     onError: (error: Error) => toast.error(error.message),
   })
 
@@ -90,6 +130,10 @@ export function ReportDetail({ mode }: { mode: "citizen" | "agent" }) {
   const building = buildings.data?.find((b) => b.id === report.building_id)
   const service = services.data?.find((s) => s.id === report.service_id)
   const mayValidate = Boolean(user && agent && canValidateReport({ isAdmin: user.isAdmin, validatorServiceIds: user.validatorServiceIds }, report))
+  const mayManageGuidance = Boolean(user && agent && (
+    user.isAdmin ||
+    (user.profileRole === "service_admin" && report.service_id && user.serviceIds.includes(report.service_id))
+  ))
   const external = report.source !== "citizen" && report.source !== "agent" && report.source !== "chatbot"
   const transitions = reportTransitions(report.status).filter((s) => (s === "validated" || s === "rejected" ? mayValidate : agent))
 
@@ -128,6 +172,48 @@ export function ReportDetail({ mode }: { mode: "citizen" | "agent" }) {
           <Button className="mt-4" disabled={update.isPending || (Boolean(report.voice_transcript) && !report.transcript_reviewed)} onClick={() => update.mutate({ status: "received" })}>{tx("Envoyer ce brouillon", "Send this draft")}</Button>
         )}
       </section>
+
+      {(report.next_steps || report.required_documents?.length || report.postponement_reason) && (
+        <section aria-labelledby="rd-guidance" className="mb-6 rounded-xl border border-highlight/60 bg-highlight/10 p-5">
+          <h2 id="rd-guidance" className="font-semibold">{tx("Suivi et prochaines étapes", "Follow-up and next steps")}</h2>
+          {report.postponement_reason && <p className="mt-2"><strong>{tx("Traitement reporté :", "Processing postponed:")}</strong> {report.postponement_reason}</p>}
+          {report.next_steps && <p className="mt-2"><strong>{tx("Prochaines étapes :", "Next steps:")}</strong> {report.next_steps}</p>}
+          {(report.required_documents ?? []).length > 0 && (
+            <div className="mt-2">
+              <strong>{tx("Documents à fournir :", "Documents to provide:")}</strong>
+              <ul className="mt-1 list-disc pl-5">{(report.required_documents ?? []).map((document) => <li key={document}>{document}</li>)}</ul>
+            </div>
+          )}
+        </section>
+      )}
+
+      {mayManageGuidance && (
+        <section aria-labelledby="rd-guidance-edit" className="mb-6 grid gap-3 rounded-xl border bg-card p-5">
+          <h2 id="rd-guidance-edit" className="font-semibold">{tx("Informer le citoyen du suivi", "Update the citizen on next steps")}</h2>
+          <div className="grid gap-1">
+            <label htmlFor="rd-next-steps" className="text-sm font-medium">{tx("Prochaines étapes", "Next steps")}</label>
+            <Textarea id="rd-next-steps" value={guidance.nextSteps} maxLength={2000} onChange={(event) => updateGuidance({ nextSteps: event.target.value })} />
+          </div>
+          <div className="grid gap-1">
+            <label htmlFor="rd-required-documents" className="text-sm font-medium">{tx("Documents requis (un par ligne)", "Required documents (one per line)")}</label>
+            <Textarea id="rd-required-documents" value={guidance.requiredDocuments} maxLength={2000} onChange={(event) => updateGuidance({ requiredDocuments: event.target.value })} />
+          </div>
+          <Button variant="outline" disabled={update.isPending} onClick={() => update.mutate({
+            next_steps: guidance.nextSteps.trim() || null,
+            required_documents: guidance.requiredDocuments.split("\n").map((value) => value.trim()).filter(Boolean),
+          })}>{tx("Enregistrer les étapes", "Save next steps")}</Button>
+          {["received", "to_verify", "validated", "assigned", "in_progress"].includes(report.status) && (
+            <div className="grid gap-1 border-t pt-3">
+              <label htmlFor="rd-postponement-reason" className="text-sm font-medium">{tx("Raison du report (obligatoire pour notifier)", "Reason for postponement (required to notify)")}</label>
+              <Textarea id="rd-postponement-reason" value={guidance.postponementReason} maxLength={500} onChange={(event) => updateGuidance({ postponementReason: event.target.value })} required />
+              <Button disabled={postpone.isPending || update.isPending || guidance.postponementReason.trim().length < 5} onClick={() => postpone.mutate()}>
+                {tx("Reporter et notifier le citoyen", "Postpone and notify the citizen")}
+              </Button>
+              <p className="text-xs text-muted-foreground">{tx("Une raison de 5 caractères minimum est nécessaire. Le citoyen recevra une notification avec un lien vers ce suivi.", "A reason of at least 5 characters is required. The citizen will receive a notification linking to this update.")}</p>
+            </div>
+          )}
+        </section>
+      )}
 
       {agent && (
         <section aria-labelledby="rd-actions" className="mb-6 grid gap-4 rounded-xl border bg-card p-5 md:grid-cols-3">

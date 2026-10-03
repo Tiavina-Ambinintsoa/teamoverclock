@@ -52,6 +52,9 @@ export function MyReportsPage() {
                   <div className="min-w-0">
                     <p className="font-medium">{r.title}</p>
                     <p className="text-sm text-muted-foreground"><span className="font-mono">{r.report_number}</span> · {pickLabel(REPORT_CATEGORY_LABELS, r.category, locale)} · {formatDateTime(r.created_at, tag)}</p>
+                    {r.postponement_reason && <p className="mt-1 text-sm"><strong>{tx("Reporté :", "Postponed:")}</strong> {r.postponement_reason}</p>}
+                    {r.next_steps && <p className="mt-1 text-sm"><strong>{tx("Étapes suivantes :", "Next steps:")}</strong> {r.next_steps}</p>}
+                    {(r.required_documents ?? []).length > 0 && <p className="mt-1 text-sm"><strong>{tx("Documents :", "Documents:")}</strong> {(r.required_documents ?? []).join(", ")}</p>}
                   </div>
                   <StatusBadge kind="report" value={r.status} />
                 </Link>

@@ -11,12 +11,15 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useServices } from "@/features/city/city-queries"
 import { describeOpeningHours } from "@/features/services/hours"
+import { effectiveServiceStatus } from "@/features/services/service-availability"
 import { useLocale } from "@/lib/locale"
 import { cn } from "@/lib/utils"
+import { useNow } from "@/hooks/use-now"
 
 /** D05 — liste des services municipaux : recherche par mot-clé, filtre par catégorie, services fermés signalés. */
 export function ServicesPage() {
   const { tx, locale } = useLocale()
+  const now = useNow(60_000)
   const [params, setParams] = useSearchParams()
   const q = params.get("q") ?? ""
   const category = params.get("category") ?? ""
@@ -78,7 +81,8 @@ export function ServicesPage() {
           <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3" data-tour="services">
             {items.map((service) => {
               const hours = describeOpeningHours(service.opening_hours, locale)[0]
-              const closed = service.status !== "open"
+              const serviceStatus = effectiveServiceStatus(service, now)
+              const closed = serviceStatus !== "open"
               return (
                 <li key={service.id} className={cn("flex flex-col gap-3 rounded-xl border bg-card p-5", closed && "border-dashed")}>
                   <div className="flex items-start justify-between gap-2">
@@ -89,9 +93,10 @@ export function ServicesPage() {
                   </div>
                   <div className="flex flex-wrap gap-2">
                     <Badge variant="secondary">{service.category}</Badge>
-                    {closed && <StatusBadge kind="service" value={service.status} />}
+                    <StatusBadge kind="service" value={serviceStatus} />
                   </div>
                   <p className="text-sm text-muted-foreground">{service.description}</p>
+                  {closed && service.status_reason && <p className="rounded-md border border-highlight/60 bg-highlight/10 p-2 text-sm">{service.status_reason}</p>}
                   <dl className="mt-auto grid gap-1 text-sm">
                     {hours && <div className="flex items-center gap-2"><Clock className="size-4 shrink-0" aria-hidden /><dt className="sr-only">{tx("Horaires", "Hours")}</dt><dd>{hours.days} · {hours.hours}</dd></div>}
                     {service.phone && <div className="flex items-center gap-2"><Phone className="size-4 shrink-0" aria-hidden /><dt className="sr-only">{tx("Téléphone", "Phone")}</dt><dd><a className="underline-offset-4 hover:underline" href={`tel:${service.phone.replace(/\s/g, "")}`}>{service.phone}</a></dd></div>}

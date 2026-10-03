@@ -1,8 +1,9 @@
-import { useMemo, useState } from "react"
+import { lazy, Suspense, useMemo, useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 import { Link, useSearchParams } from "react-router"
 
 import { Container } from "@/components/layout/container"
+import { useTheme } from "@/components/theme-context"
 import { PageHeader } from "@/components/page-header"
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
@@ -13,13 +14,14 @@ import { useAuth } from "@/features/auth/auth-context"
 import { filterBuildingsForService, filterFacilities, useBuildings, useDangers, useSectors, useServices, useTransports } from "@/features/city/city-queries"
 import type { MapData, MapReport, Observation, Pick } from "@/features/map/engine"
 import { HexMap, type MapLayers, type MapMarker, type MapSelection } from "@/features/map/hex-map"
-import { HologramMap } from "@/features/map/hologram-map"
 import { MapDetailPanel } from "@/features/map/map-detail-panel"
 import { DEFAULT_FILTERS, filterMapBuildings, filterMapReports, MapFilters, type MapFilterState } from "@/features/map/map-filters"
 import { usePublicReports, type PublicReport } from "@/features/reports/report-queries"
 import { useLocale } from "@/lib/locale"
 import { unwrap } from "@/lib/query-helpers"
 import { supabase } from "@/lib/supabase"
+
+const HologramMap = lazy(() => import("@/features/map/hologram-map").then((module) => ({ default: module.HologramMap })))
 
 interface ObservationItem extends Observation {
   x: number
@@ -51,6 +53,7 @@ const toMapReport = (r: PublicReport): MapReport => ({
 /** Carte interactive de Nova Terra avec vues 3D/2D, filtres et détails des éléments. */
 export function MapPage() {
   const { user } = useAuth()
+  const { preset } = useTheme()
   const { tx } = useLocale()
   const [params, setSearchParams] = useSearchParams()
   const sectors = useSectors()
@@ -77,7 +80,7 @@ export function MapPage() {
     const sectorId = params.get("sector")
     return sectorId ? { kind: "sector", id: sectorId } : null
   })
-  const [view, setView] = useState<"3d" | "2d">("3d")
+  const [view, setView] = useState<"3d" | "2d">(() => preset === "minimalist" ? "2d" : "3d")
   const [webglMissing, setWebglMissing] = useState(false)
   const [search, setSearch] = useState(facilitySearch)
   const [listSearch, setListSearch] = useState("")
@@ -253,11 +256,12 @@ export function MapPage() {
             )}
           </section>
           <fieldset className="flex gap-2"><legend className="sr-only">{tx("Mode d'affichage", "Display mode")}</legend>
-            <Button type="button" size="sm" variant={view === "3d" ? "default" : "outline"} aria-pressed={view === "3d"} disabled={webglMissing} onClick={() => setView("3d")}>{tx("Hologramme 3D", "3D hologram")}</Button>
+            <Button type="button" size="sm" variant={view === "3d" ? "default" : "outline"} aria-pressed={view === "3d"} disabled={webglMissing || preset === "minimalist"} onClick={() => setView("3d")}>{tx("Hologramme 3D", "3D hologram")}</Button>
             <Button type="button" size="sm" variant={view === "2d" ? "default" : "outline"} aria-pressed={view === "2d"} onClick={() => setView("2d")}>{tx("Plan 2D", "2D plan")}</Button>
           </fieldset>
         </div>
-        {webglMissing && <output className="text-xs text-muted-foreground">{tx("WebGL indisponible : plan 2D affiché.", "WebGL unavailable: showing the 2D plan.")}</output>}
+          {preset === "minimalist" && <p className="text-sm text-muted-foreground">{tx("Le thème minimaliste utilise le plan 2D pour limiter les ressources.", "The minimalist theme uses the 2D map to reduce resource use.")}</p>}
+          {webglMissing && <output className="text-xs text-muted-foreground">{tx("WebGL indisponible : plan 2D affiché.", "WebGL unavailable: showing the 2D plan.")}</output>}
         <MapFilters
           value={filters}
           onChange={patchFilters}
@@ -270,18 +274,20 @@ export function MapPage() {
           onFocusSector={(id) => setSelected({ kind: "sector", id })}
           counts={{ buildings: shownBuildings.length, reports: shownReports.length }}
         />
-        {view === "3d" && !webglMissing ? (
-          <HologramMap
-            className="h-[min(78vh,52rem)]"
-            data={engineData}
-            layers={engineLayers}
-            selected={selected}
-            onSelect={setSelected}
-            routeSectorIds={null}
-            dangerId={filters.dangerId || null}
-            panel={detail ?? undefined}
-            onUnsupported={() => { setWebglMissing(true); setView("2d") }}
-          />
+        {view === "3d" && !webglMissing && preset !== "minimalist" ? (
+          <Suspense fallback={<div className="grid h-[min(78vh,52rem)] place-items-center rounded-2xl border bg-card text-sm text-muted-foreground">{tx("Chargement de la carte 3D…", "Loading 3D map…")}</div>}>
+            <HologramMap
+              className="h-[min(78vh,52rem)]"
+              data={engineData}
+              layers={engineLayers}
+              selected={selected}
+              onSelect={setSelected}
+              routeSectorIds={null}
+              dangerId={filters.dangerId || null}
+              panel={detail ?? undefined}
+              onUnsupported={() => { setWebglMissing(true); setView("2d") }}
+            />
+          </Suspense>
         ) : (
           <HexMap
             sectors={sectors.data ?? []}

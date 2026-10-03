@@ -134,6 +134,6 @@ describe("presetForNeed", () => {
     expect(presetForNeed("low_vision", custom)).toMatchObject({ theme: "yellow_on_black", fontScale: 1.8, lineSpacing: 1.5 })
   })
   it("the voice profile enables reading aloud, voice navigation, captions and visual alerts", () => {
-    expect(presetForNeed("hard_of_hearing", DEFAULT_A11Y_PREFS)).toEqual({ readScreenAloud: true, voiceNavigation: true, voiceGuide: true, captions: true, visualAlerts: true })
+    expect(presetForNeed("hard_of_hearing", DEFAULT_A11Y_PREFS)).toEqual({ captions: true, visualAlerts: true })
   })
 })

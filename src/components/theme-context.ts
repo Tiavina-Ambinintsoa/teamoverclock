@@ -13,6 +13,7 @@ export interface ThemeState {
   resolvedMode: "light" | "dark"
   preset: PresetId
   setPreset: (preset: PresetId) => void
+  resetTheme: () => void
   typography: TypographyId
   setTypography: (typography: TypographyId) => void
   morphism: MorphismId

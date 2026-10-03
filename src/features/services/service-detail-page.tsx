@@ -15,9 +15,13 @@ import { filterBuildingsForService, filterFacilities, useBuildings, useSectors, 
 import { HexMap, type MapLayers, type MapSelection } from "@/features/map/hex-map"
 import { describeClosingDays, describeOpeningHours } from "@/features/services/hours"
 import { useLocale } from "@/lib/locale"
-import { formatDate } from "@/lib/query-helpers"
+import { formatDate, formatDateTime } from "@/lib/query-helpers"
 import { FACILITY_TYPE_LABELS, pickLabel } from "@/lib/status-labels"
 import { AuroraTitle } from "@/components/magic-ui/aurora-title"
+import { ServiceAppointmentCalendar } from "@/features/services/service-appointments"
+import { effectiveServiceStatus } from "@/features/services/service-availability"
+import { isFutureTimestamp } from "@/features/services/service-availability"
+import { useNow } from "@/hooks/use-now"
 
 const FACILITY_MAP_LAYERS: MapLayers = {
   sectors: true, buildings: true, transports: false, dangers: false, reports: false, observations: false,
@@ -28,6 +32,7 @@ export function ServiceDetailPage() {
   const { slug } = useParams()
   const [params, setParams] = useSearchParams()
   const { tx, locale, tag } = useLocale()
+  const now = useNow(60_000)
   const service = useService(slug)
   const buildings = useBuildings()
   const sectors = useSectors()
@@ -54,7 +59,8 @@ export function ServiceDetailPage() {
   const sector = sectors.data?.find((x) => x.id === building?.sector_id)
   const hours = describeOpeningHours(s.opening_hours, locale)
   const closing = describeClosingDays(s.closing_days, locale)
-  const closed = s.status !== "open"
+  const serviceStatus = effectiveServiceStatus(s, now)
+  const closed = serviceStatus !== "open"
   const serviceFacilities = filterBuildingsForService(buildings.data ?? [], s.id)
   const facilities = filterFacilities(serviceFacilities, facilitySearch, facilityType)
   const facilityTypes = Array.from(new Set(serviceFacilities.flatMap((facility) => facility.facility_type ? [facility.facility_type] : []))).sort()
@@ -81,12 +87,23 @@ export function ServiceDetailPage() {
           <h1 className="font-display text-3xl font-semibold"><AuroraTitle>{s.name}</AuroraTitle></h1>
           <Badge variant="secondary">{s.category}</Badge>
           {s.is_emergency && <Badge variant="destructive">{tx("Urgence", "Emergency")}</Badge>}
-          <StatusBadge kind="service" value={s.status} />
+          <StatusBadge kind="service" value={serviceStatus} />
         </div>
         <p className="mt-3 text-muted-foreground">{s.description}</p>
         {closed && (
           <output className="mt-4 block rounded-lg border border-highlight/60 bg-highlight/10 p-3 text-sm">
-            {tx("Ce service est actuellement fermé ou suspendu. Utilisez le formulaire de contact pour être recontacté.", "This service is currently closed or suspended. Use the contact form to be called back.")}
+            <strong>{tx("Service fermé ou suspendu.", "Service closed or suspended.")}</strong>{" "}
+            {s.status_reason ? `${s.status_reason} ` : ""}
+            {isFutureTimestamp(s.reopens_at, now) && s.reopens_at
+              ? tx(`Réouverture prévue le ${formatDateTime(s.reopens_at, tag)}.`, `Expected to reopen ${formatDateTime(s.reopens_at, tag)}.`)
+              : tx("Utilisez le formulaire de contact pour être recontacté.", "Use the contact form to be called back.")}
+          </output>
+        )}
+        {s.scheduled_status && isFutureTimestamp(s.scheduled_at, now) && s.scheduled_at && (
+          <output className="mt-3 block rounded-lg border p-3 text-sm">
+            {tx("Changement d'état programmé", "Scheduled status change")}: <StatusBadge kind="service" value={s.scheduled_status} />{" "}
+            {formatDateTime(s.scheduled_at, tag)}
+            {s.status_reason ? ` · ${s.status_reason}` : ""}
           </output>
         )}
         <div className="mt-5 flex flex-wrap gap-3">
@@ -129,6 +146,9 @@ export function ServiceDetailPage() {
           {s.fees && <p className="mt-3 text-sm"><span className="font-medium">{tx("Tarif :", "Fee:")}</span> {s.fees}</p>}
           <p className="mt-3 text-xs text-muted-foreground">{tx("Dernière mise à jour :", "Last updated:")} {formatDate(s.updated_at, tag)}</p>
         </section>
+      </div>
+      <div className="mt-6">
+        <ServiceAppointmentCalendar service={s} mode="public" />
       </div>
       <section aria-labelledby="facilities" className="mt-6 rounded-xl border bg-card p-5">
         <div className="mb-4 flex flex-wrap items-end justify-between gap-3">

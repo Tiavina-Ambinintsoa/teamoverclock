@@ -151,6 +151,12 @@ La galerie `/modeles/accueils` prévisualise trois directions alternatives. Essa
 
 Le morphisme se choisit dans **Paramètres → Apparence** ou dans l'en-tête de `/kit`. Le choix est mémorisé dans le navigateur et agit sur les cartes, boutons, champs, dialogues, menus et panneaux d'authentification au niveau global. Choisissez **Standard** pour retrouver les formes du thème sans effet de morphisme. Les palettes gardent la responsabilité des couleurs ; le morphisme transforme les surfaces, contours, rayons et ombres.
 
+À sa première connexion sur un appareil, chaque compte choisit entre **Nova Terra** et **Minimaliste**. Le mode minimaliste utilise les polices système, coupe animations et effets décoratifs, et charge uniquement la carte 2D (le moteur 3D est chargé à la demande). À la déconnexion, les réglages d'apparence de l'appareil reviennent aux valeurs `SITE` par défaut. Si le navigateur signale des tâches longues persistantes, ou si l'appareil ne signale qu'un ou deux cœurs CPU, l'application bascule automatiquement sur **Lagon** et réduit les animations. La détection des tâches longues dépend des capacités du navigateur.
+
+Deux boutons flottants, au-dessus de l'assistant, ouvrent les réglages rapides d'accessibilité et activent/désactivent séparément la lecture automatique de l'écran. Les services affichent leur état en permanence ; leurs administrateurs peuvent publier une fermeture imprévue ou programmer un changement et une réouverture. Une fiche service inclut un agenda de demandes de rendez-vous. Les agents administrateurs peuvent renseigner les prochaines étapes et documents d'un signalement, et notifier le citoyen d'un report avec une explication obligatoire. Les changements importants apparaissent aussi sur l'accueil.
+
+Ces fonctions nécessitent la migration [20261003214500_service_status_reports_and_appointments.sql](./supabase/migrations/20261003214500_service_status_reports_and_appointments.sql) ; appliquez-la à Supabase avant d'utiliser les écrans de gestion et de réservation.
+
 Pour changer le fond d'accueil, modifiez `HOME_BACKGROUND_CONFIG` dans `src/lib/home-background-config.ts` : couleurs (tokens `var(--primary)`/`var(--highlight)`), nombre et taille des halos, positions, opacité, intensité du pointeur et du scroll. Passez `enabled` à `false` pour le désactiver. Le mouvement du pointeur ne s'active que sur les appareils avec une souris ou un pavé tactile précis ; les préférences `prefers-reduced-motion` coupent le mouvement.
 
 Pour garder un rendu fluide et présentable au jury :

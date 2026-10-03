@@ -1,7 +1,8 @@
-import { useCallback, useEffect, useMemo, useState, type ReactNode } from "react"
+import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react"
 import type { User } from "@supabase/supabase-js"
 import { toast } from "sonner"
 
+import { useTheme } from "@/components/theme-context"
 import { AuthContext, type AppUser, type AuthState, type OAuthProvider } from "@/features/auth/auth-context"
 import {
   baseExtras,
@@ -104,8 +105,10 @@ function translateAuthError(message: string): string {
 }
 
 export function AuthProvider({ children }: { children: ReactNode }) {
+  const { resetTheme } = useTheme()
   const [user, setUser] = useState<AppUser | null>(() => (supabase ? null : readLocalUser()))
   const [loading, setLoading] = useState<boolean>(supabase !== null)
+  const authenticatedUserId = useRef(user?.id ?? null)
 
   /** Charge le profil ; un compte suspendu/désactivé est déconnecté immédiatement (D03, D08). */
   const loadExtras = useCallback(async (base: AppUser): Promise<boolean> => {
@@ -133,6 +136,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     const apply = (supabaseUser: User | null | undefined) => {
       const base = fromSupabaseUser(supabaseUser)
+      if (!base && authenticatedUserId.current) resetTheme()
+      authenticatedUserId.current = base?.id ?? null
       setUser(base)
       setLoading(false)
       if (base) void loadExtras(base)
@@ -153,7 +158,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       active = false
       subscription.subscription.unsubscribe()
     }
-  }, [loadExtras])
+  }, [loadExtras, resetTheme])
 
   const value = useMemo<AuthState>(() => {
     const setLocalUser = (next: AppUser | null) => {
@@ -297,12 +302,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         if (!user) throw new Error("Connexion requise.")
         if (!supabase || user.isDemo) {
           setLocalUser(null)
+          resetTheme()
           return
         }
         const { error } = await supabase.functions.invoke("account-delete", { body: {} })
         if (error) throw new Error(error.message || "La suppression du compte a échoué.")
         await supabase.auth.signOut({ scope: "local" })
         setUser(null)
+        resetTheme()
       },
 
       async signInDemo() {
@@ -320,21 +327,24 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       async signOut() {
         if (user?.isDemo) {
           setLocalUser(null)
+          resetTheme()
           return
         }
         if (supabase) {
           const { error } = await supabase.auth.signOut()
           if (error) throw new Error(translateAuthError(error.message))
+          resetTheme()
           return
         }
         setLocalUser(null)
+        resetTheme()
       },
 
       async refreshProfile() {
         if (user && supabase && !user.isDemo) await loadExtras(user)
       },
     }
-  }, [user, loading, loadExtras])
+  }, [user, loading, loadExtras, resetTheme])
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }

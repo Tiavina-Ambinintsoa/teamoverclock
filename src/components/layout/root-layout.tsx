@@ -5,6 +5,7 @@ import { SiteFooter } from "@/components/layout/site-footer"
 import { JetCursor } from "@/components/magic-ui"
 import { SiteHeader } from "@/components/layout/site-header"
 import { ChatbotPage } from "@/features/chatbot/chatbot-page"
+import { FloatingAccessibilityControls } from "@/features/accessibility/floating-accessibility-controls"
 import { GuideProvider } from "@/features/guide/guide-provider"
 import { VoiceProvider } from "@/features/voice/voice-provider"
 
@@ -17,6 +18,7 @@ function AssistanceProviders({ children }: { children: ReactNode }) {
       <VoiceProvider>
         <JetCursor />
         {children}
+        <FloatingAccessibilityControls />
       </VoiceProvider>
     </GuideProvider>
   )

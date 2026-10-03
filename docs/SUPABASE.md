@@ -65,7 +65,8 @@ Pré-requis : `supabase/schema.sql` (starter) déjà exécuté. Dans **SQL Edito
 6. `supabase/nova-terra/06_seed_auth.sql` — crée 10 comptes de démo (mot de passe commun `NovaTerra!2026`, développement uniquement ; `admin@novaterra.test` est administrateur général)
 7. `supabase/nova-terra/07a_seed_city_identity.sql`, puis `07b_…`, puis `07c_…`
 8. `supabase/nova-terra/08_citizen_rpcs.sql`, `09_workflow_support.sql`, `10_knowledge_base.sql`, puis `11_heat_alerts.sql` — fonctions de l'application, secteur de résidence, diffusion canicule par secteur ou tous secteurs et profil de santé privé avec RLS propriétaire uniquement
-9. `supabase/nova-terra/99_verify.sql` — toutes les lignes doivent afficher `ok = true`, et la dernière requête ne doit retourner aucune table sans RLS.
+9. `supabase/migrations/20261003214500_service_status_reports_and_appointments.sql` — horaires/statuts planifiés, agenda des rendez-vous, consignes de suivi et RPC sécurisée de notification des reports
+10. `supabase/nova-terra/99_verify.sql` — toutes les lignes doivent afficher `ok = true`, et la dernière requête ne doit retourner aucune table sans RLS.
 
 Après l'import de 10, ouvrez **/admin/ai-content → Reconstruire la base du chatbot** (connecté en `admin@novaterra.test`) pour remplir la base de connaissances.
 Si `11_heat_alerts.sql` a déjà été importé, réexécutez-le pour installer les fonctions mises à jour de secteur résidentiel et de diffusion à tous les secteurs.
@@ -96,3 +97,5 @@ Le plan complet et les décisions sont dans [PLAN.md](./PLAN.md).
 Les établissements sont des lignes de `public.buildings` avec `service_id`, `facility_type` et `offerings` renseignés ; le bâtiment principal du service continue d'utiliser `services.building_id`. Les administrateurs généraux peuvent gérer tous les bâtiments. Les administrateurs de service ne peuvent créer, modifier ou supprimer que les établissements des services qu'ils administrent, conformément à `can_manage_service()` et aux politiques RLS. Les bâtiments restent visibles par la carte partagée ; `/map?service=<service-id>` limite les marqueurs à ceux du service. Sur une fiche de service et sa carte filtrée, la recherche porte sur les noms, descriptions, adresses et prestations ; le type d'établissement peut aussi être filtré.
 
 Pour mettre à jour un projet Nova Terra déjà initialisé, réexécutez `02_tables.sql`, `04_rls_grants.sql`, puis `07a_seed_city_identity.sql`, dans cet ordre. Le seed fournit dix établissements fictifs pour chacun des dix services ; il est relançable sans dupliquer ces exemples.
+
+Appliquez également la migration `20261003214500_service_status_reports_and_appointments.sql` aux projets existants. Les administrateurs de service peuvent publier une fermeture immédiate ou programmée et une date de réouverture. Le calendrier permet les demandes de rendez-vous et l'agenda privé du service ; une contrainte SQL empêche deux réservations sur le même créneau exact. Le report d'un signalement passe par `postpone_report_with_notice`, qui exige une raison et envoie une notification au citoyen dans la même transaction.

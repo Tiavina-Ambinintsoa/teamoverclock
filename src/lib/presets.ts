@@ -1,6 +1,7 @@
 /** Thèmes disponibles (définis dans src/styles/presets.css). */
 export const PRESETS = [
   { id: "nova-terra", label: "Nova Terra", hint: "Dune-inspired glassmorphism, premium dark & dynamic" },
+  { id: "minimalist", label: "Minimaliste", hint: "Interface essentielle, sans animation ni carte 3D" },
   { id: "lagon", label: "Lagon", hint: "Océan Indien, voyage, nature, bien-être" },
   { id: "laterite", label: "Latérite", hint: "Culture, artisanat, communauté, terroir" },
   { id: "baobab", label: "Baobab", hint: "Écologie, agriculture, santé, sobriété" },
