@@ -30,27 +30,27 @@ Extra features from "OTHERS INFORMATIONS": voice-to-text reports, support call, 
 
 These answer REQUESTS.md §8 so nothing blocks development.
 
-| #  | Question                 | Default decision                                                                                                                                                        |
-| -- | ------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| 1  | Auth identifier          | Email + password (Supabase Auth). Phone stored in profile, not used to log in.                                                                                          |
-| 2  | Full address mandatory?  | No. Only**sector** (+ optional building) is asked.                                                                                                                |
-| 3  | 2FA for agents           | Not in MVP (flag`profiles.requires_2fa` reserved).                                                                                                                    |
-| 4  | Anonymous contact        | Allowed via the existing`contact_messages` table (rate-limited). A *request* requires an account. `~~dropped~~` + no need for anonymous contact                 |
-| 5  | Attachments              | `image/jpeg, image/png, image/webp, application/pdf`, ≤ 5 MB, max 5 per request.                                                                                     |
-| 6  | Target delays            | `services.default_sla_hours` (24–120 h) → `requests.due_at`.                                                                                                      |
-| 7  | Cameras / satellites     | **Simulated**: ai AI agent generate random reports, and the admin will validate it or not, the admin on the service will validate it or not. Never live streams. |
-| 8  | Transport data           | Public (`visibility = 'public'`) except `personal` vehicles (owner only).                                                                                           |
-| 9  | Who validates AI content | General admin (city content) / service admin (own service).                                                                                                             |
-| 10 | Chatbot creates reports  | Yes,**only after explicit user confirmation** (two-step).                                                                                                         |
-| 11 | Chat history             | Optional, user opt-in (`chat_sessions.keep_history`).                                                                                                                 |
-| 12 | DB                       | Supabase (Postgres).                                                                                                                                                    |
-| 13 | F22 difficulty           | **High** (Notion property wins; text said "Facile").                                                                                                              |
-| 14 | Verified-only reporting  | Only`kyc_status = 'verified'` citizens can create **reports**; unverified can read, ask the chatbot, send requests for information, vote nothing.               |
-| 15 | Fictional data flag      | Every seeded row has`is_fictional = true` where meaningful; the whole dataset is re-creatable by script.                                                              |
-| 16 | Visually impaired profile ("mal voyant") | Profile option → **high-contrast theme** + **adjustable font size** (85–200 %), saved in `accessibility_preferences`, applied instantly and on every device after login. Also available to visitors (localStorage) without an account. |
-| 17 | "Mal entendant" profile (as specified) | Profile option → an **AI voice reads the screen aloud** (text-to-speech) and the user **answers by speaking** (speech-to-text) and **navigates by voice**. ⚠ See note below the table. |
-| 18 | Voice guide | Any user can enable a **voice guide** that explains where they are, how to move through the app, and which voice commands exist. |
-| 19 | Textual guided tour | Step-by-step **text tour** (spotlight + popover, keyboard accessible) per area of the app; content stored in DB (`guide_tours`, `guide_tour_steps`), role-aware, resumable, replayable from the help menu; optional voice narration of each step. |
+| #  | Question                                 | Default decision                                                                                                                                                                                                                                           |
+| -- | ---------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1  | Auth identifier                          | Email + password (Supabase Auth). Phone stored in profile, not used to log in.                                                                                                                                                                             |
+| 2  | Full address mandatory?                  | No. Only**sector** (+ optional building) is asked.                                                                                                                                                                                                   |
+| 3  | 2FA for agents                           | Not in MVP (flag`profiles.requires_2fa` reserved).                                                                                                                                                                                                       |
+| 4  | Anonymous contact                        | Allowed via the existing`contact_messages` table (rate-limited). A *request* requires an account. `~~dropped~~` + no need for anonymous contact                                                                                                    |
+| 5  | Attachments                              | `image/jpeg, image/png, image/webp, application/pdf`, ≤ 5 MB, max 5 per request.                                                                                                                                                                        |
+| 6  | Target delays                            | `services.default_sla_hours` (24–120 h) → `requests.due_at`.                                                                                                                                                                                         |
+| 7  | Cameras / satellites                     | **Simulated**: ai AI agent generate random reports, and the admin will validate it or not, the admin on the service will validate it or not. Never live streams.                                                                                    |
+| 8  | Transport data                           | Public (`visibility = 'public'`) except `personal` vehicles (owner only).                                                                                                                                                                              |
+| 9  | Who validates AI content                 | General admin (city content) / service admin (own service).                                                                                                                                                                                                |
+| 10 | Chatbot creates reports                  | Yes,**only after explicit user confirmation** (two-step).                                                                                                                                                                                            |
+| 11 | Chat history                             | Optional, user opt-in (`chat_sessions.keep_history`).                                                                                                                                                                                                    |
+| 12 | DB                                       | Supabase (Postgres).                                                                                                                                                                                                                                       |
+| 13 | F22 difficulty                           | **High** (Notion property wins; text said "Facile").                                                                                                                                                                                                 |
+| 14 | Verified-only reporting                  | Only`kyc_status = 'verified'` citizens can create **reports**; unverified can read, ask the chatbot, send requests for information, vote nothing.                                                                                                  |
+| 15 | Fictional data flag                      | Every seeded row has`is_fictional = true` where meaningful; the whole dataset is re-creatable by script.                                                                                                                                                 |
+| 16 | Visually impaired profile ("mal voyant") | Profile option →**high-contrast theme** + **adjustable font size** (85–200 %), saved in `accessibility_preferences`, applied instantly and on every device after login. Also available to visitors (localStorage) without an account.      |
+| 17 | "Mal entendant" profile (as specified)   | Profile option → an**AI voice reads the screen aloud** (text-to-speech) and the user **answers by speaking** (speech-to-text) and **navigates by voice**. ⚠ See note below the table.                                                  |
+| 18 | Voice guide                              | Any user can enable a**voice guide** that explains where they are, how to move through the app, and which voice commands exist.                                                                                                                      |
+| 19 | Textual guided tour                      | Step-by-step**text tour** (spotlight + popover, keyboard accessible) per area of the app; content stored in DB (`guide_tours`, `guide_tour_steps`), role-aware, resumable, replayable from the help menu; optional voice narration of each step. |
 
 > ⚠ **Terminology note (to confirm with the team).** Reading the screen aloud and answering by voice is what a *blind / low-vision* user needs; a *hard-of-hearing* user is better served by captions and visual alerts. We implement the behaviour exactly as specified, but the settings are **independent toggles** (§5.5), so labels can be renamed without code changes. We also add hearing-oriented features (captions, visual alerts, no audio-only information) under the same "mal entendant" option so that profile also works for its literal meaning.
 
@@ -171,12 +171,12 @@ Legend: **PK** primary key · **FK→** foreign key · `?` nullable.
 
 #### H. Accessibility, voice & guidance
 
-| #  | Table | Key columns |
-| -- | ----- | ----------- |
-| 36 | `accessibility_preferences` | id, `profile_id FK→profiles` (**unique**), `needs accessibility_need[]`, `theme ui_theme default 'default'`, `font_scale numeric(3,2) default 1.00 check 0.85–2.00`, `line_spacing numeric(3,2)`, `reduce_motion bool`, `read_screen_aloud bool` (AI reads each page/section), `voice_navigation bool` (speak to navigate / answer), `voice_guide bool` (voice explains how to use the app), `tts_voice text?`, `tts_rate numeric(3,2) default 1.00`, `speech_lang text`, `captions bool` (text mirror of all voice output), `visual_alerts bool` (banner/flash instead of sound), `confirm_by_voice bool default true`, `tour_completed text[]` (tour codes) |
-| 37 | `guide_tours` | id, `code` (unique), title, description, `audience user_role[]`, `route_scope text` (route prefix where it starts), `is_published`, `version int`, `estimated_minutes` |
-| 38 | `guide_tour_steps` | id, `tour_id FK→guide_tours`, `step_order int` (unique with tour), `route text`, `target_selector text?` (`[data-tour="…"]`, null = centered), title, `body` (text shown), `voice_script text?` (spoken variant), `placement` (`top/bottom/left/right/center`), `locale text` |
-| 39 | `voice_commands` | id, `code` (unique), `locale`, `phrases text[]` (utterances: "open the map", "ouvre la carte"…), `action voice_action_type`, `target text?` (route or `data-voice` id), `description`, `requires_confirmation bool`, `min_role user_role?` — admin-editable so commands evolve without redeploy |
+| #  | Table                         | Key columns                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| -- | ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 36 | `accessibility_preferences` | id,`profile_id FK→profiles` (**unique**), `needs accessibility_need[]`, `theme ui_theme default 'default'`, `font_scale numeric(3,2) default 1.00 check 0.85–2.00`, `line_spacing numeric(3,2)`, `reduce_motion bool`, `read_screen_aloud bool` (AI reads each page/section), `voice_navigation bool` (speak to navigate / answer), `voice_guide bool` (voice explains how to use the app), `tts_voice text?`, `tts_rate numeric(3,2) default 1.00`, `speech_lang text`, `captions bool` (text mirror of all voice output), `visual_alerts bool` (banner/flash instead of sound), `confirm_by_voice bool default true`, `tour_completed text[]` (tour codes) |
+| 37 | `guide_tours`               | id,`code` (unique), title, description, `audience user_role[]`, `route_scope text` (route prefix where it starts), `is_published`, `version int`, `estimated_minutes`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
+| 38 | `guide_tour_steps`          | id,`tour_id FK→guide_tours`, `step_order int` (unique with tour), `route text`, `target_selector text?` (`[data-tour="…"]`, null = centered), title, `body` (text shown), `voice_script text?` (spoken variant), `placement` (`top/bottom/left/right/center`), `locale text`                                                                                                                                                                                                                                                                                                                                                                                                   |
+| 39 | `voice_commands`            | id,`code` (unique), `locale`, `phrases text[]` (utterances: "open the map", "ouvre la carte"…), `action voice_action_type`, `target text?` (route or `data-voice` id), `description`, `requires_confirmation bool`, `min_role user_role?` — admin-editable so commands evolve without redeploy                                                                                                                                                                                                                                                                                                                                                                                   |
 
 > Starter tables `items` is dropped (demo). `ai_conversations / ai_messages / ai_usage` are **kept** only for quota (`ai_usage`); history moves to `chat_*`. `contact_messages` and `contact_rate_limits` kept for anonymous contact.
 > **Total: 39 tables (+ 4 kept) → 390 seed rows minimum** (`guide_tour_steps` may exceed 10 so the full Welcome tour is seeded).
@@ -240,6 +240,7 @@ Default = **deny**. Highlights:
 - Storage buckets: `cin-documents` (private, owner + admin), `report-evidence` (private, signed URLs), `news-media` (public read, admin write), `avatars` (public read, owner write), `request-attachments` (private).
 
 ### 3.7b Implementation notes (deviations from the first draft — the SQL is the reference)
+
 - **`items` is kept** for now (the starter UI still uses it); it will be dropped when the starter `items` pages are removed.
 - Existing `notifications` keeps its `href` column (not `link_url`) and gains `type`, `entity_type`, `entity_id`.
 - `reputation_level` is a generated column; `is_minor` is maintained by trigger (a generated column cannot use `current_date`). `reputation_points = reputation_base + sum(votes received)`.
@@ -310,10 +311,10 @@ Fixed UUID pattern: `<table-prefix>-0000-4000-8000-0000000000NN` (NN = 01…10) 
 | `buildings`                | Nova Terra City Hall (S-01), Aurora Residence Tower (S-02), Helios Fusion Plant (S-03), Ferrum Cargo Hub (S-04), Lumen Botanical Dome (S-05), Vitalis Central Hospital (S-06), Orbis Spaceport Terminal (S-07), Cipher Data Citadel (S-08), Sentinel Police HQ (S-09), Academia Spire University (S-10); includes 1`temporarily_closed` + 1 `under_maintenance` edge case |
 | `services`                 | Citizen Relations Office, Nova Police, Fire & Rescue, Emergency Medical (Ambulance), Public Works & Roads, Energy & Water Utility, Transport Authority, Environment & Waste, Education & Youth, Urban Planning — one`temporarily_closed`, one `hidden` (unpublished)                                                                                                     |
 | `service_relations`        | Police→Fire (collaborates), Fire→Ambulance (collaborates), Citizen Relations→all (escalates_to) ×3, Transport→Public Works, Energy→Public Works, Environment→Public Works, Urban Planning→Public Works (supervises), Ambulance→Hospital svc                                                                                                                          |
-| `transports`               | Hover-tram T1, Maglev M1, Sky-pod P1–P2, Shuttle SH1, Drone-taxi D1, Cargo drone C1, Ferry F1, personal Aethelon Apex (car) and Vortex Phantom (motorcycle, in `maintenance`)                                                                                                                                                                                                               |
-| `profiles`                 | 1 general admin, 4 service admins (Police, Fire, Ambulance, Citizen Relations), 1 agent, 4 citizens (verified, pending KYC, suspended + rejected KYC, 1 minor) → 10 with `auth.users`                                                                                                                                                                                                                              |
-| `citizens`                 | 10 civil identities (every profile): 7 adult verified, 1 pending, 1 rejected, 1 **minor** sponsored by a verified adult; reputation 0–120                                                                                                                                                                                                                          |
-| `service_members`          | 5 admin memberships (Police, Fire, Ambulance, Citizen Relations, Public Works), 5 agent memberships (1 with `can_validate_reports`, 1 revoked)                                                                                                                                                                                                                                                                 |
+| `transports`               | Hover-tram T1, Maglev M1, Sky-pod P1–P2, Shuttle SH1, Drone-taxi D1, Cargo drone C1, Ferry F1, personal Aethelon Apex (car) and Vortex Phantom (motorcycle, in`maintenance`)                                                                                                                                                                                               |
+| `profiles`                 | 1 general admin, 4 service admins (Police, Fire, Ambulance, Citizen Relations), 1 agent, 4 citizens (verified, pending KYC, suspended + rejected KYC, 1 minor) → 10 with`auth.users`                                                                                                                                                                                       |
+| `citizens`                 | 10 civil identities (every profile): 7 adult verified, 1 pending, 1 rejected, 1**minor** sponsored by a verified adult; reputation 0–120                                                                                                                                                                                                                               |
+| `service_members`          | 5 admin memberships (Police, Fire, Ambulance, Citizen Relations, Public Works), 5 agent memberships (1 with`can_validate_reports`, 1 revoked)                                                                                                                                                                                                                               |
 | `permissions`              | `service.read`, `request.create`, `request.read_service`, `request.update`, `report.create`, `report.validate`, `news.publish`, `user.manage`, `role.edit`, `audit.read`                                                                                                                                                                                  |
 | `role_permissions`         | 10 mappings reproducing the D09 matrix (scope own/service/all)                                                                                                                                                                                                                                                                                                                |
 | `citizen_verifications`    | 10 CIN checks: 6 verified (score 0.9+), 2 pending, 2 rejected (blurry / mismatched model)                                                                                                                                                                                                                                                                                     |
@@ -434,13 +435,14 @@ Points shown on profile; only verified citizens vote; one vote per pair; no self
 
 **Settings model.** Three independent groups, any combination allowed. Stored in `accessibility_preferences`, mirrored in localStorage (visitors, and first paint so there is no flash of the wrong theme), synced on login.
 
-| Group | Settings | Behaviour |
-|---|---|---|
-| **Vision ("mal voyant")** | `theme` (`high_contrast_light/dark`, `yellow_on_black`), `font_scale` 0.85–2.00, `line_spacing`, `reduce_motion` | Themes are CSS-variable sets on `:root[data-theme]` (contrast ≥ 7:1, AAA). Font size is a root `font-size` multiplier so every `rem` scales. Layout must not break at 200 % (no fixed heights, nav collapses to a drawer). Focus ring ≥ 3 px. Map and charts add patterns/labels, not colour alone. |
-| **Voice assist ("mal entendant", as specified)** | `read_screen_aloud`, `voice_navigation`, `tts_rate/voice`, `speech_lang`, `confirm_by_voice` | On each route change the **page reader** builds a spoken summary from landmarks (`main`, headings, `aria-label`, `data-voice` hints, form fields) and reads it with `speechSynthesis`. The user can interrupt ("stop"), repeat, or go to next/previous section. The microphone is **opt-in per session** (button + visible "listening" state); the user answers by voice: dictates fields (read back for confirmation), picks options, says "next", "submit", "go to services". |
-| **Hearing support (literal meaning)** | `captions`, `visual_alerts` | Every spoken/audio output also appears as on-screen text; alerts never rely on sound alone (banner + icon + vibration where available); chatbot voice replies always have text. |
+| Group                                                  | Settings                                                                                                                      | Behaviour                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          |
+| ------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Vision ("mal voyant")**                        | `theme` (`high_contrast_light/dark`, `yellow_on_black`), `font_scale` 0.85–2.00, `line_spacing`, `reduce_motion` | Themes are CSS-variable sets on`:root[data-theme]` (contrast ≥ 7:1, AAA). Font size is a root `font-size` multiplier so every `rem` scales. Layout must not break at 200 % (no fixed heights, nav collapses to a drawer). Focus ring ≥ 3 px. Map and charts add patterns/labels, not colour alone.                                                                                                                                                                                         |
+| **Voice assist ("mal entendant", as specified)** | `read_screen_aloud`, `voice_navigation`, `tts_rate/voice`, `speech_lang`, `confirm_by_voice`                        | On each route change the**page reader** builds a spoken summary from landmarks (`main`, headings, `aria-label`, `data-voice` hints, form fields) and reads it with `speechSynthesis`. The user can interrupt ("stop"), repeat, or go to next/previous section. The microphone is **opt-in per session** (button + visible "listening" state); the user answers by voice: dictates fields (read back for confirmation), picks options, says "next", "submit", "go to services". |
+| **Hearing support (literal meaning)**            | `captions`, `visual_alerts`                                                                                               | Every spoken/audio output also appears as on-screen text; alerts never rely on sound alone (banner + icon + vibration where available); chatbot voice replies always have text.                                                                                                                                                                                                                                                                                                                    |
 
 **Voice navigation pipeline**
+
 1. Listener: Web Speech API `SpeechRecognition` (Chromium/Safari). Fallback: push-to-talk recording → `transcribe` edge function.
 2. Utterance normalised (lowercase, accents stripped) and fuzzy-matched against `voice_commands.phrases` for the active locale.
 3. No match → `voice-intent` edge function (LLM, strict JSON output). Unknown → "I did not understand, say *help*".
@@ -455,6 +457,7 @@ Points shown on profile; only verified citizens vote; one vote per pair; no self
 **Definition of Done for every feature page:** one `h1`, landmark regions (needed by the page reader), visible text labels on all controls, and `data-tour` / `data-voice` attributes on key elements.
 
 **Acceptance criteria**
+
 - High contrast + 175 % font on every public page: no horizontal scroll, all content reachable, 0 axe contrast violations.
 - Hands-free path works: open app → hear home → say "open services" → hear list → open a service → say "contact this service" → dictate a request → hear it read back → confirm → hear the tracking number.
 - Denying microphone permission leaves a fully working keyboard/text path with a clear message.
@@ -496,143 +499,148 @@ Legend `[ ]` todo · `[~]` in progress · `[x]` done
 ### Phase 0 — Foundations
 
 - [ ] 0.1 Review & freeze this plan (answer open decisions in §2)
-- [x] 0.2 Write SQL files 01–05 (enums, tables, functions, RLS, storage)
-- [x] 0.3 Write seed 06–07 (a/b/c) + `99_verify.sql` — validated on an in-memory Postgres (PGlite): every file runs twice without error, `99_verify` is all green, 39 RLS/trigger smoke tests pass
-- [x] 0.4 Files 01–07c imported by the owner. **Files 08, 09, 10 (added during phases 1–9) must be imported too** — see `docs/SUPABASE.md`
+- [X] 0.2 Write SQL files 01–05 (enums, tables, functions, RLS, storage)
+- [X] 0.3 Write seed 06–07 (a/b/c) + `99_verify.sql` — validated on an in-memory Postgres (PGlite): every file runs twice without error, `99_verify` is all green, 39 RLS/trigger smoke tests pass
+- [X] 0.4 Files 01–07c imported by the owner. **Files 08, 09, 10 (added during phases 1–9) must be imported too** — see `docs/SUPABASE.md`
+
 - [~] 0.5 Domain enums in `src/lib/types.ts` done; `supabase gen types` → `src/types/database.ts` + typed client after 0.4
-- [x] 0.6 `src/lib/permissions.ts` (D09 matrix, `can`, `homeForRole`) done + tested; `RequireRole`, status badges and layouts wait for Phase 1.3 (needs `profiles.role` in the auth provider)
-- [x] 0.7 Accessibility foundations: theme tokens (`data-theme`), root font-scale variable, `AccessibilityProvider`, landmark + `data-voice`/`data-tour` conventions (done **before** building pages so nothing is retrofitted)
+
+- [X] 0.6 `src/lib/permissions.ts` (D09 matrix, `can`, `homeForRole`) done + tested; `RequireRole`, status badges and layouts wait for Phase 1.3 (needs `profiles.role` in the auth provider)
+- [X] 0.7 Accessibility foundations: theme tokens (`data-theme`), root font-scale variable, `AccessibilityProvider`, landmark + `data-voice`/`data-tour` conventions (done **before** building pages so nothing is retrofitted)
 
 ### Phase 1 — Identity & access (D01, D03, D08, D09)
 
-- [x] 1.1 D01 Signup form (zod: password strength, consent, sector), email verification, default citizen profile
-- [x] 1.2 D03 Login, logout, session expiry, reset password, suspended-account block, role-based redirect
-- [x] 1.3 D08 Profile page + admin user management (roles, status, service attachment, history via audit)
-- [x] 1.4 D09 Permission matrix enforced (RLS + `RequireRole` + 403 page) with tests per role
-- [x] 1.5 KYC: CIN upload, `verify-cin` edge function, status UI; minor ↔ sponsor flow
+- [X] 1.1 D01 Signup form (zod: password strength, consent, sector), email verification, default citizen profile
+- [X] 1.2 D03 Login, logout, session expiry, reset password, suspended-account block, role-based redirect
+- [X] 1.3 D08 Profile page + admin user management (roles, status, service attachment, history via audit)
+- [X] 1.4 D09 Permission matrix enforced (RLS + `RequireRole` + 403 page) with tests per role
+- [X] 1.5 KYC: CIN upload, `verify-cin` edge function, status UI; minor ↔ sponsor flow
 
 ### Phase 2 — Public portal (D05, D06, D07)
 
-- [x] 2.1 D05 Services list/search/filter/detail, closed badge, publish/hide (admin)
-- [x] 2.2 D06 News list/detail/search, urgent highlight, expiry/archive, share link, admin editor with review step
-- [x] 2.3 News comments + moderation
-- [x] 2.4 D07 Home page (11 sections of REQUESTS D07, resilient to API failure)
-- [x] 2.5 Newsletter topics + subscriptions + `send-newsletter`
+- [X] 2.1 D05 Services list/search/filter/detail, closed badge, publish/hide (admin)
+- [X] 2.2 D06 News list/detail/search, urgent highlight, expiry/archive, share link, admin editor with review step
+- [X] 2.3 News comments + moderation
+- [X] 2.4 D07 Home page (11 sections of REQUESTS D07, resilient to API failure)
+- [X] 2.5 Newsletter topics + subscriptions + `send-newsletter`
 
 ### Phase 3 — Requests (D04, F22)
 
-- [x] 3.1 D04 Contact/request form, attachments, tracking number, confirmation, anti-double-submit
-- [x] 3.2 F22 Citizen tracking page + timeline; notifications on status change
-- [x] 3.3 F22 Agent side: assign, change status, close requires note, SLA overdue flag, auto-reminder (cron)
-- [x] 3.4 Support call (simulated) → optional request creation
+- [X] 3.1 D04 Contact/request form, attachments, tracking number, confirmation, anti-double-submit
+- [X] 3.2 F22 Citizen tracking page + timeline; notifications on status change
+- [X] 3.3 F22 Agent side: assign, change status, close requires note, SLA overdue flag, auto-reminder (cron)
+- [X] 3.4 Support call (simulated) → optional request creation
 
 ### Phase 4 — Agent workspace (D19)
 
-- [x] 4.1 Dashboard (KPIs via `stats_service`), inbox with filters/search
-- [x] 4.2 Request/report detail, internal comments, history
-- [x] 4.3 API sync indicator + import errors (`api_synchronizations`), `sync-nova-api` simulator
-- [x] 4.4 Evidence viewer with restricted access
+- [X] 4.1 Dashboard (KPIs via `stats_service`), inbox with filters/search
+- [X] 4.2 Request/report detail, internal comments, history
+- [X] 4.3 API sync indicator + import errors (`api_synchronizations`), `sync-nova-api` simulator
+- [X] 4.4 Evidence viewer with restricted access
 
 ### Phase 5 — Reports (signalements)
 
-- [x] 5.1 Report form (sector → building → optional map pick, category, facts, priority)
-- [x] 5.2 Voice-to-text (Web Speech API), transcript review before submit
-- [x] 5.3 Evidence upload (citizen) vs camera/satellite (separate flow/table)
-- [x] 5.4 Routing to service, validation by service admin only, status workflow, public publication after validation
-- [x] 5.5 Clusters (by type/location) view
-- [x] 5.6 Reputation votes + badges
+- [X] 5.1 Report form (sector → building → optional map pick, category, facts, priority)
+- [X] 5.2 Voice-to-text (Web Speech API), transcript review before submit
+- [X] 5.3 Evidence upload (citizen) vs camera/satellite (separate flow/table)
+- [X] 5.4 Routing to service, validation by service admin only, status workflow, public publication after validation
+- [X] 5.5 Clusters (by type/location) view
+- [X] 5.6 Reputation votes + badges
 
 ### Phase 6 — Interactive map
 
-- [x] 6.1 HexMap read-only (sectors, buildings, transports)
-- [x] 6.2 Layers + search + building detail panel
-- [x] 6.3 Admin CRUD + drag & drop (x,y)
-- [x] 6.4 Navigation/itinerary, closed buildings, danger zones
-- [x] 6.5 Cameras/satellite observations (admin-only layer) + validation
+- [X] 6.1 HexMap read-only (sectors, buildings, transports)
+- [X] 6.2 Layers + search + building detail panel
+- [X] 6.3 Admin CRUD + drag & drop (x,y)
+- [X] 6.4 Navigation/itinerary, closed buildings, danger zones
+- [X] 6.5 Cameras/satellite observations (admin-only layer) + validation
 
 ### Phase 7 — Chatbot
 
-- [x] 7.1 `rebuild-knowledge` + `knowledge_base`
-- [x] 7.2 Text chat with sources, fallback & handoff (extend `openrouter-chat` → `chatbot`)
-- [x] 7.3 Voice in/out
-- [x] 7.4 Guided request/report creation with confirmation (`pending_action`)
-- [x] 7.5 Paths / required documents / steps answers (from `services.procedures`)
+- [X] 7.1 `rebuild-knowledge` + `knowledge_base`
+- [X] 7.2 Text chat with sources, fallback & handoff (extend `openrouter-chat` → `chatbot`)
+- [X] 7.3 Voice in/out
+- [X] 7.4 Guided request/report creation with confirmation (`pending_action`)
+- [X] 7.5 Paths / required documents / steps answers (from `services.procedures`)
 
 ### Phase 8 — Dangers
 
-- [x] 8.1 Danger list/detail + protocol stepper, alien invasion protocol
-- [x] 8.2 Chatbot link + emergency routing, banner for active alerts
-- [x] 8.3 Admin validation, archive old alerts
+- [X] 8.1 Danger list/detail + protocol stepper, alien invasion protocol
+- [X] 8.2 Chatbot link + emergency routing, banner for active alerts
+- [X] 8.3 Admin validation, archive old alerts
 
 ### Phase 9 — AI city generation & polish
 
-- [x] 9.1 `ai_generated_content` generation + admin review UI
-- [x] 9.2 Audit log viewer, admin stats
+- [X] 9.1 `ai_generated_content` generation + admin review UI
+- [X] 9.2 Audit log viewer, admin stats
+
 - [~] 9.3 A11y pass, perf pass, e2e green, docs update
 
 ### Phase 10 — Accessibility, voice & guidance (starts after Phase 1; re-checked in Phase 9)
 
-- [x] 10.1 Local part done (`AccessibilityProvider`, first-paint script, panel in `/app/parametres`); still to do: DB sync with `accessibility_preferences`, `/app/accessibility` page, header quick toggle
-- [~] 10.2 Vision mode: 3 high-contrast themes, font 85–200 %, line spacing, reduce motion done; still to do: audit every page at 200 %
-- [x] 10.3 Page reader (TTS): landmark/heading summary, repeat / next / previous / stop, rate and voice choice, aria-live mirror
-- [x] 10.4 Voice listener (STT) + `voice_commands` matcher + `voice-intent` fallback + `transcribe` fallback
-- [x] 10.5 Voice-driven forms: dictate fields, read back, spoken confirmation before submit (requests, reports; passwords typed only)
-- [x] 10.6 Hearing support: captions for all voice output, visual alerts, vibration
-- [x] 10.7 Voice guide ("help", where am I, available commands)
-- [x] 10.8 Textual guided tour: provider, popover/spotlight, tours + steps seed, `/guide` page, replay, role-aware, optional voice narration
-- [~] 10.9 Accessibility test suite (axe, mocked speech APIs, keyboard-only e2e)
+- [X] 10.1 Local part done (`AccessibilityProvider`, first-paint script, panel in `/app/parametres`); still to do: DB sync with `accessibility_preferences`, `/app/accessibility` page, header quick toggle
 
+- [~] 10.2 Vision mode: 3 high-contrast themes, font 85–200 %, line spacing, reduce motion done; still to do: audit every page at 200 %
+
+- [X] 10.3 Page reader (TTS): landmark/heading summary, repeat / next / previous / stop, rate and voice choice, aria-live mirror
+- [X] 10.4 Voice listener (STT) + `voice_commands` matcher + `voice-intent` fallback + `transcribe` fallback
+- [X] 10.5 Voice-driven forms: dictate fields, read back, spoken confirmation before submit (requests, reports; passwords typed only)
+- [X] 10.6 Hearing support: captions for all voice output, visual alerts, vibration
+- [X] 10.7 Voice guide ("help", where am I, available commands)
+- [X] 10.8 Textual guided tour: provider, popover/spotlight, tours + steps seed, `/guide` page, replay, role-aware, optional voice narration
+
+- [~] 10.9 Accessibility test suite (axe, mocked speech APIs, keyboard-only e2e)
 
 ### Implementation status and known gaps (updated after phases 1–10)
 
 Everything below was built with **only the packages already installed** (RULESET §1.3) and validated with `npm run typecheck`, `npm run lint` (no error in new files), 200+ Vitest tests and 73 SQL/RLS checks on an in-memory Postgres.
 
-| Planned | What was actually built | Gap / next step |
-|---|---|---|
-| `verify-cin` edge function (AI vision) | SQL RPC `submit_cin_verification` applies the *model* (format `NT-CIN-######`), admins can override in `/admin/verifications` | Real AI vision check on the CIN image (needs an edge function + OpenRouter key) |
-| `chatbot`, `confirm-action` edge functions | Retrieval engine in the browser (`chatbot-engine.ts`): published knowledge base + structured service data, sources, "I don't know", confirmation before any creation | Optional LLM to rephrase answers (existing `openrouter-chat` can be wired in) |
-| `transcribe`, `voice-intent` edge functions | Browser Web Speech API + fuzzy command matcher (`voice-commands`, table `voice_commands`) | Server-side transcription fallback for browsers without `SpeechRecognition` (Firefox) |
-| `sync-nova-api` edge function | Admin/agent simulators (`simulate_api_sync`, `simulate_observation`) produce syncs and "to verify" camera/satellite reports | Real import job |
-| `send-newsletter` edge function | SQL RPC `send_newsletter_digest` creates in-app notifications (once per news item and subscriber), button in `/admin` | E-mail delivery |
-| `rebuild-knowledge` edge function | SQL RPC `rebuild_knowledge_base` (versioned, published content only), button in `/admin/ai-content` | Schedule it |
-| Auto-reminder (F22) | SQL `remind_stalled_requests()` | **Schedule it** (pg_cron or Supabase scheduled function) |
-| 2FA for agents | — | Out of MVP (decision 3) |
-| Anonymous contact | Dropped (decision 4): `/contact` redirects residents to the request form and shows emergency numbers to visitors | `contact-submit` function and `contact_messages` are now unused by the UI |
-| `@axe-core/playwright` | Not installed (new package needs approval) | Add it, then run axe on every route in each contrast theme |
-| E2E | `e2e/starter-flows.spec.ts` rewritten for Nova Terra (local demo mode) | **Not executed here** (Playwright browsers not installed) — run `npm run test:e2e` |
-| Generated DB types | `src/lib/db-types.ts` written by hand | Replace with `supabase gen types` |
-| i18n | New screens are bilingual through `tx(fr, en)`; legal pages and a few starter pages stay French only | — |
-| Starter leftovers | `items`, `ai_conversations`, old `/admin` page, `admin-data`, `contact-submit` functions are no longer routed | Delete when the team agrees |
+| Planned                                         | What was actually built                                                                                                                                                | Gap / next step                                                                             |
+| ----------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| `verify-cin` edge function (AI vision)        | SQL RPC`submit_cin_verification` applies the *model* (format `NT-CIN-######`), admins can override in `/admin/verifications`                                   | Real AI vision check on the CIN image (needs an edge function + OpenRouter key)             |
+| `chatbot`, `confirm-action` edge functions  | Retrieval engine in the browser (`chatbot-engine.ts`): published knowledge base + structured service data, sources, "I don't know", confirmation before any creation | Optional LLM to rephrase answers (existing`openrouter-chat` can be wired in)              |
+| `transcribe`, `voice-intent` edge functions | Browser Web Speech API + fuzzy command matcher (`voice-commands`, table `voice_commands`)                                                                          | Server-side transcription fallback for browsers without`SpeechRecognition` (Firefox)      |
+| `sync-nova-api` edge function                 | Admin/agent simulators (`simulate_api_sync`, `simulate_observation`) produce syncs and "to verify" camera/satellite reports                                        | Real import job                                                                             |
+| `send-newsletter` edge function               | SQL RPC`send_newsletter_digest` creates in-app notifications (once per news item and subscriber), button in `/admin`                                               | E-mail delivery                                                                             |
+| `rebuild-knowledge` edge function             | SQL RPC`rebuild_knowledge_base` (versioned, published content only), button in `/admin/ai-content`                                                                 | Schedule it                                                                                 |
+| Auto-reminder (F22)                             | SQL`remind_stalled_requests()`                                                                                                                                       | **Schedule it** (pg_cron or Supabase scheduled function)                              |
+| 2FA for agents                                  | —                                                                                                                                                                     | Out of MVP (decision 3)                                                                     |
+| Anonymous contact                               | Dropped (decision 4):`/contact` redirects residents to the request form and shows emergency numbers to visitors                                                      | `contact-submit` function and `contact_messages` are now unused by the UI               |
+| `@axe-core/playwright`                        | Not installed (new package needs approval)                                                                                                                             | Add it, then run axe on every route in each contrast theme                                  |
+| E2E                                             | `e2e/starter-flows.spec.ts` rewritten for Nova Terra (local demo mode)                                                                                               | **Not executed here** (Playwright browsers not installed) — run `npm run test:e2e` |
+| Generated DB types                              | `src/lib/db-types.ts` written by hand                                                                                                                                | Replace with`supabase gen types`                                                          |
+| i18n                                            | New screens are bilingual through`tx(fr, en)`; legal pages and a few starter pages stay French only                                                                  | —                                                                                          |
+| Starter leftovers                               | `items`, `ai_conversations`, old `/admin` page, `admin-data`, `contact-submit` functions are no longer routed                                                | Delete when the team agrees                                                                 |
 
 ---
 
 ## 10. Requirement traceability
 
-| Source                    | Covered by                                                                 |
-| ------------------------- | -------------------------------------------------------------------------- |
-| D01                       | Ph.1.1 · tables`profiles, citizens`                                     |
-| D03                       | Ph.1.2 · Supabase Auth,`audit_logs`                                     |
-| D04                       | Ph.3.1 ·`requests`, `contact_messages`                                |
-| D05                       | Ph.2.1 ·`services`, `departments`, `buildings`                      |
-| D06                       | Ph.2.2–2.3 ·`news`, `news_comments`                                  |
-| D07                       | Ph.2.4                                                                     |
-| D08                       | Ph.1.3 ·`profiles, service_members`                                     |
-| D09                       | Ph.1.4 ·`permissions, role_permissions`, RLS                            |
-| D19                       | Ph.4 ·`api_synchronizations`, `report_evidence`                       |
-| F22                       | Ph.3.2–3.3 ·`requests, request_*`                                      |
-| Chatbot                   | Ph.7 ·`chat_*, knowledge_base`                                          |
-| Data structure            | Ph.0 · all SQL files                                                      |
-| Services / city           | §4 ·`ai_generated_content`                                             |
-| Signalements              | Ph.5 ·`reports, report_evidence, report_clusters`                       |
-| Map                       | Ph.6 ·`sectors, buildings, transports, cameras, satellite_observations` |
-| Dangers                   | Ph.8 ·`dangers`                                                         |
-| CIN / minors / reputation | Ph.1.5, 5.6 ·`citizen_verifications, reputation_votes`                  |
-| Newsletter / comments     | Ph.2.3, 2.5                                                                |
-| Support call              | Ph.3.4 ·`support_calls`                                                 |
-| Mal voyant (contrast + font size) | Ph.0.7, 10.1–10.2 · `accessibility_preferences` |
-| Mal entendant (AI reads screen, voice answers + navigation) | Ph.10.3–10.6 · `accessibility_preferences`, `voice_commands` |
-| Voice help to navigate | Ph.10.7 · `voice_commands`, `guide_tour_steps.voice_script` |
-| Textual guided tour | Ph.10.8 · `guide_tours`, `guide_tour_steps` |
+| Source                                                      | Covered by                                                                 |
+| ----------------------------------------------------------- | -------------------------------------------------------------------------- |
+| D01                                                         | Ph.1.1 · tables`profiles, citizens`                                     |
+| D03                                                         | Ph.1.2 · Supabase Auth,`audit_logs`                                     |
+| D04                                                         | Ph.3.1 ·`requests`, `contact_messages`                                |
+| D05                                                         | Ph.2.1 ·`services`, `departments`, `buildings`                      |
+| D06                                                         | Ph.2.2–2.3 ·`news`, `news_comments`                                  |
+| D07                                                         | Ph.2.4                                                                     |
+| D08                                                         | Ph.1.3 ·`profiles, service_members`                                     |
+| D09                                                         | Ph.1.4 ·`permissions, role_permissions`, RLS                            |
+| D19                                                         | Ph.4 ·`api_synchronizations`, `report_evidence`                       |
+| F22                                                         | Ph.3.2–3.3 ·`requests, request_*`                                      |
+| Chatbot                                                     | Ph.7 ·`chat_*, knowledge_base`                                          |
+| Data structure                                              | Ph.0 · all SQL files                                                      |
+| Services / city                                             | §4 ·`ai_generated_content`                                             |
+| Signalements                                                | Ph.5 ·`reports, report_evidence, report_clusters`                       |
+| Map                                                         | Ph.6 ·`sectors, buildings, transports, cameras, satellite_observations` |
+| Dangers                                                     | Ph.8 ·`dangers`                                                         |
+| CIN / minors / reputation                                   | Ph.1.5, 5.6 ·`citizen_verifications, reputation_votes`                  |
+| Newsletter / comments                                       | Ph.2.3, 2.5                                                                |
+| Support call                                                | Ph.3.4 ·`support_calls`                                                 |
+| Mal voyant (contrast + font size)                           | Ph.0.7, 10.1–10.2 ·`accessibility_preferences`                         |
+| Mal entendant (AI reads screen, voice answers + navigation) | Ph.10.3–10.6 ·`accessibility_preferences`, `voice_commands`          |
+| Voice help to navigate                                      | Ph.10.7 ·`voice_commands`, `guide_tour_steps.voice_script`            |
+| Textual guided tour                                         | Ph.10.8 ·`guide_tours`, `guide_tour_steps`                            |
 
 ## 11. Out of scope (for now)
 
@@ -640,9 +648,9 @@ Real payment, real cameras/satellites, 2FA, multi-city, native mobile app, real 
 
 ## 12. Changelog
 
-| Date       | Change                                                                         |
-| ---------- | ------------------------------------------------------------------------------ |
-| 2026-10-03 | Plan created: 35 tables, 10-row seed spec, 9-phase roadmap, default decisions. |
-| 2026-10-03 | Added accessibility & guidance: low-vision themes + font size, voice assist (read aloud + voice answers/navigation), voice guide, textual guided tour. +4 tables (36–39), enums, §5.5, Phase 10, task 0.7, decisions 16–19. |
-| 2026-10-03 | **Phase 0 implemented**: `supabase/nova-terra/` (00–07c, 99), validated on PGlite (idempotent, 39 RLS/trigger tests). Front: `a11y-prefs`, `AccessibilityProvider`, high-contrast themes (`styles/accessibility.css`), first-paint script, settings panel, `permissions.ts`, `types.ts`. Notes in §3.7b. Tasks 0.2, 0.3, 0.7 done; 0.4 pending (owner imports SQL). |
+| Date       | Change                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 2026-10-03 | Plan created: 35 tables, 10-row seed spec, 9-phase roadmap, default decisions.                                                                                                                                                                                                                                                                                                                                                                                                                               |
+| 2026-10-03 | Added accessibility & guidance: low-vision themes + font size, voice assist (read aloud + voice answers/navigation), voice guide, textual guided tour. +4 tables (36–39), enums, §5.5, Phase 10, task 0.7, decisions 16–19.                                                                                                                                                                                                                                                                               |
+| 2026-10-03 | **Phase 0 implemented**: `supabase/nova-terra/` (00–07c, 99), validated on PGlite (idempotent, 39 RLS/trigger tests). Front: `a11y-prefs`, `AccessibilityProvider`, high-contrast themes (`styles/accessibility.css`), first-paint script, settings panel, `permissions.ts`, `types.ts`. Notes in §3.7b. Tasks 0.2, 0.3, 0.7 done; 0.4 pending (owner imports SQL).                                                                                                                      |
 | 2026-10-03 | **Phases 1–10 implemented** (see §9 and the status table before §10). New SQL: 08, 09, 10. New front-end features: auth/profile/KYC, services, news + comments, newsletter, requests (citizen + agent), reports (voice, evidence, validation, public clusters, reputation), hex map + editor + routes, dangers, retrieval chatbot with voice, AI-content review, audit log, support calls, accessibility (themes, font, voice assist, captions), guided tours. `/contact` now follows decision 4. |
