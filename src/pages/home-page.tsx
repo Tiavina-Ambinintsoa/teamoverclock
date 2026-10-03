@@ -1,177 +1,184 @@
-import type { CSSProperties } from "react"
-import { ArrowDown, ArrowRight, Check, Layers3, LockKeyhole, MoonStar, Sparkles, UsersRound } from "lucide-react"
-import { Link, useSearchParams } from "react-router"
+import { useState, type FormEvent } from "react"
+import { AlertTriangle, ArrowRight, Bot, FileWarning, Map as MapIcon, Newspaper, Phone, Search, Siren } from "lucide-react"
+import { Link, useNavigate } from "react-router"
 
-import { Container } from "@/components/layout/container"
 import { HomeInteractiveBackground } from "@/components/home-interactive-background"
-import { AlternateHomeHero, type HomeHeroVariant } from "@/components/home-presets/alternate-home-heroes"
-import { Reveal } from "@/components/reveal"
+import type { HomeHeroVariant } from "@/components/home-presets/alternate-home-heroes"
+import { Container } from "@/components/layout/container"
+import { StatusBadge } from "@/components/status-badge"
+import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
 import { useAuth } from "@/features/auth/auth-context"
-import { env } from "@/lib/env"
+import { useDangers, useNews, useServices } from "@/features/city/city-queries"
 import { useLocale } from "@/lib/locale"
+import { formatDate } from "@/lib/query-helpers"
+import { homeForRole } from "@/lib/permissions"
 import { SITE } from "@/lib/site"
 
-/** Rang dans la séquence d'entrée du hero (voir .rise dans index.css). */
-const step = (index: number) => ({ "--i": index }) as CSSProperties
-
-/** Accueil affiché par défaut. Options : "classic", "futuriste", "image", "3d". */
+/** Conservé pour la page de modèles /modeles/accueils (le hero « classique » est remplacé par l'accueil Nova Terra). */
 export const HOME_HERO_DEFAULT: "classic" | HomeHeroVariant = "classic"
 
-const features = [
-  { icon: Sparkles, title: "home.feature1", text: "home.feature1Text" },
-  { icon: LockKeyhole, title: "home.feature2", text: "home.feature2Text" },
-  { icon: Layers3, title: "home.feature3", text: "home.feature3Text" },
-  { icon: MoonStar, title: "home.feature4", text: "home.feature4Text" },
+/** Numéros d'urgence affichés même si l'API est indisponible (D07 : contenus essentiels toujours visibles). */
+const EMERGENCY_CONTACTS = [
+  { fr: "Police", en: "Police", phone: "+999 112" },
+  { fr: "Pompiers", en: "Fire & Rescue", phone: "+999 118" },
+  { fr: "Urgences médicales", en: "Medical emergency", phone: "+999 115" },
 ]
 
+/** D07 — accueil : actions citoyennes en premier, services, actualités, urgences, carte et assistant. */
 export function HomePage() {
   const { user } = useAuth()
-  const { t } = useLocale()
-  const [searchParams] = useSearchParams()
-  const primaryPath = user ? (user.isAdmin ? "/admin" : "/app") : "/inscription"
-  const requestedHero = searchParams.get("hero")
-  const selectedHero: "classic" | HomeHeroVariant =
-    requestedHero === "futuriste" || requestedHero === "image" || requestedHero === "3d"
-      ? requestedHero
-      : HOME_HERO_DEFAULT
+  const { tx, tag } = useLocale()
+  const navigate = useNavigate()
+  const [query, setQuery] = useState("")
+  const services = useServices({})
+  const news = useNews({ scope: "active" })
+  const dangers = useDangers()
+
+  const alerts = (dangers.data ?? []).filter((d) => d.status === "active" && ["high", "extreme"].includes(d.severity))
+  const topServices = (services.data ?? []).filter((s) => s.status === "open").slice(0, 6)
+  const latestNews = [...(news.data ?? [])].sort((a, b) => Number(b.importance === "urgent") - Number(a.importance === "urgent")).slice(0, 3)
+
+  const submit = (event: FormEvent) => {
+    event.preventDefault()
+    void navigate(query.trim() ? `/services?q=${encodeURIComponent(query.trim())}` : "/services")
+  }
+
+  const quickActions = [
+    { to: user ? homeForRole(user.profileRole) : "/connexion", icon: ArrowRight, fr: user ? "Mon espace" : "Se connecter", en: user ? "My space" : "Log in", tour: "login" },
+    { to: "/services", icon: Search, fr: "Consulter les services", en: "Browse services", tour: "services-cta" },
+    { to: user ? "/app/reports/new" : "/connexion", icon: FileWarning, fr: "Signaler un problème", en: "Report a problem", tour: "report-cta" },
+    { to: user ? "/app/requests/new" : "/contact", icon: Phone, fr: "Contacter la mairie", en: "Contact city hall", tour: "contact-cta" },
+  ]
 
   return (
-    <div className="home-page-shell relative isolate">
+    <div className="relative isolate">
       <HomeInteractiveBackground />
       <div className="relative z-10">
-      <title>{SITE.name}</title>
-      <meta name="description" content={SITE.description} />
+        <title>{SITE.name}</title>
+        <meta name="description" content={SITE.description} />
 
-      {selectedHero === "classic" ? <section className="relative isolate overflow-hidden border-b">
-        <Container className="grid min-h-160 items-center gap-12 py-14 sm:py-20 lg:grid-cols-[1.02fr_0.98fr] lg:py-24">
-          <div className="relative z-10">
-            <p className="rise inline-flex items-center gap-2 rounded-full border bg-background/80 px-3 py-1.5 text-xs font-medium text-primary shadow-sm" style={step(0)}>
+        {alerts.length > 0 && (
+          <div role="alert" className="border-b border-destructive/50 bg-destructive/10">
+            <Container className="flex flex-wrap items-center gap-3 py-3 text-sm">
+              <AlertTriangle className="size-4 text-destructive" aria-hidden />
+              <strong>{tx("Alerte officielle (exercice fictif)", "Official alert (fictional drill)")}</strong>
+              {alerts.slice(0, 2).map((a) => (
+                <Link key={a.id} to={`/dangers/${a.slug}`} className="underline underline-offset-4">{a.title}</Link>
+              ))}
+            </Container>
+          </div>
+        )}
+
+        <section className="border-b">
+          <Container className="py-14 sm:py-20">
+            <p className="inline-flex items-center gap-2 rounded-full border bg-background/80 px-3 py-1.5 text-xs font-medium text-primary shadow-sm">
               <span className="size-1.5 rounded-full bg-highlight" aria-hidden />
-              {t("hero.eyebrow")}
+              {tx("Ville fictive et futuriste", "Fictional futuristic city")}
             </p>
-            <h1 className="rise mt-6 max-w-3xl font-display text-[clamp(3.2rem,8vw,6.8rem)] leading-[0.94] font-semibold tracking-tight" style={step(1)}>
-              {t("hero.title")}
+            <h1 className="mt-5 max-w-3xl font-display text-[clamp(2.6rem,7vw,5.5rem)] leading-[0.98] font-semibold tracking-tight">
+              {tx("Bienvenue à Nova Terra", "Welcome to Nova Terra")}
             </h1>
-            <p className="rise mt-6 max-w-xl text-lg leading-8 text-muted-foreground" style={step(2)}>{t("hero.description")}</p>
-            <div className="rise mt-8 flex flex-wrap gap-3" style={step(3)}>
-              <Button asChild size="lg"><Link to={primaryPath}>{user ? t("hero.open") : t("hero.primary")} <ArrowRight aria-hidden /></Link></Button>
-              <Button asChild size="lg" variant="outline"><a href="#fonctionnalites">{t("hero.secondary")} <ArrowDown aria-hidden /></a></Button>
+            <p className="mt-5 max-w-xl text-lg leading-8 text-muted-foreground">
+              {tx("Démarches, services, carte de la ruche, signalements et alertes : tout ce dont vous avez besoin, au même endroit.", "Procedures, services, the hive map, reports and alerts: everything you need in one place.")}
+            </p>
+
+            <search className="mt-8 block max-w-xl" data-tour="global-search"><form onSubmit={submit} className="flex gap-2">
+              <label htmlFor="home-search" className="sr-only">{tx("Rechercher un service", "Search a service")}</label>
+              <Input id="home-search" type="search" value={query} onChange={(e) => setQuery(e.target.value)} placeholder={tx("Que cherchez-vous ? (police, voirie, santé…)", "What are you looking for? (police, roads, health…)")} className="h-12 text-base" />
+              <Button type="submit" size="lg"><Search aria-hidden />{tx("Rechercher", "Search")}</Button>
+            </form></search>
+
+            <ul className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-4" aria-label={tx("Actions principales", "Main actions")}>
+              {quickActions.map(({ to, icon: Icon, fr, en, tour }) => (
+                <li key={tour}>
+                  <Button asChild size="xl" variant="soft" className="h-auto w-full justify-start py-4 text-base" data-tour={tour}>
+                    <Link to={to}><Icon aria-hidden />{tx(fr, en)}</Link>
+                  </Button>
+                </li>
+              ))}
+            </ul>
+          </Container>
+        </section>
+
+        <Container className="grid gap-12 py-12">
+          <section aria-labelledby="home-services" data-tour="services">
+            <div className="mb-4 flex items-end justify-between gap-3">
+              <h2 id="home-services" className="font-display text-2xl font-semibold">{tx("Services les plus utilisés", "Most used services")}</h2>
+              <Link to="/services" className="text-sm text-primary underline-offset-4 hover:underline">{tx("Tous les services", "All services")}</Link>
             </div>
-            <div className="rise mt-7 flex flex-wrap gap-x-5 gap-y-2 text-sm text-muted-foreground" style={step(4)}>
-              <span className="inline-flex items-center gap-2"><Check className="size-4 text-primary" aria-hidden />Mobile-first</span>
-              <span className="inline-flex items-center gap-2"><Check className="size-4 text-primary" aria-hidden />Thèmes clair et sombre</span>
-              <span className="inline-flex items-center gap-2"><Check className="size-4 text-primary" aria-hidden />Mode démo local</span>
+            {topServices.length === 0 ? (
+              <p className="text-sm text-muted-foreground">{tx("Les services s'afficheront ici dès que la connexion sera rétablie.", "Services will appear here as soon as the connection is back.")}</p>
+            ) : (
+              <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                {topServices.map((s) => (
+                  <li key={s.id} className="rounded-xl border bg-card p-4">
+                    <div className="flex items-center justify-between gap-2">
+                      <h3 className="font-semibold"><Link to={`/services/${s.slug}`} className="underline-offset-4 hover:underline">{s.name}</Link></h3>
+                      {s.is_emergency && <Badge variant="destructive"><Siren aria-hidden />{tx("Urgence", "Emergency")}</Badge>}
+                    </div>
+                    <p className="mt-1 line-clamp-2 text-sm text-muted-foreground">{s.description}</p>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </section>
+
+          <section aria-labelledby="home-news" data-tour="news">
+            <div className="mb-4 flex items-end justify-between gap-3">
+              <h2 id="home-news" className="font-display text-2xl font-semibold"><Newspaper className="mr-2 inline size-5" aria-hidden />{tx("Dernières actualités", "Latest news")}</h2>
+              <Link to="/news" className="text-sm text-primary underline-offset-4 hover:underline">{tx("Toutes les actualités", "All news")}</Link>
             </div>
+            {latestNews.length === 0 ? (
+              <p className="text-sm text-muted-foreground">{tx("Aucune actualité à afficher pour le moment.", "No news to display right now.")}</p>
+            ) : (
+              <ul className="grid gap-3 md:grid-cols-3">
+                {latestNews.map((n) => (
+                  <li key={n.id} className="rounded-xl border bg-card p-4">
+                    <div className="mb-2 flex flex-wrap items-center gap-2">
+                      {n.importance !== "normal" && <StatusBadge kind="importance" value={n.importance} />}
+                      <span className="text-xs text-muted-foreground">{formatDate(n.published_at, tag)}</span>
+                    </div>
+                    <h3 className="font-semibold"><Link to={`/news/${n.slug}`} className="underline-offset-4 hover:underline">{n.title}</Link></h3>
+                    <p className="mt-1 line-clamp-3 text-sm text-muted-foreground">{n.summary}</p>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </section>
+
+          <div className="grid gap-4 md:grid-cols-3">
+            <Link to="/map" data-tour="map" className="group rounded-xl border bg-card p-5 hover:bg-accent">
+              <MapIcon className="mb-3 size-6 text-primary" aria-hidden />
+              <h2 className="font-semibold">{tx("Carte interactive", "Interactive map")}</h2>
+              <p className="mt-1 text-sm text-muted-foreground">{tx("Secteurs, bâtiments et transports de la ruche.", "Sectors, buildings and transports of the hive.")}</p>
+            </Link>
+            <Link to="/app/assistant" data-tour="chatbot" className="group rounded-xl border bg-card p-5 hover:bg-accent">
+              <Bot className="mb-3 size-6 text-primary" aria-hidden />
+              <h2 className="font-semibold">{tx("Assistant virtuel", "Virtual assistant")}</h2>
+              <p className="mt-1 text-sm text-muted-foreground">{tx("Posez votre question par écrit ou à voix haute.", "Ask your question in writing or out loud.")}</p>
+            </Link>
+            <Link to="/dangers" className="group rounded-xl border bg-card p-5 hover:bg-accent">
+              <AlertTriangle className="mb-3 size-6 text-primary" aria-hidden />
+              <h2 className="font-semibold">{tx("Dangers et protocoles", "Dangers & protocols")}</h2>
+              <p className="mt-1 text-sm text-muted-foreground">{tx("Consignes officielles en cas d'alerte.", "Official instructions in case of an alert.")}</p>
+            </Link>
           </div>
 
-          <div className="rise relative mx-auto w-full max-w-xl" style={step(2)}>
-            <div className="hero-glow absolute -inset-8 rounded-[3rem] bg-primary/10 blur-2xl" aria-hidden />
-            <div className="hero-dashboard-float relative rounded-4xl border bg-card p-3 shadow-2xl sm:p-5">
-              <div className="flex items-center justify-between border-b px-2 pb-4">
-                <div>
-                  <p className="text-xs font-medium uppercase tracking-[0.16em] text-primary">{SITE.shortName}</p>
-                  <p className="mt-1 font-display text-lg font-semibold">Votre espace, en un regard</p>
-                </div>
-                <span className="grid size-10 place-items-center rounded-full bg-primary/10 text-primary"><Sparkles className="size-5" aria-hidden /></span>
-              </div>
-              <div className="grid gap-3 py-4 sm:grid-cols-2">
-                <article className="rounded-2xl bg-muted/60 p-4">
-                  <div className="flex items-center gap-2 text-sm font-medium"><Layers3 className="size-4 text-primary" aria-hidden />Vos contenus</div>
-                  <div className="mt-4 flex items-end gap-1.5" aria-hidden>
-                    <span className="hero-chart-bar h-8 flex-1 rounded-t-md bg-primary/25" style={{ "--bar-index": 0 } as CSSProperties} />
-                    <span className="hero-chart-bar h-12 flex-1 rounded-t-md bg-primary/40" style={{ "--bar-index": 1 } as CSSProperties} />
-                    <span className="hero-chart-bar h-10 flex-1 rounded-t-md bg-primary/55" style={{ "--bar-index": 2 } as CSSProperties} />
-                    <span className="hero-chart-bar h-16 flex-1 rounded-t-md bg-primary/80" style={{ "--bar-index": 3 } as CSSProperties} />
-                    <span className="hero-chart-bar h-14 flex-1 rounded-t-md bg-primary/45" style={{ "--bar-index": 4 } as CSSProperties} />
-                    <span className="hero-chart-bar h-20 flex-1 rounded-t-md bg-primary" style={{ "--bar-index": 5 } as CSSProperties} />
-                  </div>
-                  <p className="mt-3 text-xs text-muted-foreground">Une base à personnaliser</p>
-                </article>
-                <article className="rounded-2xl bg-muted/60 p-4">
-                  <div className="flex items-center gap-2 text-sm font-medium"><UsersRound className="size-4 text-primary" aria-hidden />Votre équipe</div>
-                  <div className="mt-4 flex -space-x-2" aria-hidden>
-                    {["A", "M", "T", "+"].map((letter, index) => <span key={letter + index} className="grid size-9 place-items-center rounded-full border-2 border-card bg-primary/10 text-xs font-semibold text-primary">{letter}</span>)}
-                  </div>
-                  <p className="mt-4 text-xs text-muted-foreground">Des rôles prêts à connecter</p>
-                </article>
-              </div>
-              <div className="rounded-2xl border border-dashed p-4">
-                <div className="flex items-center justify-between text-sm">
-                  <span className="font-medium">Un tableau de bord modulable</span>
-                  <span className="text-xs text-muted-foreground">Aperçu</span>
-                </div>
-                <div className="mt-4 grid grid-cols-3 gap-2" aria-hidden>
-                  <div className="h-14 rounded-xl bg-primary/10" />
-                  <div className="h-14 rounded-xl bg-highlight/30" />
-                  <div className="h-14 rounded-xl bg-muted" />
-                </div>
-              </div>
-            </div>
-            <div className="absolute -right-3 -bottom-5 rounded-2xl border bg-background px-4 py-3 shadow-lg sm:-right-6">
-              <p className="text-xs text-muted-foreground">Thème</p>
-              <p className="mt-0.5 text-sm font-semibold">À vous de choisir</p>
-            </div>
-          </div>
+          <section aria-labelledby="home-emergency" className="rounded-2xl border border-destructive/40 bg-destructive/5 p-6">
+            <h2 id="home-emergency" className="font-display text-xl font-semibold">{tx("Contacts d'urgence", "Emergency contacts")}</h2>
+            <ul className="mt-3 flex flex-wrap gap-3">
+              {EMERGENCY_CONTACTS.map((c) => (
+                <li key={c.phone}>
+                  <Button asChild variant="outline"><a href={`tel:${c.phone.replace(/\s/g, "")}`}><Phone aria-hidden />{tx(c.fr, c.en)} · {c.phone}</a></Button>
+                </li>
+              ))}
+            </ul>
+            <p className="mt-3 text-xs text-muted-foreground">{tx("Numéros fictifs de la simulation Nova Terra.", "Fictional numbers of the Nova Terra simulation.")}</p>
+          </section>
         </Container>
-      </section> : <AlternateHomeHero variant={selectedHero} primaryPath={primaryPath} />}
-
-      <Container className="py-14 sm:py-20">
-        <div className="text-center">
-          <p className="text-sm font-medium uppercase tracking-[0.16em] text-primary">{t("home.kicker")}</p>
-          <h2 id="fonctionnalites" className="mt-3 text-3xl font-semibold sm:text-5xl">{t("home.featuresTitle")}</h2>
-          <p className="mx-auto mt-4 max-w-2xl text-muted-foreground">{t("home.featuresIntro")}</p>
-        </div>
-        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          {features.map(({ icon: Icon, title, text }, index) => (
-            <Reveal key={title} delayMs={index * 80} className="h-full">
-              <article className="feature-card h-full rounded-2xl border bg-card p-5 sm:p-6">
-                <span className="grid size-11 place-items-center rounded-xl bg-primary/10 text-primary"><Icon className="size-5" aria-hidden /></span>
-                <h3 className="mt-5 font-display text-lg font-semibold">{t(title)}</h3>
-                <p className="mt-2 text-sm leading-6 text-muted-foreground">{t(text)}</p>
-              </article>
-            </Reveal>
-          ))}
-        </div>
-      </Container>
-
-      <section className="border-y bg-muted/30">
-        <Container className="py-14 sm:py-18">
-          <h2 className="text-center text-2xl font-semibold sm:text-3xl">{t("home.statsTitle")}</h2>
-          <div className="mt-9 grid gap-3 sm:grid-cols-3">
-            <Reveal delayMs={0}><Stat value="5" label={t("home.stat1")} /></Reveal>
-            <Reveal delayMs={90}><Stat value="3" label={t("home.stat2")} /></Reveal>
-            <Reveal delayMs={180}><Stat value="100%" label={t("home.stat3")} /></Reveal>
-          </div>
-          <blockquote className="mx-auto mt-12 max-w-2xl text-center">
-            <p className="font-display text-xl sm:text-2xl">{t("home.quote")}</p>
-            <footer className="mt-3 text-sm text-muted-foreground">{t("home.quoteBy")}</footer>
-          </blockquote>
-        </Container>
-      </section>
-
-      <section className="py-14 sm:py-20">
-        <Container>
-          <Reveal className="rounded-4xl bg-primary px-6 py-10 text-center text-primary-foreground sm:px-12 sm:py-14">
-            <h2 className="font-display text-3xl font-semibold sm:text-5xl">{t("home.ctaTitle")}</h2>
-            <p className="mx-auto mt-4 max-w-2xl text-primary-foreground/75">{t("home.ctaText")}</p>
-            <div className="mt-7 flex flex-wrap justify-center gap-3">
-              <Button asChild size="lg" variant="secondary"><Link to={primaryPath}>{t("home.ctaButton")} <ArrowRight aria-hidden /></Link></Button>
-              {env.enableKit && <Button asChild size="lg" variant="outline"><Link to="/modeles" className="border-primary-foreground/30 bg-transparent text-primary-foreground hover:bg-primary-foreground/10">Voir les pages modèles</Link></Button>}
-            </div>
-          </Reveal>
-        </Container>
-      </section>
       </div>
-    </div>
-  )
-}
-
-function Stat({ value, label }: { value: string; label: string }) {
-  return (
-    <div className="rounded-2xl border bg-card px-5 py-7 text-center">
-      <p className="font-display text-4xl font-semibold text-primary">{value}</p>
-      <p className="mt-2 text-sm text-muted-foreground">{label}</p>
     </div>
   )
 }

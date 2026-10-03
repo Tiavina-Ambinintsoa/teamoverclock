@@ -10,6 +10,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useAuth } from "@/features/auth/auth-context"
 import type { AuthMode } from "@/features/auth/auth-shell"
+import { loginThrottle } from "@/features/auth/login-throttle"
 import { useLocale } from "@/lib/locale"
 
 interface FormValues {
@@ -107,9 +108,19 @@ export function AuthForm({ mode, onLoginStart, onLoginFailure, onLoginSuccess }:
         toast.success(t("auth.toast.admin"))
         await navigate("/admin")
       } else {
+        const wait = loginThrottle.remainingMs(values.email)
+        if (wait > 0) {
+          throw new Error("Trop de tentatives échouées. Réessayez dans " + Math.ceil(wait / 1000) + " s.")
+        }
         loginAttempt = true
         onLoginStart?.()
-        await signIn(values.email, values.password)
+        try {
+          await signIn(values.email, values.password)
+        } catch (loginError) {
+          loginThrottle.recordFailure(values.email)
+          throw loginError
+        }
+        loginThrottle.reset(values.email)
         toast.success(t("auth.toast.login"))
         await onLoginSuccess?.()
       }

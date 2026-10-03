@@ -41,7 +41,7 @@ export function AuthShell({ mode, children, isExiting = false }: { mode: AuthMod
           </div>
 
           <p className="relative z-10 text-xs text-primary-foreground/65">
-            TODO(webcup) · Ajoutez ici le visuel de votre thème
+            Nova Terra · ville fictive et futuriste
           </p>
           <span className="auth-orb auth-orb-one" aria-hidden />
           <span className="auth-orb auth-orb-two" aria-hidden />

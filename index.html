@@ -7,11 +7,11 @@
     <meta name="theme-color" content="#0e7490" />
 
     <!-- TODO(webcup) : titre, description et image de partage (URLs ABSOLUES pour Facebook/WhatsApp/LinkedIn) -->
-    <title>NOVA — Un espace pour vos projets</title>
-    <meta name="description" content="Une base flexible pour présenter un projet et donner accès à ses outils." />
+    <title>Nova Terra — Portail de la ville futuriste</title>
+    <meta name="description" content="Portail citoyen de Nova Terra, ville fictive et futuriste : démarches, services, actualités, carte interactive, signalements et assistant vocal." />
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="NOVA — Un espace pour vos projets" />
-    <meta property="og:description" content="Une base flexible pour présenter un projet et donner accès à ses outils." />
+    <meta property="og:title" content="Nova Terra — Portail de la ville futuriste" />
+    <meta property="og:description" content="Démarches, services, carte en ruche, signalements et alertes de Nova Terra (ville fictive)." />
     <meta property="og:image" content="https://VOTRE-URL/og.png" />
     <meta name="twitter:card" content="summary_large_image" />
 
@@ -29,6 +29,23 @@
           root.dataset.typography = ["theme", "instrument", "bricolage", "fraunces", "system"].includes(typography) ? typography : "theme"
           root.dataset.morphism = ["standard", "glass", "clay", "skeuomorphic", "neumorphic", "minimal", "neo-brutalist", "liquid-glass"].includes(morphism) ? morphism : "standard"
           root.classList.toggle("dark", dark)
+          // Préférences d'accessibilité (mal voyant) : contraste et taille de texte dès le premier affichage.
+          var a11y = JSON.parse(localStorage.getItem("webcup:a11y") || "null")
+          if (a11y && typeof a11y === "object") {
+            var themes = ["high_contrast_light", "high_contrast_dark", "yellow_on_black"]
+            if (themes.indexOf(a11y.theme) !== -1) {
+              root.dataset.contrast = a11y.theme
+              root.classList.toggle("dark", a11y.theme !== "high_contrast_light")
+            }
+            var scale = Number(a11y.fontScale)
+            if (scale >= 0.85 && scale <= 2 && scale !== 1) root.style.fontSize = scale * 100 + "%"
+            if (a11y.reduceMotion === true) root.dataset.reduceMotion = "true"
+            var spacing = Number(a11y.lineSpacing)
+            if (spacing > 1 && spacing <= 2) {
+              root.style.setProperty("--a11y-line-spacing", String(spacing))
+              root.dataset.a11yLineSpacing = "on"
+            }
+          }
         } catch (e) {}
       })()
     </script>

@@ -17,10 +17,10 @@ interface SiteConfig {
  * Gardez les recherches "TODO(webcup)" : npm run release échoue tant qu'il en reste un.
  */
 export const SITE: SiteConfig = {
-  name: "NOVA", // TODO(webcup)
-  shortName: "NOVA", // TODO(webcup)
-  tagline: "Un espace simple pour partager, créer et faire grandir vos idées.", // TODO(webcup)
-  description: "Une base flexible pour présenter un projet et donner accès à ses outils.", // TODO(webcup)
+  name: "Nova Terra",
+  shortName: "Nova Terra",
+  tagline: "La ville fictive et futuriste : services, carte en ruche, signalements et alertes.",
+  description: "Portail citoyen de Nova Terra, ville fictive et futuriste : démarches, services, actualités, carte interactive, signalements et assistant vocal.",
   defaultPreset: "lagon",
   defaultMode: "system",
   team: [

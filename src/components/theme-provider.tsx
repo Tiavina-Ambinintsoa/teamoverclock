@@ -53,7 +53,10 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   // Le script inline de index.html applique déjà le thème avant le rendu (pas de flash).
   useEffect(() => {
     const root = document.documentElement
-    root.classList.toggle("dark", resolvedMode === "dark")
+    // Un thème d'accessibilité contrasté impose clair/sombre (voir AccessibilityProvider).
+    const contrast = root.dataset.contrast
+    const forcedDark = contrast === "high_contrast_light" ? false : contrast ? true : null
+    root.classList.toggle("dark", forcedDark ?? resolvedMode === "dark")
     root.dataset.theme = preset
     root.dataset.typography = typography
     root.dataset.morphism = morphism
