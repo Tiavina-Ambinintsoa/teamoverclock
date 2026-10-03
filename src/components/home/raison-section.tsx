@@ -8,14 +8,10 @@ import {
   Brain,
   Building2,
   CheckCircle2,
-  Compass,
   Cpu,
   Database,
   FileCheck2,
-  FileSpreadsheet,
-  Globe2,
   Hexagon,
-  Layers,
   Leaf,
   Lock,
   Map as MapIcon,
@@ -29,7 +25,7 @@ import {
 } from "lucide-react"
 import { Link } from "react-router"
 
-import { Badge } from "@/components/ui/badge"
+
 import { Button } from "@/components/ui/button"
 
 export function RaisonSection() {
@@ -430,7 +426,7 @@ export function RaisonSection() {
 
                 {/* Colonne droite : Liste interactive des écrans et fonctionnalités avec liens directs */}
                 <div className="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  {currentSpace.features.map((feature, fIdx) => {
+                  {currentSpace.features.map((feature) => {
                     const FIcon = feature.icon
                     return (
                       <Link

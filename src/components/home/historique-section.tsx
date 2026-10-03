@@ -1,5 +1,5 @@
 import { motion } from "framer-motion"
-import { ArrowRight, Bot, Compass, Cpu, Hexagon, Layers, MapPin, Sparkles } from "lucide-react"
+import { ArrowRight, Compass, Cpu, Hexagon, Layers, Sparkles } from "lucide-react"
 import { Link } from "react-router"
 
 import { Button } from "@/components/ui/button"
