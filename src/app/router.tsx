@@ -17,7 +17,7 @@ const routes: RouteObject[] = [
       {
         errorElement: <RouteError />,
         children: [
-          { index: true, lazy: async () => ({ Component: (await import("@/pages/home-page")).HomePage }) },
+          { index: true, lazy: async () => ({ Component: (await import("@/pages/custom-home-page")).CustomHomePage }) },
           { path: "connexion", lazy: async () => ({ Component: (await import("@/features/auth/login-page")).LoginPage }) },
           { path: "inscription", lazy: async () => ({ Component: (await import("@/features/auth/register-page")).RegisterPage }) },
           { path: "mot-de-passe-oublie", lazy: async () => ({ Component: (await import("@/features/auth/password-pages")).PasswordRecoveryPage }) },

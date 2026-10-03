@@ -32,11 +32,11 @@ export function RootLayout() {
       >
         Aller au contenu
       </a>
-      <SiteHeader />
-      <main id="contenu" className="flex-1">
+      {pathname !== "/" && <SiteHeader />}
+      <main id="contenu" className="flex-1 flex flex-col">
         <Outlet />
       </main>
-      <SiteFooter />
+      {pathname !== "/" && <SiteFooter />}
       <ScrollRestoration />
     </div>
   )
