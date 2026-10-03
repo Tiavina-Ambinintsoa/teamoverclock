@@ -130,6 +130,23 @@ export const BUILDING_TYPE_LABELS: Record<string, { fr: string; en: string }> = 
   transport_hub: { fr: "Hub de transport", en: "Transport hub" },
 }
 
+export const FACILITY_TYPE_LABELS: Record<string, { fr: string; en: string }> = {
+  hospital: { fr: "Hôpital", en: "Hospital" },
+  pharmacy: { fr: "Pharmacie", en: "Pharmacy" },
+  dentist: { fr: "Dentiste", en: "Dentist" },
+  clinic: { fr: "Clinique", en: "Clinic" },
+  care_center: { fr: "Centre de soins", en: "Care center" },
+  administrative_office: { fr: "Bureau administratif", en: "Administrative office" },
+  police_station: { fr: "Commissariat", en: "Police station" },
+  fire_station: { fr: "Caserne", en: "Fire station" },
+  service_center: { fr: "Centre de service", en: "Service center" },
+  utility_center: { fr: "Centre des réseaux", en: "Utility center" },
+  mobility_hub: { fr: "Pôle de mobilité", en: "Mobility hub" },
+  environment_center: { fr: "Centre environnemental", en: "Environment center" },
+  school: { fr: "Établissement scolaire", en: "School" },
+  other: { fr: "Autre établissement", en: "Other facility" },
+}
+
 export const TRANSPORT_TYPE_LABELS: Record<string, { fr: string; en: string }> = {
   hover_tram: { fr: "Tram en lévitation", en: "Hover tram" },
   maglev: { fr: "Maglev", en: "Maglev" },

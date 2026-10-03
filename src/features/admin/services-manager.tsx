@@ -14,6 +14,7 @@ import { Select } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 import { useAuth } from "@/features/auth/auth-context"
 import { useServices } from "@/features/city/city-queries"
+import { FacilitiesManager } from "@/features/services/facilities-manager"
 import type { Service } from "@/lib/db-types"
 import { useLocale } from "@/lib/locale"
 import { supabase } from "@/lib/supabase"
@@ -64,15 +65,18 @@ export function ServicesManager({ scope }: { scope: "all" | "mine" }) {
         {(items) => (
           <ul className="grid gap-3">
             {items.map((s) => (
-              <li key={s.id} className="flex flex-wrap items-center justify-between gap-3 rounded-xl border bg-card p-4">
-                <div className="min-w-0">
-                  <p className="font-medium">{s.name}</p>
-                  <p className="text-sm text-muted-foreground">{s.category} · {s.published_at ? tx("publié", "published") : tx("non publié", "unpublished")}</p>
+              <li key={s.id} className="rounded-xl border bg-card p-4">
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                  <div className="min-w-0">
+                    <p className="font-medium">{s.name}</p>
+                    <p className="text-sm text-muted-foreground">{s.category} · {s.published_at ? tx("publié", "published") : tx("non publié", "unpublished")}</p>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <StatusBadge kind="service" value={s.status} />
+                    <Button size="sm" variant="outline" onClick={() => setEditing(s)}>{tx("Modifier", "Edit")}</Button>
+                  </div>
                 </div>
-                <div className="flex items-center gap-2">
-                  <StatusBadge kind="service" value={s.status} />
-                  <Button size="sm" variant="outline" onClick={() => setEditing(s)}>{tx("Modifier", "Edit")}</Button>
-                </div>
+                {(scope === "all" || user?.profileRole === "service_admin") && <FacilitiesManager service={s} />}
               </li>
             ))}
           </ul>

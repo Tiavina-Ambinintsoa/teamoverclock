@@ -29,15 +29,24 @@ export type BuildingType =
   | "administrative" | "residential" | "hospital" | "school" | "security"
   | "industrial" | "energy" | "telecom" | "public_place" | "transport_hub"
 export type BuildingStatus = "operational" | "temporarily_closed" | "under_maintenance" | "restricted"
+export type FacilityType =
+  | "hospital" | "pharmacy" | "dentist" | "clinic" | "care_center"
+  | "administrative_office" | "police_station" | "fire_station" | "service_center"
+  | "utility_center" | "mobility_hub" | "environment_center" | "school" | "other"
 
 export interface Building {
   id: string
   name: string
   type: BuildingType
+  facility_type: FacilityType | null
+  service_id: string | null
+  offerings: string[]
   sector_id: string
   x: number
   y: number
   address: string | null
+  phone: string | null
+  email: string | null
   opening_hours: Record<string, string>
   accessibility: Record<string, boolean>
   status: BuildingStatus
