@@ -83,7 +83,7 @@
   "81": "button.tsx",
   "82": "hero.tsx",
   "83": "request-workflow.ts",
-  "84": "switch.tsx",
+  "84": "upload-hero-assets.mjs",
   "85": "password-pages.tsx",
   "86": "gemini-chat/index.ts",
   "87": "site.ts",
@@ -232,7 +232,7 @@
   "230": "storage-uploader.tsx",
   "231": "page-header.tsx",
   "232": "@types/three",
-  "233": "vitest",
+  "233": "home-assets.ts",
   "234": "map/map-page.tsx",
   "235": "vite",
   "236": "@testing-library/jest-dom",
@@ -261,5 +261,7 @@
   "259": "animations-page.tsx",
   "260": "@testing-library/user-event",
   "261": "lightbox.tsx",
-  "262": "my-requests-page.tsx"
+  "262": "my-requests-page.tsx",
+  "263": "@vitejs/plugin-react",
+  "264": "settings-page.tsx"
 }
