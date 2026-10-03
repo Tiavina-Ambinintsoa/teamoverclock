@@ -307,6 +307,10 @@ interface LocaleContextValue {
   locale: Locale
   setLocale: (locale: Locale) => void
   t: (key: string) => string
+  /** Texte bilingue en ligne : tx("Services", "Services") renvoie la version de la langue active. */
+  tx: (fr: string, en: string) => string
+  /** Balise BCP 47 pour Intl (dates, nombres) et la voix. */
+  tag: "fr-FR" | "en-GB"
 }
 
 const LocaleContext = createContext<LocaleContextValue | null>(null)
@@ -329,6 +333,10 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
       t(key) {
         return messages[locale][key] ?? messages.fr[key] ?? key
       },
+      tx(fr, en) {
+        return locale === "en" ? en : fr
+      },
+      tag: locale === "en" ? "en-GB" : "fr-FR",
     }),
     [locale],
   )

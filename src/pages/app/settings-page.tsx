@@ -10,6 +10,8 @@ import { ModeToggle, MorphismPicker, PresetPicker, TypographyPicker } from "@/co
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { ProfileDetailsForm } from "@/features/profile/profile-details-form"
+import { AccessibilityPanel } from "@/features/accessibility/accessibility-panel"
 import { useAuth } from "@/features/auth/auth-context"
 import { useLocale } from "@/lib/locale"
 import { SITE } from "@/lib/site"
@@ -77,6 +79,8 @@ export function SettingsPage() {
       </header>
 
       <div className="grid gap-5">
+        <ProfileDetailsForm />
+        <AccessibilityPanel />
         <section className="rounded-xl border bg-card p-5 sm:p-7">
           <h2 className="font-semibold">Modifier le profil</h2>
           <form onSubmit={saveProfile} className="mt-5 grid gap-4 sm:grid-cols-2">

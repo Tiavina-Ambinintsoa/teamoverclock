@@ -52,3 +52,24 @@ VITE_SUPABASE_PUBLISHABLE_KEY=sb_publishable_...
 Activez Email dans **Authentication → Sign In / Providers**. Pour OAuth, configurez le fournisseur et ses identifiants côté Supabase, puis ajoutez l'URL de production et les URL locales aux **Redirect URLs** autorisées. Les clés privées fournies par Google/Facebook restent dans Supabase, jamais dans les variables `VITE_*`.
 
 Le guide [HODI](./DEPLOIEMENT-HODI.md) détaille les URLs, variables de build et e-mails à configurer pour le déploiement.
+
+## Importer Nova Terra (structure + données fictives)
+
+Pré-requis : `supabase/schema.sql` (starter) déjà exécuté. Dans **SQL Editor → New query**, collez et exécutez **dans cet ordre**, un fichier à la fois (chacun est relançable) :
+
+1. `supabase/nova-terra/01_enums_extensions.sql`
+2. `supabase/nova-terra/02_tables.sql`
+3. `supabase/nova-terra/03_functions_triggers.sql`
+4. `supabase/nova-terra/04_rls_grants.sql`
+5. `supabase/nova-terra/05_storage.sql`
+6. `supabase/nova-terra/06_seed_auth.sql` — crée 10 comptes de démo (mot de passe commun `NovaTerra!2026`, développement uniquement ; `admin@novaterra.test` est administrateur général)
+7. `supabase/nova-terra/07a_seed_city_identity.sql`, puis `07b_…`, puis `07c_…`
+8. `supabase/nova-terra/08_citizen_rpcs.sql`, `09_workflow_support.sql`, `10_knowledge_base.sql` — fonctions utilisées par l'application (identité CIN, demandes, signalements publics, base du chatbot, lettres d'information)
+9. `supabase/nova-terra/99_verify.sql` — toutes les lignes doivent afficher `ok = true`, et la dernière requête ne doit retourner aucune table sans RLS.
+
+Après l'import de 10, ouvrez **/admin/ai-content → Reconstruire la base du chatbot** (connecté en `admin@novaterra.test`) pour remplir la base de connaissances.
+
+À planifier (Supabase → Database → Cron, ou Edge Function planifiée) : `select public.remind_stalled_requests();` toutes les heures et `select public.send_newsletter_digest('daily');` chaque jour.
+
+Pour repartir de zéro (données fictives uniquement) : `set app.allow_nova_reset = 'yes';` puis `00_reset_dev.sql`, puis relancer 06 et 07a-c.
+Le plan complet et les décisions sont dans [PLAN.md](./PLAN.md).

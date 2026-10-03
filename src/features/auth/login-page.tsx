@@ -6,6 +6,7 @@ import { AuthForm } from "@/features/auth/auth-form"
 import { AuthShell } from "@/features/auth/auth-shell"
 import { useAuth } from "@/features/auth/auth-context"
 import { Button } from "@/components/ui/button"
+import { homeForRole } from "@/lib/permissions"
 import { SITE } from "@/lib/site"
 
 export function LoginPage() {
@@ -28,7 +29,9 @@ export function LoginPage() {
     }
   }, [finishLogin, loading, phase, user])
 
-  if (!loading && user && phase === "ready") return <Navigate to={user.isAdmin ? "/admin" : "/app"} replace />
+  if (!loading && user && user.profileLoaded && phase === "ready") {
+    return <Navigate to={user.isAdmin ? "/admin" : homeForRole(user.profileRole)} replace />
+  }
 
   const tryDemo = async () => {
     setBusy(true)
