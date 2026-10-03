@@ -92,3 +92,12 @@ select 'active dangers are validated and owned',
 select c.relname as table_without_rls
 from pg_class c join pg_namespace n on n.oid = c.relnamespace
 where n.nspname = 'public' and c.relkind = 'r' and not c.relrowsecurity;
+
+-- 4) Health service extension
+select
+  'health service has at least five managed facilities' as check_name,
+  count(b.id) as value,
+  count(b.id) >= 5 as ok
+from public.services s
+left join public.buildings b on b.service_id = s.id and b.facility_type is not null
+where s.slug = 'health';

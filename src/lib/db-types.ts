@@ -29,6 +29,7 @@ export type BuildingType =
   | "administrative" | "residential" | "hospital" | "school" | "security"
   | "industrial" | "energy" | "telecom" | "public_place" | "transport_hub"
 export type BuildingStatus = "operational" | "temporarily_closed" | "under_maintenance" | "restricted"
+export type HealthFacilityType = "hospital" | "clinic" | "pharmacy" | "dentist" | "laboratory"
 
 export interface Building {
   id: string
@@ -42,6 +43,11 @@ export interface Building {
   accessibility: Record<string, boolean>
   status: BuildingStatus
   description: string | null
+  service_id?: string | null
+  facility_type?: HealthFacilityType | null
+  capabilities?: string[]
+  contact_phone?: string | null
+  contact_email?: string | null
 }
 
 export interface Service {

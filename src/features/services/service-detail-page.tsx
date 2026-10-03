@@ -7,6 +7,7 @@ import { StatusBadge } from "@/components/status-badge"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { useBuildings, useSectors, useService } from "@/features/city/city-queries"
+import { HealthFacilitiesSection } from "@/features/services/health-facilities-section"
 import { describeClosingDays, describeOpeningHours } from "@/features/services/hours"
 import { useLocale } from "@/lib/locale"
 import { formatDate } from "@/lib/query-helpers"
@@ -100,6 +101,7 @@ export function ServiceDetailPage() {
           <p className="mt-3 text-xs text-muted-foreground">{tx("Dernière mise à jour :", "Last updated:")} {formatDate(s.updated_at, tag)}</p>
         </section>
       </div>
+      {s.slug === "health" && <HealthFacilitiesSection service={s} />}
     </Container>
   )
 }

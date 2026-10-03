@@ -268,8 +268,11 @@ supabase/nova-terra/
   08_citizen_rpcs.sql     -- phase 1: complete_citizen_profile, submit_cin_verification, decide_cin_verification, touch_last_login
   09_workflow_support.sql -- phases 3-6: request notifications, remind_stalled_requests, public_reports view, simulate_observation/api_sync, list_agents
   10_knowledge_base.sql   -- phases 7-9: rebuild_knowledge_base, apply_ai_content, propose_ai_content, send_newsletter_digest
+  11_health_service.sql  -- adds the published health service, facility data, and service-scoped building management
   99_verify.sql           -- SELECT count(*) per table must be ≥ 10; FK/orphan checks
 ```
+
+The optional health-service extension adds hospitals, clinics, a pharmacy, dental care, and a diagnostic laboratory to the existing `buildings` table. Apply `11_health_service.sql` after the Nova Terra seed scripts; it is safe to rerun. Health-service admins and general admins can manage these facilities, while public visitors can browse them in list and map views at `/services/health`.
 
 `00_reset_dev.sql` wipes only the fictional data (guarded by `set app.allow_nova_reset = 'yes'`). Each file is **idempotent** and < 100 KB (SQL Editor limit comfort). A `scripts/build-sql.mjs` can concatenate into one `nova-terra_full.sql` if wanted.
 
