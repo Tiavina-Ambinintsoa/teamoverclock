@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest"
 
+import type { Building } from "@/lib/db-types"
+
 import { filterBuildingsForService, filterFacilities, isNewsActive } from "./city-queries"
 
 const building = (id: string, service_id: string | null): Parameters<typeof filterBuildingsForService>[0][number] => ({
@@ -38,7 +40,7 @@ describe("filterBuildingsForService", () => {
 })
 
 describe("filterFacilities", () => {
-  const facilities = [
+  const facilities: Building[] = [
     { ...building("clinic", "health"), facility_type: "clinic", address: "Vitalis" },
     { ...building("pharmacy", "health"), facility_type: "pharmacy", offerings: ["Medicine advice"] },
     { ...building("dentist", "health"), facility_type: "dentist", description: "Urgent dental care" },

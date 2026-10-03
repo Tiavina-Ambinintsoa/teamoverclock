@@ -1694,19 +1694,6 @@
       "source_location": "L14"
     },
     {
-      "id": "src_features_profile_verification_page_verificationrow",
-      "label": "VerificationRow",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 203,
-      "community_name": "verification-page.tsx",
-      "file_type": "code",
-      "norm_label": "verificationrow",
-      "source_file": "src/features/profile/verification-page.tsx",
-      "source_location": "L20"
-    },
-    {
       "id": "src_features_voice_dictation_button_dictationbuttonprops",
       "label": "DictationButtonProps",
       "_callable": true,
@@ -1993,6 +1980,19 @@
       "source_location": "L3"
     },
     {
+      "id": "src_components_image_parallax_background_imageparallaxbackgroundprops",
+      "label": "ImageParallaxBackgroundProps",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 240,
+      "community_name": "image-parallax-background.tsx",
+      "file_type": "code",
+      "norm_label": "imageparallaxbackgroundprops",
+      "source_file": "src/components/image-parallax-background.tsx",
+      "source_location": "L6"
+    },
+    {
       "id": "src_features_map_map_detail_panel_mapdetailpanelprops",
       "label": "MapDetailPanelProps",
       "_callable": true,
@@ -2149,6 +2149,19 @@
       "source_location": "L4"
     },
     {
+      "id": "src_components_lightbox_lightboxprops",
+      "label": "LightboxProps",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 261,
+      "community_name": "lightbox.tsx",
+      "file_type": "code",
+      "norm_label": "lightboxprops",
+      "source_file": "src/components/lightbox.tsx",
+      "source_location": "L6"
+    },
+    {
       "id": "src_lib_locale_locale",
       "label": "Locale",
       "_callable": true,
@@ -2188,30 +2201,17 @@
       "source_location": "L17"
     },
     {
-      "id": "src_components_image_parallax_background_imageparallaxbackgroundprops",
-      "label": "ImageParallaxBackgroundProps",
+      "id": "src_features_profile_verification_page_verificationrow",
+      "label": "VerificationRow",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
       "community": 3,
       "community_name": "react",
       "file_type": "code",
-      "norm_label": "imageparallaxbackgroundprops",
-      "source_file": "src/components/image-parallax-background.tsx",
-      "source_location": "L6"
-    },
-    {
-      "id": "src_components_lightbox_lightboxprops",
-      "label": "LightboxProps",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "lightboxprops",
-      "source_file": "src/components/lightbox.tsx",
-      "source_location": "L6"
+      "norm_label": "verificationrow",
+      "source_file": "src/features/profile/verification-page.tsx",
+      "source_location": "L20"
     },
     {
       "id": "src_features_auth_auth_context_appuser",
@@ -4444,7 +4444,7 @@
       "file_type": "code",
       "norm_label": "building()",
       "source_file": "src/features/city/city-queries.test.ts",
-      "source_location": "L5"
+      "source_location": "L7"
     },
     {
       "id": "src_features_city_city_queries_usebuildings",
@@ -5947,18 +5947,6 @@
       "source_location": "L20"
     },
     {
-      "id": "src_features_profile_verification_page_verificationpage",
-      "label": "VerificationPage()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 203,
-      "community_name": "verification-page.tsx",
-      "file_type": "code",
-      "norm_label": "verificationpage()",
-      "source_file": "src/features/profile/verification-page.tsx",
-      "source_location": "L29"
-    },
-    {
       "id": "src_features_voice_audio_audioblobtowavbase64",
       "label": "audioBlobToWavBase64()",
       "_callable": true,
@@ -6811,6 +6799,18 @@
       "source_location": "L60"
     },
     {
+      "id": "src_components_image_parallax_background_imageparallaxbackground",
+      "label": "ImageParallaxBackground()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 240,
+      "community_name": "image-parallax-background.tsx",
+      "file_type": "code",
+      "norm_label": "imageparallaxbackground()",
+      "source_file": "src/components/image-parallax-background.tsx",
+      "source_location": "L14"
+    },
+    {
       "id": "src_features_map_map_detail_panel_mapdetailpanel",
       "label": "MapDetailPanel()",
       "_callable": true,
@@ -7147,40 +7147,28 @@
       "source_location": "L30"
     },
     {
-      "id": "src_components_animated_meteor_field_meteorfield",
-      "label": "MeteorField()",
+      "id": "src_components_lightbox_lightbox",
+      "label": "Lightbox()",
       "_callable": true,
       "_origin": "ast",
       "community": 261,
-      "community_name": "meteor-field.tsx",
+      "community_name": "lightbox.tsx",
       "file_type": "code",
-      "norm_label": "meteorfield()",
-      "source_file": "src/components/animated/meteor-field.tsx",
-      "source_location": "L4"
+      "norm_label": "lightbox()",
+      "source_file": "src/components/lightbox.tsx",
+      "source_location": "L21"
     },
     {
-      "id": "src_components_layout_container_container",
-      "label": "Container()",
+      "id": "src_features_requests_my_requests_page_myrequestspage",
+      "label": "MyRequestsPage()",
       "_callable": true,
       "_origin": "ast",
       "community": 262,
-      "community_name": "container.tsx",
+      "community_name": "my-requests-page.tsx",
       "file_type": "code",
-      "norm_label": "container()",
-      "source_file": "src/components/layout/container.tsx",
-      "source_location": "L6"
-    },
-    {
-      "id": "src_pages_app_settings_page_settingspage",
-      "label": "SettingsPage()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 263,
-      "community_name": "settings-page.tsx",
-      "file_type": "code",
-      "norm_label": "settingspage()",
-      "source_file": "src/pages/app/settings-page.tsx",
-      "source_location": "L22"
+      "norm_label": "myrequestspage()",
+      "source_file": "src/features/requests/my-requests-page.tsx",
+      "source_location": "L18"
     },
     {
       "id": "src_features_items_use_items_requireuser",
@@ -7327,6 +7315,18 @@
       "source_location": "L4"
     },
     {
+      "id": "src_components_animated_meteor_field_meteorfield",
+      "label": "MeteorField()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "meteorfield()",
+      "source_file": "src/components/animated/meteor-field.tsx",
+      "source_location": "L4"
+    },
+    {
       "id": "src_components_animated_transition_link_transitionlink",
       "label": "TransitionLink()",
       "_callable": true,
@@ -7351,18 +7351,6 @@
       "source_location": "L4"
     },
     {
-      "id": "src_components_image_parallax_background_imageparallaxbackground",
-      "label": "ImageParallaxBackground()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "imageparallaxbackground()",
-      "source_file": "src/components/image-parallax-background.tsx",
-      "source_location": "L14"
-    },
-    {
       "id": "src_components_interactive_like_button_likebutton",
       "label": "LikeButton()",
       "_callable": true,
@@ -7375,16 +7363,16 @@
       "source_location": "L7"
     },
     {
-      "id": "src_components_lightbox_lightbox",
-      "label": "Lightbox()",
+      "id": "src_components_layout_container_container",
+      "label": "Container()",
       "_callable": true,
       "_origin": "ast",
       "community": 3,
       "community_name": "react",
       "file_type": "code",
-      "norm_label": "lightbox()",
-      "source_file": "src/components/lightbox.tsx",
-      "source_location": "L21"
+      "norm_label": "container()",
+      "source_file": "src/components/layout/container.tsx",
+      "source_location": "L6"
     },
     {
       "id": "src_components_ui_checkbox_checkbox",
@@ -7579,16 +7567,16 @@
       "source_location": "L17"
     },
     {
-      "id": "src_features_requests_my_requests_page_myrequestspage",
-      "label": "MyRequestsPage()",
+      "id": "src_features_profile_verification_page_verificationpage",
+      "label": "VerificationPage()",
       "_callable": true,
       "_origin": "ast",
       "community": 3,
       "community_name": "react",
       "file_type": "code",
-      "norm_label": "myrequestspage()",
-      "source_file": "src/features/requests/my-requests-page.tsx",
-      "source_location": "L18"
+      "norm_label": "verificationpage()",
+      "source_file": "src/features/profile/verification-page.tsx",
+      "source_location": "L29"
     },
     {
       "id": "src_features_services_services_page_servicespage",
@@ -7661,6 +7649,18 @@
       "norm_label": "usereveal()",
       "source_file": "src/hooks/use-reveal.ts",
       "source_location": "L10"
+    },
+    {
+      "id": "src_pages_app_settings_page_settingspage",
+      "label": "SettingsPage()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "settingspage()",
+      "source_file": "src/pages/app/settings-page.tsx",
+      "source_location": "L22"
     },
     {
       "id": "src_pages_templates_video_page_videopage",
@@ -11403,40 +11403,16 @@
       "source_location": "L1015"
     },
     {
-      "id": "ruleset_2_1_directory_mapping",
-      "label": "2.1 Directory Mapping",
+      "id": "ruleset_18_getting_help",
+      "label": "18. GETTING HELP",
       "_origin": "ast",
       "community": 115,
       "community_name": "AI Development Ruleset for Webcup 2026 Starter",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "2.1 directory mapping",
+      "norm_label": "18. getting help",
       "source_file": "RULESET.md",
-      "source_location": "L37"
-    },
-    {
-      "id": "ruleset_2_2_path_alias",
-      "label": "2.2 Path Alias",
-      "_origin": "ast",
-      "community": 115,
-      "community_name": "AI Development Ruleset for Webcup 2026 Starter",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "2.2 path alias",
-      "source_file": "RULESET.md",
-      "source_location": "L105"
-    },
-    {
-      "id": "ruleset_2_file_structure_organization",
-      "label": "2. FILE STRUCTURE & ORGANIZATION",
-      "_origin": "ast",
-      "community": 115,
-      "community_name": "AI Development Ruleset for Webcup 2026 Starter",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "2. file structure & organization",
-      "source_file": "RULESET.md",
-      "source_location": "L35"
+      "source_location": "L1027"
     },
     {
       "id": "ruleset_5_1_create_forms_with_react_hook_form_zod",
@@ -11463,52 +11439,52 @@
       "source_location": "L237"
     },
     {
-      "id": "ruleset_7_1_component_structure",
-      "label": "7.1 Component Structure",
+      "id": "ruleset_9_1_query_data_read",
+      "label": "9.1 Query Data (Read)",
       "_origin": "ast",
       "community": 115,
       "community_name": "AI Development Ruleset for Webcup 2026 Starter",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "7.1 component structure",
+      "norm_label": "9.1 query data (read)",
       "source_file": "RULESET.md",
-      "source_location": "L333"
+      "source_location": "L411"
     },
     {
-      "id": "ruleset_7_2_where_to_place_components",
-      "label": "7.2 Where to Place Components",
+      "id": "ruleset_9_2_mutate_data_create_update_delete",
+      "label": "9.2 Mutate Data (Create/Update/Delete)",
       "_origin": "ast",
       "community": 115,
       "community_name": "AI Development Ruleset for Webcup 2026 Starter",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "7.2 where to place components",
+      "norm_label": "9.2 mutate data (create/update/delete)",
       "source_file": "RULESET.md",
-      "source_location": "L354"
+      "source_location": "L437"
     },
     {
-      "id": "ruleset_7_3_props_pattern",
-      "label": "7.3 Props Pattern",
+      "id": "ruleset_9_3_existing_hooks_for_crud_items",
+      "label": "9.3 Existing Hooks for CRUD Items",
       "_origin": "ast",
       "community": 115,
       "community_name": "AI Development Ruleset for Webcup 2026 Starter",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "7.3 props pattern",
+      "norm_label": "9.3 existing hooks for crud items",
       "source_file": "RULESET.md",
-      "source_location": "L361"
+      "source_location": "L466"
     },
     {
-      "id": "ruleset_7_creating_new_components",
-      "label": "7. CREATING NEW COMPONENTS",
+      "id": "ruleset_9_data_fetching_mutations",
+      "label": "9. DATA FETCHING & MUTATIONS",
       "_origin": "ast",
       "community": 115,
       "community_name": "AI Development Ruleset for Webcup 2026 Starter",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "7. creating new components",
+      "norm_label": "9. data fetching & mutations",
       "source_file": "RULESET.md",
-      "source_location": "L331"
+      "source_location": "L409"
     },
     {
       "id": "ruleset_ai_development_ruleset_for_webcup_2026_starter",
@@ -11521,6 +11497,30 @@
       "norm_label": "ai development ruleset for webcup 2026 starter",
       "source_file": "RULESET.md",
       "source_location": "L1"
+    },
+    {
+      "id": "ruleset_check_these_files_first",
+      "label": "Check These Files First",
+      "_origin": "ast",
+      "community": 115,
+      "community_name": "AI Development Ruleset for Webcup 2026 Starter",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "check these files first",
+      "source_file": "RULESET.md",
+      "source_location": "L1029"
+    },
+    {
+      "id": "ruleset_run_these_commands",
+      "label": "Run These Commands",
+      "_origin": "ast",
+      "community": 115,
+      "community_name": "AI Development Ruleset for Webcup 2026 Starter",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "run these commands",
+      "source_file": "RULESET.md",
+      "source_location": "L1036"
     },
     {
       "id": "docs_requests_4_1_chatbot_texte_et_vocal",
@@ -15098,52 +15098,52 @@
       "source_location": "L1"
     },
     {
-      "id": "ruleset_9_1_query_data_read",
-      "label": "9.1 Query Data (Read)",
+      "id": "ruleset_7_1_component_structure",
+      "label": "7.1 Component Structure",
       "_origin": "ast",
       "community": 200,
-      "community_name": "9. DATA FETCHING & MUTATIONS",
+      "community_name": "7. CREATING NEW COMPONENTS",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "9.1 query data (read)",
+      "norm_label": "7.1 component structure",
       "source_file": "RULESET.md",
-      "source_location": "L411"
+      "source_location": "L333"
     },
     {
-      "id": "ruleset_9_2_mutate_data_create_update_delete",
-      "label": "9.2 Mutate Data (Create/Update/Delete)",
+      "id": "ruleset_7_2_where_to_place_components",
+      "label": "7.2 Where to Place Components",
       "_origin": "ast",
       "community": 200,
-      "community_name": "9. DATA FETCHING & MUTATIONS",
+      "community_name": "7. CREATING NEW COMPONENTS",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "9.2 mutate data (create/update/delete)",
+      "norm_label": "7.2 where to place components",
       "source_file": "RULESET.md",
-      "source_location": "L437"
+      "source_location": "L354"
     },
     {
-      "id": "ruleset_9_3_existing_hooks_for_crud_items",
-      "label": "9.3 Existing Hooks for CRUD Items",
+      "id": "ruleset_7_3_props_pattern",
+      "label": "7.3 Props Pattern",
       "_origin": "ast",
       "community": 200,
-      "community_name": "9. DATA FETCHING & MUTATIONS",
+      "community_name": "7. CREATING NEW COMPONENTS",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "9.3 existing hooks for crud items",
+      "norm_label": "7.3 props pattern",
       "source_file": "RULESET.md",
-      "source_location": "L466"
+      "source_location": "L361"
     },
     {
-      "id": "ruleset_9_data_fetching_mutations",
-      "label": "9. DATA FETCHING & MUTATIONS",
+      "id": "ruleset_7_creating_new_components",
+      "label": "7. CREATING NEW COMPONENTS",
       "_origin": "ast",
       "community": 200,
-      "community_name": "9. DATA FETCHING & MUTATIONS",
+      "community_name": "7. CREATING NEW COMPONENTS",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "9. data fetching & mutations",
+      "norm_label": "7. creating new components",
       "source_file": "RULESET.md",
-      "source_location": "L409"
+      "source_location": "L331"
     },
     {
       "id": "src_features_agent_sync_queries",
@@ -15168,15 +15168,40 @@
       "source_location": "L1"
     },
     {
-      "id": "src_features_profile_verification_page",
-      "label": "verification-page.tsx",
+      "id": "ruleset_2_1_directory_mapping",
+      "label": "2.1 Directory Mapping",
       "_origin": "ast",
       "community": 203,
-      "community_name": "verification-page.tsx",
-      "file_type": "code",
-      "norm_label": "verification-page.tsx",
-      "source_file": "src/features/profile/verification-page.tsx",
-      "source_location": "L1"
+      "community_name": "2. FILE STRUCTURE & ORGANIZATION",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "2.1 directory mapping",
+      "source_file": "RULESET.md",
+      "source_location": "L37"
+    },
+    {
+      "id": "ruleset_2_2_path_alias",
+      "label": "2.2 Path Alias",
+      "_origin": "ast",
+      "community": 203,
+      "community_name": "2. FILE STRUCTURE & ORGANIZATION",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "2.2 path alias",
+      "source_file": "RULESET.md",
+      "source_location": "L105"
+    },
+    {
+      "id": "ruleset_2_file_structure_organization",
+      "label": "2. FILE STRUCTURE & ORGANIZATION",
+      "_origin": "ast",
+      "community": 203,
+      "community_name": "2. FILE STRUCTURE & ORGANIZATION",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "2. file structure & organization",
+      "source_file": "RULESET.md",
+      "source_location": "L35"
     },
     {
       "id": "src_features_voice_audio",
@@ -16218,40 +16243,15 @@
       "source_location": "L9"
     },
     {
-      "id": "ruleset_18_getting_help",
-      "label": "18. GETTING HELP",
+      "id": "src_components_image_parallax_background",
+      "label": "image-parallax-background.tsx",
       "_origin": "ast",
       "community": 240,
-      "community_name": "18. GETTING HELP",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "18. getting help",
-      "source_file": "RULESET.md",
-      "source_location": "L1027"
-    },
-    {
-      "id": "ruleset_check_these_files_first",
-      "label": "Check These Files First",
-      "_origin": "ast",
-      "community": 240,
-      "community_name": "18. GETTING HELP",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "check these files first",
-      "source_file": "RULESET.md",
-      "source_location": "L1029"
-    },
-    {
-      "id": "ruleset_run_these_commands",
-      "label": "Run These Commands",
-      "_origin": "ast",
-      "community": 240,
-      "community_name": "18. GETTING HELP",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "run these commands",
-      "source_file": "RULESET.md",
-      "source_location": "L1036"
+      "community_name": "image-parallax-background.tsx",
+      "file_type": "code",
+      "norm_label": "image-parallax-background.tsx",
+      "source_file": "src/components/image-parallax-background.tsx",
+      "source_location": "L1"
     },
     {
       "id": "src_features_map_map_detail_panel",
@@ -16562,36 +16562,25 @@
       "source_location": "L37"
     },
     {
-      "id": "src_components_animated_meteor_field",
-      "label": "meteor-field.tsx",
+      "id": "src_components_lightbox",
+      "label": "lightbox.tsx",
       "_origin": "ast",
       "community": 261,
-      "community_name": "meteor-field.tsx",
+      "community_name": "lightbox.tsx",
       "file_type": "code",
-      "norm_label": "meteor-field.tsx",
-      "source_file": "src/components/animated/meteor-field.tsx",
+      "norm_label": "lightbox.tsx",
+      "source_file": "src/components/lightbox.tsx",
       "source_location": "L1"
     },
     {
-      "id": "src_components_layout_container",
-      "label": "container.tsx",
+      "id": "src_features_requests_my_requests_page",
+      "label": "my-requests-page.tsx",
       "_origin": "ast",
       "community": 262,
-      "community_name": "container.tsx",
+      "community_name": "my-requests-page.tsx",
       "file_type": "code",
-      "norm_label": "container.tsx",
-      "source_file": "src/components/layout/container.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_pages_app_settings_page",
-      "label": "settings-page.tsx",
-      "_origin": "ast",
-      "community": 263,
-      "community_name": "settings-page.tsx",
-      "file_type": "code",
-      "norm_label": "settings-page.tsx",
-      "source_file": "src/pages/app/settings-page.tsx",
+      "norm_label": "my-requests-page.tsx",
+      "source_file": "src/features/requests/my-requests-page.tsx",
       "source_location": "L1"
     },
     {
@@ -16705,6 +16694,17 @@
       "source_location": "L1"
     },
     {
+      "id": "src_components_animated_meteor_field",
+      "label": "meteor-field.tsx",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "meteor-field.tsx",
+      "source_file": "src/components/animated/meteor-field.tsx",
+      "source_location": "L1"
+    },
+    {
       "id": "src_components_animated_transition_link",
       "label": "transition-link.tsx",
       "_origin": "ast",
@@ -16727,17 +16727,6 @@
       "source_location": "L1"
     },
     {
-      "id": "src_components_image_parallax_background",
-      "label": "image-parallax-background.tsx",
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "image-parallax-background.tsx",
-      "source_file": "src/components/image-parallax-background.tsx",
-      "source_location": "L1"
-    },
-    {
       "id": "src_components_interactive_like_button",
       "label": "like-button.tsx",
       "_origin": "ast",
@@ -16749,14 +16738,14 @@
       "source_location": "L1"
     },
     {
-      "id": "src_components_lightbox",
-      "label": "lightbox.tsx",
+      "id": "src_components_layout_container",
+      "label": "container.tsx",
       "_origin": "ast",
       "community": 3,
       "community_name": "react",
       "file_type": "code",
-      "norm_label": "lightbox.tsx",
-      "source_file": "src/components/lightbox.tsx",
+      "norm_label": "container.tsx",
+      "source_file": "src/components/layout/container.tsx",
       "source_location": "L1"
     },
     {
@@ -16936,14 +16925,14 @@
       "source_location": "L1"
     },
     {
-      "id": "src_features_requests_my_requests_page",
-      "label": "my-requests-page.tsx",
+      "id": "src_features_profile_verification_page",
+      "label": "verification-page.tsx",
       "_origin": "ast",
       "community": 3,
       "community_name": "react",
       "file_type": "code",
-      "norm_label": "my-requests-page.tsx",
-      "source_file": "src/features/requests/my-requests-page.tsx",
+      "norm_label": "verification-page.tsx",
+      "source_file": "src/features/profile/verification-page.tsx",
       "source_location": "L1"
     },
     {
@@ -17021,6 +17010,17 @@
       "file_type": "code",
       "norm_label": "main.tsx",
       "source_file": "src/main.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_pages_app_settings_page",
+      "label": "settings-page.tsx",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "settings-page.tsx",
+      "source_file": "src/pages/app/settings-page.tsx",
       "source_location": "L1"
     },
     {
@@ -17704,6 +17704,17 @@
       "norm_label": "vite/client",
       "source_file": "tsconfig.app.json",
       "source_location": "L8"
+    },
+    {
+      "id": "ref_vitest_setup_ts",
+      "label": "vitest.setup.ts",
+      "_origin": "ast",
+      "community": 4,
+      "community_name": "compilerOptions",
+      "file_type": "concept",
+      "norm_label": "vitest.setup.ts",
+      "source_file": "tsconfig.app.json",
+      "source_location": "L29"
     },
     {
       "id": "scene",
@@ -24880,6 +24891,18 @@
       "weight": 1.0
     },
     {
+      "source": "tsconfig_app_include",
+      "target": "ref_vitest_setup_ts",
+      "relation": "extends",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "tsconfig.app.json",
+      "source_location": "L29",
+      "weight": 1.0
+    },
+    {
       "source": "tsconfig_node_compileroptions_lib",
       "target": "ref_es2023",
       "relation": "extends",
@@ -25800,7 +25823,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/features/city/city-queries.test.ts",
-      "source_location": "L3",
+      "source_location": "L5",
       "weight": 1.0
     },
     {
@@ -25812,7 +25835,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/features/city/city-queries.test.ts",
-      "source_location": "L3",
+      "source_location": "L5",
       "weight": 1.0
     },
     {
@@ -25824,7 +25847,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/features/city/city-queries.test.ts",
-      "source_location": "L3",
+      "source_location": "L5",
       "weight": 1.0
     },
     {
@@ -28404,7 +28427,7 @@
       "confidence_score": 1.0,
       "context": "import",
       "source_file": "src/features/city/city-queries.test.ts",
-      "source_location": "L3",
+      "source_location": "L5",
       "weight": 1.0
     },
     {
@@ -37989,7 +38012,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/features/city/city-queries.test.ts",
-      "source_location": "L5",
+      "source_location": "L7",
       "weight": 1.0
     },
     {
@@ -46315,5 +46338,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "b9e326493a57582a1d76a7c595f0840d55d406ce"
+  "built_at_commit": "4c8a2889d5f2ced18ad6fa0a9b8ba94ac0a2f402"
 }
