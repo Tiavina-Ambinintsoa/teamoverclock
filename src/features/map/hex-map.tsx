@@ -1,4 +1,4 @@
-import { useCallback, useId, useMemo, useRef, useState, type KeyboardEvent, type PointerEvent as ReactPointerEvent } from "react"
+import { useCallback, useEffect, useId, useMemo, useRef, useState, type KeyboardEvent, type PointerEvent as ReactPointerEvent } from "react"
 import { Minus, Plus, RotateCcw } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -48,10 +48,10 @@ export interface HexMapProps {
 interface View { x: number; y: number; w: number; h: number }
 
 const BUILDING_FILL: Record<Building["status"], string> = {
-  operational: "var(--primary)",
-  temporarily_closed: "var(--highlight)",
-  under_maintenance: "var(--highlight)",
-  restricted: "var(--destructive)",
+  operational: "#e1c592",
+  temporarily_closed: "#c78c5d",
+  under_maintenance: "#c78c5d",
+  restricted: "#ef777a",
 }
 
 function boundsOf(sectors: Sector[]): View {
@@ -77,6 +77,7 @@ export function HexMap({
   const [view, setView] = useState<View | null>(null)
   const current = view ?? base
   const svgRef = useRef<SVGSVGElement>(null)
+  const mapFrameRef = useRef<HTMLDivElement>(null)
   const dragRef = useRef<{ kind: "pan" | "building" | "transport"; id?: string; startX: number; startY: number; origin: View; moved: boolean } | null>(null)
   const [dragPos, setDragPos] = useState<{ type: string; id: string; x: number; y: number } | null>(null)
 
@@ -91,14 +92,30 @@ export function HexMap({
     return { x: p.x, y: p.y }
   }, [])
 
-  const zoom = (factor: number) => {
+  const zoom = useCallback((factor: number, anchor?: { x: number; y: number }) => {
     setView((v) => {
       const c = v ?? base
       const w = Math.min(base.w * 2, Math.max(base.w / 6, c.w * factor))
       const h = (w / c.w) * c.h
-      return { x: c.x + (c.w - w) / 2, y: c.y + (c.h - h) / 2, w, h }
+      const focus = anchor ?? { x: c.x + c.w / 2, y: c.y + c.h / 2 }
+      const rx = (focus.x - c.x) / c.w
+      const ry = (focus.y - c.y) / c.h
+      return { x: focus.x - rx * w, y: focus.y - ry * h, w, h }
     })
-  }
+  }, [base])
+
+  useEffect(() => {
+    const frame = mapFrameRef.current
+    if (!frame) return
+    const onWheel = (event: WheelEvent) => {
+      event.preventDefault()
+      const point = toSvg(event.clientX, event.clientY)
+      const delta = event.deltaY * (event.deltaMode === WheelEvent.DOM_DELTA_LINE ? 16 : event.deltaMode === WheelEvent.DOM_DELTA_PAGE ? 400 : 1)
+      zoom(Math.exp(Math.max(-0.28, Math.min(0.28, delta * 0.0012))), point)
+    }
+    frame.addEventListener("wheel", onWheel, { passive: false })
+    return () => frame.removeEventListener("wheel", onWheel)
+  }, [toSvg, zoom])
 
   const onPointerDown = (event: ReactPointerEvent<SVGSVGElement>) => {
     dragRef.current = { kind: "pan", startX: event.clientX, startY: event.clientY, origin: current, moved: false }
@@ -143,24 +160,47 @@ export function HexMap({
   const dangerSet = new Set(dangerSectorIds)
 
   return (
-    <div className={cn("relative overflow-hidden rounded-xl border bg-card", className)}>
+    <div ref={mapFrameRef} className={cn("relative overflow-hidden overscroll-contain rounded-xl border bg-card", className)}>
       <svg
         ref={svgRef}
         viewBox={`${current.x} ${current.y} ${current.w} ${current.h}`}
-        className="h-[min(70vh,640px)] w-full touch-none select-none"
+        className="h-[min(70vh,680px)] w-full touch-none select-none"
         aria-label={tx("Carte en ruche de Nova Terra", "Nova Terra hive map")}
+        tabIndex={0}
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
         onPointerUp={onPointerUp}
         onPointerCancel={onPointerUp}
-        onWheel={(event) => zoom(event.deltaY > 0 ? 1.15 : 0.87)}
+        onKeyDown={(event) => {
+          if (event.target !== svgRef.current) return
+          if (event.key === "+" || event.key === "=") { event.preventDefault(); zoom(0.8) }
+          if (event.key === "-") { event.preventDefault(); zoom(1.25) }
+          if (event.key === "0") { event.preventDefault(); setView(null) }
+        }}
       >
         <defs>
           <pattern id={hatchId} width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
             <rect width="10" height="10" fill="transparent" />
             <line x1="0" y1="0" x2="0" y2="10" stroke="var(--destructive)" strokeWidth="4" />
           </pattern>
+          <pattern id={`${hatchId}-grid`} width="42" height="42" patternUnits="userSpaceOnUse">
+            <path d="M42 0H0V42" fill="none" stroke="#b5c7d6" strokeOpacity=".055" strokeWidth="1" />
+            <circle cx="0" cy="0" r="1.2" fill="#e1c592" fillOpacity=".2" />
+          </pattern>
+          <radialGradient id={`${hatchId}-ambient`} cx="50%" cy="48%" r="72%">
+            <stop offset="0%" stopColor="#1e2b38" />
+            <stop offset="100%" stopColor="#090e15" />
+          </radialGradient>
+          <filter id={`${hatchId}-glow`} x="-80%" y="-80%" width="260%" height="260%">
+            <feGaussianBlur stdDeviation="5" result="blur" />
+            <feMerge><feMergeNode in="blur" /><feMergeNode in="SourceGraphic" /></feMerge>
+          </filter>
         </defs>
+
+        <rect x={current.x} y={current.y} width={current.w} height={current.h} fill={`url(#${hatchId}-ambient)`} />
+        <rect x={current.x} y={current.y} width={current.w} height={current.h} fill={`url(#${hatchId}-grid)`} />
+        <circle cx={base.x + base.w / 2} cy={base.y + base.h / 2} r={Math.max(base.w, base.h) * 0.36} fill="none" stroke="#d8c29a" strokeOpacity=".1" strokeWidth="1" />
+        <circle cx={base.x + base.w / 2} cy={base.y + base.h / 2} r={Math.max(base.w, base.h) * 0.48} fill="none" stroke="#99afbf" strokeOpacity=".08" strokeWidth="1" strokeDasharray="3 10" />
 
         {layers.sectors && sectors.map((sector) => {
           const isSelected = selected?.type === "sector" && selected.id === sector.id
@@ -179,20 +219,24 @@ export function HexMap({
                 points={hexPoints(sector.x, sector.y, HEX_SIZE - 2)}
                 fill={sector.color}
                 fillOpacity={0.18 + (sector.activity_level / 100) * 0.35}
-                stroke={isSelected ? "var(--foreground)" : sector.color}
+                stroke={isSelected ? "#f0d6a6" : sector.color}
                 strokeWidth={isSelected ? 5 : 2}
+                filter={isSelected ? `url(#${hatchId}-glow)` : undefined}
               />
               {layers.dangers && dangerSet.has(sector.id) && (
                 <polygon points={hexPoints(sector.x, sector.y, HEX_SIZE - 6)} fill={`url(#${hatchId})`} fillOpacity={0.35} pointerEvents="none" />
               )}
-              <text x={sector.x} y={sector.y - HEX_SIZE * 0.62} textAnchor="middle" fontSize="13" fontWeight="700" fill="var(--foreground)" pointerEvents="none">{sector.code}</text>
-              <text x={sector.x} y={sector.y + HEX_SIZE * 0.78} textAnchor="middle" fontSize="11" fill="var(--foreground)" pointerEvents="none">{sector.name}</text>
+              <text x={sector.x} y={sector.y - HEX_SIZE * 0.62} textAnchor="middle" fontSize="13" fontWeight="700" letterSpacing="1.5" fill="#f0e6d2" pointerEvents="none">{sector.code}</text>
+              <text x={sector.x} y={sector.y + HEX_SIZE * 0.78} textAnchor="middle" fontSize="11" fill="#aebac5" pointerEvents="none">{sector.name}</text>
             </g>
           )
         })}
 
         {routePoints && routePoints.length > 1 && (
-          <polyline points={routePoints.map((p) => `${p.x},${p.y}`).join(" ")} fill="none" stroke="var(--highlight)" strokeWidth="5" strokeDasharray="10 6" strokeLinecap="round" strokeLinejoin="round" pointerEvents="none" />
+          <g pointerEvents="none" filter={`url(#${hatchId}-glow)`}>
+            <polyline points={routePoints.map((p) => `${p.x},${p.y}`).join(" ")} fill="none" stroke="#dfbd83" strokeOpacity=".46" strokeWidth="13" strokeLinecap="round" strokeLinejoin="round" />
+            <polyline points={routePoints.map((p) => `${p.x},${p.y}`).join(" ")} fill="none" stroke="#f4d9a5" strokeWidth="3" strokeDasharray="8 8" strokeLinecap="round" strokeLinejoin="round" />
+          </g>
         )}
 
         {layers.buildings && buildings.map((building) => {
@@ -210,7 +254,7 @@ export function HexMap({
               onPointerDown={(e) => startItemDrag(e, "building", building.id)}
               className={cn("outline-none focus-visible:[&>circle]:stroke-[4]", editable ? "cursor-grab" : "cursor-pointer")}
             >
-              <circle cx={p.x} cy={p.y} r={isSelected ? 13 : 10} fill={BUILDING_FILL[building.status]} stroke="var(--background)" strokeWidth={isSelected ? 4 : 2} />
+              <circle cx={p.x} cy={p.y} r={isSelected ? 13 : 10} fill={BUILDING_FILL[building.status]} stroke="#0d141c" strokeWidth={isSelected ? 4 : 2} filter={isSelected ? `url(#${hatchId}-glow)` : undefined} />
               {building.status !== "operational" && <text x={p.x} y={p.y + 4} textAnchor="middle" fontSize="12" fontWeight="700" fill="var(--background)" pointerEvents="none">{building.status === "restricted" ? "!" : "×"}</text>}
               <title>{building.name}</title>
             </g>
@@ -232,8 +276,8 @@ export function HexMap({
               onPointerDown={(e) => startItemDrag(e, "transport", t.id)}
               className={cn("outline-none focus-visible:[&>rect]:stroke-[4]", editable ? "cursor-grab" : "cursor-pointer")}
             >
-              <rect x={p.x - 8} y={p.y - 8} width={16} height={16} transform={`rotate(45 ${p.x} ${p.y})`} fill={t.status === "active" ? "var(--chart-2)" : "var(--muted-foreground)"} stroke={isSelected ? "var(--foreground)" : "var(--background)"} strokeWidth={isSelected ? 4 : 2} />
-              <text x={p.x} y={p.y - 14} textAnchor="middle" fontSize="9" fill="var(--foreground)" pointerEvents="none">{t.code}</text>
+              <rect x={p.x - 8} y={p.y - 8} width={16} height={16} transform={`rotate(45 ${p.x} ${p.y})`} fill={t.status === "active" ? "#8acac1" : "#687482"} stroke={isSelected ? "#f0d6a6" : "#0d141c"} strokeWidth={isSelected ? 4 : 2} />
+              <text x={p.x} y={p.y - 14} textAnchor="middle" fontSize="9" fill="#dbe4eb" pointerEvents="none">{t.code}</text>
             </g>
           )
         })}
@@ -245,7 +289,7 @@ export function HexMap({
             role="img"
             aria-label={m.label}
           >
-            <path d={`M${m.x},${m.y - 12} l8,14 h-16 z`} fill="var(--destructive)" stroke="var(--background)" strokeWidth="2" />
+            <path d={`M${m.x},${m.y - 12} l8,14 h-16 z`} fill="#f0797c" stroke="#0d141c" strokeWidth="2" />
             <title>{m.label}</title>
           </g>
         ))}
@@ -256,16 +300,16 @@ export function HexMap({
             role="img"
             aria-label={m.label}
           >
-            <circle cx={m.x} cy={m.y} r="7" fill="none" stroke="var(--chart-3)" strokeWidth="3" strokeDasharray="3 2" />
+            <circle cx={m.x} cy={m.y} r="7" fill="none" stroke="#9f8af2" strokeWidth="3" strokeDasharray="3 2" />
             <title>{m.label}</title>
           </g>
         ))}
       </svg>
 
-      <div className="absolute top-3 right-3 flex flex-col gap-1">
-        <Button type="button" size="icon-sm" variant="outline" aria-label={tx("Zoom avant", "Zoom in")} onClick={() => zoom(0.8)}><Plus aria-hidden /></Button>
-        <Button type="button" size="icon-sm" variant="outline" aria-label={tx("Zoom arrière", "Zoom out")} onClick={() => zoom(1.25)}><Minus aria-hidden /></Button>
-        <Button type="button" size="icon-sm" variant="outline" aria-label={tx("Réinitialiser la vue", "Reset view")} onClick={() => setView(null)}><RotateCcw aria-hidden /></Button>
+      <div className="absolute top-3 right-3 flex flex-col gap-1.5">
+        <Button type="button" size="icon-sm" variant="outline" className="border-white/15 bg-slate-950/80 text-slate-100 shadow-lg backdrop-blur hover:bg-slate-800" aria-label={tx("Zoom avant", "Zoom in")} onClick={() => zoom(0.8)}><Plus aria-hidden /></Button>
+        <Button type="button" size="icon-sm" variant="outline" className="border-white/15 bg-slate-950/80 text-slate-100 shadow-lg backdrop-blur hover:bg-slate-800" aria-label={tx("Zoom arrière", "Zoom out")} onClick={() => zoom(1.25)}><Minus aria-hidden /></Button>
+        <Button type="button" size="icon-sm" variant="outline" className="border-white/15 bg-slate-950/80 text-slate-100 shadow-lg backdrop-blur hover:bg-slate-800" aria-label={tx("Réinitialiser la vue", "Reset view")} onClick={() => setView(null)}><RotateCcw aria-hidden /></Button>
       </div>
     </div>
   )
