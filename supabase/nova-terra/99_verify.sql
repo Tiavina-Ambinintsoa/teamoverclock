@@ -86,7 +86,39 @@ select 'sector hex coordinates are unique',
 union all
 select 'active dangers are validated and owned',
        (select count(*) from public.dangers where status = 'active' and (validated_by is null or responsible_service_id is null)),
-       (select count(*) from public.dangers where status = 'active' and (validated_by is null or responsible_service_id is null)) = 0;
+       (select count(*) from public.dangers where status = 'active' and (validated_by is null or responsible_service_id is null)) = 0
+union all
+select 'each non-health service has ten facilities',
+       (select count(*) from (
+          select s.id from public.services s left join public.buildings b
+            on b.service_id = s.id and b.id::text like '00000021-%'
+          where s.id::text like '00000004-%' and s.category <> 'health'
+          group by s.id having count(b.id) <> 10
+        ) mismatched),
+       (select count(*) from (
+          select s.id from public.services s left join public.buildings b
+            on b.service_id = s.id and b.id::text like '00000021-%'
+          where s.id::text like '00000004-%' and s.category <> 'health'
+          group by s.id having count(b.id) <> 10
+        ) mismatched) = 0
+union all
+select 'health service has no generated facilities',
+       (select count(*) from public.buildings b join public.services s on s.id = b.service_id
+        where s.slug = 'emergency-medical' and b.id::text like '00000021-%'),
+       (select count(*) from public.buildings b join public.services s on s.id = b.service_id
+        where s.slug = 'emergency-medical' and b.id::text like '00000021-%') = 0
+union all
+select 'facilities have complete public and map details',
+       (select count(*) from public.buildings where id::text like '00000021-%' and service_id is not null and (
+         facility_type is null or nullif(address, '') is null or nullif(phone, '') is null
+         or nullif(email, '') is null or jsonb_typeof(opening_hours) <> 'object'
+         or accessibility = '{}'::jsonb or nullif(description, '') is null or cardinality(offerings) = 0
+       )),
+       (select count(*) from public.buildings where id::text like '00000021-%' and service_id is not null and (
+         facility_type is null or nullif(address, '') is null or nullif(phone, '') is null
+         or nullif(email, '') is null or jsonb_typeof(opening_hours) <> 'object'
+         or accessibility = '{}'::jsonb or nullif(description, '') is null or cardinality(offerings) = 0
+       )) = 0;
 
 -- 3) Sécurité : toute table de `public` doit avoir RLS activée (attendu : aucune ligne)
 select c.relname as table_without_rls

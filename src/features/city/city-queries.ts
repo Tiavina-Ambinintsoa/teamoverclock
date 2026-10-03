@@ -7,6 +7,28 @@ import { supabase } from "@/lib/supabase"
 /** Les données publiques de la ville sont protégées par la RLS : on ne filtre ici que l'affichage. */
 const STALE = 60_000
 
+export function filterBuildingsForService(buildings: Building[], serviceId?: string | null): Building[] {
+  return serviceId ? buildings.filter((building) => building.service_id === serviceId) : buildings
+}
+
+export function filterFacilities(
+  buildings: Building[],
+  search: string,
+  facilityType = ""
+): Building[] {
+  const term = search.trim().toLocaleLowerCase()
+  return buildings.filter((building) => {
+    if (facilityType && building.facility_type !== facilityType) return false
+    if (!term) return true
+    return [
+      building.name,
+      building.address ?? "",
+      building.description ?? "",
+      ...(building.offerings ?? []),
+    ].some((value) => value.toLocaleLowerCase().includes(term))
+  })
+}
+
 export function useSectors() {
   return useQuery({
     queryKey: ["sectors"],
@@ -18,13 +40,15 @@ export function useSectors() {
   })
 }
 
-export function useBuildings() {
+export function useBuildings(filters: { serviceId?: string } = {}) {
   return useQuery({
-    queryKey: ["buildings"],
+    queryKey: ["buildings", filters.serviceId ?? ""],
     staleTime: STALE,
     queryFn: async (): Promise<Building[]> => {
       if (!supabase) return []
-      return unwrap(await supabase.from("buildings").select("*").order("name"), [])
+      let query = supabase.from("buildings").select("*").order("name")
+      if (filters.serviceId) query = query.eq("service_id", filters.serviceId)
+      return unwrap(await query, [])
     },
   })
 }

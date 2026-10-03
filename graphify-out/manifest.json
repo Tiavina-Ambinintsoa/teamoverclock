@@ -942,9 +942,9 @@
     "semantic_hash": ""
   },
   "docs/SUPABASE.md": {
-    "mtime": 1791022827.7382936,
-    "seen": 1791022863.2385054,
-    "ast_hash": "eeb8e503af7940872713ed0bd8379601",
+    "mtime": 1791031915.4924433,
+    "seen": 1791031968.0978277,
+    "ast_hash": "0d66b69f9944e6c6b11c626299cccb30",
     "semantic_hash": ""
   },
   "index.html": {
@@ -1068,9 +1068,9 @@
     "semantic_hash": ""
   },
   "src/features/admin/services-manager.tsx": {
-    "mtime": 1791020946.914455,
-    "seen": 1791022863.228506,
-    "ast_hash": "cbc1d9a84aafb0ded00dae4550932b95",
+    "mtime": 1791031087.2218442,
+    "seen": 1791031217.7968097,
+    "ast_hash": "161d76257277aa7c1831b99092e834cc",
     "semantic_hash": ""
   },
   "src/features/admin/users-page.tsx": {
@@ -1206,15 +1206,15 @@
     "semantic_hash": ""
   },
   "src/features/city/city-queries.test.ts": {
-    "mtime": 1791020578.437305,
-    "seen": 1791022863.228506,
-    "ast_hash": "822130a9d43184d9c8337fabbf17c64b",
+    "mtime": 1791031928.5144055,
+    "seen": 1791031968.062429,
+    "ast_hash": "d312050cf517b5209b79f8abfe8a1819",
     "semantic_hash": ""
   },
   "src/features/city/city-queries.ts": {
-    "mtime": 1791020578.4027684,
-    "seen": 1791022863.228506,
-    "ast_hash": "301d5087cdb6ce6c92ca39377712cda9",
+    "mtime": 1791031844.7294538,
+    "seen": 1791031968.062429,
+    "ast_hash": "5f0b60a976af7551a809c4f377e27a55",
     "semantic_hash": ""
   },
   "src/features/dangers/dangers-pages.tsx": {
@@ -1260,9 +1260,9 @@
     "semantic_hash": ""
   },
   "src/features/map/hex-map.tsx": {
-    "mtime": 1791022047.7825024,
-    "seen": 1791022863.229506,
-    "ast_hash": "8375adf85216fd3cb3273e674e19cef9",
+    "mtime": 1791031061.4642398,
+    "seen": 1791031217.8058066,
+    "ast_hash": "bf10e7589ba2477a8cf1a4e33544064c",
     "semantic_hash": ""
   },
   "src/features/map/hex.test.ts": {
@@ -1284,9 +1284,9 @@
     "semantic_hash": ""
   },
   "src/features/map/map-page.tsx": {
-    "mtime": 1791022018.7007117,
-    "seen": 1791022863.229506,
-    "ast_hash": "55854794e2a8eeb6bfe91f4c098420db",
+    "mtime": 1791032101.907255,
+    "seen": 1791032465.234155,
+    "ast_hash": "089f803796b0ec70f97434a75c48fe71",
     "semantic_hash": ""
   },
   "src/features/news/news-detail-page.tsx": {
@@ -1422,9 +1422,9 @@
     "semantic_hash": ""
   },
   "src/features/services/service-detail-page.tsx": {
-    "mtime": 1791021522.9888148,
-    "seen": 1791022863.229506,
-    "ast_hash": "ada2802f72ac9e6a9b50bad2d563b55a",
+    "mtime": 1791032101.7582734,
+    "seen": 1791032465.261902,
+    "ast_hash": "24015527c7a03c6b53792fd7f221a92e",
     "semantic_hash": ""
   },
   "src/features/services/services-page.tsx": {
@@ -1506,9 +1506,9 @@
     "semantic_hash": ""
   },
   "src/lib/db-types.ts": {
-    "mtime": 1791020419.217827,
-    "seen": 1791022863.230506,
-    "ast_hash": "9f727a7f38c049fae5594e9b25e49da2",
+    "mtime": 1791031844.6985006,
+    "seen": 1791031968.0804348,
+    "ast_hash": "48a5c9690411ab7f351c86231cb3c615",
     "semantic_hash": ""
   },
   "src/lib/query-helpers.test.ts": {
@@ -1542,9 +1542,39 @@
     "semantic_hash": ""
   },
   "src/lib/status-labels.ts": {
-    "mtime": 1791020542.010418,
-    "seen": 1791022863.232506,
-    "ast_hash": "d8dcfe5778ad4aeb3e8ef18910dba918",
+    "mtime": 1791031061.494462,
+    "seen": 1791031217.8188195,
+    "ast_hash": "b3b2589476065ae305b899977a71945e",
+    "semantic_hash": ""
+  },
+  ".claude/settings.local.json": {
+    "mtime": 1791025371.0017169,
+    "seen": 1791031217.7789755,
+    "ast_hash": "bb0850f7112db3681d788c31ac1bf084",
+    "semantic_hash": ""
+  },
+  "src/features/services/facilities-manager.tsx": {
+    "mtime": 1791032102.153186,
+    "seen": 1791032465.2598913,
+    "ast_hash": "9f8abc3a755ec776256aa758ff26c3ed",
+    "semantic_hash": ""
+  },
+  "docs/PLAN.md": {
+    "mtime": 1791028133.670937,
+    "seen": 1791031217.826814,
+    "ast_hash": "6a8c5f2e31842812bb468662e5f9c57e",
+    "semantic_hash": ""
+  },
+  "docs/REQUESTS.md": {
+    "mtime": 1791014405.4361398,
+    "seen": 1791031217.826814,
+    "ast_hash": "f577de7319035b48419595b74560ecca",
+    "semantic_hash": ""
+  },
+  ".mcp.json": {
+    "mtime": 1791032272.011512,
+    "seen": 1791032465.0734231,
+    "ast_hash": "3be5bce992a8853e5c2650c11f9969e0",
     "semantic_hash": ""
   }
 }

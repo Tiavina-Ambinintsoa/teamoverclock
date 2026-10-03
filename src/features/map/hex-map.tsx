@@ -43,6 +43,7 @@ export interface HexMapProps {
   editable?: boolean
   onMove?: (type: "building" | "transport", id: string, x: number, y: number) => void
   className?: string
+  mapClassName?: string
 }
 
 interface View { x: number; y: number; w: number; h: number }
@@ -69,7 +70,7 @@ function boundsOf(sectors: Sector[]): View {
  */
 export function HexMap({
   sectors, buildings, transports, layers, dangerSectorIds = [], reportMarkers = [], observationMarkers = [],
-  selected = null, onSelect, routePoints, editable = false, onMove, className,
+  selected = null, onSelect, routePoints, editable = false, onMove, className, mapClassName,
 }: HexMapProps) {
   const { tx } = useLocale()
   const hatchId = useId()
@@ -147,7 +148,7 @@ export function HexMap({
       <svg
         ref={svgRef}
         viewBox={`${current.x} ${current.y} ${current.w} ${current.h}`}
-        className="h-[min(70vh,640px)] w-full touch-none select-none"
+        className={cn("h-[min(70vh,640px)] w-full touch-none select-none", mapClassName)}
         aria-label={tx("Carte en ruche de Nova Terra", "Nova Terra hive map")}
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
