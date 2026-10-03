@@ -3,6 +3,7 @@
 @import "./styles/presets.css";
 @import "./styles/accessibility.css";
 @import "./styles/nova-terra.css";
+@import "./styles/hologram.css";
 
 @custom-variant dark (&:is(.dark *));
 

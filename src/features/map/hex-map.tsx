@@ -9,7 +9,7 @@ import { cn } from "@/lib/utils"
 
 export const HEX_SIZE = 100
 
-export type MapSelection = { type: "sector" | "building" | "transport"; id: string } | null
+export type MapSelection = { type: "sector" | "building" | "transport" | "report"; id: string } | null
 
 export interface MapLayers {
   sectors: boolean
@@ -78,7 +78,7 @@ export function HexMap({
   const [view, setView] = useState<View | null>(null)
   const current = view ?? base
   const svgRef = useRef<SVGSVGElement>(null)
-  const dragRef = useRef<{ kind: "pan" | "building" | "transport"; id?: string; startX: number; startY: number; origin: View; moved: boolean } | null>(null)
+  const dragRef = useRef<{ kind: "pan" | "building" | "transport"; id?: string; startX: number; startY: number; origin: View; moved: boolean; captured: boolean } | null>(null)
   const [dragPos, setDragPos] = useState<{ type: string; id: string; x: number; y: number } | null>(null)
 
   const toSvg = useCallback((clientX: number, clientY: number) => {
@@ -102,13 +102,12 @@ export function HexMap({
   }
 
   const onPointerDown = (event: ReactPointerEvent<SVGSVGElement>) => {
-    dragRef.current = { kind: "pan", startX: event.clientX, startY: event.clientY, origin: current, moved: false }
-    event.currentTarget.setPointerCapture(event.pointerId)
+    dragRef.current = { kind: "pan", startX: event.clientX, startY: event.clientY, origin: current, moved: false, captured: false }
   }
   const startItemDrag = (event: ReactPointerEvent, kind: "building" | "transport", id: string) => {
     if (!editable) return
     event.stopPropagation()
-    dragRef.current = { kind, id, startX: event.clientX, startY: event.clientY, origin: current, moved: false }
+    dragRef.current = { kind, id, startX: event.clientX, startY: event.clientY, origin: current, moved: false, captured: false }
     svgRef.current?.setPointerCapture(event.pointerId)
   }
   const onPointerMove = (event: ReactPointerEvent<SVGSVGElement>) => {
@@ -120,6 +119,10 @@ export function HexMap({
     if (drag.kind === "pan") {
       const rect = svgRef.current?.getBoundingClientRect()
       if (!rect || !drag.moved) return
+      if (!drag.captured) {
+        event.currentTarget.setPointerCapture(event.pointerId)
+        drag.captured = true
+      }
       setView({ ...drag.origin, x: drag.origin.x - (dx / rect.width) * drag.origin.w, y: drag.origin.y - (dy / rect.height) * drag.origin.h })
     } else if (drag.id && drag.moved) {
       const p = toSvg(event.clientX, event.clientY)
@@ -239,17 +242,24 @@ export function HexMap({
           )
         })}
 
-        {layers.reports && reportMarkers.map((m) => (
-          <g
-            key={m.id}
-            // eslint-disable-next-line jsx-a11y/prefer-tag-over-role -- SVG : pas de <img> pour un marqueur
-            role="img"
-            aria-label={m.label}
-          >
-            <path d={`M${m.x},${m.y - 12} l8,14 h-16 z`} fill="var(--destructive)" stroke="var(--background)" strokeWidth="2" />
-            <title>{m.label}</title>
-          </g>
-        ))}
+        {layers.reports && reportMarkers.map((m) => {
+          const isSelected = selected?.type === "report" && selected.id === m.id
+          return (
+            <g
+              key={m.id}
+              tabIndex={0}
+              // eslint-disable-next-line jsx-a11y/prefer-tag-over-role -- SVG : le marqueur est sélectionnable au clavier
+              role="button"
+              aria-label={m.label}
+              onClick={() => onSelect?.({ type: "report", id: m.id })}
+              onKeyDown={activate({ type: "report", id: m.id })}
+              className="cursor-pointer outline-none focus-visible:[&>path]:stroke-[4]"
+            >
+              <path d={`M${m.x},${m.y - 12} l8,14 h-16 z`} fill="var(--destructive)" stroke={isSelected ? "var(--foreground)" : "var(--background)"} strokeWidth={isSelected ? 4 : 2} />
+              <title>{m.label}</title>
+            </g>
+          )
+        })}
         {layers.observations && observationMarkers.map((m) => (
           <g
             key={m.id}

@@ -11,10 +11,13 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { useAuth } from "@/features/auth/auth-context"
 import { useDangers, useNews, useServices } from "@/features/city/city-queries"
+import { useMyReports } from "@/features/reports/report-queries"
+import { effectiveServiceStatus, isFutureTimestamp, isUnexpectedServiceClosure } from "@/features/services/service-availability"
 import { useLocale } from "@/lib/locale"
 import { formatDate } from "@/lib/query-helpers"
 import { homeForRole } from "@/lib/permissions"
 import { SITE } from "@/lib/site"
+import { useNow } from "@/hooks/use-now"
 
 /** Conservé pour la page de modèles /modeles/accueils (le hero « classique » est remplacé par l'accueil Nova Terra). */
 export const HOME_HERO_DEFAULT: "classic" | HomeHeroVariant = "classic"
@@ -30,14 +33,23 @@ const EMERGENCY_CONTACTS = [
 export function HomePage() {
   const { user } = useAuth()
   const { tx, tag } = useLocale()
+  const now = useNow(60_000)
   const navigate = useNavigate()
   const [query, setQuery] = useState("")
   const services = useServices({})
   const news = useNews({ scope: "active" })
   const dangers = useDangers()
+  const reports = useMyReports(user?.citizenId)
 
   const alerts = (dangers.data ?? []).filter((d) => d.status === "active" && ["high", "extreme"].includes(d.severity))
-  const topServices = (services.data ?? []).filter((s) => s.status === "open").slice(0, 6)
+  const serviceAlerts = (services.data ?? []).filter((service) => isUnexpectedServiceClosure(service, now))
+  const reportUpdates = (reports.data ?? []).filter((report) =>
+    report.status !== "resolved" && report.status !== "archived" &&
+    Boolean(report.postponement_reason || report.next_steps || report.required_documents?.length)
+  )
+  const topServices = [...(services.data ?? [])]
+    .sort((left, right) => Number(effectiveServiceStatus(left, now) !== "open") - Number(effectiveServiceStatus(right, now) !== "open"))
+    .slice(0, 6)
   const latestNews = [...(news.data ?? [])].sort((a, b) => Number(b.importance === "urgent") - Number(a.importance === "urgent")).slice(0, 3)
 
   const submit = (event: FormEvent) => {
@@ -69,6 +81,44 @@ export function HomePage() {
               ))}
             </Container>
           </div>
+        )}
+        {serviceAlerts.length > 0 && (
+          <section role="alert" aria-label={tx("Fermetures imprévues de services", "Unexpected service closures")} className="border-b border-destructive/50 bg-destructive/10">
+            <Container className="py-4">
+              <h2 className="font-semibold">{tx("Changements imprévus des services", "Unexpected service changes")}</h2>
+              <ul className="mt-2 grid gap-2 sm:grid-cols-2">
+                {serviceAlerts.map((service) => (
+                  <li key={service.id} className="rounded-lg border border-destructive/30 bg-background/80 p-3 text-sm">
+                    <Link to={`/services/${service.slug}`} className="font-medium underline underline-offset-4">{service.name}</Link>
+                    <StatusBadge kind="service" value={effectiveServiceStatus(service, now)} />
+                    {service.status_reason && <p className="mt-1">{service.status_reason}</p>}
+                    {isFutureTimestamp(service.reopens_at, now) && service.reopens_at && (
+                      <p className="mt-1 text-muted-foreground">{tx("Réouverture prévue :", "Expected to reopen:")} {new Intl.DateTimeFormat(tag, { dateStyle: "medium", timeStyle: "short" }).format(Date.parse(service.reopens_at))}</p>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </Container>
+          </section>
+        )}
+        {user && reportUpdates.length > 0 && (
+          <section aria-label={tx("Mises à jour de vos signalements", "Your report updates")} className="border-b border-highlight/60 bg-highlight/10">
+            <Container className="py-4">
+              <h2 className="font-semibold">{tx("Mise à jour de vos signalements", "Updates to your reports")}</h2>
+              <ul className="mt-2 grid gap-2 sm:grid-cols-2">
+                {reportUpdates.slice(0, 4).map((report) => (
+                  <li key={report.id} className="rounded-lg border bg-background/80 p-3 text-sm">
+                    <Link to={`/app/reports/${report.id}`} className="font-medium underline underline-offset-4">{report.title}</Link>
+                    {report.postponement_reason && <p className="mt-1"><strong>{tx("Reporté :", "Postponed:")}</strong> {report.postponement_reason}</p>}
+                    {report.next_steps && <p className="mt-1"><strong>{tx("Prochaines étapes :", "Next steps:")}</strong> {report.next_steps}</p>}
+                    {(report.required_documents ?? []).length > 0 && (
+                      <p className="mt-1"><strong>{tx("Documents requis :", "Documents needed:")}</strong> {(report.required_documents ?? []).join(", ")}</p>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </Container>
+          </section>
         )}
 
         <section className="border-b">
@@ -116,7 +166,10 @@ export function HomePage() {
                   <li key={s.id} className="rounded-xl border bg-card p-4">
                     <div className="flex items-center justify-between gap-2">
                       <h3 className="font-semibold"><Link to={`/services/${s.slug}`} className="underline-offset-4 hover:underline">{s.name}</Link></h3>
-                      {s.is_emergency && <Badge variant="destructive"><Siren aria-hidden />{tx("Urgence", "Emergency")}</Badge>}
+                      <div className="flex flex-wrap items-center gap-2">
+                        <StatusBadge kind="service" value={effectiveServiceStatus(s)} />
+                        {s.is_emergency && <Badge variant="destructive"><Siren aria-hidden />{tx("Urgence", "Emergency")}</Badge>}
+                      </div>
                     </div>
                     <p className="mt-1 line-clamp-2 text-sm text-muted-foreground">{s.description}</p>
                   </li>

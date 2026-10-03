@@ -73,6 +73,11 @@ export interface Service {
   booking_url: string | null
   default_sla_hours: number
   status: ServiceStatus
+  status_reason?: string | null
+  status_change_type?: "manual" | "scheduled" | "unexpected"
+  scheduled_status?: Exclude<ServiceStatus, "hidden"> | null
+  scheduled_at?: string | null
+  reopens_at?: string | null
   published_at: string | null
   is_emergency: boolean
   updated_at: string
@@ -164,7 +169,21 @@ export interface ReportRow {
   validated_at: string | null
   resolved_at: string | null
   is_public: boolean
+  next_steps?: string | null
+  required_documents?: string[]
+  postponement_reason?: string | null
   created_at: string
+}
+
+export interface ServiceAppointment {
+  id: string
+  service_id: string
+  profile_id: string
+  starts_at: string
+  purpose: string
+  status: "requested" | "confirmed" | "cancelled"
+  created_at: string
+  updated_at: string
 }
 
 export interface DangerRow {

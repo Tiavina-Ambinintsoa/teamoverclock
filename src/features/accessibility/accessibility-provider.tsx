@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react"
+import { toast } from "sonner"
 
 import { useTheme } from "@/components/theme-context"
 import { AccessibilityContext, type AccessibilityState } from "@/features/accessibility/accessibility-context"
@@ -16,6 +17,7 @@ import {
   type A11yRow,
 } from "@/lib/a11y-prefs"
 import { supabase } from "@/lib/supabase"
+import { useLocale } from "@/lib/locale"
 
 const SAVE_DELAY_MS = 800
 
@@ -26,7 +28,8 @@ const SAVE_DELAY_MS = 800
  * À placer à l'intérieur de <ThemeProvider> (un thème contrasté impose clair/sombre) et de <AuthProvider>.
  */
 export function AccessibilityProvider({ children }: { children: ReactNode }) {
-  const { resolvedMode } = useTheme()
+  const { resolvedMode, preset, setPreset } = useTheme()
+  const { tx } = useLocale()
   const { user } = useAuth()
   const [prefs, setPrefs] = useState<A11yPrefs>(readStoredPrefs)
   const userId = user && !user.isDemo ? user.id : null
@@ -83,6 +86,49 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
       return next
     })
   }, [save, userId])
+
+  useEffect(() => {
+    if (!user || preset === "lagon" || preset === "minimalist") return
+    let switched = false
+    const samples: { end: number; duration: number }[] = []
+    let observer: PerformanceObserver | undefined
+    let lowCoreTimer: number | undefined
+
+    const switchToLagon = () => {
+      if (switched) return
+      switched = true
+      setPreset("lagon")
+      update({ reduceMotion: true })
+      toast.info(tx("Mode léger activé", "Lightweight mode enabled"), {
+        description: tx(
+          "Des ralentissements prolongés ont été détectés. Le thème Lagon et la réduction des animations sont activés.",
+          "Sustained slowdowns were detected. The Lagon theme and reduced motion are now enabled."
+        ),
+      })
+      observer?.disconnect()
+      window.clearTimeout(lowCoreTimer)
+    }
+
+    if (navigator.hardwareConcurrency > 0 && navigator.hardwareConcurrency <= 2) {
+      lowCoreTimer = window.setTimeout(switchToLagon, 12_000)
+    }
+
+    if (typeof PerformanceObserver !== "undefined" && PerformanceObserver.supportedEntryTypes?.includes("longtask")) {
+      observer = new PerformanceObserver((list) => {
+        const now = performance.now()
+        samples.push(...list.getEntries().map((entry) => ({ end: entry.startTime + entry.duration, duration: entry.duration })))
+        while (samples.length && samples[0].end < now - 15_000) samples.shift()
+        const blockedTime = samples.reduce((total, sample) => total + sample.duration, 0)
+        if (samples.length >= 8 && blockedTime >= 1_500) switchToLagon()
+      })
+      observer.observe({ type: "longtask", buffered: false })
+    }
+
+    return () => {
+      observer?.disconnect()
+      window.clearTimeout(lowCoreTimer)
+    }
+  }, [user, preset, setPreset, update, tx])
 
   const reset = useCallback(() => {
     const next = { ...DEFAULT_A11Y_PREFS }

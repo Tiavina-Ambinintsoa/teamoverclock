@@ -31,8 +31,7 @@ const THEME_LABELS: Record<UiTheme, { fr: string; en: string }> = {
   yellow_on_black: { fr: "Jaune sur noir", en: "Yellow on black" },
 }
 
-const VOICE_TOGGLES: { key: keyof Pick<A11yPrefs, "readScreenAloud" | "voiceNavigation" | "voiceGuide" | "captions" | "visualAlerts">; fr: string; en: string }[] = [
-  { key: "readScreenAloud", fr: "L'assistant lit chaque page à voix haute", en: "The assistant reads each page aloud" },
+const VOICE_TOGGLES: { key: keyof Pick<A11yPrefs, "voiceNavigation" | "voiceGuide" | "captions" | "visualAlerts">; fr: string; en: string }[] = [
   { key: "voiceNavigation", fr: "Je réponds et je navigue à la voix", en: "I answer and navigate by voice" },
   { key: "voiceGuide", fr: "Guide vocal : annonce la page et les commandes", en: "Voice guide: announces the page and the commands" },
   { key: "captions", fr: "Sous-titres de tout ce qui est dit", en: "Captions for everything that is spoken" },
@@ -81,7 +80,7 @@ export function AccessibilityPanel() {
         <label className="flex items-start gap-2 text-sm"><input type="checkbox" className="mt-0.5 size-4 accent-primary" checked={prefs.needs.includes("low_vision")} onChange={(e) => toggleNeed("low_vision", e.target.checked)} />
           <span><strong>{tx("Mal voyant", "Visually impaired")}</strong> — {tx("thème à fort contraste et texte agrandi", "high-contrast theme and larger text")}</span></label>
         <label className="flex items-start gap-2 text-sm"><input type="checkbox" className="mt-0.5 size-4 accent-primary" checked={prefs.needs.includes("hard_of_hearing")} onChange={(e) => toggleNeed("hard_of_hearing", e.target.checked)} />
-          <span><strong>{tx("Mal entendant", "Hard of hearing")}</strong> — {tx("l'assistant lit l'écran, je réponds et navigue à la voix, avec sous-titres et alertes visuelles", "the assistant reads the screen, I answer and navigate by voice, with captions and visual alerts")}</span></label>
+          <span><strong>{tx("Mal entendant", "Hard of hearing")}</strong> — {tx("sous-titres et alertes visuelles plutôt que des signaux sonores", "captions and visual alerts instead of audio cues")}</span></label>
       </fieldset>
 
       <fieldset className="mt-5">
@@ -111,6 +110,10 @@ export function AccessibilityPanel() {
       </div>
 
       <h3 className="mt-7 text-base font-semibold">{tx("Assistance vocale", "Voice assistance")}</h3>
+      <div className="mt-3 flex items-center justify-between gap-4">
+        <Label htmlFor="a11y-readScreenAloud">{tx("Lecture automatique de chaque page", "Read each page aloud automatically")}</Label>
+        <Switch id="a11y-readScreenAloud" checked={prefs.readScreenAloud} onCheckedChange={(readScreenAloud) => update({ readScreenAloud })} />
+      </div>
       <ul className="mt-3 grid gap-3">
         {VOICE_TOGGLES.map((toggle) => (
           <li key={toggle.key} className="flex items-center justify-between gap-4">

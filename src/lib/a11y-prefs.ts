@@ -207,5 +207,5 @@ export function presetForNeed(need: A11yNeed, current: A11yPrefs): Partial<A11yP
       lineSpacing: current.lineSpacing < 1.25 ? 1.25 : current.lineSpacing,
     }
   }
-  return { readScreenAloud: true, voiceNavigation: true, voiceGuide: true, captions: true, visualAlerts: true }
+  return { captions: true, visualAlerts: true }
 }

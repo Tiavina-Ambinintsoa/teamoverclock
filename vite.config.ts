@@ -16,6 +16,18 @@ export default defineConfig(({ mode }) => {
       alias: { "@": fileURLToPath(new URL("./src", import.meta.url)) },
     },
     server: { host: true, port: 5173 },
+    // Pré-bundle des addons Three.js de la carte 3D : sinon Vite les découvre un par un et invalide le cache en boucle.
+    optimizeDeps: {
+      include: [
+        "three",
+        "three/addons/controls/OrbitControls.js",
+        "three/addons/postprocessing/EffectComposer.js",
+        "three/addons/postprocessing/RenderPass.js",
+        "three/addons/postprocessing/UnrealBloomPass.js",
+        "three/addons/postprocessing/OutputPass.js",
+        "three/addons/environments/RoomEnvironment.js",
+      ],
+    },
     build: {
       sourcemap: false, // 300 Mo de quota sur le serveur : pas de sourcemaps en prod
       rolldownOptions: {

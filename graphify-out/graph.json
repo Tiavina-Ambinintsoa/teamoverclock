@@ -170,7 +170,7 @@
       "file_type": "code",
       "norm_label": "dangerrow",
       "source_file": "src/lib/db-types.ts",
-      "source_location": "L170"
+      "source_location": "L189"
     },
     {
       "id": "src_lib_db_types_facilitytype",
@@ -196,7 +196,7 @@
       "file_type": "code",
       "norm_label": "newsimportance",
       "source_file": "src/lib/db-types.ts",
-      "source_location": "L99"
+      "source_location": "L104"
     },
     {
       "id": "src_lib_db_types_newsitem",
@@ -209,7 +209,7 @@
       "file_type": "code",
       "norm_label": "newsitem",
       "source_file": "src/lib/db-types.ts",
-      "source_location": "L102"
+      "source_location": "L107"
     },
     {
       "id": "src_lib_db_types_newsstatus",
@@ -222,7 +222,7 @@
       "file_type": "code",
       "norm_label": "newsstatus",
       "source_file": "src/lib/db-types.ts",
-      "source_location": "L100"
+      "source_location": "L105"
     },
     {
       "id": "src_lib_db_types_reportcategory",
@@ -235,7 +235,7 @@
       "file_type": "code",
       "norm_label": "reportcategory",
       "source_file": "src/lib/db-types.ts",
-      "source_location": "L141"
+      "source_location": "L146"
     },
     {
       "id": "src_lib_db_types_reportrow",
@@ -248,7 +248,7 @@
       "file_type": "code",
       "norm_label": "reportrow",
       "source_file": "src/lib/db-types.ts",
-      "source_location": "L143"
+      "source_location": "L148"
     },
     {
       "id": "src_lib_db_types_requestrow",
@@ -261,7 +261,7 @@
       "file_type": "code",
       "norm_label": "requestrow",
       "source_file": "src/lib/db-types.ts",
-      "source_location": "L119"
+      "source_location": "L124"
     },
     {
       "id": "src_lib_db_types_sector",
@@ -290,6 +290,19 @@
       "source_location": "L56"
     },
     {
+      "id": "src_lib_db_types_serviceappointment",
+      "label": "ServiceAppointment",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 108,
+      "community_name": "db-types.ts",
+      "file_type": "code",
+      "norm_label": "serviceappointment",
+      "source_file": "src/lib/db-types.ts",
+      "source_location": "L178"
+    },
+    {
       "id": "src_lib_db_types_transport",
       "label": "Transport",
       "_callable": true,
@@ -300,7 +313,7 @@
       "file_type": "code",
       "norm_label": "transport",
       "source_file": "src/lib/db-types.ts",
-      "source_location": "L86"
+      "source_location": "L91"
     },
     {
       "id": "src_lib_db_types_transportstatus",
@@ -313,7 +326,7 @@
       "file_type": "code",
       "norm_label": "transportstatus",
       "source_file": "src/lib/db-types.ts",
-      "source_location": "L84"
+      "source_location": "L89"
     },
     {
       "id": "src_lib_db_types_transporttype",
@@ -326,7 +339,7 @@
       "file_type": "code",
       "norm_label": "transporttype",
       "source_file": "src/lib/db-types.ts",
-      "source_location": "L81"
+      "source_location": "L86"
     },
     {
       "id": "src_lib_types_accountstatus",
@@ -1889,17 +1902,17 @@
       "source_location": "L6"
     },
     {
-      "id": "src_components_ui_breadcrumb_breadcrumbitem",
-      "label": "BreadcrumbItem",
+      "id": "src_features_map_hologram_map_hologrammapprops",
+      "label": "HologramMapProps",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
       "community": 223,
-      "community_name": "breadcrumb.tsx",
+      "community_name": "hologram-map.tsx",
       "file_type": "code",
-      "norm_label": "breadcrumbitem",
-      "source_file": "src/components/ui/breadcrumb.tsx",
-      "source_location": "L6"
+      "norm_label": "hologrammapprops",
+      "source_file": "src/features/map/hologram-map.tsx",
+      "source_location": "L12"
     },
     {
       "id": "src_features_profile_citizen_health_form_healthprofile",
@@ -1941,6 +1954,32 @@
       "source_location": "L6"
     },
     {
+      "id": "src_features_map_map_page_maplistitem",
+      "label": "MapListItem",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 234,
+      "community_name": "map/map-page.tsx",
+      "file_type": "code",
+      "norm_label": "maplistitem",
+      "source_file": "src/features/map/map-page.tsx",
+      "source_location": "L32"
+    },
+    {
+      "id": "src_features_map_map_page_observationitem",
+      "label": "ObservationItem",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 234,
+      "community_name": "map/map-page.tsx",
+      "file_type": "code",
+      "norm_label": "observationitem",
+      "source_file": "src/features/map/map-page.tsx",
+      "source_location": "L26"
+    },
+    {
       "id": "src_components_home_cloud_layer_cloudlayerprops",
       "label": "CloudLayerProps",
       "_callable": true,
@@ -1954,29 +1993,29 @@
       "source_location": "L3"
     },
     {
-      "id": "src_components_home_get_started_getstartedprops",
-      "label": "GetStartedProps",
+      "id": "src_features_map_map_detail_panel_mapdetailpanelprops",
+      "label": "MapDetailPanelProps",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
       "community": 241,
-      "community_name": "get-started.tsx",
+      "community_name": "map-detail-panel.tsx",
       "file_type": "code",
-      "norm_label": "getstartedprops",
-      "source_file": "src/components/home/get-started.tsx",
-      "source_location": "L6"
+      "norm_label": "mapdetailpanelprops",
+      "source_file": "src/features/map/map-detail-panel.tsx",
+      "source_location": "L15"
     },
     {
-      "id": "src_components_lightbox_lightboxprops",
-      "label": "LightboxProps",
+      "id": "src_components_ui_breadcrumb_breadcrumbitem",
+      "label": "BreadcrumbItem",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
-      "community": 242,
-      "community_name": "lightbox.tsx",
+      "community": 248,
+      "community_name": "breadcrumb.tsx",
       "file_type": "code",
-      "norm_label": "lightboxprops",
-      "source_file": "src/components/lightbox.tsx",
+      "norm_label": "breadcrumbitem",
+      "source_file": "src/components/ui/breadcrumb.tsx",
       "source_location": "L6"
     },
     {
@@ -2017,6 +2056,58 @@
       "norm_label": "sliderprops",
       "source_file": "src/components/ui/slider.tsx",
       "source_location": "L5"
+    },
+    {
+      "id": "src_features_agent_agent_team_page_member",
+      "label": "Member",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 251,
+      "community_name": "agent-team-page.tsx",
+      "file_type": "code",
+      "norm_label": "member",
+      "source_file": "src/features/agent/agent-team-page.tsx",
+      "source_location": "L16"
+    },
+    {
+      "id": "src_features_notifications_notifications_menu_appnotification",
+      "label": "AppNotification",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 253,
+      "community_name": "notifications-menu.tsx",
+      "file_type": "code",
+      "norm_label": "appnotification",
+      "source_file": "src/features/notifications/notifications-menu.tsx",
+      "source_location": "L8"
+    },
+    {
+      "id": "src_components_reveal_revealprops",
+      "label": "RevealProps",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 254,
+      "community_name": "reveal.tsx",
+      "file_type": "code",
+      "norm_label": "revealprops",
+      "source_file": "src/components/reveal.tsx",
+      "source_location": "L6"
+    },
+    {
+      "id": "src_components_ui_progress_progressprops",
+      "label": "ProgressProps",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 255,
+      "community_name": "progress.tsx",
+      "file_type": "code",
+      "norm_label": "progressprops",
+      "source_file": "src/components/ui/progress.tsx",
+      "source_location": "L4"
     },
     {
       "id": "src_components_ui_tabs_tabsstate",
@@ -2071,30 +2162,17 @@
       "source_location": "L17"
     },
     {
-      "id": "src_features_agent_agent_team_page_member",
-      "label": "Member",
+      "id": "src_components_lightbox_lightboxprops",
+      "label": "LightboxProps",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
       "community": 3,
       "community_name": "react",
       "file_type": "code",
-      "norm_label": "member",
-      "source_file": "src/features/agent/agent-team-page.tsx",
-      "source_location": "L16"
-    },
-    {
-      "id": "src_features_notifications_notifications_menu_appnotification",
-      "label": "AppNotification",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "appnotification",
-      "source_file": "src/features/notifications/notifications-menu.tsx",
-      "source_location": "L8"
+      "norm_label": "lightboxprops",
+      "source_file": "src/components/lightbox.tsx",
+      "source_location": "L6"
     },
     {
       "id": "src_features_auth_auth_context_appuser",
@@ -2445,7 +2523,7 @@
       "file_type": "code",
       "norm_label": "presetid",
       "source_file": "src/lib/presets.ts",
-      "source_location": "L20"
+      "source_location": "L21"
     },
     {
       "id": "src_lib_typography_presets_typographyid",
@@ -2513,17 +2591,160 @@
       "source_location": "L4"
     },
     {
-      "id": "src_components_ui_progress_progressprops",
-      "label": "ProgressProps",
+      "id": "src_features_map_engine_anchor",
+      "label": "Anchor",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
       "community": 67,
-      "community_name": "progress.tsx",
+      "community_name": "NovaTerraEngine",
       "file_type": "code",
-      "norm_label": "progressprops",
-      "source_file": "src/components/ui/progress.tsx",
-      "source_location": "L4"
+      "norm_label": "anchor",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L20"
+    },
+    {
+      "id": "src_features_map_engine_building",
+      "label": "Building",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 67,
+      "community_name": "NovaTerraEngine",
+      "file_type": "code",
+      "norm_label": "building",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L12"
+    },
+    {
+      "id": "src_features_map_engine_danger",
+      "label": "Danger",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 67,
+      "community_name": "NovaTerraEngine",
+      "file_type": "code",
+      "norm_label": "danger",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L14"
+    },
+    {
+      "id": "src_features_map_engine_engineevents",
+      "label": "EngineEvents",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 67,
+      "community_name": "NovaTerraEngine",
+      "file_type": "code",
+      "norm_label": "engineevents",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L21"
+    },
+    {
+      "id": "src_features_map_engine_layers",
+      "label": "Layers",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 67,
+      "community_name": "NovaTerraEngine",
+      "file_type": "code",
+      "norm_label": "layers",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L18"
+    },
+    {
+      "id": "src_features_map_engine_mapdata",
+      "label": "MapData",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 67,
+      "community_name": "NovaTerraEngine",
+      "file_type": "code",
+      "norm_label": "mapdata",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L17"
+    },
+    {
+      "id": "src_features_map_engine_mapreport",
+      "label": "MapReport",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 67,
+      "community_name": "NovaTerraEngine",
+      "file_type": "code",
+      "norm_label": "mapreport",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L15"
+    },
+    {
+      "id": "src_features_map_engine_novaterraengine",
+      "label": "NovaTerraEngine",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 67,
+      "community_name": "NovaTerraEngine",
+      "file_type": "code",
+      "norm_label": "novaterraengine",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L47"
+    },
+    {
+      "id": "src_features_map_engine_observation",
+      "label": "Observation",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 67,
+      "community_name": "NovaTerraEngine",
+      "file_type": "code",
+      "norm_label": "observation",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L16"
+    },
+    {
+      "id": "src_features_map_engine_pick",
+      "label": "Pick",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 67,
+      "community_name": "NovaTerraEngine",
+      "file_type": "code",
+      "norm_label": "pick",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L19"
+    },
+    {
+      "id": "src_features_map_engine_sector",
+      "label": "Sector",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 67,
+      "community_name": "NovaTerraEngine",
+      "file_type": "code",
+      "norm_label": "sector",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L11"
+    },
+    {
+      "id": "src_features_map_engine_transport",
+      "label": "Transport",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 67,
+      "community_name": "NovaTerraEngine",
+      "file_type": "code",
+      "norm_label": "transport",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L13"
     },
     {
       "id": "src_components_confirm_dialog_confirmdialogprops",
@@ -2656,17 +2877,30 @@
       "source_location": "L6"
     },
     {
-      "id": "src_components_reveal_revealprops",
-      "label": "RevealProps",
+      "id": "src_features_map_map_filters_mapfiltersprops",
+      "label": "MapFiltersProps",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
-      "community": 77,
-      "community_name": "reveal.tsx",
+      "community": 78,
+      "community_name": "map-filters.tsx",
       "file_type": "code",
-      "norm_label": "revealprops",
-      "source_file": "src/components/reveal.tsx",
-      "source_location": "L6"
+      "norm_label": "mapfiltersprops",
+      "source_file": "src/features/map/map-filters.tsx",
+      "source_location": "L60"
+    },
+    {
+      "id": "src_features_map_map_filters_mapfilterstate",
+      "label": "MapFilterState",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 78,
+      "community_name": "map-filters.tsx",
+      "file_type": "code",
+      "norm_label": "mapfilterstate",
+      "source_file": "src/features/map/map-filters.tsx",
+      "source_location": "L12"
     },
     {
       "id": "src_features_admin_heat_alert_create_dialog_heatalertresult",
@@ -2771,6 +3005,19 @@
       "norm_label": "siteconfig",
       "source_file": "src/lib/site.ts",
       "source_location": "L3"
+    },
+    {
+      "id": "src_components_home_get_started_getstartedprops",
+      "label": "GetStartedProps",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 92,
+      "community_name": "get-started.tsx",
+      "file_type": "code",
+      "norm_label": "getstartedprops",
+      "source_file": "src/components/home/get-started.tsx",
+      "source_location": "L6"
     },
     {
       "id": "src_vite_env_d_importmeta",
@@ -3846,7 +4093,7 @@
       "file_type": "code",
       "norm_label": "accessibilitypanel()",
       "source_file": "src/features/accessibility/accessibility-panel.tsx",
-      "source_location": "L43"
+      "source_location": "L42"
     },
     {
       "id": "src_features_reports_report_workflow_canpublish",
@@ -4926,7 +5173,7 @@
       "file_type": "code",
       "norm_label": "publicationpatch()",
       "source_file": "src/features/admin/services-manager.tsx",
-      "source_location": "L26"
+      "source_location": "L39"
     },
     {
       "id": "src_features_admin_services_manager_servicedialog",
@@ -4938,7 +5185,7 @@
       "file_type": "code",
       "norm_label": "servicedialog()",
       "source_file": "src/features/admin/services-manager.tsx",
-      "source_location": "L90"
+      "source_location": "L105"
     },
     {
       "id": "src_features_admin_services_manager_servicesmanager",
@@ -4950,7 +5197,19 @@
       "file_type": "code",
       "norm_label": "servicesmanager()",
       "source_file": "src/features/admin/services-manager.tsx",
-      "source_location": "L32"
+      "source_location": "L45"
+    },
+    {
+      "id": "src_features_admin_services_manager_tolocaldatetimeinput",
+      "label": "toLocalDateTimeInput()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 177,
+      "community_name": "services-manager.tsx",
+      "file_type": "code",
+      "norm_label": "tolocaldatetimeinput()",
+      "source_file": "src/features/admin/services-manager.tsx",
+      "source_location": "L30"
     },
     {
       "id": "src_features_map_map_editor_page_mapeditorpage",
@@ -5346,7 +5605,7 @@
       "file_type": "code",
       "norm_label": "agentreportdetailpage()",
       "source_file": "src/features/reports/report-detail.tsx",
-      "source_location": "L209"
+      "source_location": "L295"
     },
     {
       "id": "src_features_reports_report_detail_citizenreportdetailpage",
@@ -5358,7 +5617,7 @@
       "file_type": "code",
       "norm_label": "citizenreportdetailpage()",
       "source_file": "src/features/reports/report-detail.tsx",
-      "source_location": "L206"
+      "source_location": "L292"
     },
     {
       "id": "src_features_reports_report_detail_reportdetail",
@@ -5370,7 +5629,7 @@
       "file_type": "code",
       "norm_label": "reportdetail()",
       "source_file": "src/features/reports/report-detail.tsx",
-      "source_location": "L25"
+      "source_location": "L26"
     },
     {
       "id": "src_features_reports_reports_lists_agentreportspage",
@@ -5382,7 +5641,7 @@
       "file_type": "code",
       "norm_label": "agentreportspage()",
       "source_file": "src/features/reports/reports-lists.tsx",
-      "source_location": "L70"
+      "source_location": "L73"
     },
     {
       "id": "src_features_reports_reports_lists_myreportspage",
@@ -5406,7 +5665,7 @@
       "file_type": "code",
       "norm_label": "publicreportspage()",
       "source_file": "src/features/reports/reports-lists.tsx",
-      "source_location": "L166"
+      "source_location": "L169"
     },
     {
       "id": "src_features_requests_request_detail_agentrequestdetailpage",
@@ -5790,7 +6049,7 @@
       "file_type": "code",
       "norm_label": "authprovider()",
       "source_file": "src/features/auth/auth-provider.tsx",
-      "source_location": "L106"
+      "source_location": "L107"
     },
     {
       "id": "src_features_auth_auth_provider_fromsupabaseuser",
@@ -5802,7 +6061,7 @@
       "file_type": "code",
       "norm_label": "fromsupabaseuser()",
       "source_file": "src/features/auth/auth-provider.tsx",
-      "source_location": "L39"
+      "source_location": "L40"
     },
     {
       "id": "src_features_auth_auth_provider_getapprouteurl",
@@ -5814,7 +6073,7 @@
       "file_type": "code",
       "norm_label": "getapprouteurl()",
       "source_file": "src/features/auth/auth-provider.tsx",
-      "source_location": "L88"
+      "source_location": "L89"
     },
     {
       "id": "src_features_auth_auth_provider_readlocaluser",
@@ -5826,7 +6085,7 @@
       "file_type": "code",
       "norm_label": "readlocaluser()",
       "source_file": "src/features/auth/auth-provider.tsx",
-      "source_location": "L67"
+      "source_location": "L68"
     },
     {
       "id": "src_features_auth_auth_provider_translateautherror",
@@ -5838,7 +6097,7 @@
       "file_type": "code",
       "norm_label": "translateautherror()",
       "source_file": "src/features/auth/auth-provider.tsx",
-      "source_location": "L94"
+      "source_location": "L95"
     },
     {
       "id": "src_features_auth_auth_provider_withextras",
@@ -5850,7 +6109,7 @@
       "file_type": "code",
       "norm_label": "withextras()",
       "source_file": "src/features/auth/auth-provider.tsx",
-      "source_location": "L56"
+      "source_location": "L57"
     },
     {
       "id": "src_features_services_facilities_manager_facilitiesmanager",
@@ -5961,16 +6220,64 @@
       "source_location": "L14"
     },
     {
-      "id": "src_components_animated_transition_link_transitionlink",
-      "label": "TransitionLink()",
+      "id": "src_features_services_service_availability_effectiveservicestatus",
+      "label": "effectiveServiceStatus()",
       "_callable": true,
       "_origin": "ast",
       "community": 218,
-      "community_name": "transition-link.tsx",
+      "community_name": "service-availability.ts",
       "file_type": "code",
-      "norm_label": "transitionlink()",
-      "source_file": "src/components/animated/transition-link.tsx",
-      "source_location": "L5"
+      "norm_label": "effectiveservicestatus()",
+      "source_file": "src/features/services/service-availability.ts",
+      "source_location": "L4"
+    },
+    {
+      "id": "src_features_services_service_availability_isfuturelocaldatetime",
+      "label": "isFutureLocalDateTime()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 218,
+      "community_name": "service-availability.ts",
+      "file_type": "code",
+      "norm_label": "isfuturelocaldatetime()",
+      "source_file": "src/features/services/service-availability.ts",
+      "source_location": "L30"
+    },
+    {
+      "id": "src_features_services_service_availability_isfuturetimestamp",
+      "label": "isFutureTimestamp()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 218,
+      "community_name": "service-availability.ts",
+      "file_type": "code",
+      "norm_label": "isfuturetimestamp()",
+      "source_file": "src/features/services/service-availability.ts",
+      "source_location": "L25"
+    },
+    {
+      "id": "src_features_services_service_availability_isunexpectedserviceclosure",
+      "label": "isUnexpectedServiceClosure()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 218,
+      "community_name": "service-availability.ts",
+      "file_type": "code",
+      "norm_label": "isunexpectedserviceclosure()",
+      "source_file": "src/features/services/service-availability.ts",
+      "source_location": "L18"
+    },
+    {
+      "id": "src_features_services_service_availability_iswithinservicehours",
+      "label": "isWithinServiceHours()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 218,
+      "community_name": "service-availability.ts",
+      "file_type": "code",
+      "norm_label": "iswithinservicehours()",
+      "source_file": "src/features/services/service-availability.ts",
+      "source_location": "L45"
     },
     {
       "id": "src_pages_templates_map_page_mapembedurl",
@@ -6165,16 +6472,28 @@
       "source_location": "L15"
     },
     {
-      "id": "src_components_ui_breadcrumb_breadcrumb",
-      "label": "Breadcrumb()",
+      "id": "src_features_map_hologram_map_clamp",
+      "label": "clamp()",
       "_callable": true,
       "_origin": "ast",
       "community": 223,
-      "community_name": "breadcrumb.tsx",
+      "community_name": "hologram-map.tsx",
       "file_type": "code",
-      "norm_label": "breadcrumb()",
-      "source_file": "src/components/ui/breadcrumb.tsx",
-      "source_location": "L11"
+      "norm_label": "clamp()",
+      "source_file": "src/features/map/hologram-map.tsx",
+      "source_location": "L26"
+    },
+    {
+      "id": "src_features_map_hologram_map_hologrammap",
+      "label": "HologramMap()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 223,
+      "community_name": "hologram-map.tsx",
+      "file_type": "code",
+      "norm_label": "hologrammap()",
+      "source_file": "src/features/map/hologram-map.tsx",
+      "source_location": "L29"
     },
     {
       "id": "src_features_requests_request_new_page_requestnewpage",
@@ -6294,7 +6613,19 @@
       "file_type": "code",
       "norm_label": "mappage()",
       "source_file": "src/features/map/map-page.tsx",
-      "source_location": "L27"
+      "source_location": "L54"
+    },
+    {
+      "id": "src_features_map_map_page_tomapreport",
+      "label": "toMapReport()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 234,
+      "community_name": "map/map-page.tsx",
+      "file_type": "code",
+      "norm_label": "tomapreport()",
+      "source_file": "src/features/map/map-page.tsx",
+      "source_location": "L41"
     },
     {
       "id": "src_features_services_service_detail_page_servicedetailpage",
@@ -6306,19 +6637,43 @@
       "file_type": "code",
       "norm_label": "servicedetailpage()",
       "source_file": "src/features/services/service-detail-page.tsx",
-      "source_location": "L27"
+      "source_location": "L31"
     },
     {
-      "id": "src_pages_templates_animations_page_animationspage",
-      "label": "AnimationsPage()",
+      "id": "src_features_services_service_appointments_describeappointmenttime",
+      "label": "describeAppointmentTime()",
       "_callable": true,
       "_origin": "ast",
       "community": 238,
-      "community_name": "animations-page.tsx",
+      "community_name": "service-appointments.tsx",
       "file_type": "code",
-      "norm_label": "animationspage()",
-      "source_file": "src/pages/templates/animations-page.tsx",
-      "source_location": "L19"
+      "norm_label": "describeappointmenttime()",
+      "source_file": "src/features/services/service-appointments.tsx",
+      "source_location": "L26"
+    },
+    {
+      "id": "src_features_services_service_appointments_localdate",
+      "label": "localDate()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 238,
+      "community_name": "service-appointments.tsx",
+      "file_type": "code",
+      "norm_label": "localdate()",
+      "source_file": "src/features/services/service-appointments.tsx",
+      "source_location": "L20"
+    },
+    {
+      "id": "src_features_services_service_appointments_serviceappointmentcalendar",
+      "label": "ServiceAppointmentCalendar()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 238,
+      "community_name": "service-appointments.tsx",
+      "file_type": "code",
+      "norm_label": "serviceappointmentcalendar()",
+      "source_file": "src/features/services/service-appointments.tsx",
+      "source_location": "L33"
     },
     {
       "id": "src_components_home_cloud_layer_cloudlayer",
@@ -6381,28 +6736,52 @@
       "source_location": "L60"
     },
     {
-      "id": "src_components_home_get_started_getstarted",
-      "label": "GetStarted()",
+      "id": "src_features_map_map_detail_panel_mapdetailpanel",
+      "label": "MapDetailPanel()",
       "_callable": true,
       "_origin": "ast",
       "community": 241,
-      "community_name": "get-started.tsx",
+      "community_name": "map-detail-panel.tsx",
       "file_type": "code",
-      "norm_label": "getstarted()",
-      "source_file": "src/components/home/get-started.tsx",
-      "source_location": "L21"
+      "norm_label": "mapdetailpanel()",
+      "source_file": "src/features/map/map-detail-panel.tsx",
+      "source_location": "L39"
     },
     {
-      "id": "src_components_lightbox_lightbox",
-      "label": "Lightbox()",
+      "id": "src_features_map_map_detail_panel_row",
+      "label": "Row()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 241,
+      "community_name": "map-detail-panel.tsx",
+      "file_type": "code",
+      "norm_label": "row()",
+      "source_file": "src/features/map/map-detail-panel.tsx",
+      "source_location": "L29"
+    },
+    {
+      "id": "src_components_layout_application_layout_applicationlayout",
+      "label": "ApplicationLayout()",
       "_callable": true,
       "_origin": "ast",
       "community": 242,
-      "community_name": "lightbox.tsx",
+      "community_name": "application-layout.tsx",
       "file_type": "code",
-      "norm_label": "lightbox()",
-      "source_file": "src/components/lightbox.tsx",
-      "source_location": "L21"
+      "norm_label": "applicationlayout()",
+      "source_file": "src/components/layout/application-layout.tsx",
+      "source_location": "L70"
+    },
+    {
+      "id": "src_components_layout_application_layout_sidebar",
+      "label": "Sidebar()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 242,
+      "community_name": "application-layout.tsx",
+      "file_type": "code",
+      "norm_label": "sidebar()",
+      "source_file": "src/components/layout/application-layout.tsx",
+      "source_location": "L17"
     },
     {
       "id": "src_components_home_navbar_navbar",
@@ -6415,6 +6794,18 @@
       "norm_label": "navbar()",
       "source_file": "src/components/home/navbar.tsx",
       "source_location": "L12"
+    },
+    {
+      "id": "src_components_ui_breadcrumb_breadcrumb",
+      "label": "Breadcrumb()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 248,
+      "community_name": "breadcrumb.tsx",
+      "file_type": "code",
+      "norm_label": "breadcrumb()",
+      "source_file": "src/components/ui/breadcrumb.tsx",
+      "source_location": "L11"
     },
     {
       "id": "src_pages_custom_home_page_customhomepage",
@@ -6499,6 +6890,102 @@
       "norm_label": "slider()",
       "source_file": "src/components/ui/slider.tsx",
       "source_location": "L12"
+    },
+    {
+      "id": "src_features_agent_agent_team_page_agentteampage",
+      "label": "AgentTeamPage()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 251,
+      "community_name": "agent-team-page.tsx",
+      "file_type": "code",
+      "norm_label": "agentteampage()",
+      "source_file": "src/features/agent/agent-team-page.tsx",
+      "source_location": "L19"
+    },
+    {
+      "id": "src_features_map_map_filters_test_building",
+      "label": "building()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 252,
+      "community_name": "map-filters.test.ts",
+      "file_type": "code",
+      "norm_label": "building()",
+      "source_file": "src/features/map/map-filters.test.ts",
+      "source_location": "L7"
+    },
+    {
+      "id": "src_features_map_map_filters_test_report",
+      "label": "report()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 252,
+      "community_name": "map-filters.test.ts",
+      "file_type": "code",
+      "norm_label": "report()",
+      "source_file": "src/features/map/map-filters.test.ts",
+      "source_location": "L8"
+    },
+    {
+      "id": "src_features_notifications_notifications_menu_notificationsmenu",
+      "label": "NotificationsMenu()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 253,
+      "community_name": "notifications-menu.tsx",
+      "file_type": "code",
+      "norm_label": "notificationsmenu()",
+      "source_file": "src/features/notifications/notifications-menu.tsx",
+      "source_location": "L10"
+    },
+    {
+      "id": "src_components_reveal_reveal",
+      "label": "Reveal()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 254,
+      "community_name": "reveal.tsx",
+      "file_type": "code",
+      "norm_label": "reveal()",
+      "source_file": "src/components/reveal.tsx",
+      "source_location": "L9"
+    },
+    {
+      "id": "src_components_ui_progress_progress",
+      "label": "Progress()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 255,
+      "community_name": "progress.tsx",
+      "file_type": "code",
+      "norm_label": "progress()",
+      "source_file": "src/components/ui/progress.tsx",
+      "source_location": "L10"
+    },
+    {
+      "id": "src_pages_templates_video_page_videopage",
+      "label": "VideoPage()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 256,
+      "community_name": "video-page.tsx",
+      "file_type": "code",
+      "norm_label": "videopage()",
+      "source_file": "src/pages/templates/video-page.tsx",
+      "source_location": "L19"
+    },
+    {
+      "id": "src_features_services_service_availability_test_service",
+      "label": "service()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 258,
+      "community_name": "service-availability.test.ts",
+      "file_type": "code",
+      "norm_label": "service()",
+      "source_file": "src/features/services/service-availability.test.ts",
+      "source_location": "L6"
     },
     {
       "id": "src_components_ui_tabs_tabs",
@@ -6705,6 +7192,18 @@
       "source_location": "L4"
     },
     {
+      "id": "src_components_animated_transition_link_transitionlink",
+      "label": "TransitionLink()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "transitionlink()",
+      "source_file": "src/components/animated/transition-link.tsx",
+      "source_location": "L5"
+    },
+    {
       "id": "src_components_charts_sparkline_sparkline",
       "label": "Sparkline()",
       "_callable": true,
@@ -6729,30 +7228,6 @@
       "source_location": "L7"
     },
     {
-      "id": "src_components_layout_application_layout_applicationlayout",
-      "label": "ApplicationLayout()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "applicationlayout()",
-      "source_file": "src/components/layout/application-layout.tsx",
-      "source_location": "L70"
-    },
-    {
-      "id": "src_components_layout_application_layout_sidebar",
-      "label": "Sidebar()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "sidebar()",
-      "source_file": "src/components/layout/application-layout.tsx",
-      "source_location": "L17"
-    },
-    {
       "id": "src_components_layout_container_container",
       "label": "Container()",
       "_callable": true,
@@ -6763,6 +7238,18 @@
       "norm_label": "container()",
       "source_file": "src/components/layout/container.tsx",
       "source_location": "L6"
+    },
+    {
+      "id": "src_components_lightbox_lightbox",
+      "label": "Lightbox()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "lightbox()",
+      "source_file": "src/components/lightbox.tsx",
+      "source_location": "L21"
     },
     {
       "id": "src_components_ui_checkbox_checkbox",
@@ -6858,7 +7345,19 @@
       "file_type": "code",
       "norm_label": "accessibilityprovider()",
       "source_file": "src/features/accessibility/accessibility-provider.tsx",
-      "source_location": "L28"
+      "source_location": "L30"
+    },
+    {
+      "id": "src_features_accessibility_floating_accessibility_controls_floatingaccessibilitycontrols",
+      "label": "FloatingAccessibilityControls()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "floatingaccessibilitycontrols()",
+      "source_file": "src/features/accessibility/floating-accessibility-controls.tsx",
+      "source_location": "L12"
     },
     {
       "id": "src_features_agent_agent_requests_page_agentrequestspage",
@@ -6871,18 +7370,6 @@
       "norm_label": "agentrequestspage()",
       "source_file": "src/features/agent/agent-requests-page.tsx",
       "source_location": "L25"
-    },
-    {
-      "id": "src_features_agent_agent_team_page_agentteampage",
-      "label": "AgentTeamPage()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "agentteampage()",
-      "source_file": "src/features/agent/agent-team-page.tsx",
-      "source_location": "L19"
     },
     {
       "id": "src_features_auth_admin_login_page_adminloginpage",
@@ -6945,18 +7432,6 @@
       "source_location": "L17"
     },
     {
-      "id": "src_features_notifications_notifications_menu_notificationsmenu",
-      "label": "NotificationsMenu()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "notificationsmenu()",
-      "source_file": "src/features/notifications/notifications-menu.tsx",
-      "source_location": "L10"
-    },
-    {
       "id": "src_features_profile_profile_details_form_profiledetailsform",
       "label": "ProfileDetailsForm()",
       "_callable": true,
@@ -6990,7 +7465,7 @@
       "file_type": "code",
       "norm_label": "servicespage()",
       "source_file": "src/features/services/services-page.tsx",
-      "source_location": "L18"
+      "source_location": "L20"
     },
     {
       "id": "src_hooks_use_count_up_usecountup",
@@ -7063,6 +7538,18 @@
       "norm_label": "settingspage()",
       "source_file": "src/pages/app/settings-page.tsx",
       "source_location": "L22"
+    },
+    {
+      "id": "src_pages_templates_animations_page_animationspage",
+      "label": "AnimationsPage()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "animationspage()",
+      "source_file": "src/pages/templates/animations-page.tsx",
+      "source_location": "L19"
     },
     {
       "id": "src_components_theme_provider_readmode",
@@ -7266,7 +7753,7 @@
       "file_type": "code",
       "norm_label": "homepage()",
       "source_file": "src/pages/home-page.tsx",
-      "source_location": "L30"
+      "source_location": "L33"
     },
     {
       "id": "src_pages_site_pages_contactpage",
@@ -7458,7 +7945,7 @@
       "file_type": "code",
       "norm_label": "usetheme()",
       "source_file": "src/components/theme-context.ts",
-      "source_location": "L24"
+      "source_location": "L25"
     },
     {
       "id": "src_components_ui_accordion_accordion",
@@ -7866,7 +8353,7 @@
       "file_type": "code",
       "norm_label": "ispresetid()",
       "source_file": "src/lib/presets.ts",
-      "source_location": "L22"
+      "source_location": "L23"
     },
     {
       "id": "src_lib_typography_presets_istypographyid",
@@ -7914,7 +8401,7 @@
       "file_type": "code",
       "norm_label": "providers()",
       "source_file": "src/app/providers.tsx",
-      "source_location": "L17"
+      "source_location": "L18"
     },
     {
       "id": "src_components_animated_text_reveal_textreveal",
@@ -7929,16 +8416,448 @@
       "source_location": "L15"
     },
     {
-      "id": "src_components_ui_progress_progress",
-      "label": "Progress()",
+      "id": "src_features_map_engine_clear",
+      "label": "clear()",
       "_callable": true,
       "_origin": "ast",
       "community": 67,
-      "community_name": "progress.tsx",
+      "community_name": "NovaTerraEngine",
       "file_type": "code",
-      "norm_label": "progress()",
-      "source_file": "src/components/ui/progress.tsx",
-      "source_location": "L10"
+      "norm_label": "clear()",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L44"
+    },
+    {
+      "id": "src_features_map_engine_hx",
+      "label": "hx()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 67,
+      "community_name": "NovaTerraEngine",
+      "file_type": "code",
+      "norm_label": "hx()",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L28"
+    },
+    {
+      "id": "src_features_map_engine_keep",
+      "label": "keep()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 67,
+      "community_name": "NovaTerraEngine",
+      "file_type": "code",
+      "norm_label": "keep()",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L45"
+    },
+    {
+      "id": "src_features_map_engine_neon",
+      "label": "neon()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 67,
+      "community_name": "NovaTerraEngine",
+      "file_type": "code",
+      "norm_label": "neon()",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L43"
+    },
+    {
+      "id": "src_features_map_engine_novaterraengine_applylayers",
+      "label": ".applyLayers()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 67,
+      "community_name": "NovaTerraEngine",
+      "file_type": "code",
+      "norm_label": ".applylayers()",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L170"
+    },
+    {
+      "id": "src_features_map_engine_novaterraengine_buildcity",
+      "label": ".buildCity()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 67,
+      "community_name": "NovaTerraEngine",
+      "file_type": "code",
+      "norm_label": ".buildcity()",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L218"
+    },
+    {
+      "id": "src_features_map_engine_novaterraengine_builddanger",
+      "label": ".buildDanger()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 67,
+      "community_name": "NovaTerraEngine",
+      "file_type": "code",
+      "norm_label": ".builddanger()",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L291"
+    },
+    {
+      "id": "src_features_map_engine_novaterraengine_building",
+      "label": ".building()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 67,
+      "community_name": "NovaTerraEngine",
+      "file_type": "code",
+      "norm_label": ".building()",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L202"
+    },
+    {
+      "id": "src_features_map_engine_novaterraengine_buildreports",
+      "label": ".buildReports()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 67,
+      "community_name": "NovaTerraEngine",
+      "file_type": "code",
+      "norm_label": ".buildreports()",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L270"
+    },
+    {
+      "id": "src_features_map_engine_novaterraengine_buildstatic",
+      "label": ".buildStatic()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 67,
+      "community_name": "NovaTerraEngine",
+      "file_type": "code",
+      "norm_label": ".buildstatic()",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L172"
+    },
+    {
+      "id": "src_features_map_engine_novaterraengine_click",
+      "label": ".click()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 67,
+      "community_name": "NovaTerraEngine",
+      "file_type": "code",
+      "norm_label": ".click()",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L148"
+    },
+    {
+      "id": "src_features_map_engine_novaterraengine_constructor",
+      "label": ".constructor()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 67,
+      "community_name": "NovaTerraEngine",
+      "file_type": "code",
+      "norm_label": ".constructor()",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L60"
+    },
+    {
+      "id": "src_features_map_engine_novaterraengine_dispose",
+      "label": ".dispose()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 67,
+      "community_name": "NovaTerraEngine",
+      "file_type": "code",
+      "norm_label": ".dispose()",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L111"
+    },
+    {
+      "id": "src_features_map_engine_novaterraengine_drawroute",
+      "label": ".drawRoute()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 67,
+      "community_name": "NovaTerraEngine",
+      "file_type": "code",
+      "norm_label": ".drawroute()",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L298"
+    },
+    {
+      "id": "src_features_map_engine_novaterraengine_focussector",
+      "label": ".focusSector()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 67,
+      "community_name": "NovaTerraEngine",
+      "file_type": "code",
+      "norm_label": ".focussector()",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L110"
+    },
+    {
+      "id": "src_features_map_engine_novaterraengine_glow",
+      "label": ".glow()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 67,
+      "community_name": "NovaTerraEngine",
+      "file_type": "code",
+      "norm_label": ".glow()",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L115"
+    },
+    {
+      "id": "src_features_map_engine_novaterraengine_hit",
+      "label": ".hit()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 67,
+      "community_name": "NovaTerraEngine",
+      "file_type": "code",
+      "norm_label": ".hit()",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L138"
+    },
+    {
+      "id": "src_features_map_engine_novaterraengine_holo",
+      "label": ".holo()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 67,
+      "community_name": "NovaTerraEngine",
+      "file_type": "code",
+      "norm_label": ".holo()",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L116"
+    },
+    {
+      "id": "src_features_map_engine_novaterraengine_label",
+      "label": ".label()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 67,
+      "community_name": "NovaTerraEngine",
+      "file_type": "code",
+      "norm_label": ".label()",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L125"
+    },
+    {
+      "id": "src_features_map_engine_novaterraengine_loop",
+      "label": ".loop()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 67,
+      "community_name": "NovaTerraEngine",
+      "file_type": "code",
+      "norm_label": ".loop()",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L304"
+    },
+    {
+      "id": "src_features_map_engine_novaterraengine_mark",
+      "label": ".mark()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 67,
+      "community_name": "NovaTerraEngine",
+      "file_type": "code",
+      "norm_label": ".mark()",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L155"
+    },
+    {
+      "id": "src_features_map_engine_novaterraengine_select",
+      "label": ".select()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 67,
+      "community_name": "NovaTerraEngine",
+      "file_type": "code",
+      "norm_label": ".select()",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L104"
+    },
+    {
+      "id": "src_features_map_engine_novaterraengine_setdanger",
+      "label": ".setDanger()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 67,
+      "community_name": "NovaTerraEngine",
+      "file_type": "code",
+      "norm_label": ".setdanger()",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L99"
+    },
+    {
+      "id": "src_features_map_engine_novaterraengine_setdangers",
+      "label": ".setDangers()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 67,
+      "community_name": "NovaTerraEngine",
+      "file_type": "code",
+      "norm_label": ".setdangers()",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L103"
+    },
+    {
+      "id": "src_features_map_engine_novaterraengine_setdata",
+      "label": ".setData()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 67,
+      "community_name": "NovaTerraEngine",
+      "file_type": "code",
+      "norm_label": ".setdata()",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L97"
+    },
+    {
+      "id": "src_features_map_engine_novaterraengine_setlayers",
+      "label": ".setLayers()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 67,
+      "community_name": "NovaTerraEngine",
+      "file_type": "code",
+      "norm_label": ".setlayers()",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L98"
+    },
+    {
+      "id": "src_features_map_engine_novaterraengine_setpickmode",
+      "label": ".setPickMode()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 67,
+      "community_name": "NovaTerraEngine",
+      "file_type": "code",
+      "norm_label": ".setpickmode()",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L101"
+    },
+    {
+      "id": "src_features_map_engine_novaterraengine_setprefs",
+      "label": ".setPrefs()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 67,
+      "community_name": "NovaTerraEngine",
+      "file_type": "code",
+      "norm_label": ".setprefs()",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L109"
+    },
+    {
+      "id": "src_features_map_engine_novaterraengine_setreports",
+      "label": ".setReports()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 67,
+      "community_name": "NovaTerraEngine",
+      "file_type": "code",
+      "norm_label": ".setreports()",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L102"
+    },
+    {
+      "id": "src_features_map_engine_novaterraengine_setroute",
+      "label": ".setRoute()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 67,
+      "community_name": "NovaTerraEngine",
+      "file_type": "code",
+      "norm_label": ".setroute()",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L100"
+    },
+    {
+      "id": "src_features_map_engine_novaterraengine_toref",
+      "label": ".toRef()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 67,
+      "community_name": "NovaTerraEngine",
+      "file_type": "code",
+      "norm_label": ".toref()",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L114"
+    },
+    {
+      "id": "src_features_map_engine_novaterraengine_toworld",
+      "label": ".toWorld()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 67,
+      "community_name": "NovaTerraEngine",
+      "file_type": "code",
+      "norm_label": ".toworld()",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L113"
+    },
+    {
+      "id": "src_features_map_engine_novaterraengine_track",
+      "label": ".track()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 67,
+      "community_name": "NovaTerraEngine",
+      "file_type": "code",
+      "norm_label": ".track()",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L161"
+    },
+    {
+      "id": "src_features_map_engine_novaterraengine_vehicle",
+      "label": ".vehicle()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 67,
+      "community_name": "NovaTerraEngine",
+      "file_type": "code",
+      "norm_label": ".vehicle()",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L265"
+    },
+    {
+      "id": "src_features_map_engine_novaterraengine_visiblechain",
+      "label": ".visibleChain()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 67,
+      "community_name": "NovaTerraEngine",
+      "file_type": "code",
+      "norm_label": ".visiblechain()",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L137"
+    },
+    {
+      "id": "src_features_map_engine_reseed",
+      "label": "reseed()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 67,
+      "community_name": "NovaTerraEngine",
+      "file_type": "code",
+      "norm_label": "reseed()",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L26"
+    },
+    {
+      "id": "src_features_map_engine_rnd",
+      "label": "rnd()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 67,
+      "community_name": "NovaTerraEngine",
+      "file_type": "code",
+      "norm_label": "rnd()",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L25"
     },
     {
       "id": "src_components_confirm_dialog_confirmdialog",
@@ -7986,7 +8905,7 @@
       "file_type": "code",
       "norm_label": "assistanceproviders()",
       "source_file": "src/components/layout/root-layout.tsx",
-      "source_location": "L14"
+      "source_location": "L15"
     },
     {
       "id": "src_components_layout_root_layout_rootlayout",
@@ -7998,7 +8917,7 @@
       "file_type": "code",
       "norm_label": "rootlayout()",
       "source_file": "src/components/layout/root-layout.tsx",
-      "source_location": "L34"
+      "source_location": "L36"
     },
     {
       "id": "src_components_layout_root_layout_skiplink",
@@ -8010,7 +8929,7 @@
       "file_type": "code",
       "norm_label": "skiplink()",
       "source_file": "src/components/layout/root-layout.tsx",
-      "source_location": "L25"
+      "source_location": "L27"
     },
     {
       "id": "src_components_layout_site_header_headerlink",
@@ -8205,16 +9124,76 @@
       "source_location": "L15"
     },
     {
-      "id": "src_components_reveal_reveal",
-      "label": "Reveal()",
+      "id": "src_features_accessibility_theme_choice_dialog_choicekey",
+      "label": "choiceKey()",
       "_callable": true,
       "_origin": "ast",
       "community": 77,
-      "community_name": "reveal.tsx",
+      "community_name": "theme-choice-dialog.tsx",
       "file_type": "code",
-      "norm_label": "reveal()",
-      "source_file": "src/components/reveal.tsx",
-      "source_location": "L9"
+      "norm_label": "choicekey()",
+      "source_file": "src/features/accessibility/theme-choice-dialog.tsx",
+      "source_location": "L11"
+    },
+    {
+      "id": "src_features_accessibility_theme_choice_dialog_themechoicedialog",
+      "label": "ThemeChoiceDialog()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 77,
+      "community_name": "theme-choice-dialog.tsx",
+      "file_type": "code",
+      "norm_label": "themechoicedialog()",
+      "source_file": "src/features/accessibility/theme-choice-dialog.tsx",
+      "source_location": "L55"
+    },
+    {
+      "id": "src_features_accessibility_theme_choice_dialog_themechoiceforuser",
+      "label": "ThemeChoiceForUser()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 77,
+      "community_name": "theme-choice-dialog.tsx",
+      "file_type": "code",
+      "norm_label": "themechoiceforuser()",
+      "source_file": "src/features/accessibility/theme-choice-dialog.tsx",
+      "source_location": "L12"
+    },
+    {
+      "id": "src_features_map_map_filters_filtermapbuildings",
+      "label": "filterMapBuildings()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 78,
+      "community_name": "map-filters.tsx",
+      "file_type": "code",
+      "norm_label": "filtermapbuildings()",
+      "source_file": "src/features/map/map-filters.tsx",
+      "source_location": "L42"
+    },
+    {
+      "id": "src_features_map_map_filters_filtermapreports",
+      "label": "filterMapReports()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 78,
+      "community_name": "map-filters.tsx",
+      "file_type": "code",
+      "norm_label": "filtermapreports()",
+      "source_file": "src/features/map/map-filters.tsx",
+      "source_location": "L47"
+    },
+    {
+      "id": "src_features_map_map_filters_mapfilters",
+      "label": "MapFilters()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 78,
+      "community_name": "map-filters.tsx",
+      "file_type": "code",
+      "norm_label": "mapfilters()",
+      "source_file": "src/features/map/map-filters.tsx",
+      "source_location": "L74"
     },
     {
       "id": "src_components_ui_badge_badge",
@@ -8565,16 +9544,16 @@
       "source_location": "L18"
     },
     {
-      "id": "src_pages_templates_video_page_videopage",
-      "label": "VideoPage()",
+      "id": "src_components_home_get_started_getstarted",
+      "label": "GetStarted()",
       "_callable": true,
       "_origin": "ast",
       "community": 92,
-      "community_name": "video-page.tsx",
+      "community_name": "get-started.tsx",
       "file_type": "code",
-      "norm_label": "videopage()",
-      "source_file": "src/pages/templates/video-page.tsx",
-      "source_location": "L19"
+      "norm_label": "getstarted()",
+      "source_file": "src/components/home/get-started.tsx",
+      "source_location": "L21"
     },
     {
       "id": "e2e_global_setup_globalsetup",
@@ -10289,16 +11268,40 @@
       "source_location": "L1015"
     },
     {
-      "id": "ruleset_18_getting_help",
-      "label": "18. GETTING HELP",
+      "id": "ruleset_2_1_directory_mapping",
+      "label": "2.1 Directory Mapping",
       "_origin": "ast",
       "community": 115,
       "community_name": "AI Development Ruleset for Webcup 2026 Starter",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "18. getting help",
+      "norm_label": "2.1 directory mapping",
       "source_file": "RULESET.md",
-      "source_location": "L1027"
+      "source_location": "L37"
+    },
+    {
+      "id": "ruleset_2_2_path_alias",
+      "label": "2.2 Path Alias",
+      "_origin": "ast",
+      "community": 115,
+      "community_name": "AI Development Ruleset for Webcup 2026 Starter",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "2.2 path alias",
+      "source_file": "RULESET.md",
+      "source_location": "L105"
+    },
+    {
+      "id": "ruleset_2_file_structure_organization",
+      "label": "2. FILE STRUCTURE & ORGANIZATION",
+      "_origin": "ast",
+      "community": 115,
+      "community_name": "AI Development Ruleset for Webcup 2026 Starter",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "2. file structure & organization",
+      "source_file": "RULESET.md",
+      "source_location": "L35"
     },
     {
       "id": "ruleset_5_1_create_forms_with_react_hook_form_zod",
@@ -10325,52 +11328,52 @@
       "source_location": "L237"
     },
     {
-      "id": "ruleset_9_1_query_data_read",
-      "label": "9.1 Query Data (Read)",
+      "id": "ruleset_7_1_component_structure",
+      "label": "7.1 Component Structure",
       "_origin": "ast",
       "community": 115,
       "community_name": "AI Development Ruleset for Webcup 2026 Starter",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "9.1 query data (read)",
+      "norm_label": "7.1 component structure",
       "source_file": "RULESET.md",
-      "source_location": "L411"
+      "source_location": "L333"
     },
     {
-      "id": "ruleset_9_2_mutate_data_create_update_delete",
-      "label": "9.2 Mutate Data (Create/Update/Delete)",
+      "id": "ruleset_7_2_where_to_place_components",
+      "label": "7.2 Where to Place Components",
       "_origin": "ast",
       "community": 115,
       "community_name": "AI Development Ruleset for Webcup 2026 Starter",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "9.2 mutate data (create/update/delete)",
+      "norm_label": "7.2 where to place components",
       "source_file": "RULESET.md",
-      "source_location": "L437"
+      "source_location": "L354"
     },
     {
-      "id": "ruleset_9_3_existing_hooks_for_crud_items",
-      "label": "9.3 Existing Hooks for CRUD Items",
+      "id": "ruleset_7_3_props_pattern",
+      "label": "7.3 Props Pattern",
       "_origin": "ast",
       "community": 115,
       "community_name": "AI Development Ruleset for Webcup 2026 Starter",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "9.3 existing hooks for crud items",
+      "norm_label": "7.3 props pattern",
       "source_file": "RULESET.md",
-      "source_location": "L466"
+      "source_location": "L361"
     },
     {
-      "id": "ruleset_9_data_fetching_mutations",
-      "label": "9. DATA FETCHING & MUTATIONS",
+      "id": "ruleset_7_creating_new_components",
+      "label": "7. CREATING NEW COMPONENTS",
       "_origin": "ast",
       "community": 115,
       "community_name": "AI Development Ruleset for Webcup 2026 Starter",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "9. data fetching & mutations",
+      "norm_label": "7. creating new components",
       "source_file": "RULESET.md",
-      "source_location": "L409"
+      "source_location": "L331"
     },
     {
       "id": "ruleset_ai_development_ruleset_for_webcup_2026_starter",
@@ -10383,30 +11386,6 @@
       "norm_label": "ai development ruleset for webcup 2026 starter",
       "source_file": "RULESET.md",
       "source_location": "L1"
-    },
-    {
-      "id": "ruleset_check_these_files_first",
-      "label": "Check These Files First",
-      "_origin": "ast",
-      "community": 115,
-      "community_name": "AI Development Ruleset for Webcup 2026 Starter",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "check these files first",
-      "source_file": "RULESET.md",
-      "source_location": "L1029"
-    },
-    {
-      "id": "ruleset_run_these_commands",
-      "label": "Run These Commands",
-      "_origin": "ast",
-      "community": 115,
-      "community_name": "AI Development Ruleset for Webcup 2026 Starter",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "run these commands",
-      "source_file": "RULESET.md",
-      "source_location": "L1036"
     },
     {
       "id": "docs_requests_4_1_chatbot_texte_et_vocal",
@@ -13291,6 +14270,17 @@
       "source_location": "L1"
     },
     {
+      "id": "src_features_admin_services_manager_schedule_statuses",
+      "label": "SCHEDULE_STATUSES",
+      "_origin": "ast",
+      "community": 177,
+      "community_name": "services-manager.tsx",
+      "file_type": "code",
+      "norm_label": "schedule_statuses",
+      "source_file": "src/features/admin/services-manager.tsx",
+      "source_location": "L28"
+    },
+    {
       "id": "src_features_admin_services_manager_statuses",
       "label": "STATUSES",
       "_origin": "ast",
@@ -13299,7 +14289,7 @@
       "file_type": "code",
       "norm_label": "statuses",
       "source_file": "src/features/admin/services-manager.tsx",
-      "source_location": "L23"
+      "source_location": "L27"
     },
     {
       "id": "src_features_admin_services_manager_test",
@@ -13973,40 +14963,52 @@
       "source_location": "L1"
     },
     {
-      "id": "ruleset_2_1_directory_mapping",
-      "label": "2.1 Directory Mapping",
+      "id": "ruleset_9_1_query_data_read",
+      "label": "9.1 Query Data (Read)",
       "_origin": "ast",
       "community": 200,
-      "community_name": "2. FILE STRUCTURE & ORGANIZATION",
+      "community_name": "9. DATA FETCHING & MUTATIONS",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "2.1 directory mapping",
+      "norm_label": "9.1 query data (read)",
       "source_file": "RULESET.md",
-      "source_location": "L37"
+      "source_location": "L411"
     },
     {
-      "id": "ruleset_2_2_path_alias",
-      "label": "2.2 Path Alias",
+      "id": "ruleset_9_2_mutate_data_create_update_delete",
+      "label": "9.2 Mutate Data (Create/Update/Delete)",
       "_origin": "ast",
       "community": 200,
-      "community_name": "2. FILE STRUCTURE & ORGANIZATION",
+      "community_name": "9. DATA FETCHING & MUTATIONS",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "2.2 path alias",
+      "norm_label": "9.2 mutate data (create/update/delete)",
       "source_file": "RULESET.md",
-      "source_location": "L105"
+      "source_location": "L437"
     },
     {
-      "id": "ruleset_2_file_structure_organization",
-      "label": "2. FILE STRUCTURE & ORGANIZATION",
+      "id": "ruleset_9_3_existing_hooks_for_crud_items",
+      "label": "9.3 Existing Hooks for CRUD Items",
       "_origin": "ast",
       "community": 200,
-      "community_name": "2. FILE STRUCTURE & ORGANIZATION",
+      "community_name": "9. DATA FETCHING & MUTATIONS",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "2. file structure & organization",
+      "norm_label": "9.3 existing hooks for crud items",
       "source_file": "RULESET.md",
-      "source_location": "L35"
+      "source_location": "L466"
+    },
+    {
+      "id": "ruleset_9_data_fetching_mutations",
+      "label": "9. DATA FETCHING & MUTATIONS",
+      "_origin": "ast",
+      "community": 200,
+      "community_name": "9. DATA FETCHING & MUTATIONS",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "9. data fetching & mutations",
+      "source_file": "RULESET.md",
+      "source_location": "L409"
     },
     {
       "id": "src_features_agent_sync_queries",
@@ -14155,7 +15157,7 @@
       "file_type": "code",
       "norm_label": "demo_admin",
       "source_file": "src/features/auth/auth-provider.tsx",
-      "source_location": "L29"
+      "source_location": "L30"
     },
     {
       "id": "src_features_auth_auth_provider_demo_user",
@@ -14166,7 +15168,7 @@
       "file_type": "code",
       "norm_label": "demo_user",
       "source_file": "src/features/auth/auth-provider.tsx",
-      "source_location": "L19"
+      "source_location": "L20"
     },
     {
       "id": "src_features_services_facilities_manager",
@@ -14351,15 +15353,26 @@
       "source_location": "L1"
     },
     {
-      "id": "src_components_animated_transition_link",
-      "label": "transition-link.tsx",
+      "id": "src_features_services_service_availability",
+      "label": "service-availability.ts",
       "_origin": "ast",
       "community": 218,
-      "community_name": "transition-link.tsx",
+      "community_name": "service-availability.ts",
       "file_type": "code",
-      "norm_label": "transition-link.tsx",
-      "source_file": "src/components/animated/transition-link.tsx",
+      "norm_label": "service-availability.ts",
+      "source_file": "src/features/services/service-availability.ts",
       "source_location": "L1"
+    },
+    {
+      "id": "src_features_services_service_availability_day_aliases",
+      "label": "DAY_ALIASES",
+      "_origin": "ast",
+      "community": 218,
+      "community_name": "service-availability.ts",
+      "file_type": "code",
+      "norm_label": "day_aliases",
+      "source_file": "src/features/services/service-availability.ts",
+      "source_location": "L35"
     },
     {
       "id": "docs_plan_4_1_the_city",
@@ -14630,14 +15643,14 @@
       "source_location": "L1"
     },
     {
-      "id": "src_components_ui_breadcrumb",
-      "label": "breadcrumb.tsx",
+      "id": "src_features_map_hologram_map",
+      "label": "hologram-map.tsx",
       "_origin": "ast",
       "community": 223,
-      "community_name": "breadcrumb.tsx",
+      "community_name": "hologram-map.tsx",
       "file_type": "code",
-      "norm_label": "breadcrumb.tsx",
-      "source_file": "src/components/ui/breadcrumb.tsx",
+      "norm_label": "hologram-map.tsx",
+      "source_file": "src/features/map/hologram-map.tsx",
       "source_location": "L1"
     },
     {
@@ -14916,6 +15929,17 @@
       "source_location": "L50"
     },
     {
+      "id": "hologram_map",
+      "label": "@/features/map/hologram-map",
+      "_origin": "ast",
+      "community": 234,
+      "community_name": "map/map-page.tsx",
+      "confidence": "EXTRACTED",
+      "file_type": "code",
+      "norm_label": "@/features/map/hologram-map",
+      "source_file": "@/features/map/hologram-map"
+    },
+    {
       "id": "src_features_map_map_page",
       "label": "map/map-page.tsx",
       "_origin": "ast",
@@ -14927,13 +15951,13 @@
       "source_location": "L1"
     },
     {
-      "id": "src_features_map_map_page_dangerous",
-      "label": "DANGEROUS",
+      "id": "src_features_map_map_page_hologrammap",
+      "label": "HologramMap",
       "_origin": "ast",
       "community": 234,
       "community_name": "map/map-page.tsx",
       "file_type": "code",
-      "norm_label": "dangerous",
+      "norm_label": "hologrammap",
       "source_file": "src/features/map/map-page.tsx",
       "source_location": "L24"
     },
@@ -15001,29 +16025,18 @@
       "file_type": "code",
       "norm_label": "facility_map_layers",
       "source_file": "src/features/services/service-detail-page.tsx",
-      "source_location": "L22"
+      "source_location": "L26"
     },
     {
-      "id": "src_pages_templates_animations_page",
-      "label": "animations-page.tsx",
+      "id": "src_features_services_service_appointments",
+      "label": "service-appointments.tsx",
       "_origin": "ast",
       "community": 238,
-      "community_name": "animations-page.tsx",
+      "community_name": "service-appointments.tsx",
       "file_type": "code",
-      "norm_label": "animations-page.tsx",
-      "source_file": "src/pages/templates/animations-page.tsx",
+      "norm_label": "service-appointments.tsx",
+      "source_file": "src/features/services/service-appointments.tsx",
       "source_location": "L1"
-    },
-    {
-      "id": "src_pages_templates_animations_page_tags",
-      "label": "tags",
-      "_origin": "ast",
-      "community": 238,
-      "community_name": "animations-page.tsx",
-      "file_type": "code",
-      "norm_label": "tags",
-      "source_file": "src/pages/templates/animations-page.tsx",
-      "source_location": "L17"
     },
     {
       "id": "src_components_home_cloud_layer",
@@ -15070,47 +16083,61 @@
       "source_location": "L9"
     },
     {
-      "id": "package_devdependencies_playwright_test",
-      "label": "@playwright/test",
+      "id": "ruleset_18_getting_help",
+      "label": "18. GETTING HELP",
       "_origin": "ast",
       "community": 240,
-      "community_name": "@playwright/test",
-      "file_type": "code",
-      "norm_label": "@playwright/test",
-      "source_file": "package.json",
-      "source_location": "L33"
+      "community_name": "18. GETTING HELP",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "18. getting help",
+      "source_file": "RULESET.md",
+      "source_location": "L1027"
     },
     {
-      "id": "playwright_test",
-      "label": "@playwright/test",
+      "id": "ruleset_check_these_files_first",
+      "label": "Check These Files First",
       "_origin": "ast",
       "community": 240,
-      "community_name": "@playwright/test",
-      "file_type": "concept",
-      "norm_label": "@playwright/test",
-      "source_file": "package.json",
-      "source_location": "L33"
+      "community_name": "18. GETTING HELP",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "check these files first",
+      "source_file": "RULESET.md",
+      "source_location": "L1029"
     },
     {
-      "id": "src_components_home_get_started",
-      "label": "get-started.tsx",
+      "id": "ruleset_run_these_commands",
+      "label": "Run These Commands",
+      "_origin": "ast",
+      "community": 240,
+      "community_name": "18. GETTING HELP",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "run these commands",
+      "source_file": "RULESET.md",
+      "source_location": "L1036"
+    },
+    {
+      "id": "src_features_map_map_detail_panel",
+      "label": "map-detail-panel.tsx",
       "_origin": "ast",
       "community": 241,
-      "community_name": "get-started.tsx",
+      "community_name": "map-detail-panel.tsx",
       "file_type": "code",
-      "norm_label": "get-started.tsx",
-      "source_file": "src/components/home/get-started.tsx",
+      "norm_label": "map-detail-panel.tsx",
+      "source_file": "src/features/map/map-detail-panel.tsx",
       "source_location": "L1"
     },
     {
-      "id": "src_components_lightbox",
-      "label": "lightbox.tsx",
+      "id": "src_components_layout_application_layout",
+      "label": "application-layout.tsx",
       "_origin": "ast",
       "community": 242,
-      "community_name": "lightbox.tsx",
+      "community_name": "application-layout.tsx",
       "file_type": "code",
-      "norm_label": "lightbox.tsx",
-      "source_file": "src/components/lightbox.tsx",
+      "norm_label": "application-layout.tsx",
+      "source_file": "src/components/layout/application-layout.tsx",
       "source_location": "L1"
     },
     {
@@ -15136,26 +16163,26 @@
       "source_location": "L43"
     },
     {
-      "id": "package_devdependencies_jsdom",
-      "label": "jsdom",
+      "id": "package_devdependencies_supabase",
+      "label": "supabase",
       "_origin": "ast",
       "community": 244,
-      "community_name": "jsdom",
+      "community_name": "supabase",
       "file_type": "code",
-      "norm_label": "jsdom",
+      "norm_label": "supabase",
       "source_file": "package.json",
-      "source_location": "L44"
+      "source_location": "L46"
     },
     {
-      "id": "jsdom",
-      "label": "jsdom",
+      "id": "supabase",
+      "label": "supabase",
       "_origin": "ast",
       "community": 244,
-      "community_name": "jsdom",
+      "community_name": "supabase",
       "file_type": "concept",
-      "norm_label": "jsdom",
+      "norm_label": "supabase",
       "source_file": "package.json",
-      "source_location": "L44"
+      "source_location": "L46"
     },
     {
       "id": "src_components_home_navbar",
@@ -15169,26 +16196,26 @@
       "source_location": "L1"
     },
     {
-      "id": "package_devdependencies_supabase",
-      "label": "supabase",
+      "id": "package_devdependencies_playwright_test",
+      "label": "@playwright/test",
       "_origin": "ast",
       "community": 246,
-      "community_name": "supabase",
+      "community_name": "@playwright/test",
       "file_type": "code",
-      "norm_label": "supabase",
+      "norm_label": "@playwright/test",
       "source_file": "package.json",
-      "source_location": "L46"
+      "source_location": "L33"
     },
     {
-      "id": "supabase",
-      "label": "supabase",
+      "id": "playwright_test",
+      "label": "@playwright/test",
       "_origin": "ast",
       "community": 246,
-      "community_name": "supabase",
+      "community_name": "@playwright/test",
       "file_type": "concept",
-      "norm_label": "supabase",
+      "norm_label": "@playwright/test",
       "source_file": "package.json",
-      "source_location": "L46"
+      "source_location": "L33"
     },
     {
       "id": "src_features_alerts_heatwave_guidance_test",
@@ -15199,6 +16226,17 @@
       "file_type": "code",
       "norm_label": "heatwave-guidance.test.ts",
       "source_file": "src/features/alerts/heatwave-guidance.test.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_components_ui_breadcrumb",
+      "label": "breadcrumb.tsx",
+      "_origin": "ast",
+      "community": 248,
+      "community_name": "breadcrumb.tsx",
+      "file_type": "code",
+      "norm_label": "breadcrumb.tsx",
+      "source_file": "src/components/ui/breadcrumb.tsx",
       "source_location": "L1"
     },
     {
@@ -15232,6 +16270,116 @@
       "file_type": "code",
       "norm_label": "slider.tsx",
       "source_file": "src/components/ui/slider.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_features_agent_agent_team_page",
+      "label": "agent-team-page.tsx",
+      "_origin": "ast",
+      "community": 251,
+      "community_name": "agent-team-page.tsx",
+      "file_type": "code",
+      "norm_label": "agent-team-page.tsx",
+      "source_file": "src/features/agent/agent-team-page.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_features_map_map_filters_test",
+      "label": "map-filters.test.ts",
+      "_origin": "ast",
+      "community": 252,
+      "community_name": "map-filters.test.ts",
+      "file_type": "code",
+      "norm_label": "map-filters.test.ts",
+      "source_file": "src/features/map/map-filters.test.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_features_notifications_notifications_menu",
+      "label": "notifications-menu.tsx",
+      "_origin": "ast",
+      "community": 253,
+      "community_name": "notifications-menu.tsx",
+      "file_type": "code",
+      "norm_label": "notifications-menu.tsx",
+      "source_file": "src/features/notifications/notifications-menu.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_components_reveal",
+      "label": "reveal.tsx",
+      "_origin": "ast",
+      "community": 254,
+      "community_name": "reveal.tsx",
+      "file_type": "code",
+      "norm_label": "reveal.tsx",
+      "source_file": "src/components/reveal.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_components_ui_progress",
+      "label": "progress.tsx",
+      "_origin": "ast",
+      "community": 255,
+      "community_name": "progress.tsx",
+      "file_type": "code",
+      "norm_label": "progress.tsx",
+      "source_file": "src/components/ui/progress.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_pages_templates_video_page",
+      "label": "video-page.tsx",
+      "_origin": "ast",
+      "community": 256,
+      "community_name": "video-page.tsx",
+      "file_type": "code",
+      "norm_label": "video-page.tsx",
+      "source_file": "src/pages/templates/video-page.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_pages_templates_video_page_clips",
+      "label": "CLIPS",
+      "_origin": "ast",
+      "community": 256,
+      "community_name": "video-page.tsx",
+      "file_type": "code",
+      "norm_label": "clips",
+      "source_file": "src/pages/templates/video-page.tsx",
+      "source_location": "L17"
+    },
+    {
+      "id": "package_devdependencies_jsdom",
+      "label": "jsdom",
+      "_origin": "ast",
+      "community": 257,
+      "community_name": "jsdom",
+      "file_type": "code",
+      "norm_label": "jsdom",
+      "source_file": "package.json",
+      "source_location": "L44"
+    },
+    {
+      "id": "jsdom",
+      "label": "jsdom",
+      "_origin": "ast",
+      "community": 257,
+      "community_name": "jsdom",
+      "file_type": "concept",
+      "norm_label": "jsdom",
+      "source_file": "package.json",
+      "source_location": "L44"
+    },
+    {
+      "id": "src_features_services_service_availability_test",
+      "label": "service-availability.test.ts",
+      "_origin": "ast",
+      "community": 258,
+      "community_name": "service-availability.test.ts",
+      "file_type": "code",
+      "norm_label": "service-availability.test.ts",
+      "source_file": "src/features/services/service-availability.test.ts",
       "source_location": "L1"
     },
     {
@@ -15378,6 +16526,17 @@
       "source_location": "L1"
     },
     {
+      "id": "src_components_animated_transition_link",
+      "label": "transition-link.tsx",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "transition-link.tsx",
+      "source_file": "src/components/animated/transition-link.tsx",
+      "source_location": "L1"
+    },
+    {
       "id": "src_components_charts_sparkline",
       "label": "sparkline.tsx",
       "_origin": "ast",
@@ -15400,17 +16559,6 @@
       "source_location": "L1"
     },
     {
-      "id": "src_components_layout_application_layout",
-      "label": "application-layout.tsx",
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "application-layout.tsx",
-      "source_file": "src/components/layout/application-layout.tsx",
-      "source_location": "L1"
-    },
-    {
       "id": "src_components_layout_container",
       "label": "container.tsx",
       "_origin": "ast",
@@ -15419,6 +16567,17 @@
       "file_type": "code",
       "norm_label": "container.tsx",
       "source_file": "src/components/layout/container.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_components_lightbox",
+      "label": "lightbox.tsx",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "lightbox.tsx",
+      "source_file": "src/components/lightbox.tsx",
       "source_location": "L1"
     },
     {
@@ -15510,6 +16669,17 @@
       "source_location": "L1"
     },
     {
+      "id": "src_features_accessibility_floating_accessibility_controls",
+      "label": "floating-accessibility-controls.tsx",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "floating-accessibility-controls.tsx",
+      "source_file": "src/features/accessibility/floating-accessibility-controls.tsx",
+      "source_location": "L1"
+    },
+    {
       "id": "src_features_agent_agent_requests_page",
       "label": "agent-requests-page.tsx",
       "_origin": "ast",
@@ -15518,17 +16688,6 @@
       "file_type": "code",
       "norm_label": "agent-requests-page.tsx",
       "source_file": "src/features/agent/agent-requests-page.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_features_agent_agent_team_page",
-      "label": "agent-team-page.tsx",
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "agent-team-page.tsx",
-      "source_file": "src/features/agent/agent-team-page.tsx",
       "source_location": "L1"
     },
     {
@@ -15584,17 +16743,6 @@
       "file_type": "code",
       "norm_label": "news-page.tsx",
       "source_file": "src/features/news/news-page.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_features_notifications_notifications_menu",
-      "label": "notifications-menu.tsx",
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "notifications-menu.tsx",
-      "source_file": "src/features/notifications/notifications-menu.tsx",
       "source_location": "L1"
     },
     {
@@ -15706,6 +16854,28 @@
       "norm_label": "settings-page.tsx",
       "source_file": "src/pages/app/settings-page.tsx",
       "source_location": "L1"
+    },
+    {
+      "id": "src_pages_templates_animations_page",
+      "label": "animations-page.tsx",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "animations-page.tsx",
+      "source_file": "src/pages/templates/animations-page.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_pages_templates_animations_page_tags",
+      "label": "tags",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "tags",
+      "source_file": "src/pages/templates/animations-page.tsx",
+      "source_location": "L17"
     },
     {
       "id": "ref_react",
@@ -15837,7 +17007,7 @@
       "file_type": "code",
       "norm_label": "emergency_contacts",
       "source_file": "src/pages/home-page.tsx",
-      "source_location": "L23"
+      "source_location": "L26"
     },
     {
       "id": "src_pages_home_page_home_hero_default",
@@ -15848,7 +17018,7 @@
       "file_type": "code",
       "norm_label": "home_hero_default",
       "source_file": "src/pages/home-page.tsx",
-      "source_location": "L20"
+      "source_location": "L23"
     },
     {
       "id": "src_pages_site_pages",
@@ -16431,7 +17601,7 @@
       "file_type": "code",
       "norm_label": "themecontext",
       "source_file": "src/components/theme-context.ts",
-      "source_location": "L22"
+      "source_location": "L23"
     },
     {
       "id": "src_components_ui_accordion",
@@ -17860,7 +19030,7 @@
       "file_type": "code",
       "norm_label": "queryclient",
       "source_file": "src/app/providers.tsx",
-      "source_location": "L11"
+      "source_location": "L12"
     },
     {
       "id": "src_components_animated_text_reveal",
@@ -17874,15 +19044,81 @@
       "source_location": "L1"
     },
     {
-      "id": "src_components_ui_progress",
-      "label": "progress.tsx",
+      "id": "src_features_map_engine",
+      "label": "engine.ts",
       "_origin": "ast",
       "community": 67,
-      "community_name": "progress.tsx",
+      "community_name": "NovaTerraEngine",
       "file_type": "code",
-      "norm_label": "progress.tsx",
-      "source_file": "src/components/ui/progress.tsx",
+      "norm_label": "engine.ts",
+      "source_file": "src/features/map/engine.ts",
       "source_location": "L1"
+    },
+    {
+      "id": "src_features_map_engine_empty",
+      "label": "EMPTY",
+      "_origin": "ast",
+      "community": 67,
+      "community_name": "NovaTerraEngine",
+      "file_type": "code",
+      "norm_label": "empty",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L22"
+    },
+    {
+      "id": "src_features_map_engine_lines",
+      "label": "LINES",
+      "_origin": "ast",
+      "community": 67,
+      "community_name": "NovaTerraEngine",
+      "file_type": "code",
+      "norm_label": "lines",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L33"
+    },
+    {
+      "id": "src_features_map_engine_s3",
+      "label": "S3",
+      "_origin": "ast",
+      "community": 67,
+      "community_name": "NovaTerraEngine",
+      "file_type": "code",
+      "norm_label": "s3",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L27"
+    },
+    {
+      "id": "src_features_map_engine_sev",
+      "label": "SEV",
+      "_origin": "ast",
+      "community": 67,
+      "community_name": "NovaTerraEngine",
+      "file_type": "code",
+      "norm_label": "sev",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L29"
+    },
+    {
+      "id": "src_features_map_engine_st",
+      "label": "ST",
+      "_origin": "ast",
+      "community": 67,
+      "community_name": "NovaTerraEngine",
+      "file_type": "code",
+      "norm_label": "st",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L30"
+    },
+    {
+      "id": "src_features_map_engine_vd",
+      "label": "VD",
+      "_origin": "ast",
+      "community": 67,
+      "community_name": "NovaTerraEngine",
+      "file_type": "code",
+      "norm_label": "vd",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L31"
     },
     {
       "id": "docs_requests_3_cahier_des_charges_par_entr\u00e9e_de_la_todo_list",
@@ -18744,7 +19980,7 @@
       "file_type": "code",
       "norm_label": "auth_routes",
       "source_file": "src/components/layout/root-layout.tsx",
-      "source_location": "L11"
+      "source_location": "L12"
     },
     {
       "id": "src_components_layout_site_header",
@@ -18824,63 +20060,48 @@
       "source_location": "L1"
     },
     {
-      "id": "src_components_reveal",
-      "label": "reveal.tsx",
+      "id": "src_features_accessibility_theme_choice_dialog",
+      "label": "theme-choice-dialog.tsx",
       "_origin": "ast",
       "community": 77,
-      "community_name": "reveal.tsx",
+      "community_name": "theme-choice-dialog.tsx",
       "file_type": "code",
-      "norm_label": "reveal.tsx",
-      "source_file": "src/components/reveal.tsx",
+      "norm_label": "theme-choice-dialog.tsx",
+      "source_file": "src/features/accessibility/theme-choice-dialog.tsx",
       "source_location": "L1"
     },
     {
-      "id": "ruleset_7_1_component_structure",
-      "label": "7.1 Component Structure",
+      "id": "src_features_map_map_filters",
+      "label": "map-filters.tsx",
       "_origin": "ast",
       "community": 78,
-      "community_name": "7. CREATING NEW COMPONENTS",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "7.1 component structure",
-      "source_file": "RULESET.md",
-      "source_location": "L333"
+      "community_name": "map-filters.tsx",
+      "file_type": "code",
+      "norm_label": "map-filters.tsx",
+      "source_file": "src/features/map/map-filters.tsx",
+      "source_location": "L1"
     },
     {
-      "id": "ruleset_7_2_where_to_place_components",
-      "label": "7.2 Where to Place Components",
+      "id": "src_features_map_map_filters_building_status_values",
+      "label": "BUILDING_STATUS_VALUES",
       "_origin": "ast",
       "community": 78,
-      "community_name": "7. CREATING NEW COMPONENTS",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "7.2 where to place components",
-      "source_file": "RULESET.md",
-      "source_location": "L354"
+      "community_name": "map-filters.tsx",
+      "file_type": "code",
+      "norm_label": "building_status_values",
+      "source_file": "src/features/map/map-filters.tsx",
+      "source_location": "L58"
     },
     {
-      "id": "ruleset_7_3_props_pattern",
-      "label": "7.3 Props Pattern",
+      "id": "src_features_map_map_filters_default_filters",
+      "label": "DEFAULT_FILTERS",
       "_origin": "ast",
       "community": 78,
-      "community_name": "7. CREATING NEW COMPONENTS",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "7.3 props pattern",
-      "source_file": "RULESET.md",
-      "source_location": "L361"
-    },
-    {
-      "id": "ruleset_7_creating_new_components",
-      "label": "7. CREATING NEW COMPONENTS",
-      "_origin": "ast",
-      "community": 78,
-      "community_name": "7. CREATING NEW COMPONENTS",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "7. creating new components",
-      "source_file": "RULESET.md",
-      "source_location": "L331"
+      "community_name": "map-filters.tsx",
+      "file_type": "code",
+      "norm_label": "default_filters",
+      "source_file": "src/features/map/map-filters.tsx",
+      "source_location": "L27"
     },
     {
       "id": "src_components_ui_badge",
@@ -19565,26 +20786,15 @@
       "source_location": "L12"
     },
     {
-      "id": "src_pages_templates_video_page",
-      "label": "video-page.tsx",
+      "id": "src_components_home_get_started",
+      "label": "get-started.tsx",
       "_origin": "ast",
       "community": 92,
-      "community_name": "video-page.tsx",
+      "community_name": "get-started.tsx",
       "file_type": "code",
-      "norm_label": "video-page.tsx",
-      "source_file": "src/pages/templates/video-page.tsx",
+      "norm_label": "get-started.tsx",
+      "source_file": "src/components/home/get-started.tsx",
       "source_location": "L1"
-    },
-    {
-      "id": "src_pages_templates_video_page_clips",
-      "label": "CLIPS",
-      "_origin": "ast",
-      "community": 92,
-      "community_name": "video-page.tsx",
-      "file_type": "code",
-      "norm_label": "clips",
-      "source_file": "src/pages/templates/video-page.tsx",
-      "source_location": "L17"
     },
     {
       "id": "src_vite_env_d",
@@ -20185,7 +21395,7 @@
       "node_kind": "heading",
       "norm_label": "diffusion des alertes canicule",
       "source_file": "docs/SUPABASE.md",
-      "source_location": "L73"
+      "source_location": "L74"
     },
     {
       "id": "docs_supabase_donner_le_r\u00f4le_administrateur_\u00e0_un_compte",
@@ -20221,7 +21431,7 @@
       "node_kind": "heading",
       "norm_label": "etablissements associes aux services",
       "source_file": "docs/SUPABASE.md",
-      "source_location": "L94"
+      "source_location": "L95"
     },
     {
       "id": "route_error_boundary",
@@ -21103,6 +22313,18 @@
       "weight": 1.0
     },
     {
+      "source": "src_features_accessibility_theme_choice_dialog_themechoiceforuser",
+      "target": "src_features_accessibility_theme_choice_dialog_choicekey",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/features/accessibility/theme-choice-dialog.tsx",
+      "source_location": "L15",
+      "weight": 1.0
+    },
+    {
       "source": "src_features_admin_admin_extra_pages_adminauditpage",
       "target": "src_features_admin_admin_extra_pages_changedkeys",
       "relation": "calls",
@@ -21176,6 +22398,18 @@
     },
     {
       "source": "src_features_admin_services_manager_servicedialog",
+      "target": "src_features_admin_services_manager_tolocaldatetimeinput",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/features/admin/services-manager.tsx",
+      "source_location": "L115",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_admin_services_manager_servicedialog",
       "target": "src_features_admin_services_manager_publicationpatch",
       "relation": "calls",
       "_origin": "ast",
@@ -21183,7 +22417,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/features/admin/services-manager.tsx",
-      "source_location": "L118",
+      "source_location": "L126",
       "weight": 1.0
     },
     {
@@ -21207,7 +22441,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/features/auth/auth-provider.tsx",
-      "source_location": "L107",
+      "source_location": "L109",
       "weight": 1.0
     },
     {
@@ -21219,7 +22453,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/features/auth/auth-provider.tsx",
-      "source_location": "L121",
+      "source_location": "L124",
       "weight": 1.0
     },
     {
@@ -21231,7 +22465,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/features/auth/auth-provider.tsx",
-      "source_location": "L135",
+      "source_location": "L138",
       "weight": 1.0
     },
     {
@@ -21243,7 +22477,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/features/auth/auth-provider.tsx",
-      "source_location": "L190",
+      "source_location": "L195",
       "weight": 1.0
     },
     {
@@ -21715,6 +22949,690 @@
       "weight": 1.0
     },
     {
+      "source": "src_features_map_engine_novaterraengine_buildcity",
+      "target": "src_features_map_engine_reseed",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L219",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine_buildcity",
+      "target": "src_features_map_engine_clear",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L220",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine_buildcity",
+      "target": "src_features_map_engine_novaterraengine_holo",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L225",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine_buildcity",
+      "target": "src_features_map_engine_hx",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L226",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine_buildcity",
+      "target": "src_features_map_engine_rnd",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L227",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine_buildcity",
+      "target": "src_features_map_engine_novaterraengine_building",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L243",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine_buildcity",
+      "target": "src_features_map_engine_novaterraengine_mark",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L244",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine_buildcity",
+      "target": "src_features_map_engine_neon",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L245",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine_buildcity",
+      "target": "src_features_map_engine_novaterraengine_label",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L246",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine_buildcity",
+      "target": "src_features_map_engine_novaterraengine_vehicle",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L254",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine_buildcity",
+      "target": "src_features_map_engine_novaterraengine_glow",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L262",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine_buildcity",
+      "target": "src_features_map_engine_novaterraengine_applylayers",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L263",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine_builddanger",
+      "target": "src_features_map_engine_clear",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L292",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine_builddanger",
+      "target": "src_features_map_engine_neon",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L296",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine_builddanger",
+      "target": "src_features_map_engine_novaterraengine_applylayers",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L296",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine_building",
+      "target": "src_features_map_engine_novaterraengine_holo",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L203",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine_building",
+      "target": "src_features_map_engine_novaterraengine_glow",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L208",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine_building",
+      "target": "src_features_map_engine_neon",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L212",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine_buildreports",
+      "target": "src_features_map_engine_reseed",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L271",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine_buildreports",
+      "target": "src_features_map_engine_clear",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L272",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine_buildreports",
+      "target": "src_features_map_engine_novaterraengine_toworld",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L273",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine_buildreports",
+      "target": "src_features_map_engine_neon",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L275",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine_buildreports",
+      "target": "src_features_map_engine_novaterraengine_mark",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L287",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine_buildreports",
+      "target": "src_features_map_engine_rnd",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L287",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine_buildreports",
+      "target": "src_features_map_engine_novaterraengine_applylayers",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L288",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine_buildstatic",
+      "target": "src_features_map_engine_reseed",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L173",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine_buildstatic",
+      "target": "src_features_map_engine_rnd",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L175",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine_buildstatic",
+      "target": "src_features_map_engine_hx",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L180",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine_buildstatic",
+      "target": "src_features_map_engine_novaterraengine_holo",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L183",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine_buildstatic",
+      "target": "src_features_map_engine_neon",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L190",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine_buildstatic",
+      "target": "src_features_map_engine_novaterraengine_glow",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L199",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine_click",
+      "target": "src_features_map_engine_novaterraengine_hit",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L150",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine_click",
+      "target": "src_features_map_engine_novaterraengine_toref",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L151",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine_click",
+      "target": "src_features_map_engine_novaterraengine_select",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L153",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine_constructor",
+      "target": "src_features_map_engine_keep",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L77",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine_constructor",
+      "target": "src_features_map_engine_rnd",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L80",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine_constructor",
+      "target": "src_features_map_engine_neon",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L87",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine_constructor",
+      "target": "src_features_map_engine_novaterraengine_buildstatic",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L88",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine_constructor",
+      "target": "src_features_map_engine_novaterraengine_hit",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L91",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine_constructor",
+      "target": "src_features_map_engine_novaterraengine_click",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L92",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine_constructor",
+      "target": "src_features_map_engine_novaterraengine_loop",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L94",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine_drawroute",
+      "target": "src_features_map_engine_clear",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L299",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine_drawroute",
+      "target": "src_features_map_engine_neon",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L301",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine_drawroute",
+      "target": "src_features_map_engine_novaterraengine_glow",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L301",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine_hit",
+      "target": "src_features_map_engine_novaterraengine_visiblechain",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L142",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine_loop",
+      "target": "src_features_map_engine_novaterraengine_track",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L315",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine_setdanger",
+      "target": "src_features_map_engine_novaterraengine_builddanger",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L99",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine_setdangers",
+      "target": "src_features_map_engine_novaterraengine_builddanger",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L103",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine_setdata",
+      "target": "src_features_map_engine_novaterraengine_buildcity",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L97",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine_setdata",
+      "target": "src_features_map_engine_novaterraengine_builddanger",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L97",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine_setdata",
+      "target": "src_features_map_engine_novaterraengine_buildreports",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L97",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine_setdata",
+      "target": "src_features_map_engine_novaterraengine_drawroute",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L97",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine_setlayers",
+      "target": "src_features_map_engine_novaterraengine_applylayers",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L98",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine_setreports",
+      "target": "src_features_map_engine_novaterraengine_buildreports",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L102",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine_setroute",
+      "target": "src_features_map_engine_novaterraengine_drawroute",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L100",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine_vehicle",
+      "target": "src_features_map_engine_neon",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L266",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine_vehicle",
+      "target": "src_features_map_engine_novaterraengine_glow",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L267",
+      "weight": 1.0
+    },
+    {
       "source": "src_features_map_hex_findroute",
       "target": "src_features_map_hex_isbuildingopen",
       "relation": "calls",
@@ -21772,6 +23690,18 @@
       "context": "call",
       "source_file": "src/features/map/hex.ts",
       "source_location": "L38",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_hologram_map_hologrammap",
+      "target": "src_features_map_hologram_map_clamp",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/features/map/hologram-map.tsx",
+      "source_location": "L73",
       "weight": 1.0
     },
     {
@@ -21868,6 +23798,42 @@
       "context": "call",
       "source_file": "src/features/services/hours.ts",
       "source_location": "L31",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_services_service_appointments_serviceappointmentcalendar",
+      "target": "src_features_services_service_appointments_describeappointmenttime",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/features/services/service-appointments.tsx",
+      "source_location": "L119",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_services_service_appointments_serviceappointmentcalendar",
+      "target": "src_features_services_service_appointments_localdate",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/features/services/service-appointments.tsx",
+      "source_location": "L39",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_services_service_availability_isunexpectedserviceclosure",
+      "target": "src_features_services_service_availability_effectiveservicestatus",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/features/services/service-availability.ts",
+      "source_location": "L22",
       "weight": 1.0
     },
     {
@@ -25819,6 +27785,30 @@
       "weight": 1.0
     },
     {
+      "source": "src_features_accessibility_floating_accessibility_controls",
+      "target": "ref_react",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/features/accessibility/floating-accessibility-controls.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_accessibility_theme_choice_dialog",
+      "target": "ref_react",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/features/accessibility/theme-choice-dialog.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
       "source": "src_features_admin_admin_extra_pages",
       "target": "ref_react",
       "relation": "imports_from",
@@ -26251,6 +28241,18 @@
       "weight": 1.0
     },
     {
+      "source": "src_features_map_hologram_map",
+      "target": "ref_react",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/features/map/hologram-map.tsx",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
       "source": "src_features_map_map_editor_page",
       "target": "ref_react",
       "relation": "imports_from",
@@ -26500,6 +28502,18 @@
       "context": "import",
       "source_file": "src/features/services/hours.test.ts",
       "source_location": "L3",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_services_service_appointments",
+      "target": "ref_react",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "src/features/services/service-appointments.tsx",
+      "source_location": "L1",
       "weight": 1.0
     },
     {
@@ -29277,7 +31291,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "docs/SUPABASE.md",
-      "source_location": "L94",
+      "source_location": "L95",
       "weight": 1.0
     },
     {
@@ -29288,7 +31302,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "docs/SUPABASE.md",
-      "source_location": "L73",
+      "source_location": "L74",
       "weight": 1.0
     },
     {
@@ -31279,7 +33293,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/app/providers.tsx",
-      "source_location": "L11",
+      "source_location": "L12",
       "weight": 1.0
     },
     {
@@ -31290,7 +33304,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/app/providers.tsx",
-      "source_location": "L17",
+      "source_location": "L18",
       "weight": 1.0
     },
     {
@@ -31972,7 +33986,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/layout/root-layout.tsx",
-      "source_location": "L11",
+      "source_location": "L12",
       "weight": 1.0
     },
     {
@@ -31983,7 +33997,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/layout/root-layout.tsx",
-      "source_location": "L14",
+      "source_location": "L15",
       "weight": 1.0
     },
     {
@@ -31994,7 +34008,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/layout/root-layout.tsx",
-      "source_location": "L25",
+      "source_location": "L27",
       "weight": 1.0
     },
     {
@@ -32005,7 +34019,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/layout/root-layout.tsx",
-      "source_location": "L34",
+      "source_location": "L36",
       "weight": 1.0
     },
     {
@@ -32478,7 +34492,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/theme-context.ts",
-      "source_location": "L22",
+      "source_location": "L23",
       "weight": 1.0
     },
     {
@@ -32489,7 +34503,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/theme-context.ts",
-      "source_location": "L24",
+      "source_location": "L25",
       "weight": 1.0
     },
     {
@@ -33512,7 +35526,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/features/accessibility/accessibility-panel.tsx",
-      "source_location": "L43",
+      "source_location": "L42",
       "weight": 1.0
     },
     {
@@ -33523,7 +35537,51 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/features/accessibility/accessibility-provider.tsx",
-      "source_location": "L28",
+      "source_location": "L30",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_accessibility_floating_accessibility_controls",
+      "target": "src_features_accessibility_floating_accessibility_controls_floatingaccessibilitycontrols",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/accessibility/floating-accessibility-controls.tsx",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_accessibility_theme_choice_dialog",
+      "target": "src_features_accessibility_theme_choice_dialog_choicekey",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/accessibility/theme-choice-dialog.tsx",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_accessibility_theme_choice_dialog",
+      "target": "src_features_accessibility_theme_choice_dialog_themechoiceforuser",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/accessibility/theme-choice-dialog.tsx",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_accessibility_theme_choice_dialog",
+      "target": "src_features_accessibility_theme_choice_dialog_themechoicedialog",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/accessibility/theme-choice-dialog.tsx",
+      "source_location": "L55",
       "weight": 1.0
     },
     {
@@ -33990,13 +36048,46 @@
     },
     {
       "source": "src_features_admin_services_manager",
+      "target": "src_features_admin_services_manager_servicedialog",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/admin/services-manager.tsx",
+      "source_location": "L105",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_admin_services_manager",
       "target": "src_features_admin_services_manager_statuses",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/features/admin/services-manager.tsx",
-      "source_location": "L23",
+      "source_location": "L27",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_admin_services_manager",
+      "target": "src_features_admin_services_manager_schedule_statuses",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/admin/services-manager.tsx",
+      "source_location": "L28",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_admin_services_manager",
+      "target": "src_features_admin_services_manager_tolocaldatetimeinput",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/admin/services-manager.tsx",
+      "source_location": "L30",
       "weight": 1.0
     },
     {
@@ -34007,7 +36098,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/features/admin/services-manager.tsx",
-      "source_location": "L26",
+      "source_location": "L39",
       "weight": 1.0
     },
     {
@@ -34018,18 +36109,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/features/admin/services-manager.tsx",
-      "source_location": "L32",
-      "weight": 1.0
-    },
-    {
-      "source": "src_features_admin_services_manager",
-      "target": "src_features_admin_services_manager_servicedialog",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/features/admin/services-manager.tsx",
-      "source_location": "L90",
+      "source_location": "L45",
       "weight": 1.0
     },
     {
@@ -34480,7 +36560,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/features/auth/auth-provider.tsx",
-      "source_location": "L106",
+      "source_location": "L107",
       "weight": 1.0
     },
     {
@@ -34491,7 +36571,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/features/auth/auth-provider.tsx",
-      "source_location": "L19",
+      "source_location": "L20",
       "weight": 1.0
     },
     {
@@ -34502,7 +36582,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/features/auth/auth-provider.tsx",
-      "source_location": "L29",
+      "source_location": "L30",
       "weight": 1.0
     },
     {
@@ -34513,7 +36593,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/features/auth/auth-provider.tsx",
-      "source_location": "L39",
+      "source_location": "L40",
       "weight": 1.0
     },
     {
@@ -34524,7 +36604,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/features/auth/auth-provider.tsx",
-      "source_location": "L56",
+      "source_location": "L57",
       "weight": 1.0
     },
     {
@@ -34535,7 +36615,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/features/auth/auth-provider.tsx",
-      "source_location": "L67",
+      "source_location": "L68",
       "weight": 1.0
     },
     {
@@ -34546,7 +36626,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/features/auth/auth-provider.tsx",
-      "source_location": "L88",
+      "source_location": "L89",
       "weight": 1.0
     },
     {
@@ -34557,7 +36637,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/features/auth/auth-provider.tsx",
-      "source_location": "L94",
+      "source_location": "L95",
       "weight": 1.0
     },
     {
@@ -36090,6 +38170,270 @@
       "weight": 1.0
     },
     {
+      "source": "src_features_map_engine",
+      "target": "src_features_map_engine_sector",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L11",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine",
+      "target": "src_features_map_engine_building",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine",
+      "target": "src_features_map_engine_transport",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L13",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine",
+      "target": "src_features_map_engine_danger",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L14",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine",
+      "target": "src_features_map_engine_mapreport",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L15",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine",
+      "target": "src_features_map_engine_observation",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L16",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine",
+      "target": "src_features_map_engine_mapdata",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L17",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine",
+      "target": "src_features_map_engine_layers",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L18",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine",
+      "target": "src_features_map_engine_pick",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L19",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine",
+      "target": "src_features_map_engine_anchor",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L20",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine",
+      "target": "src_features_map_engine_engineevents",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L21",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine",
+      "target": "src_features_map_engine_empty",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L22",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine",
+      "target": "src_features_map_engine_rnd",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L25",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine",
+      "target": "src_features_map_engine_reseed",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L26",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine",
+      "target": "src_features_map_engine_s3",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L27",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine",
+      "target": "src_features_map_engine_hx",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L28",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine",
+      "target": "src_features_map_engine_sev",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L29",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine",
+      "target": "src_features_map_engine_st",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L30",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine",
+      "target": "src_features_map_engine_vd",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L31",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine",
+      "target": "src_features_map_engine_lines",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L33",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine",
+      "target": "src_features_map_engine_neon",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L43",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine",
+      "target": "src_features_map_engine_clear",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L44",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine",
+      "target": "src_features_map_engine_keep",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L45",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine",
+      "target": "src_features_map_engine_novaterraengine",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L47",
+      "weight": 1.0
+    },
+    {
       "source": "src_features_map_hex",
       "target": "src_features_map_hex_axial",
       "relation": "contains",
@@ -36365,6 +38709,72 @@
       "weight": 1.0
     },
     {
+      "source": "src_features_map_hologram_map",
+      "target": "src_features_map_hologram_map_hologrammapprops",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/hologram-map.tsx",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_hologram_map",
+      "target": "src_features_map_hologram_map_clamp",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/hologram-map.tsx",
+      "source_location": "L26",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_hologram_map",
+      "target": "src_features_map_hologram_map_hologrammap",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/hologram-map.tsx",
+      "source_location": "L29",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_map_detail_panel",
+      "target": "src_features_map_map_detail_panel_mapdetailpanelprops",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/map-detail-panel.tsx",
+      "source_location": "L15",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_map_detail_panel",
+      "target": "src_features_map_map_detail_panel_row",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/map-detail-panel.tsx",
+      "source_location": "L29",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_map_detail_panel",
+      "target": "src_features_map_map_detail_panel_mapdetailpanel",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/map-detail-panel.tsx",
+      "source_location": "L39",
+      "weight": 1.0
+    },
+    {
       "source": "src_features_map_map_editor_page",
       "target": "src_features_map_map_editor_page_sectoreditor",
       "relation": "contains",
@@ -36431,8 +38841,107 @@
       "weight": 1.0
     },
     {
+      "source": "src_features_map_map_filters",
+      "target": "src_features_map_map_filters_mapfilterstate",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/map-filters.tsx",
+      "source_location": "L12",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_map_filters",
+      "target": "src_features_map_map_filters_default_filters",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/map-filters.tsx",
+      "source_location": "L27",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_map_filters",
+      "target": "src_features_map_map_filters_filtermapbuildings",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/map-filters.tsx",
+      "source_location": "L42",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_map_filters",
+      "target": "src_features_map_map_filters_filtermapreports",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/map-filters.tsx",
+      "source_location": "L47",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_map_filters",
+      "target": "src_features_map_map_filters_building_status_values",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/map-filters.tsx",
+      "source_location": "L58",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_map_filters",
+      "target": "src_features_map_map_filters_mapfiltersprops",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/map-filters.tsx",
+      "source_location": "L60",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_map_filters",
+      "target": "src_features_map_map_filters_mapfilters",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/map-filters.tsx",
+      "source_location": "L74",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_map_filters_test",
+      "target": "src_features_map_map_filters_test_building",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/map-filters.test.ts",
+      "source_location": "L7",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_map_filters_test",
+      "target": "src_features_map_map_filters_test_report",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/map-filters.test.ts",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
       "source": "src_features_map_map_page",
-      "target": "src_features_map_map_page_dangerous",
+      "target": "src_features_map_map_page_hologrammap",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -36443,13 +38952,46 @@
     },
     {
       "source": "src_features_map_map_page",
+      "target": "src_features_map_map_page_observationitem",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/map-page.tsx",
+      "source_location": "L26",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_map_page",
+      "target": "src_features_map_map_page_maplistitem",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/map-page.tsx",
+      "source_location": "L32",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_map_page",
+      "target": "src_features_map_map_page_tomapreport",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/map-page.tsx",
+      "source_location": "L41",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_map_page",
       "target": "src_features_map_map_page_mappage",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/features/map/map-page.tsx",
-      "source_location": "L27",
+      "source_location": "L54",
       "weight": 1.0
     },
     {
@@ -36762,13 +39304,24 @@
     },
     {
       "source": "src_features_reports_report_detail",
+      "target": "src_features_reports_report_detail_reportdetail",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/reports/report-detail.tsx",
+      "source_location": "L26",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_reports_report_detail",
       "target": "src_features_reports_report_detail_citizenreportdetailpage",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/features/reports/report-detail.tsx",
-      "source_location": "L206",
+      "source_location": "L292",
       "weight": 1.0
     },
     {
@@ -36779,18 +39332,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/features/reports/report-detail.tsx",
-      "source_location": "L209",
-      "weight": 1.0
-    },
-    {
-      "source": "src_features_reports_report_detail",
-      "target": "src_features_reports_report_detail_reportdetail",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/features/reports/report-detail.tsx",
-      "source_location": "L25",
+      "source_location": "L295",
       "weight": 1.0
     },
     {
@@ -37043,7 +39585,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/features/reports/reports-lists.tsx",
-      "source_location": "L166",
+      "source_location": "L169",
       "weight": 1.0
     },
     {
@@ -37065,7 +39607,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/features/reports/reports-lists.tsx",
-      "source_location": "L70",
+      "source_location": "L73",
       "weight": 1.0
     },
     {
@@ -37553,6 +40095,116 @@
       "weight": 1.0
     },
     {
+      "source": "src_features_services_service_appointments",
+      "target": "src_features_services_service_appointments_localdate",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/services/service-appointments.tsx",
+      "source_location": "L20",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_services_service_appointments",
+      "target": "src_features_services_service_appointments_describeappointmenttime",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/services/service-appointments.tsx",
+      "source_location": "L26",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_services_service_appointments",
+      "target": "src_features_services_service_appointments_serviceappointmentcalendar",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/services/service-appointments.tsx",
+      "source_location": "L33",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_services_service_availability",
+      "target": "src_features_services_service_availability_isunexpectedserviceclosure",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/services/service-availability.ts",
+      "source_location": "L18",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_services_service_availability",
+      "target": "src_features_services_service_availability_isfuturetimestamp",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/services/service-availability.ts",
+      "source_location": "L25",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_services_service_availability",
+      "target": "src_features_services_service_availability_isfuturelocaldatetime",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/services/service-availability.ts",
+      "source_location": "L30",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_services_service_availability",
+      "target": "src_features_services_service_availability_day_aliases",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/services/service-availability.ts",
+      "source_location": "L35",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_services_service_availability",
+      "target": "src_features_services_service_availability_effectiveservicestatus",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/services/service-availability.ts",
+      "source_location": "L4",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_services_service_availability",
+      "target": "src_features_services_service_availability_iswithinservicehours",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/services/service-availability.ts",
+      "source_location": "L45",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_services_service_availability_test",
+      "target": "src_features_services_service_availability_test_service",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/services/service-availability.test.ts",
+      "source_location": "L6",
+      "weight": 1.0
+    },
+    {
       "source": "src_features_services_service_detail_page",
       "target": "src_features_services_service_detail_page_facility_map_layers",
       "relation": "contains",
@@ -37560,7 +40212,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/features/services/service-detail-page.tsx",
-      "source_location": "L22",
+      "source_location": "L26",
       "weight": 1.0
     },
     {
@@ -37571,7 +40223,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/features/services/service-detail-page.tsx",
-      "source_location": "L27",
+      "source_location": "L31",
       "weight": 1.0
     },
     {
@@ -37582,7 +40234,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/features/services/services-page.tsx",
-      "source_location": "L18",
+      "source_location": "L20",
       "weight": 1.0
     },
     {
@@ -38643,13 +41295,24 @@
     },
     {
       "source": "src_lib_db_types",
+      "target": "src_lib_db_types_newsimportance",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/lib/db-types.ts",
+      "source_location": "L104",
+      "weight": 1.0
+    },
+    {
+      "source": "src_lib_db_types",
       "target": "src_lib_db_types_newsstatus",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/lib/db-types.ts",
-      "source_location": "L100",
+      "source_location": "L105",
       "weight": 1.0
     },
     {
@@ -38660,7 +41323,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/lib/db-types.ts",
-      "source_location": "L102",
+      "source_location": "L107",
       "weight": 1.0
     },
     {
@@ -38671,7 +41334,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/lib/db-types.ts",
-      "source_location": "L119",
+      "source_location": "L124",
       "weight": 1.0
     },
     {
@@ -38693,7 +41356,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/lib/db-types.ts",
-      "source_location": "L141",
+      "source_location": "L146",
       "weight": 1.0
     },
     {
@@ -38704,7 +41367,18 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/lib/db-types.ts",
-      "source_location": "L143",
+      "source_location": "L148",
+      "weight": 1.0
+    },
+    {
+      "source": "src_lib_db_types",
+      "target": "src_lib_db_types_serviceappointment",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/lib/db-types.ts",
+      "source_location": "L178",
       "weight": 1.0
     },
     {
@@ -38715,7 +41389,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/lib/db-types.ts",
-      "source_location": "L170",
+      "source_location": "L189",
       "weight": 1.0
     },
     {
@@ -38781,7 +41455,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/lib/db-types.ts",
-      "source_location": "L81",
+      "source_location": "L86",
       "weight": 1.0
     },
     {
@@ -38792,7 +41466,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/lib/db-types.ts",
-      "source_location": "L84",
+      "source_location": "L89",
       "weight": 1.0
     },
     {
@@ -38803,18 +41477,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/lib/db-types.ts",
-      "source_location": "L86",
-      "weight": 1.0
-    },
-    {
-      "source": "src_lib_db_types",
-      "target": "src_lib_db_types_newsimportance",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/lib/db-types.ts",
-      "source_location": "L99",
+      "source_location": "L91",
       "weight": 1.0
     },
     {
@@ -39166,7 +41829,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/lib/presets.ts",
-      "source_location": "L20",
+      "source_location": "L21",
       "weight": 1.0
     },
     {
@@ -39177,7 +41840,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/lib/presets.ts",
-      "source_location": "L22",
+      "source_location": "L23",
       "weight": 1.0
     },
     {
@@ -39771,7 +42434,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/pages/home-page.tsx",
-      "source_location": "L20",
+      "source_location": "L23",
       "weight": 1.0
     },
     {
@@ -39782,7 +42445,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/pages/home-page.tsx",
-      "source_location": "L23",
+      "source_location": "L26",
       "weight": 1.0
     },
     {
@@ -39793,7 +42456,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/pages/home-page.tsx",
-      "source_location": "L30",
+      "source_location": "L33",
       "weight": 1.0
     },
     {
@@ -42161,6 +44824,356 @@
       "source_file": "src/components/three/three-viewer.tsx"
     },
     {
+      "source": "src_features_map_map_page",
+      "target": "hologram_map",
+      "relation": "dynamic_import",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/map-page.tsx"
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine",
+      "target": "src_features_map_engine_novaterraengine_setroute",
+      "relation": "method",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L100",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine",
+      "target": "src_features_map_engine_novaterraengine_setpickmode",
+      "relation": "method",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L101",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine",
+      "target": "src_features_map_engine_novaterraengine_setreports",
+      "relation": "method",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L102",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine",
+      "target": "src_features_map_engine_novaterraengine_setdangers",
+      "relation": "method",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L103",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine",
+      "target": "src_features_map_engine_novaterraengine_select",
+      "relation": "method",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L104",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine",
+      "target": "src_features_map_engine_novaterraengine_setprefs",
+      "relation": "method",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L109",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine",
+      "target": "src_features_map_engine_novaterraengine_focussector",
+      "relation": "method",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L110",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine",
+      "target": "src_features_map_engine_novaterraengine_dispose",
+      "relation": "method",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L111",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine",
+      "target": "src_features_map_engine_novaterraengine_toworld",
+      "relation": "method",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L113",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine",
+      "target": "src_features_map_engine_novaterraengine_toref",
+      "relation": "method",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L114",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine",
+      "target": "src_features_map_engine_novaterraengine_glow",
+      "relation": "method",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L115",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine",
+      "target": "src_features_map_engine_novaterraengine_holo",
+      "relation": "method",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L116",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine",
+      "target": "src_features_map_engine_novaterraengine_label",
+      "relation": "method",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L125",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine",
+      "target": "src_features_map_engine_novaterraengine_visiblechain",
+      "relation": "method",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L137",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine",
+      "target": "src_features_map_engine_novaterraengine_hit",
+      "relation": "method",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L138",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine",
+      "target": "src_features_map_engine_novaterraengine_click",
+      "relation": "method",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L148",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine",
+      "target": "src_features_map_engine_novaterraengine_mark",
+      "relation": "method",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L155",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine",
+      "target": "src_features_map_engine_novaterraengine_track",
+      "relation": "method",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L161",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine",
+      "target": "src_features_map_engine_novaterraengine_applylayers",
+      "relation": "method",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L170",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine",
+      "target": "src_features_map_engine_novaterraengine_buildstatic",
+      "relation": "method",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L172",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine",
+      "target": "src_features_map_engine_novaterraengine_building",
+      "relation": "method",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L202",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine",
+      "target": "src_features_map_engine_novaterraengine_buildcity",
+      "relation": "method",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L218",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine",
+      "target": "src_features_map_engine_novaterraengine_vehicle",
+      "relation": "method",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L265",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine",
+      "target": "src_features_map_engine_novaterraengine_buildreports",
+      "relation": "method",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L270",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine",
+      "target": "src_features_map_engine_novaterraengine_builddanger",
+      "relation": "method",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L291",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine",
+      "target": "src_features_map_engine_novaterraengine_drawroute",
+      "relation": "method",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L298",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine",
+      "target": "src_features_map_engine_novaterraengine_loop",
+      "relation": "method",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L304",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine",
+      "target": "src_features_map_engine_novaterraengine_constructor",
+      "relation": "method",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L60",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine",
+      "target": "src_features_map_engine_novaterraengine_setdata",
+      "relation": "method",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L97",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine",
+      "target": "src_features_map_engine_novaterraengine_setlayers",
+      "relation": "method",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L98",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine",
+      "target": "src_features_map_engine_novaterraengine_setdanger",
+      "relation": "method",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L99",
+      "weight": 1.0
+    },
+    {
       "source": "src_features_voice_speech_test_fake",
       "target": "src_features_voice_speech_test_fake_start",
       "relation": "method",
@@ -42387,6 +45400,30 @@
       "context": "argument",
       "source_file": "src/features/items/items-api.ts",
       "source_location": "L81",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_engine_novaterraengine_dispose",
+      "target": "src_features_map_engine_clear",
+      "relation": "indirect_call",
+      "_origin": "ast",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "context": "argument",
+      "source_file": "src/features/map/engine.ts",
+      "source_location": "L111",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_map_map_page_mappage",
+      "target": "src_features_map_map_page_tomapreport",
+      "relation": "indirect_call",
+      "_origin": "ast",
+      "confidence": "INFERRED",
+      "confidence_score": 0.85,
+      "context": "argument",
+      "source_file": "src/features/map/map-page.tsx",
+      "source_location": "L125",
       "weight": 1.0
     },
     {
@@ -42883,5 +45920,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "f94edc55d20b24ab3146047d876e1d4e15085270"
+  "built_at_commit": "64509cab7f5851ec45b6e6c03669381c50be20cf"
 }
