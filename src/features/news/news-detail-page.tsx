@@ -15,6 +15,7 @@ import { isNewsActive, useNewsItem } from "@/features/city/city-queries"
 import { useLocale } from "@/lib/locale"
 import { formatDate, formatDateTime, unwrap } from "@/lib/query-helpers"
 import { supabase } from "@/lib/supabase"
+import { AuroraTitle } from "@/components/magic-ui/aurora-title"
 
 interface CommentRow {
   id: string
@@ -84,7 +85,7 @@ export function NewsDetailPage() {
       <Container className="py-16">
         <title>{tx("Actualité introuvable", "News not found")}</title>
         <div role="alert" className="rounded-xl border p-8 text-center">
-          <h1 className="text-2xl font-semibold">{tx("Actualité introuvable", "News not found")}</h1>
+          <h1 className="text-2xl font-semibold"><AuroraTitle>{tx("Actualité introuvable", "News not found")}</AuroraTitle></h1>
           <Button asChild className="mt-4"><Link to="/news">{tx("Toutes les actualités", "All news")}</Link></Button>
         </div>
       </Container>
@@ -118,7 +119,7 @@ export function NewsDetailPage() {
             <Badge variant="secondary">{item.category}</Badge>
             {!active && <Badge variant="outline">{tx("Archivée", "Archived")}</Badge>}
           </div>
-          <h1 className="font-display text-3xl font-semibold">{item.title}</h1>
+          <h1 className="font-display text-3xl font-semibold"><AuroraTitle>{item.title}</AuroraTitle></h1>
           <p className="mt-2 text-sm text-muted-foreground">
             {tx("Publiée le", "Published on")} {formatDate(item.published_at, tag)}
             {item.valid_until ? ` · ${tx("valable jusqu'au", "valid until")} ${formatDate(item.valid_until, tag)}` : ""}

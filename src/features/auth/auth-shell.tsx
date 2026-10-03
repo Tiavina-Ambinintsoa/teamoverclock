@@ -5,6 +5,7 @@ import { Link } from "react-router"
 import { ModeToggle } from "@/components/theme-switcher"
 import { useLocale } from "@/lib/locale"
 import { SITE } from "@/lib/site"
+import { AuroraTitle } from "@/components/magic-ui/aurora-title"
 
 export type AuthMode = "signin" | "signup" | "admin" | "recover" | "reset"
 
@@ -64,7 +65,7 @@ export function AuthShell({ mode, children, isExiting = false }: { mode: AuthMod
           <div className="mx-auto my-auto w-full max-w-md py-8">
             <div className="mb-8">
               <p className="mb-3 text-sm font-medium uppercase tracking-[0.16em] text-primary">{SITE.name}</p>
-              <h1 className="font-display text-3xl font-semibold tracking-tight sm:text-4xl">{t(headings[mode][0])}</h1>
+              <h1 className="font-display text-3xl font-semibold tracking-tight sm:text-4xl"><AuroraTitle>{t(headings[mode][0])}</AuroraTitle></h1>
               <p className="mt-2 text-sm text-muted-foreground sm:text-base">{t(headings[mode][1])}</p>
             </div>
             {children}

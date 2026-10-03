@@ -20,10 +20,10 @@
       ;(function () {
         try {
           var mode = localStorage.getItem("webcup:mode") || "system"
-          var preset = localStorage.getItem("webcup:preset") || "lagon"
+          var preset = localStorage.getItem("webcup:preset:v2") || "nova-terra"
           var typography = localStorage.getItem("webcup:typography") || "theme"
           var morphism = localStorage.getItem("webcup:morphism") || "standard"
-          var dark = mode === "dark" || (mode === "system" && matchMedia("(prefers-color-scheme: dark)").matches)
+          var dark = preset === "nova-terra" || mode === "dark" || (mode === "system" && matchMedia("(prefers-color-scheme: dark)").matches)
           var root = document.documentElement
           root.dataset.theme = preset
           root.dataset.typography = ["theme", "instrument", "bricolage", "fraunces", "system"].includes(typography) ? typography : "theme"

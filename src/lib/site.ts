@@ -21,8 +21,8 @@ export const SITE: SiteConfig = {
   shortName: "Nova Terra",
   tagline: "La ville fictive et futuriste : services, carte en ruche, signalements et alertes.",
   description: "Portail citoyen de Nova Terra, ville fictive et futuriste : démarches, services, actualités, carte interactive, signalements et assistant vocal.",
-  defaultPreset: "lagon",
-  defaultMode: "system",
+  defaultPreset: "nova-terra",
+  defaultMode: "dark",
   team: [
     { name: "Prénom Nom", role: "Produit et pitch" }, // TODO(webcup)
     { name: "Prénom Nom", role: "Design et interface" }, // TODO(webcup)

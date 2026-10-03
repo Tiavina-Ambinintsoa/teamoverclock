@@ -25,6 +25,7 @@ import { DictationButton } from "@/features/voice/dictation-button"
 import { useLocale } from "@/lib/locale"
 import { pickLabel, REPORT_CATEGORY_LABELS } from "@/lib/status-labels"
 import { supabase } from "@/lib/supabase"
+import { AuroraTitle } from "@/components/magic-ui/aurora-title"
 
 function localDateTimeValue(date: Date): string {
   const offset = date.getTimezoneOffset() * 60_000
@@ -118,7 +119,7 @@ export function ReportNewPage() {
       <Container className="max-w-xl">
         <title>{tx("Signaler un problème", "Report a problem")}</title>
         <div role="alert" className="rounded-xl border bg-card p-8 text-center">
-          <h1 className="text-2xl font-semibold">{tx("Identité à vérifier", "Identity verification needed")}</h1>
+          <h1 className="text-2xl font-semibold"><AuroraTitle>{tx("Identité à vérifier", "Identity verification needed")}</AuroraTitle></h1>
           <p className="mt-2 text-muted-foreground">{tx("Seuls les habitants dont l'identité est vérifiée peuvent déposer un signalement.", "Only residents whose identity is verified can file a report.")}</p>
           <Button asChild className="mt-4"><Link to="/app/verification">{tx("Vérifier mon identité", "Verify my identity")}</Link></Button>
         </div>

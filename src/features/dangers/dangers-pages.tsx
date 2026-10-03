@@ -13,6 +13,7 @@ import { useBuildings, useDanger, useDangers, useSectors, useServices } from "@/
 import { useLocale } from "@/lib/locale"
 import { formatDate } from "@/lib/query-helpers"
 import { cn } from "@/lib/utils"
+import { AuroraTitle } from "@/components/magic-ui/aurora-title"
 
 const FICTIONAL_NOTE = {
   fr: "Alerte fictive : cette procédure fait partie de la simulation Nova Terra et ne décrit pas une situation réelle.",
@@ -76,7 +77,7 @@ export function DangerDetailPage() {
       <Container className="py-16">
         <title>{tx("Alerte introuvable", "Alert not found")}</title>
         <div role="alert" className="rounded-xl border p-8 text-center">
-          <h1 className="text-2xl font-semibold">{tx("Alerte introuvable", "Alert not found")}</h1>
+          <h1 className="text-2xl font-semibold"><AuroraTitle>{tx("Alerte introuvable", "Alert not found")}</AuroraTitle></h1>
           <Button asChild className="mt-4"><Link to="/dangers">{tx("Toutes les alertes", "All alerts")}</Link></Button>
         </div>
       </Container>
@@ -94,7 +95,7 @@ export function DangerDetailPage() {
       <nav aria-label={tx("Fil d'Ariane", "Breadcrumb")} className="mb-4 text-sm text-muted-foreground"><Link to="/dangers" className="underline-offset-4 hover:underline">{tx("Dangers", "Dangers")}</Link> / {d.title}</nav>
       <header className="mb-6">
         <div className="mb-2 flex flex-wrap items-center gap-2"><StatusBadge kind="severity" value={d.severity} /><StatusBadge kind="danger" value={d.status} />{d.is_fictional_alert && <Badge variant="outline">{tx("Alerte fictive", "Fictional alert")}</Badge>}</div>
-        <h1 className="font-display text-3xl font-semibold">{d.title}</h1>
+        <h1 className="font-display text-3xl font-semibold"><AuroraTitle>{d.title}</AuroraTitle></h1>
         <p className="mt-2 text-muted-foreground">{d.summary}</p>
         <p className="mt-2 text-xs text-muted-foreground">
           {tx("Procédure v", "Procedure v")}{d.procedure_version} · {tx("validée le", "validated on")} {formatDate(d.validated_at, tag)} · {owner?.name ?? "—"} · {d.source ?? "—"}

@@ -6,6 +6,7 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { useAuth } from "@/features/auth/auth-context"
 import { useLocale } from "@/lib/locale"
 import { SITE } from "@/lib/site"
+import { AuroraTitle } from "@/components/magic-ui/aurora-title"
 
 const cards = [
   { title: "dashboard.contents", icon: FileText, hint: "dashboard.contentsHint" },
@@ -24,7 +25,7 @@ export function DashboardPage() {
       <header className="mb-8 flex flex-wrap items-end justify-between gap-4">
         <div>
           <p className="text-sm font-medium text-primary">{t("dashboard.greeting")} {user?.displayName}</p>
-          <h1 className="mt-1 text-3xl font-semibold sm:text-4xl">{t("dashboard.title")}</h1>
+          <h1 className="mt-1 text-3xl font-semibold sm:text-4xl"><AuroraTitle>{t("dashboard.title")}</AuroraTitle></h1>
           <p className="mt-2 text-muted-foreground">{t("dashboard.description")}</p>
         </div>
         <Link to="/app" className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline">

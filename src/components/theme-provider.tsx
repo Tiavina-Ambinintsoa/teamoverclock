@@ -8,7 +8,7 @@ import { SITE } from "@/lib/site"
 import { safeStorage } from "@/lib/storage"
 
 const MODE_KEY = "webcup:mode"
-const PRESET_KEY = "webcup:preset"
+const PRESET_KEY = "webcup:preset:v2"
 const TYPOGRAPHY_KEY = "webcup:typography"
 const MORPHISM_KEY = "webcup:morphism"
 
@@ -55,7 +55,7 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     const root = document.documentElement
     // Un thème d'accessibilité contrasté impose clair/sombre (voir AccessibilityProvider).
     const contrast = root.dataset.contrast
-    const forcedDark = contrast === "high_contrast_light" ? false : contrast ? true : null
+    const forcedDark = contrast === "high_contrast_light" ? false : contrast || preset === "nova-terra" ? true : null
     root.classList.toggle("dark", forcedDark ?? resolvedMode === "dark")
     root.dataset.theme = preset
     root.dataset.typography = typography
