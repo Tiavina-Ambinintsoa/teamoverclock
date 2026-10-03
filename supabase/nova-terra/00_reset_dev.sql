@@ -16,6 +16,17 @@ $$;
 -- profiles référence services : on détache d'abord (TRUNCATE ... CASCADE viderait profiles)
 update public.profiles set primary_service_id = null where primary_service_id is not null;
 
+delete from public.notifications
+where entity_type = 'heat_alert'
+  and entity_id in (select id from public.dangers where slug like 'heatwave-%');
+do $$
+begin
+  if to_regclass('public.citizen_health_profiles') is not null then
+    execute 'delete from public.citizen_health_profiles where profile_id::text like ''00000007-%''';
+  end if;
+end
+$$;
+
 truncate table
   public.voice_commands, public.guide_tour_steps, public.guide_tours, public.accessibility_preferences,
   public.ai_generated_content, public.knowledge_base, public.chat_messages, public.chat_sessions,

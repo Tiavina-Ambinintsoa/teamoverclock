@@ -64,10 +64,27 @@ Pré-requis : `supabase/schema.sql` (starter) déjà exécuté. Dans **SQL Edito
 5. `supabase/nova-terra/05_storage.sql`
 6. `supabase/nova-terra/06_seed_auth.sql` — crée 10 comptes de démo (mot de passe commun `NovaTerra!2026`, développement uniquement ; `admin@novaterra.test` est administrateur général)
 7. `supabase/nova-terra/07a_seed_city_identity.sql`, puis `07b_…`, puis `07c_…`
-8. `supabase/nova-terra/08_citizen_rpcs.sql`, `09_workflow_support.sql`, `10_knowledge_base.sql` — fonctions utilisées par l'application (identité CIN, demandes, signalements publics, base du chatbot, lettres d'information)
+8. `supabase/nova-terra/08_citizen_rpcs.sql`, `09_workflow_support.sql`, `10_knowledge_base.sql`, puis `11_heat_alerts.sql` — fonctions de l'application, secteur de résidence, diffusion canicule par secteur ou tous secteurs et profil de santé privé avec RLS propriétaire uniquement
 9. `supabase/nova-terra/99_verify.sql` — toutes les lignes doivent afficher `ok = true`, et la dernière requête ne doit retourner aucune table sans RLS.
 
 Après l'import de 10, ouvrez **/admin/ai-content → Reconstruire la base du chatbot** (connecté en `admin@novaterra.test`) pour remplir la base de connaissances.
+Si `11_heat_alerts.sql` a déjà été importé, réexécutez-le pour installer les fonctions mises à jour de secteur résidentiel et de diffusion à tous les secteurs.
+
+### Diffusion des alertes canicule
+
+Pour activer la notification immédiate et le webhook :
+
+1. Déployez `dispatch-heat-alert` avec la vérification JWT désactivée (l'Edge Function valide elle-même soit le compte administrateur, soit le secret du webhook) :
+
+   ```powershell
+   supabase functions deploy dispatch-heat-alert --project-ref VOTRE_PROJECT_REF
+   supabase secrets set HEAT_ALERT_WEBHOOK_SECRET=VOTRE_SECRET_LONG_ALEATOIRE --project-ref VOTRE_PROJECT_REF
+   ```
+
+   Gardez le secret hors du dépôt et du navigateur.
+2. Dans **Supabase → Database → Webhooks**, créez un webhook `heatwave-danger-created` : table `public.dangers`, événement `INSERT`, méthode `POST`, cible Edge Function `dispatch-heat-alert`, en-tête HTTP `x-heat-alert-secret` égal à `HEAT_ALERT_WEBHOOK_SECRET`.
+3. L'Edge Function ignore les autres dangers, n'envoie que les alertes `heatwave-*` actives et distribue une seule notification par citoyen actif dans les secteurs affectés. L'interface appelle aussi la fonction juste après la publication pour livrer sans attendre le webhook ; les deux voies sont idempotentes.
+4. Les données santé facultatives restent dans `citizen_health_profiles` avec une politique RLS propriétaire uniquement. Elles ne sont jamais incluses dans le webhook ni dans les notifications. Retirer le consentement efface le groupe sanguin et les conditions enregistrés.
 
 À planifier (Supabase → Database → Cron, ou Edge Function planifiée) : `select public.remind_stalled_requests();` toutes les heures et `select public.send_newsletter_digest('daily');` chaque jour.
 

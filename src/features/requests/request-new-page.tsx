@@ -16,6 +16,7 @@ import { useServices } from "@/features/city/city-queries"
 import { dueDateFor, safeFileName, validateAttachments } from "@/features/requests/request-workflow"
 import { useLocale } from "@/lib/locale"
 import { supabase } from "@/lib/supabase"
+import { AuroraTitle } from "@/components/magic-ui/aurora-title"
 
 const CATEGORIES = [
   { value: "information", fr: "Information", en: "Information" },
@@ -105,7 +106,7 @@ export function RequestNewPage() {
         <title>{tx("Demande envoyée", "Request sent")}</title>
         <output className="grid justify-items-center gap-3 rounded-2xl border bg-card p-8 text-center">
           <CheckCircle2 className="size-10 text-primary" aria-hidden />
-          <h1 className="text-2xl font-semibold">{tx("Demande envoyée", "Request sent")}</h1>
+          <h1 className="text-2xl font-semibold"><AuroraTitle>{tx("Demande envoyée", "Request sent")}</AuroraTitle></h1>
           <p>{tx("Votre numéro de suivi :", "Your tracking number:")}</p>
           <p className="rounded-lg bg-muted px-4 py-2 font-mono text-lg">{tracking}</p>
           <p className="text-sm text-muted-foreground">{tx("Vous serez notifié à chaque changement de statut.", "You will be notified of every status change.")}</p>

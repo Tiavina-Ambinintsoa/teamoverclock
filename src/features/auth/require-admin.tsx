@@ -4,6 +4,7 @@ import { Container } from "@/components/layout/container"
 import { Button } from "@/components/ui/button"
 import { PageLoader } from "@/components/page-loader"
 import { useAuth } from "@/features/auth/auth-context"
+import { AuroraTitle } from "@/components/magic-ui/aurora-title"
 
 export function RequireAdmin() {
   const { user, loading, signOut } = useAuth()
@@ -16,7 +17,7 @@ export function RequireAdmin() {
     return (
       <Container className="py-20">
         <div role="alert" className="mx-auto max-w-lg rounded-2xl border bg-card p-8 text-center">
-          <h1 className="text-2xl font-semibold">Accès administrateur requis</h1>
+          <h1 className="text-2xl font-semibold"><AuroraTitle>Accès administrateur requis</AuroraTitle></h1>
           <p className="mt-3 text-muted-foreground">Ce compte n'a pas le rôle administrateur.</p>
           <div className="mt-6 flex flex-wrap justify-center gap-3">
             <Button asChild variant="outline"><Link to="/admin/connexion">Changer de compte</Link></Button>

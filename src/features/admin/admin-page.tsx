@@ -8,6 +8,7 @@ import { useLocale } from "@/lib/locale"
 import { SITE } from "@/lib/site"
 import { cn } from "@/lib/utils"
 import { supabase } from "@/lib/supabase"
+import { AuroraTitle } from "@/components/magic-ui/aurora-title"
 
 type AdminUser = { id: string; email: string; displayName: string; role: "admin" | "member"; createdAt: string; lastSignInAt: string | null }
 type ContactMessage = { id: string; name: string; email: string; message: string; status: "new" | "read" | "closed"; created_at: string }
@@ -156,7 +157,7 @@ export function AdminPage() {
         <div className="min-w-0">
           <header className="mb-6">
             <p className="text-sm font-medium text-primary">{t("admin.eyebrow")}</p>
-            <h1 className="mt-1 text-3xl font-semibold">{t(sectionCopy[section][0])}</h1>
+            <h1 className="mt-1 text-3xl font-semibold"><AuroraTitle>{t(sectionCopy[section][0])}</AuroraTitle></h1>
             <p className="mt-2 max-w-2xl text-muted-foreground">{t(sectionCopy[section][1])}</p>
           </header>
 

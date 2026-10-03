@@ -1,12 +1,14 @@
-import { Volume2 } from "lucide-react"
+import { useEffect, useMemo, useState } from "react"
+import { Search, Volume2 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select } from "@/components/ui/select"
 import { Slider } from "@/components/ui/slider"
 import { Switch } from "@/components/ui/switch"
 import { useAccessibility } from "@/features/accessibility/accessibility-context"
-import { speak } from "@/features/voice/speech"
+import { filterSpeechVoices, isSynthesisSupported, speak } from "@/features/voice/speech"
 import {
   FONT_SCALE_MAX,
   FONT_SCALE_MIN,
@@ -42,6 +44,25 @@ export function AccessibilityPanel() {
   const { prefs, update, reset } = useAccessibility()
   const { tx, locale } = useLocale()
   const lang = locale === "en" ? "en-GB" : "fr-FR"
+  const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([])
+  const [voiceSearch, setVoiceSearch] = useState("")
+  const filteredVoices = useMemo(() => filterSpeechVoices(voices, voiceSearch), [voices, voiceSearch])
+  const displayedVoices = useMemo(() => {
+    const selectedVoice = voices.find((voice) => voice.voiceURI === prefs.speechVoiceURI)
+    return selectedVoice && !filteredVoices.includes(selectedVoice)
+      ? [selectedVoice, ...filteredVoices]
+      : filteredVoices
+  }, [filteredVoices, prefs.speechVoiceURI, voices])
+  const displayNames = useMemo(() => new Intl.DisplayNames([locale], { type: "language" }), [locale])
+
+  useEffect(() => {
+    if (!isSynthesisSupported()) return
+    const synthesis = window.speechSynthesis
+    const refreshVoices = () => setVoices(synthesis.getVoices())
+    refreshVoices()
+    synthesis.addEventListener("voiceschanged", refreshVoices)
+    return () => synthesis.removeEventListener("voiceschanged", refreshVoices)
+  }, [])
 
   const toggleNeed = (need: A11yNeed, on: boolean) => {
     const needs = on ? Array.from(new Set([...prefs.needs, need])) : prefs.needs.filter((n) => n !== need)
@@ -110,10 +131,38 @@ export function AccessibilityPanel() {
           <option value="en-US">English (US)</option>
         </Select>
       </div>
+      <div className="mt-4 grid max-w-xl gap-2">
+        <Label htmlFor="a11y-voice-search">{tx("Rechercher une voix", "Search voices")}</Label>
+        <div className="relative">
+          <Search aria-hidden className="pointer-events-none absolute left-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+          <Input
+            id="a11y-voice-search"
+            className="pl-9"
+            type="search"
+            value={voiceSearch}
+            onChange={(event) => setVoiceSearch(event.target.value)}
+            placeholder={tx("Nom ou langue…", "Name or language…")}
+          />
+        </div>
+        <Label htmlFor="a11y-voice">{tx("Voix de synthèse", "Speech voice")}</Label>
+        <Select id="a11y-voice" value={prefs.speechVoiceURI} onChange={(event) => update({ speechVoiceURI: event.target.value })}>
+          <option value="">{tx("Automatique selon la langue", "Automatic for selected language")}</option>
+          {displayedVoices.map((voice) => (
+            <option key={voice.voiceURI} value={voice.voiceURI}>
+              {voice.name} — {displayNames.of(voice.lang) ?? voice.lang} ({voice.lang})
+            </option>
+          ))}
+        </Select>
+        {voices.length === 0
+          ? <p className="text-xs text-muted-foreground">{tx("Aucune voix de synthèse n'est disponible dans ce navigateur.", "No speech voices are available in this browser.")}</p>
+          : filteredVoices.length === 0
+            ? <p className="text-xs text-muted-foreground">{tx("Aucune voix ne correspond à cette recherche.", "No voices match this search.")}</p>
+            : <p className="text-xs text-muted-foreground">{tx(`${filteredVoices.length} voix disponibles sur cet appareil.`, `${filteredVoices.length} voices available on this device.`)}</p>}
+      </div>
       <p className="mt-3 text-xs text-muted-foreground">{tx("Le micro ne s'active que lorsque vous cliquez sur le bouton « Parler ». Aucun enregistrement audio n'est conservé.", "The microphone only turns on when you click the “Talk” button. No audio recording is kept.")}</p>
 
       <div className="mt-6 flex flex-wrap gap-3">
-        <Button type="button" variant="outline" onClick={() => speak(tx("Ceci est un test de la voix de l'assistant.", "This is a test of the assistant's voice."), { lang, rate: prefs.ttsRate })}>
+        <Button type="button" variant="outline" onClick={() => speak(tx("Ceci est un test de la voix de l'assistant.", "This is a test of the assistant's voice."), { lang, rate: prefs.ttsRate, voiceURI: prefs.speechVoiceURI })}>
           <Volume2 aria-hidden />{tx("Tester la voix", "Test the voice")}
         </Button>
         <Button type="button" variant="outline" onClick={reset}>{tx("Rétablir les réglages par défaut", "Restore defaults")}</Button>

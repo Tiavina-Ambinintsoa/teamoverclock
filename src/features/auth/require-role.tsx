@@ -7,6 +7,7 @@ import { useAuth } from "@/features/auth/auth-context"
 import { useLocale } from "@/lib/locale"
 import { homeForRole } from "@/lib/permissions"
 import type { UserRole } from "@/lib/types"
+import { AuroraTitle } from "@/components/magic-ui/aurora-title"
 
 export function ForbiddenPage() {
   const { user } = useAuth()
@@ -16,7 +17,7 @@ export function ForbiddenPage() {
       <title>403 — {tx("Accès refusé", "Access denied")}</title>
       <div role="alert" className="mx-auto max-w-lg rounded-2xl border bg-card p-8 text-center">
         <p className="text-sm font-semibold tracking-widest text-destructive">403</p>
-        <h1 className="mt-2 text-2xl font-semibold">{tx("Accès refusé", "Access denied")}</h1>
+        <h1 className="mt-2 text-2xl font-semibold"><AuroraTitle>{tx("Accès refusé", "Access denied")}</AuroraTitle></h1>
         <p className="mt-3 text-muted-foreground">
           {tx(
             "Votre profil n'a pas les droits nécessaires pour consulter cette page.",

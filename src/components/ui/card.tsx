@@ -1,14 +1,24 @@
 import * as React from "react"
 
+import { ShineBorder } from "@/components/magic-ui/shine-border"
 import { cn } from "@/lib/utils"
 
-function Card({ className, ...props }: React.ComponentProps<"div">) {
+function Card({ className, children, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="card"
-      className={cn("flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm", className)}
+      className={cn("relative flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground shadow-sm", className)}
       {...props}
-    />
+    >
+      <ShineBorder
+        aria-hidden="true"
+        className="hidden [[data-theme=nova-terra]_&]:block"
+        borderWidth={1}
+        duration={16}
+        shineColor={["var(--primary)", "var(--chart-2)", "var(--highlight)"]}
+      />
+      {children}
+    </div>
   )
 }
 

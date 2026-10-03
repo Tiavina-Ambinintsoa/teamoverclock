@@ -33,7 +33,7 @@ These answer REQUESTS.md §8 so nothing blocks development.
 | #  | Question                                 | Default decision                                                                                                                                                                                                                                           |
 | -- | ---------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | 1  | Auth identifier                          | Email + password (Supabase Auth). Phone stored in profile, not used to log in.                                                                                                                                                                             |
-| 2  | Full address mandatory?                  | No. Only**sector** (+ optional building) is asked.                                                                                                                                                                                                   |
+| 2  | Full address mandatory?                  | No. A **home sector** is required for residents so urgent local alerts can be targeted; building remains optional. Existing accounts can set or change their sector in settings. |
 | 3  | 2FA for agents                           | Not in MVP (flag`profiles.requires_2fa` reserved).                                                                                                                                                                                                       |
 | 4  | Anonymous contact                        | Allowed via the existing`contact_messages` table (rate-limited). A *request* requires an account. `~~dropped~~` + no need for anonymous contact                                                                                                    |
 | 5  | Attachments                              | `image/jpeg, image/png, image/webp, application/pdf`, ≤ 5 MB, max 5 per request.                                                                                                                                                                        |
@@ -51,6 +51,8 @@ These answer REQUESTS.md §8 so nothing blocks development.
 | 17 | "Mal entendant" profile (as specified)   | Profile option → an**AI voice reads the screen aloud** (text-to-speech) and the user **answers by speaking** (speech-to-text) and **navigates by voice**. ⚠ See note below the table.                                                  |
 | 18 | Voice guide                              | Any user can enable a**voice guide** that explains where they are, how to move through the app, and which voice commands exist.                                                                                                                      |
 | 19 | Textual guided tour                      | Step-by-step**text tour** (spotlight + popover, keyboard accessible) per area of the app; content stored in DB (`guide_tours`, `guide_tour_steps`), role-aware, resumable, replayable from the help menu; optional voice narration of each step. |
+| 20 | Health information for safety guidance   | Optional, explicit opt-in `citizen_health_profiles`; strict owner-only RLS, no staff access, and clear deletion/consent controls. Age is derived from the existing `citizens.birth_date`; blood group is not used to tailor heat advice. |
+| 21 | Heatwave publication and dispatch        | A general admin validates a satellite observation or records a manual critical health report, publishes an extreme danger for one sector, and notifies active in-app subscribers through the Supabase webhook. Webhook delivery is idempotent; an authenticated Edge Function call provides immediate dispatch. |
 
 > ⚠ **Terminology note (to confirm with the team).** Reading the screen aloud and answering by voice is what a *blind / low-vision* user needs; a *hard-of-hearing* user is better served by captions and visual alerts. We implement the behaviour exactly as specified, but the settings are **independent toggles** (§5.5), so labels can be renamed without code changes. We also add hearing-oriented features (captions, visual alerts, no audio-only information) under the same "mal entendant" option so that profile also works for its literal meaning.
 
@@ -95,7 +97,7 @@ voice_action_type    navigate | click | read | fill | submit | help | stop | ope
 notification_type    request_update | report_update | news | danger_alert | system | newsletter | reputation
 ```
 
-### 3.3 Tables (39) — each gets **10 seed rows**
+### 3.3 Tables (40) — each gets **10 seed rows**
 
 Legend: **PK** primary key · **FK→** foreign key · `?` nullable.
 
@@ -177,9 +179,10 @@ Legend: **PK** primary key · **FK→** foreign key · `?` nullable.
 | 37 | `guide_tours`               | id,`code` (unique), title, description, `audience user_role[]`, `route_scope text` (route prefix where it starts), `is_published`, `version int`, `estimated_minutes`                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    |
 | 38 | `guide_tour_steps`          | id,`tour_id FK→guide_tours`, `step_order int` (unique with tour), `route text`, `target_selector text?` (`[data-tour="…"]`, null = centered), title, `body` (text shown), `voice_script text?` (spoken variant), `placement` (`top/bottom/left/right/center`), `locale text`                                                                                                                                                                                                                                                                                                                                                                                                   |
 | 39 | `voice_commands`            | id,`code` (unique), `locale`, `phrases text[]` (utterances: "open the map", "ouvre la carte"…), `action voice_action_type`, `target text?` (route or `data-voice` id), `description`, `requires_confirmation bool`, `min_role user_role?` — admin-editable so commands evolve without redeploy                                                                                                                                                                                                                                                                                                                                                                                   |
+| 40 | `citizen_health_profiles`   | `profile_id PK/FK→profiles`, `blood_group?`, `health_conditions text[]`, `consent_recommendations bool`, `updated_at`; sensitive fields are accessible only by their owner and are erased when consent is withdrawn |
 
 > Starter tables `items` is dropped (demo). `ai_conversations / ai_messages / ai_usage` are **kept** only for quota (`ai_usage`); history moves to `chat_*`. `contact_messages` and `contact_rate_limits` kept for anonymous contact.
-> **Total: 39 tables (+ 4 kept) → 390 seed rows minimum** (`guide_tour_steps` may exceed 10 so the full Welcome tour is seeded).
+> **Total: 40 tables (+ 4 kept) → 390 existing seed rows minimum** (`guide_tour_steps` may exceed 10 so the full Welcome tour is seeded). No health-profile rows are seeded.
 
 ### 3.4 Key relations (ER overview)
 
@@ -198,7 +201,7 @@ news 1─* news_comments ; profiles *─* newsletter_topics (subscriptions)
 cameras / satellite_observations ─> reports (generated) ; evidence
 dangers ─> sectors, buildings(assembly), services(responsible)
 chat_sessions 1─* chat_messages ; knowledge_base ← services/news/dangers
-profiles 1─1 accessibility_preferences ; guide_tours 1─* guide_tour_steps ; voice_commands (lookup)
+profiles 1─1 accessibility_preferences / citizen_health_profiles (owner-only sensitive data) ; guide_tours 1─* guide_tour_steps ; voice_commands (lookup)
 audit_logs ← every sensitive write ; api_synchronizations ← imports
 ```
 
@@ -221,6 +224,7 @@ audit_logs ← every sensitive write ; api_synchronizations ← imports
 | `audit_row_change()`                                                                                         | generic audit trigger on`profiles`, `service_members`, `role_permissions`, `reports`, `requests`, `news` |
 | `search_services(q)`, `search_news(q)`                                                                     | `tsvector` + GIN full-text (French/English)                                                                        |
 | `stats_service(service_id)`                                                                                  | RPC for agent dashboard KPIs                                                                                         |
+| `create_heatwave_alert(...)` / `dispatch_heat_alert_notifications(alert_id)`                     | Admin-only atomic report + validated danger publication; idempotent sector-only notification dispatch through Edge Function/webhook |
 
 ### 3.6 Indexes
 
@@ -232,6 +236,7 @@ Default = **deny**. Highlights:
 
 - `sectors, buildings, services(published), news(published), dangers(active), transports(public), newsletter_topics, departments`: public `select`.
 - `profiles`: own row read/update (cannot change `role`, `account_status`, `kyc_status`, points — column guard via trigger); service admins read members of their services; general admin all. *(Starter `profiles_select_all` is replaced: only `display_name/avatar/reputation` exposed through a `public_profiles` view.)*
+- `citizen_health_profiles`: owner-only select/insert/update/delete. Staff and general admins cannot read medical fields; the notification webhook receives no health profile data.
 - `requests`: requester reads own; agents/admins of `service_id` read/update; others none. `request_comments.is_internal = true` hidden from requester.
 - `reports`: public sees only `is_public = true AND status in (validated,assigned,in_progress,resolved)`; reporter sees own; service members see their service; only verified citizens insert.
 - `report_evidence`: never public; reporter sees own `citizen` evidence; camera/satellite evidence only service admins/general admin.
@@ -269,6 +274,7 @@ supabase/nova-terra/
   08_citizen_rpcs.sql     -- phase 1: complete_citizen_profile, submit_cin_verification, decide_cin_verification, touch_last_login
   09_workflow_support.sql -- phases 3-6: request notifications, remind_stalled_requests, public_reports view, simulate_observation/api_sync, list_agents
   10_knowledge_base.sql   -- phases 7-9: rebuild_knowledge_base, apply_ai_content, propose_ai_content, send_newsletter_digest
+  11_heat_alerts.sql     -- owner-only opt-in health profile, admin heatwave report RPC, notification dispatch RPC, public heat guidance
   99_verify.sql           -- SELECT count(*) per table must be ≥ 10; FK/orphan checks
 ```
 
@@ -588,6 +594,14 @@ Legend `[ ]` todo · `[~]` in progress · `[x]` done
 
 - [~] 10.9 Accessibility test suite (axe, mocked speech APIs, keyboard-only e2e)
 
+### Phase 11 — Heatwave risk alerts and tailored guidance
+
+- [x] 11.0 Home sector required at signup and editable in citizen settings; city-wide alert option sends to every active sector
+- [~] 11.1 Optional citizen health profile (age from existing birth date; owner-only, explicit consent, no staff visibility)
+- [~] 11.2 Admin satellite/manual critical report publication, selected-sector or city-wide Supabase webhook notifications, centered in-app alert
+- [~] 11.3 Knowledge-base heat guidance, additional age/condition precautions, nearby operational health facilities
+- [ ] 11.4 Import `11_heat_alerts.sql`, deploy `dispatch-heat-alert`, configure the secret-backed Database Webhook, and verify delivery on Supabase
+
 ### Implementation status and known gaps (updated after phases 1–10)
 
 Everything below was built with **only the packages already installed** (RULESET §1.3) and validated with `npm run typecheck`, `npm run lint` (no error in new files), 200+ Vitest tests and 73 SQL/RLS checks on an in-memory Postgres.
@@ -599,6 +613,7 @@ Everything below was built with **only the packages already installed** (RULESET
 | `transcribe`, `voice-intent` edge functions | Browser Web Speech API + fuzzy command matcher (`voice-commands`, table `voice_commands`)                                                                          | Server-side transcription fallback for browsers without`SpeechRecognition` (Firefox)      |
 | `sync-nova-api` edge function                 | Admin/agent simulators (`simulate_api_sync`, `simulate_observation`) produce syncs and "to verify" camera/satellite reports                                        | Real import job                                                                             |
 | `send-newsletter` edge function               | SQL RPC`send_newsletter_digest` creates in-app notifications (once per news item and subscriber), button in `/admin`                                               | E-mail delivery                                                                             |
+| Heatwave alerts                                | Admin RPC creates a critical report and active danger; idempotent Edge Function/webhook sends notifications to citizens in selected or all active sectors; home sector required at signup and editable in settings; private opt-in health profile and centered alert UI | Owner must import/re-run `11_heat_alerts.sql`, deploy `dispatch-heat-alert`, configure the webhook secret and test it on the target Supabase project |
 | `rebuild-knowledge` edge function             | SQL RPC`rebuild_knowledge_base` (versioned, published content only), button in `/admin/ai-content`                                                                 | Schedule it                                                                                 |
 | Auto-reminder (F22)                             | SQL`remind_stalled_requests()`                                                                                                                                       | **Schedule it** (pg_cron or Supabase scheduled function)                              |
 | 2FA for agents                                  | —                                                                                                                                                                     | Out of MVP (decision 3)                                                                     |
@@ -631,6 +646,7 @@ Everything below was built with **only the packages already installed** (RULESET
 | Signalements                                                | Ph.5 ·`reports, report_evidence, report_clusters`                       |
 | Map                                                         | Ph.6 ·`sectors, buildings, transports, cameras, satellite_observations` |
 | Dangers                                                     | Ph.8 ·`dangers`                                                         |
+| Extreme heat alert                                          | Ph.11 ·`reports, satellite_observations, dangers, notifications, knowledge_base, citizen_health_profiles` |
 | CIN / minors / reputation                                   | Ph.1.5, 5.6 ·`citizen_verifications, reputation_votes`                  |
 | Newsletter / comments                                       | Ph.2.3, 2.5                                                                |
 | Support call                                                | Ph.3.4 ·`support_calls`                                                 |
@@ -651,3 +667,5 @@ Real payment, real cameras/satellites, 2FA, multi-city, native mobile app, real 
 | 2026-10-03 | Added accessibility & guidance: low-vision themes + font size, voice assist (read aloud + voice answers/navigation), voice guide, textual guided tour. +4 tables (36–39), enums, §5.5, Phase 10, task 0.7, decisions 16–19.                                                                                                                                                                                                                                                                               |
 | 2026-10-03 | **Phase 0 implemented**: `supabase/nova-terra/` (00–07c, 99), validated on PGlite (idempotent, 39 RLS/trigger tests). Front: `a11y-prefs`, `AccessibilityProvider`, high-contrast themes (`styles/accessibility.css`), first-paint script, settings panel, `permissions.ts`, `types.ts`. Notes in §3.7b. Tasks 0.2, 0.3, 0.7 done; 0.4 pending (owner imports SQL).                                                                                                                      |
 | 2026-10-03 | **Phases 1–10 implemented** (see §9 and the status table before §10). New SQL: 08, 09, 10. New front-end features: auth/profile/KYC, services, news + comments, newsletter, requests (citizen + agent), reports (voice, evidence, validation, public clusters, reputation), hex map + editor + routes, dangers, retrieval chatbot with voice, AI-content review, audit log, support calls, accessibility (themes, font, voice assist, captions), guided tours. `/contact` now follows decision 4. |
+| 2026-10-03 | **Phase 11 implementation started**: private consent-based citizen health preferences; admin heatwave report/danger creation from a simulated satellite observation or manual critical report; centered personalized alert with knowledge-base advice and nearby care facilities; idempotent sector notifications via `dispatch-heat-alert`. Requires SQL import, Edge Function deployment, and Dashboard webhook configuration before live Supabase delivery. |
+| 2026-10-03 | Phase 11 update: home sector is required at signup and editable by existing citizens in settings; administrators can send a manual heat alert to every active sector. Re-run `11_heat_alerts.sql` to install the updated RPCs. |

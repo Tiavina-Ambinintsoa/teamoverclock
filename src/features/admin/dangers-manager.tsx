@@ -14,6 +14,7 @@ import { Select } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 import { useAuth } from "@/features/auth/auth-context"
 import { useServices } from "@/features/city/city-queries"
+import { HeatAlertCreateDialog } from "@/features/admin/heat-alert-create-dialog"
 import type { DangerRow } from "@/lib/db-types"
 import { useLocale } from "@/lib/locale"
 import { unwrap } from "@/lib/query-helpers"
@@ -82,7 +83,7 @@ export function DangersManager() {
   return (
     <Container className="max-w-5xl">
       <title>{tx("Dangers", "Dangers")}</title>
-      <PageHeader eyebrow={tx("Administration", "Administration")} title={tx("Dangers et protocoles", "Dangers & protocols")} description={tx("Chaque procédure a un responsable et une date de validation. Les anciennes alertes sont archivées.", "Every procedure has an owner and a validation date. Old alerts are archived.")} actions={<Button onClick={() => setCreating(true)}>{tx("Nouvelle alerte", "New alert")}</Button>} />
+      <PageHeader eyebrow={tx("Administration", "Administration")} title={tx("Dangers et protocoles", "Dangers & protocols")} description={tx("Chaque procédure a un responsable et une date de validation. Les anciennes alertes sont archivées.", "Every procedure has an owner and a validation date. Old alerts are archived.")} actions={<div className="flex flex-wrap gap-2">{user?.isAdmin && <HeatAlertCreateDialog />}<Button onClick={() => setCreating(true)}>{tx("Nouvelle alerte", "New alert")}</Button></div>} />
       <DataState data={dangers.data} isLoading={dangers.isLoading} error={dangers.error} onRetry={() => void dangers.refetch()} emptyTitle={tx("Aucune alerte", "No alert")}>
         {(items) => (
           <ul className="grid gap-3">

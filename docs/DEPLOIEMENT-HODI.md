@@ -12,8 +12,8 @@ VITE_SUPABASE_PUBLISHABLE_KEY=sb_publishable_...
 VITE_MAPTILER_API_KEY=...        # optionnel ; active la carte détaillée /modeles/carte
 VITE_BASE=/                         # ou /sous-dossier/ si le site n'est pas à la racine
 VITE_USE_HASH_ROUTER=false          # passez à true si HODI ne permet pas de réécrire les URL
-VITE_ENABLE_AI_CHAT=false           # true seulement après le déploiement de la fonction IA
-VITE_ENABLE_AI_HISTORY=false        # optionnel ; voir docs/OPENROUTER.md
+VITE_ENABLE_AI_CHAT=false           # module Assistant IA historique (OpenRouter), pas le chatbot flottant Gemini
+VITE_ENABLE_AI_HISTORY=false        # historique de l'ancien module Assistant IA
 ```
 
 Puis générez les fichiers :
@@ -47,7 +47,8 @@ Les Edge Functions n'utilisent pas les variables publiques `VITE_*`. Déployez-l
 ```sh
 supabase login
 supabase link --project-ref VOTRE_PROJECT_REF
-supabase functions deploy openrouter-chat
+supabase functions deploy gemini-chat
+supabase functions deploy gemini-voice-chat
 supabase functions deploy admin-data
 supabase functions deploy account-delete
 supabase functions deploy contact-submit
@@ -57,11 +58,10 @@ Ajoutez les secrets requis avec `supabase secrets set` ou **Supabase → Edge Fu
 
 | Secret | Fonction | Utilité |
 |---|---|---|
-| `OPENROUTER_API_KEY` | `openrouter-chat` | Clé privée OpenRouter |
-| `OPENROUTER_MODEL` | `openrouter-chat` | Modèle autorisé côté serveur |
-| `OPENROUTER_SAVE_HISTORY` | `openrouter-chat` | `true` ou `false`, désactivé par défaut |
+| `GOOGLE_AI_STUDIO_API_KEY` | `gemini-chat`, `gemini-voice-chat` | Clé privée Google AI Studio |
+| `GOOGLE_AI_STUDIO_MODEL` | `gemini-chat`, `gemini-voice-chat` | Modèle Gemini facultatif |
 | `APP_ORIGINS` | Toutes | Origines autorisées, séparées par des virgules |
-| `APP_ORIGIN`, `APP_NAME` | `openrouter-chat` | Métadonnées envoyées à OpenRouter |
+| `APP_ORIGIN`, `APP_NAME` | Ancienne fonction OpenRouter | Métadonnées de l'intégration héritée |
 | `RESEND_API_KEY` | `contact-submit` | Envoi de la notification e-mail (optionnel) |
 | `CONTACT_TO_EMAIL`, `MAIL_FROM` | `contact-submit` | Destinataire et expéditeur vérifié (optionnels) |
 | `CONTACT_RATE_LIMIT_SALT` | `contact-submit` | Sel privé pour hacher l'adresse réseau (optionnel) |
@@ -77,4 +77,4 @@ Sans Resend, les messages de contact restent stockés dans `contact_messages` et
 - Définissez le rôle admin dans `app_metadata` par le tableau de bord ou une fonction de confiance. Une connexion `/admin/connexion` ne confère pas ce rôle.
 - Testez les parcours Auth, OAuth, mot de passe oublié, contact, upload, chatbot et administration sur l'URL HODI.
 
-Voir aussi [docs/SUPABASE.md](SUPABASE.md) et [docs/OPENROUTER.md](OPENROUTER.md).
+Voir aussi [docs/SUPABASE.md](SUPABASE.md), [docs/GOOGLE-AI-STUDIO-TEXT.md](GOOGLE-AI-STUDIO-TEXT.md) et [docs/GOOGLE-AI-STUDIO-VOICE.md](GOOGLE-AI-STUDIO-VOICE.md).

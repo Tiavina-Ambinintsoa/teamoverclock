@@ -16,6 +16,7 @@ export interface ProfileExtras {
   firstName: string | null
   lastName: string | null
   phone: string | null
+  birthDate: string | null
   profileLoaded: true
 }
 
@@ -31,6 +32,7 @@ interface CitizenRow {
   kyc_status?: KycStatus | null
   is_minor?: boolean | null
   sector_id?: string | null
+  birth_date?: string | null
 }
 interface MemberRow {
   service_id: string
@@ -60,6 +62,7 @@ export function mapProfileExtras(
     firstName: profile?.first_name ?? null,
     lastName: profile?.last_name ?? null,
     phone: profile?.phone ?? null,
+    birthDate: citizen?.birth_date ?? null,
     profileLoaded: true,
   }
 }
@@ -78,6 +81,7 @@ export function baseExtras(isAdmin: boolean, loaded: boolean): Omit<ProfileExtra
     firstName: null,
     lastName: null,
     phone: null,
+    birthDate: null,
     profileLoaded: loaded,
   }
 }
@@ -86,7 +90,7 @@ export function baseExtras(isAdmin: boolean, loaded: boolean): Omit<ProfileExtra
 export async function fetchProfileExtras(client: SupabaseClient, userId: string): Promise<ProfileExtras> {
   const [profile, citizen, members] = await Promise.all([
     client.from("profiles").select("role,account_status,first_name,last_name,phone").eq("id", userId).maybeSingle(),
-    client.from("citizens").select("id,kyc_status,is_minor,sector_id").eq("profile_id", userId).maybeSingle(),
+    client.from("citizens").select("id,kyc_status,is_minor,sector_id,birth_date").eq("profile_id", userId).maybeSingle(),
     client.from("service_members").select("service_id,member_role,can_validate_reports").eq("profile_id", userId).is("revoked_at", null),
   ])
   return mapProfileExtras(profile.data as ProfileRow | null, citizen.data as CitizenRow | null, members.data as MemberRow[] | null)

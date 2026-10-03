@@ -5,6 +5,7 @@ import { Link, NavLink, useNavigate } from "react-router"
 import { ModeToggle } from "@/components/theme-switcher"
 import { Button } from "@/components/ui/button"
 import { Container } from "@/components/layout/container"
+import { AuroraTitle } from "@/components/magic-ui"
 import { LanguageSwitcher } from "@/components/language-switcher"
 import { useAuth } from "@/features/auth/auth-context"
 import { HelpMenu } from "@/features/guide/help-menu"
@@ -68,7 +69,7 @@ export function SiteHeader() {
             <span className="grid size-9 place-items-center rounded-xl bg-primary text-primary-foreground">
               <Sparkles className="size-4" aria-hidden />
             </span>
-            {SITE.shortName}
+            <AuroraTitle>{SITE.shortName}</AuroraTitle>
           </Link>
 
           <nav aria-label={tx("Navigation principale", "Main navigation")} className="hidden items-center gap-1 lg:flex">

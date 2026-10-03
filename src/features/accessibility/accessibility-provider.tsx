@@ -56,7 +56,7 @@ export function AccessibilityProvider({ children }: { children: ReactNode }) {
       const { data } = await supabase!.from("accessibility_preferences").select("*").eq("profile_id", userId).maybeSingle()
       if (!active) return
       if (data) {
-        const next = prefsFromRow(data as A11yRow)
+        const next = { ...prefsFromRow(data as A11yRow), speechVoiceURI: latest.current.speechVoiceURI }
         storePrefs(next)
         setPrefs(next)
       } else if (JSON.stringify(latest.current) !== JSON.stringify(DEFAULT_A11Y_PREFS)) {

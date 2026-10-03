@@ -19,6 +19,7 @@ import { formatDateTime, unwrap } from "@/lib/query-helpers"
 import { pickLabel, REPORT_CATEGORY_LABELS, statusLabel } from "@/lib/status-labels"
 import { supabase } from "@/lib/supabase"
 import type { ReportStatus } from "@/lib/types"
+import { AuroraTitle } from "@/components/magic-ui/aurora-title"
 
 /** Fiche d'un signalement : citoyen (suivi, envoi du brouillon) ou agent (validation, affectation, preuves restreintes). */
 export function ReportDetail({ mode }: { mode: "citizen" | "agent" }) {
@@ -77,7 +78,7 @@ export function ReportDetail({ mode }: { mode: "citizen" | "agent" }) {
     return (
       <Container className="max-w-3xl">
         <div role="alert" className="rounded-xl border p-8 text-center">
-          <h1 className="text-2xl font-semibold">{tx("Signalement introuvable", "Report not found")}</h1>
+          <h1 className="text-2xl font-semibold"><AuroraTitle>{tx("Signalement introuvable", "Report not found")}</AuroraTitle></h1>
           <p className="mt-2 text-muted-foreground">{tx("Il n'existe pas ou vous n'y avez pas accès.", "It does not exist or you do not have access to it.")}</p>
         </div>
       </Container>
@@ -101,7 +102,7 @@ export function ReportDetail({ mode }: { mode: "citizen" | "agent" }) {
 
       <header className="mb-6">
         <div className="flex flex-wrap items-center gap-2">
-          <h1 className="font-display text-2xl font-semibold sm:text-3xl">{report.title}</h1>
+          <h1 className="font-display text-2xl font-semibold sm:text-3xl"><AuroraTitle>{report.title}</AuroraTitle></h1>
           <StatusBadge kind="report" value={report.status} />
           <StatusBadge kind="priority" value={report.priority} />
           {external && <Badge variant="highlight">{tx("Source externe", "External source")}</Badge>}

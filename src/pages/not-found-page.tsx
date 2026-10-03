@@ -2,12 +2,13 @@ import { Link } from "react-router"
 
 import { Container } from "@/components/layout/container"
 import { Button } from "@/components/ui/button"
+import { AuroraTitle } from "@/components/magic-ui/aurora-title"
 
 export function NotFoundPage() {
   return (
     <Container className="py-24">
       <title>Page introuvable</title>
-      <h1 className="text-4xl font-semibold sm:text-5xl">Cette page n'existe pas</h1>
+      <h1 className="text-4xl font-semibold sm:text-5xl"><AuroraTitle>Cette page n'existe pas</AuroraTitle></h1>
       <p className="mt-4 max-w-prose text-muted-foreground">
         Le lien est peut-être incorrect ou la page a été déplacée.
       </p>

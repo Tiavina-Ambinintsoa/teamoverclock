@@ -837,3 +837,41 @@
   --chart-4: #2A6B5C;
   --chart-5: #9FB69D;
 }
+
+/* ===== NOVA TERRA — sci-fi nocturne : verre sombre, orbe indigo et braise (Dune) =====
+ * Placé en DERNIER et sans ":root" / ".dark" nus : sinon les blocs des autres thèmes l'emportent.
+ * Sombre dans les deux modes (le fournisseur de thème force la classe "dark"). */
+[data-theme="nova-terra"],
+[data-theme="nova-terra"].dark,
+.dark [data-theme="nova-terra"] {
+  --font-heading: "Instrument Sans Variable", ui-sans-serif, system-ui, sans-serif;
+  --radius: 1rem;
+  --background: oklch(0.12 0.03 272);
+  --foreground: oklch(0.97 0.004 250);
+  --card: oklch(1 0 0 / 0.07);
+  --card-foreground: oklch(0.97 0.004 250);
+  --popover: oklch(0.17 0.04 272 / 0.94);
+  --popover-foreground: oklch(0.97 0.004 250);
+  --primary: oklch(0.82 0.13 215);
+  --primary-foreground: oklch(0.15 0.04 265);
+  --secondary: oklch(1 0 0 / 0.09);
+  --secondary-foreground: oklch(0.97 0.004 250);
+  --muted: oklch(1 0 0 / 0.06);
+  --muted-foreground: oklch(0.76 0.03 255);
+  --accent: oklch(0.68 0.17 285 / 0.28);
+  --accent-foreground: oklch(0.97 0.004 250);
+  --highlight: oklch(0.7 0.21 38);
+  --highlight-foreground: oklch(0.15 0.04 30);
+  --destructive: oklch(0.7 0.19 22);
+  --border: oklch(1 0 0 / 0.16);
+  --input: oklch(1 0 0 / 0.14);
+  --ring: oklch(0.82 0.13 215);
+  --chart-1: oklch(0.82 0.13 215);
+  --chart-2: oklch(0.68 0.17 285);
+  --chart-3: oklch(0.72 0.2 340);
+  --chart-4: oklch(0.8 0.2 150);
+  --chart-5: oklch(0.82 0.14 75);
+  --nova-indigo: oklch(0.46 0.27 272);
+  --nova-lavender: oklch(0.93 0.05 290);
+  --nova-ember: oklch(0.68 0.25 34);
+}
