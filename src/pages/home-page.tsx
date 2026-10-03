@@ -44,7 +44,7 @@ export function HomePage() {
       <meta name="description" content={SITE.description} />
 
       {selectedHero === "classic" ? <section className="relative isolate overflow-hidden border-b">
-        <Container className="grid min-h-[640px] items-center gap-12 py-14 sm:py-20 lg:grid-cols-[1.02fr_0.98fr] lg:py-24">
+        <Container className="grid min-h-160 items-center gap-12 py-14 sm:py-20 lg:grid-cols-[1.02fr_0.98fr] lg:py-24">
           <div className="relative z-10">
             <p className="rise inline-flex items-center gap-2 rounded-full border bg-background/80 px-3 py-1.5 text-xs font-medium text-primary shadow-sm" style={step(0)}>
               <span className="size-1.5 rounded-full bg-highlight" aria-hidden />
@@ -67,7 +67,7 @@ export function HomePage() {
 
           <div className="rise relative mx-auto w-full max-w-xl" style={step(2)}>
             <div className="hero-glow absolute -inset-8 rounded-[3rem] bg-primary/10 blur-2xl" aria-hidden />
-            <div className="hero-dashboard-float relative rounded-[2rem] border bg-card p-3 shadow-2xl sm:p-5">
+            <div className="hero-dashboard-float relative rounded-4xl border bg-card p-3 shadow-2xl sm:p-5">
               <div className="flex items-center justify-between border-b px-2 pb-4">
                 <div>
                   <p className="text-xs font-medium uppercase tracking-[0.16em] text-primary">{SITE.shortName}</p>
@@ -152,7 +152,7 @@ export function HomePage() {
 
       <section className="py-14 sm:py-20">
         <Container>
-          <Reveal className="rounded-[2rem] bg-primary px-6 py-10 text-center text-primary-foreground sm:px-12 sm:py-14">
+          <Reveal className="rounded-4xl bg-primary px-6 py-10 text-center text-primary-foreground sm:px-12 sm:py-14">
             <h2 className="font-display text-3xl font-semibold sm:text-5xl">{t("home.ctaTitle")}</h2>
             <p className="mx-auto mt-4 max-w-2xl text-primary-foreground/75">{t("home.ctaText")}</p>
             <div className="mt-7 flex flex-wrap justify-center gap-3">
