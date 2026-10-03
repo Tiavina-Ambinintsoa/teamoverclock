@@ -113,6 +113,12 @@ describe("buildReply", () => {
     expect(buildReply({ ...ctx, locale: "fr", text: "Environment Waste" }).content).toContain("fermé ou suspendu")
   })
 
+  it("directs app-screen questions about the interactive map to the map page", () => {
+    const reply = buildReply({ ...ctx, locale: "fr", text: "Dis moi sur quelle écran on retrouve la carte interactive" })
+    expect(reply.content).toContain("écran Carte")
+    expect(reply.sources).toContainEqual(expect.objectContaining({ url: "/map" }))
+  })
+
   it("gives the official protocol, the emergency numbers and a calm tone for emergencies", () => {
     const reply = buildReply({ ...ctx, locale: "fr", text: "Invasion extraterrestre, que faire ?" })
     expect(reply.kind).toBe("emergency")

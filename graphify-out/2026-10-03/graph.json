@@ -1522,7 +1522,7 @@
       "file_type": "code",
       "norm_label": "chatknowledge",
       "source_file": "src/features/chatbot/chatbot-page.tsx",
-      "source_location": "L40"
+      "source_location": "L41"
     },
     {
       "id": "src_features_chatbot_chatbot_page_message",
@@ -1785,6 +1785,19 @@
       "source_location": "L6"
     },
     {
+      "id": "src_components_home_get_started_getstartedprops",
+      "label": "GetStartedProps",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 222,
+      "community_name": "get-started.tsx",
+      "file_type": "code",
+      "norm_label": "getstartedprops",
+      "source_file": "src/components/home/get-started.tsx",
+      "source_location": "L6"
+    },
+    {
       "id": "src_components_ui_breadcrumb_breadcrumbitem",
       "label": "BreadcrumbItem",
       "_callable": true,
@@ -1824,6 +1837,19 @@
       "source_location": "L6"
     },
     {
+      "id": "src_features_agent_agent_team_page_member",
+      "label": "Member",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 231,
+      "community_name": "agent-team-page.tsx",
+      "file_type": "code",
+      "norm_label": "member",
+      "source_file": "src/features/agent/agent-team-page.tsx",
+      "source_location": "L16"
+    },
+    {
       "id": "src_components_home_cloud_layer_cloudlayerprops",
       "label": "CloudLayerProps",
       "_callable": true,
@@ -1837,17 +1863,17 @@
       "source_location": "L3"
     },
     {
-      "id": "src_components_home_get_started_getstartedprops",
-      "label": "GetStartedProps",
+      "id": "src_features_notifications_notifications_menu_appnotification",
+      "label": "AppNotification",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
       "community": 240,
-      "community_name": "get-started.tsx",
+      "community_name": "notifications-menu.tsx",
       "file_type": "code",
-      "norm_label": "getstartedprops",
-      "source_file": "src/components/home/get-started.tsx",
-      "source_location": "L6"
+      "norm_label": "appnotification",
+      "source_file": "src/features/notifications/notifications-menu.tsx",
+      "source_location": "L8"
     },
     {
       "id": "src_components_page_header_pageheaderprops",
@@ -1954,30 +1980,17 @@
       "source_location": "L17"
     },
     {
-      "id": "src_features_agent_agent_team_page_member",
-      "label": "Member",
+      "id": "src_components_home_interactive_background_homebackgroundstyle",
+      "label": "HomeBackgroundStyle",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
       "community": 3,
       "community_name": "react",
       "file_type": "code",
-      "norm_label": "member",
-      "source_file": "src/features/agent/agent-team-page.tsx",
-      "source_location": "L16"
-    },
-    {
-      "id": "src_features_notifications_notifications_menu_appnotification",
-      "label": "AppNotification",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "appnotification",
-      "source_file": "src/features/notifications/notifications-menu.tsx",
-      "source_location": "L8"
+      "norm_label": "homebackgroundstyle",
+      "source_file": "src/components/home-interactive-background.tsx",
+      "source_location": "L6"
     },
     {
       "id": "src_features_auth_auth_context_appuser",
@@ -2409,17 +2422,17 @@
       "source_location": "L4"
     },
     {
-      "id": "src_components_home_interactive_background_homebackgroundstyle",
-      "label": "HomeBackgroundStyle",
+      "id": "src_components_confirm_dialog_confirmdialogprops",
+      "label": "ConfirmDialogProps",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
       "community": 69,
-      "community_name": "home-interactive-background.tsx",
+      "community_name": "confirm-dialog.tsx",
       "file_type": "code",
-      "norm_label": "homebackgroundstyle",
-      "source_file": "src/components/home-interactive-background.tsx",
-      "source_location": "L6"
+      "norm_label": "confirmdialogprops",
+      "source_file": "src/components/confirm-dialog.tsx",
+      "source_location": "L15"
     },
     {
       "id": "src_components_home_presets_alternate_home_heroes_homeherovariant",
@@ -2641,19 +2654,6 @@
       "norm_label": "switchprops",
       "source_file": "src/components/ui/switch.tsx",
       "source_location": "L4"
-    },
-    {
-      "id": "src_components_confirm_dialog_confirmdialogprops",
-      "label": "ConfirmDialogProps",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 86,
-      "community_name": "confirm-dialog.tsx",
-      "file_type": "code",
-      "norm_label": "confirmdialogprops",
-      "source_file": "src/components/confirm-dialog.tsx",
-      "source_location": "L15"
     },
     {
       "id": "src_lib_site_siteconfig",
@@ -3058,7 +3058,7 @@
       "file_type": "code",
       "norm_label": "stopspeaking()",
       "source_file": "src/features/voice/speech.ts",
-      "source_location": "L119"
+      "source_location": "L126"
     },
     {
       "id": "src_features_voice_speech_test_fake_start",
@@ -5122,6 +5122,18 @@
       "file_type": "code",
       "norm_label": "chatbotpage()",
       "source_file": "src/features/chatbot/chatbot-page.tsx",
+      "source_location": "L129"
+    },
+    {
+      "id": "src_features_chatbot_chatbot_page_getchatchoices",
+      "label": "getChatChoices()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 186,
+      "community_name": "chatbot-page.tsx",
+      "file_type": "code",
+      "norm_label": "getchatchoices()",
+      "source_file": "src/features/chatbot/chatbot-page.tsx",
       "source_location": "L79"
     },
     {
@@ -5134,7 +5146,7 @@
       "file_type": "code",
       "norm_label": "nextid()",
       "source_file": "src/features/chatbot/chatbot-page.tsx",
-      "source_location": "L76"
+      "source_location": "L77"
     },
     {
       "id": "src_features_chatbot_chatbot_page_useknowledge",
@@ -5146,7 +5158,7 @@
       "file_type": "code",
       "norm_label": "useknowledge()",
       "source_file": "src/features/chatbot/chatbot-page.tsx",
-      "source_location": "L48"
+      "source_location": "L49"
     },
     {
       "id": "src_features_newsletter_newsletter_page_newsletterpage",
@@ -5845,16 +5857,16 @@
       "source_location": "L14"
     },
     {
-      "id": "src_features_services_service_detail_page_servicedetailpage",
-      "label": "ServiceDetailPage()",
+      "id": "src_components_animated_transition_link_transitionlink",
+      "label": "TransitionLink()",
       "_callable": true,
       "_origin": "ast",
       "community": 218,
-      "community_name": "service-detail-page.tsx",
+      "community_name": "transition-link.tsx",
       "file_type": "code",
-      "norm_label": "servicedetailpage()",
-      "source_file": "src/features/services/service-detail-page.tsx",
-      "source_location": "L26"
+      "norm_label": "transitionlink()",
+      "source_file": "src/components/animated/transition-link.tsx",
+      "source_location": "L5"
     },
     {
       "id": "src_pages_templates_map_page_mapembedurl",
@@ -5950,6 +5962,18 @@
       "file_type": "code",
       "norm_label": "lightbox()",
       "source_file": "src/components/lightbox.tsx",
+      "source_location": "L21"
+    },
+    {
+      "id": "src_components_home_get_started_getstarted",
+      "label": "GetStarted()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 222,
+      "community_name": "get-started.tsx",
+      "file_type": "code",
+      "norm_label": "getstarted()",
+      "source_file": "src/components/home/get-started.tsx",
       "source_location": "L21"
     },
     {
@@ -6049,40 +6073,52 @@
       "source_location": "L63"
     },
     {
-      "id": "src_components_ui_input_input",
-      "label": "Input()",
+      "id": "src_features_items_item_detail_page_itemdetailpage",
+      "label": "ItemDetailPage()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 230,
+      "community_name": "item-detail-page.tsx",
+      "file_type": "code",
+      "norm_label": "itemdetailpage()",
+      "source_file": "src/features/items/item-detail-page.tsx",
+      "source_location": "L16"
+    },
+    {
+      "id": "src_features_agent_agent_team_page_agentteampage",
+      "label": "AgentTeamPage()",
       "_callable": true,
       "_origin": "ast",
       "community": 231,
-      "community_name": "input.tsx",
+      "community_name": "agent-team-page.tsx",
       "file_type": "code",
-      "norm_label": "input()",
-      "source_file": "src/components/ui/input.tsx",
-      "source_location": "L5"
+      "norm_label": "agentteampage()",
+      "source_file": "src/features/agent/agent-team-page.tsx",
+      "source_location": "L19"
     },
     {
-      "id": "src_components_ui_select_select",
-      "label": "Select()",
+      "id": "src_features_map_map_page_mappage",
+      "label": "MapPage()",
       "_callable": true,
       "_origin": "ast",
       "community": 234,
-      "community_name": "select.tsx",
+      "community_name": "map/map-page.tsx",
       "file_type": "code",
-      "norm_label": "select()",
-      "source_file": "src/components/ui/select.tsx",
-      "source_location": "L5"
+      "norm_label": "mappage()",
+      "source_file": "src/features/map/map-page.tsx",
+      "source_location": "L27"
     },
     {
-      "id": "src_components_animated_transition_link_transitionlink",
-      "label": "TransitionLink()",
+      "id": "src_features_services_service_detail_page_servicedetailpage",
+      "label": "ServiceDetailPage()",
       "_callable": true,
       "_origin": "ast",
       "community": 237,
-      "community_name": "transition-link.tsx",
+      "community_name": "service-detail-page.tsx",
       "file_type": "code",
-      "norm_label": "transitionlink()",
-      "source_file": "src/components/animated/transition-link.tsx",
-      "source_location": "L5"
+      "norm_label": "servicedetailpage()",
+      "source_file": "src/features/services/service-detail-page.tsx",
+      "source_location": "L26"
     },
     {
       "id": "src_pages_templates_animations_page_animationspage",
@@ -6157,16 +6193,16 @@
       "source_location": "L60"
     },
     {
-      "id": "src_components_home_get_started_getstarted",
-      "label": "GetStarted()",
+      "id": "src_features_notifications_notifications_menu_notificationsmenu",
+      "label": "NotificationsMenu()",
       "_callable": true,
       "_origin": "ast",
       "community": 240,
-      "community_name": "get-started.tsx",
+      "community_name": "notifications-menu.tsx",
       "file_type": "code",
-      "norm_label": "getstarted()",
-      "source_file": "src/components/home/get-started.tsx",
-      "source_location": "L21"
+      "norm_label": "notificationsmenu()",
+      "source_file": "src/features/notifications/notifications-menu.tsx",
+      "source_location": "L10"
     },
     {
       "id": "src_components_page_header_pageheader",
@@ -6193,18 +6229,6 @@
       "source_location": "L12"
     },
     {
-      "id": "src_components_ui_sonner_toaster",
-      "label": "Toaster()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 244,
-      "community_name": "sonner.tsx",
-      "file_type": "code",
-      "norm_label": "toaster()",
-      "source_file": "src/components/ui/sonner.tsx",
-      "source_location": "L7"
-    },
-    {
       "id": "src_components_home_navbar_navbar",
       "label": "Navbar()",
       "_callable": true,
@@ -6217,16 +6241,16 @@
       "source_location": "L12"
     },
     {
-      "id": "src_features_auth_login_page_loginpage",
-      "label": "LoginPage()",
+      "id": "src_features_services_services_page_servicespage",
+      "label": "ServicesPage()",
       "_callable": true,
       "_origin": "ast",
       "community": 248,
-      "community_name": "login-page.tsx",
+      "community_name": "services-page.tsx",
       "file_type": "code",
-      "norm_label": "loginpage()",
-      "source_file": "src/features/auth/login-page.tsx",
-      "source_location": "L12"
+      "norm_label": "servicespage()",
+      "source_file": "src/features/services/services-page.tsx",
+      "source_location": "L18"
     },
     {
       "id": "src_pages_custom_home_page_customhomepage",
@@ -6299,30 +6323,6 @@
       "norm_label": "resize()",
       "source_file": "src/components/three/scene.ts",
       "source_location": "L96"
-    },
-    {
-      "id": "src_features_profile_profile_details_form_profiledetailsform",
-      "label": "ProfileDetailsForm()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 250,
-      "community_name": "profile-details-form.tsx",
-      "file_type": "code",
-      "norm_label": "profiledetailsform()",
-      "source_file": "src/features/profile/profile-details-form.tsx",
-      "source_location": "L17"
-    },
-    {
-      "id": "src_features_services_services_page_servicespage",
-      "label": "ServicesPage()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 251,
-      "community_name": "services-page.tsx",
-      "file_type": "code",
-      "norm_label": "servicespage()",
-      "source_file": "src/features/services/services-page.tsx",
-      "source_location": "L18"
     },
     {
       "id": "src_components_ui_tabs_tabs",
@@ -6541,6 +6541,18 @@
       "source_location": "L4"
     },
     {
+      "id": "src_components_home_interactive_background_homeinteractivebackground",
+      "label": "HomeInteractiveBackground()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "homeinteractivebackground()",
+      "source_file": "src/components/home-interactive-background.tsx",
+      "source_location": "L15"
+    },
+    {
       "id": "src_components_interactive_like_button_likebutton",
       "label": "LikeButton()",
       "_callable": true,
@@ -6613,6 +6625,18 @@
       "source_location": "L4"
     },
     {
+      "id": "src_components_ui_input_input",
+      "label": "Input()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "input()",
+      "source_file": "src/components/ui/input.tsx",
+      "source_location": "L5"
+    },
+    {
       "id": "src_components_ui_label_label",
       "label": "Label()",
       "_callable": true,
@@ -6625,6 +6649,18 @@
       "source_location": "L6"
     },
     {
+      "id": "src_components_ui_select_select",
+      "label": "Select()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "select()",
+      "source_file": "src/components/ui/select.tsx",
+      "source_location": "L5"
+    },
+    {
       "id": "src_components_ui_separator_separator",
       "label": "Separator()",
       "_callable": true,
@@ -6635,6 +6671,18 @@
       "norm_label": "separator()",
       "source_file": "src/components/ui/separator.tsx",
       "source_location": "L6"
+    },
+    {
+      "id": "src_components_ui_sonner_toaster",
+      "label": "Toaster()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "toaster()",
+      "source_file": "src/components/ui/sonner.tsx",
+      "source_location": "L7"
     },
     {
       "id": "src_components_ui_textarea_textarea",
@@ -6673,18 +6721,6 @@
       "source_location": "L25"
     },
     {
-      "id": "src_features_agent_agent_team_page_agentteampage",
-      "label": "AgentTeamPage()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "agentteampage()",
-      "source_file": "src/features/agent/agent-team-page.tsx",
-      "source_location": "L19"
-    },
-    {
       "id": "src_features_auth_admin_login_page_adminloginpage",
       "label": "AdminLoginPage()",
       "_callable": true,
@@ -6697,16 +6733,16 @@
       "source_location": "L11"
     },
     {
-      "id": "src_features_items_item_detail_page_itemdetailpage",
-      "label": "ItemDetailPage()",
+      "id": "src_features_auth_login_page_loginpage",
+      "label": "LoginPage()",
       "_callable": true,
       "_origin": "ast",
       "community": 3,
       "community_name": "react",
       "file_type": "code",
-      "norm_label": "itemdetailpage()",
-      "source_file": "src/features/items/item-detail-page.tsx",
-      "source_location": "L16"
+      "norm_label": "loginpage()",
+      "source_file": "src/features/auth/login-page.tsx",
+      "source_location": "L12"
     },
     {
       "id": "src_features_items_items_page_itemspage",
@@ -6721,18 +6757,6 @@
       "source_location": "L23"
     },
     {
-      "id": "src_features_map_map_page_mappage",
-      "label": "MapPage()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "mappage()",
-      "source_file": "src/features/map/map-page.tsx",
-      "source_location": "L27"
-    },
-    {
       "id": "src_features_news_news_page_newspage",
       "label": "NewsPage()",
       "_callable": true,
@@ -6745,16 +6769,16 @@
       "source_location": "L17"
     },
     {
-      "id": "src_features_notifications_notifications_menu_notificationsmenu",
-      "label": "NotificationsMenu()",
+      "id": "src_features_profile_profile_details_form_profiledetailsform",
+      "label": "ProfileDetailsForm()",
       "_callable": true,
       "_origin": "ast",
       "community": 3,
       "community_name": "react",
       "file_type": "code",
-      "norm_label": "notificationsmenu()",
-      "source_file": "src/features/notifications/notifications-menu.tsx",
-      "source_location": "L10"
+      "norm_label": "profiledetailsform()",
+      "source_file": "src/features/profile/profile-details-form.tsx",
+      "source_location": "L17"
     },
     {
       "id": "src_features_requests_my_requests_page_myrequestspage",
@@ -7717,16 +7741,16 @@
       "source_location": "L10"
     },
     {
-      "id": "src_components_home_interactive_background_homeinteractivebackground",
-      "label": "HomeInteractiveBackground()",
+      "id": "src_components_confirm_dialog_confirmdialog",
+      "label": "ConfirmDialog()",
       "_callable": true,
       "_origin": "ast",
       "community": 69,
-      "community_name": "home-interactive-background.tsx",
+      "community_name": "confirm-dialog.tsx",
       "file_type": "code",
-      "norm_label": "homeinteractivebackground()",
-      "source_file": "src/components/home-interactive-background.tsx",
-      "source_location": "L15"
+      "norm_label": "confirmdialog()",
+      "source_file": "src/components/confirm-dialog.tsx",
+      "source_location": "L27"
     },
     {
       "id": "src_components_home_presets_alternate_home_heroes_alternatehomehero",
@@ -8207,18 +8231,6 @@
       "norm_label": "passwordupdatepage()",
       "source_file": "src/features/auth/password-pages.tsx",
       "source_location": "L22"
-    },
-    {
-      "id": "src_components_confirm_dialog_confirmdialog",
-      "label": "ConfirmDialog()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 86,
-      "community_name": "confirm-dialog.tsx",
-      "file_type": "code",
-      "norm_label": "confirmdialog()",
-      "source_file": "src/components/confirm-dialog.tsx",
-      "source_location": "L27"
     },
     {
       "id": "src_pages_app_dashboard_page_dashboardpage",
@@ -9075,6 +9087,17 @@
       "file_type": "code",
       "norm_label": "dispatch-heat-alert/index.ts",
       "source_file": "supabase/functions/dispatch-heat-alert/index.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "supabase_functions_gemini_chat_index",
+      "label": "gemini-chat/index.ts",
+      "_origin": "ast",
+      "community": 10,
+      "community_name": "_shared/http.ts",
+      "file_type": "code",
+      "norm_label": "gemini-chat/index.ts",
+      "source_file": "supabase/functions/gemini-chat/index.ts",
       "source_location": "L1"
     },
     {
@@ -10053,40 +10076,16 @@
       "source_location": "L1015"
     },
     {
-      "id": "ruleset_2_1_directory_mapping",
-      "label": "2.1 Directory Mapping",
+      "id": "ruleset_18_getting_help",
+      "label": "18. GETTING HELP",
       "_origin": "ast",
       "community": 115,
       "community_name": "AI Development Ruleset for Webcup 2026 Starter",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "2.1 directory mapping",
+      "norm_label": "18. getting help",
       "source_file": "RULESET.md",
-      "source_location": "L37"
-    },
-    {
-      "id": "ruleset_2_2_path_alias",
-      "label": "2.2 Path Alias",
-      "_origin": "ast",
-      "community": 115,
-      "community_name": "AI Development Ruleset for Webcup 2026 Starter",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "2.2 path alias",
-      "source_file": "RULESET.md",
-      "source_location": "L105"
-    },
-    {
-      "id": "ruleset_2_file_structure_organization",
-      "label": "2. FILE STRUCTURE & ORGANIZATION",
-      "_origin": "ast",
-      "community": 115,
-      "community_name": "AI Development Ruleset for Webcup 2026 Starter",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "2. file structure & organization",
-      "source_file": "RULESET.md",
-      "source_location": "L35"
+      "source_location": "L1027"
     },
     {
       "id": "ruleset_5_1_create_forms_with_react_hook_form_zod",
@@ -10113,52 +10112,52 @@
       "source_location": "L237"
     },
     {
-      "id": "ruleset_7_1_component_structure",
-      "label": "7.1 Component Structure",
+      "id": "ruleset_9_1_query_data_read",
+      "label": "9.1 Query Data (Read)",
       "_origin": "ast",
       "community": 115,
       "community_name": "AI Development Ruleset for Webcup 2026 Starter",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "7.1 component structure",
+      "norm_label": "9.1 query data (read)",
       "source_file": "RULESET.md",
-      "source_location": "L333"
+      "source_location": "L411"
     },
     {
-      "id": "ruleset_7_2_where_to_place_components",
-      "label": "7.2 Where to Place Components",
+      "id": "ruleset_9_2_mutate_data_create_update_delete",
+      "label": "9.2 Mutate Data (Create/Update/Delete)",
       "_origin": "ast",
       "community": 115,
       "community_name": "AI Development Ruleset for Webcup 2026 Starter",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "7.2 where to place components",
+      "norm_label": "9.2 mutate data (create/update/delete)",
       "source_file": "RULESET.md",
-      "source_location": "L354"
+      "source_location": "L437"
     },
     {
-      "id": "ruleset_7_3_props_pattern",
-      "label": "7.3 Props Pattern",
+      "id": "ruleset_9_3_existing_hooks_for_crud_items",
+      "label": "9.3 Existing Hooks for CRUD Items",
       "_origin": "ast",
       "community": 115,
       "community_name": "AI Development Ruleset for Webcup 2026 Starter",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "7.3 props pattern",
+      "norm_label": "9.3 existing hooks for crud items",
       "source_file": "RULESET.md",
-      "source_location": "L361"
+      "source_location": "L466"
     },
     {
-      "id": "ruleset_7_creating_new_components",
-      "label": "7. CREATING NEW COMPONENTS",
+      "id": "ruleset_9_data_fetching_mutations",
+      "label": "9. DATA FETCHING & MUTATIONS",
       "_origin": "ast",
       "community": 115,
       "community_name": "AI Development Ruleset for Webcup 2026 Starter",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "7. creating new components",
+      "norm_label": "9. data fetching & mutations",
       "source_file": "RULESET.md",
-      "source_location": "L331"
+      "source_location": "L409"
     },
     {
       "id": "ruleset_ai_development_ruleset_for_webcup_2026_starter",
@@ -10171,6 +10170,30 @@
       "norm_label": "ai development ruleset for webcup 2026 starter",
       "source_file": "RULESET.md",
       "source_location": "L1"
+    },
+    {
+      "id": "ruleset_check_these_files_first",
+      "label": "Check These Files First",
+      "_origin": "ast",
+      "community": 115,
+      "community_name": "AI Development Ruleset for Webcup 2026 Starter",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "check these files first",
+      "source_file": "RULESET.md",
+      "source_location": "L1029"
+    },
+    {
+      "id": "ruleset_run_these_commands",
+      "label": "Run These Commands",
+      "_origin": "ast",
+      "community": 115,
+      "community_name": "AI Development Ruleset for Webcup 2026 Starter",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "run these commands",
+      "source_file": "RULESET.md",
+      "source_location": "L1036"
     },
     {
       "id": "docs_requests_4_1_chatbot_texte_et_vocal",
@@ -13572,6 +13595,17 @@
       "source_location": "L32"
     },
     {
+      "id": "package_devdependencies_jsdom",
+      "label": "jsdom",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "devDependencies",
+      "file_type": "code",
+      "norm_label": "jsdom",
+      "source_file": "package.json",
+      "source_location": "L44"
+    },
+    {
       "id": "package_devdependencies_oxlint",
       "label": "oxlint",
       "_origin": "ast",
@@ -13592,17 +13626,6 @@
       "norm_label": "@tailwindcss/vite",
       "source_file": "package.json",
       "source_location": "L34"
-    },
-    {
-      "id": "package_devdependencies_testing_library_user_event",
-      "label": "@testing-library/user-event",
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "devDependencies",
-      "file_type": "code",
-      "norm_label": "@testing-library/user-event",
-      "source_file": "package.json",
-      "source_location": "L37"
     },
     {
       "id": "package_devdependencies_types_node",
@@ -13649,6 +13672,17 @@
       "source_location": "L42"
     },
     {
+      "id": "jsdom",
+      "label": "jsdom",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "devDependencies",
+      "file_type": "concept",
+      "norm_label": "jsdom",
+      "source_file": "package.json",
+      "source_location": "L44"
+    },
+    {
       "id": "oxlint",
       "label": "oxlint",
       "_origin": "ast",
@@ -13669,17 +13703,6 @@
       "norm_label": "@tailwindcss/vite",
       "source_file": "package.json",
       "source_location": "L34"
-    },
-    {
-      "id": "testing_library_user_event",
-      "label": "@testing-library/user-event",
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "devDependencies",
-      "file_type": "concept",
-      "norm_label": "@testing-library/user-event",
-      "source_file": "package.json",
-      "source_location": "L37"
     },
     {
       "id": "types_node",
@@ -13737,52 +13760,40 @@
       "source_location": "L1"
     },
     {
-      "id": "ruleset_9_1_query_data_read",
-      "label": "9.1 Query Data (Read)",
+      "id": "ruleset_2_1_directory_mapping",
+      "label": "2.1 Directory Mapping",
       "_origin": "ast",
       "community": 200,
-      "community_name": "9. DATA FETCHING & MUTATIONS",
+      "community_name": "2. FILE STRUCTURE & ORGANIZATION",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "9.1 query data (read)",
+      "norm_label": "2.1 directory mapping",
       "source_file": "RULESET.md",
-      "source_location": "L411"
+      "source_location": "L37"
     },
     {
-      "id": "ruleset_9_2_mutate_data_create_update_delete",
-      "label": "9.2 Mutate Data (Create/Update/Delete)",
+      "id": "ruleset_2_2_path_alias",
+      "label": "2.2 Path Alias",
       "_origin": "ast",
       "community": 200,
-      "community_name": "9. DATA FETCHING & MUTATIONS",
+      "community_name": "2. FILE STRUCTURE & ORGANIZATION",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "9.2 mutate data (create/update/delete)",
+      "norm_label": "2.2 path alias",
       "source_file": "RULESET.md",
-      "source_location": "L437"
+      "source_location": "L105"
     },
     {
-      "id": "ruleset_9_3_existing_hooks_for_crud_items",
-      "label": "9.3 Existing Hooks for CRUD Items",
+      "id": "ruleset_2_file_structure_organization",
+      "label": "2. FILE STRUCTURE & ORGANIZATION",
       "_origin": "ast",
       "community": 200,
-      "community_name": "9. DATA FETCHING & MUTATIONS",
+      "community_name": "2. FILE STRUCTURE & ORGANIZATION",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "9.3 existing hooks for crud items",
+      "norm_label": "2. file structure & organization",
       "source_file": "RULESET.md",
-      "source_location": "L466"
-    },
-    {
-      "id": "ruleset_9_data_fetching_mutations",
-      "label": "9. DATA FETCHING & MUTATIONS",
-      "_origin": "ast",
-      "community": 200,
-      "community_name": "9. DATA FETCHING & MUTATIONS",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "9. data fetching & mutations",
-      "source_file": "RULESET.md",
-      "source_location": "L409"
+      "source_location": "L35"
     },
     {
       "id": "src_features_agent_sync_queries",
@@ -14127,26 +14138,15 @@
       "source_location": "L1"
     },
     {
-      "id": "src_features_services_service_detail_page",
-      "label": "service-detail-page.tsx",
+      "id": "src_components_animated_transition_link",
+      "label": "transition-link.tsx",
       "_origin": "ast",
       "community": 218,
-      "community_name": "service-detail-page.tsx",
+      "community_name": "transition-link.tsx",
       "file_type": "code",
-      "norm_label": "service-detail-page.tsx",
-      "source_file": "src/features/services/service-detail-page.tsx",
+      "norm_label": "transition-link.tsx",
+      "source_file": "src/components/animated/transition-link.tsx",
       "source_location": "L1"
-    },
-    {
-      "id": "src_features_services_service_detail_page_facility_map_layers",
-      "label": "FACILITY_MAP_LAYERS",
-      "_origin": "ast",
-      "community": 218,
-      "community_name": "service-detail-page.tsx",
-      "file_type": "code",
-      "norm_label": "facility_map_layers",
-      "source_file": "src/features/services/service-detail-page.tsx",
-      "source_location": "L21"
     },
     {
       "id": "docs_plan_4_1_the_city",
@@ -14252,40 +14252,15 @@
       "source_location": "L1"
     },
     {
-      "id": "ruleset_18_getting_help",
-      "label": "18. GETTING HELP",
+      "id": "src_components_home_get_started",
+      "label": "get-started.tsx",
       "_origin": "ast",
       "community": 222,
-      "community_name": "18. GETTING HELP",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "18. getting help",
-      "source_file": "RULESET.md",
-      "source_location": "L1027"
-    },
-    {
-      "id": "ruleset_check_these_files_first",
-      "label": "Check These Files First",
-      "_origin": "ast",
-      "community": 222,
-      "community_name": "18. GETTING HELP",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "check these files first",
-      "source_file": "RULESET.md",
-      "source_location": "L1029"
-    },
-    {
-      "id": "ruleset_run_these_commands",
-      "label": "Run These Commands",
-      "_origin": "ast",
-      "community": 222,
-      "community_name": "18. GETTING HELP",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "run these commands",
-      "source_file": "RULESET.md",
-      "source_location": "L1036"
+      "community_name": "get-started.tsx",
+      "file_type": "code",
+      "norm_label": "get-started.tsx",
+      "source_file": "src/components/home/get-started.tsx",
+      "source_location": "L1"
     },
     {
       "id": "src_components_ui_breadcrumb",
@@ -14486,36 +14461,25 @@
       "source_location": "L31"
     },
     {
-      "id": "package_devdependencies_supabase",
-      "label": "supabase",
+      "id": "src_features_items_item_detail_page",
+      "label": "item-detail-page.tsx",
       "_origin": "ast",
       "community": 230,
-      "community_name": "supabase",
+      "community_name": "item-detail-page.tsx",
       "file_type": "code",
-      "norm_label": "supabase",
-      "source_file": "package.json",
-      "source_location": "L46"
+      "norm_label": "item-detail-page.tsx",
+      "source_file": "src/features/items/item-detail-page.tsx",
+      "source_location": "L1"
     },
     {
-      "id": "supabase",
-      "label": "supabase",
-      "_origin": "ast",
-      "community": 230,
-      "community_name": "supabase",
-      "file_type": "concept",
-      "norm_label": "supabase",
-      "source_file": "package.json",
-      "source_location": "L46"
-    },
-    {
-      "id": "src_components_ui_input",
-      "label": "input.tsx",
+      "id": "src_features_agent_agent_team_page",
+      "label": "agent-team-page.tsx",
       "_origin": "ast",
       "community": 231,
-      "community_name": "input.tsx",
+      "community_name": "agent-team-page.tsx",
       "file_type": "code",
-      "norm_label": "input.tsx",
-      "source_file": "src/components/ui/input.tsx",
+      "norm_label": "agent-team-page.tsx",
+      "source_file": "src/features/agent/agent-team-page.tsx",
       "source_location": "L1"
     },
     {
@@ -14563,15 +14527,26 @@
       "source_location": "L50"
     },
     {
-      "id": "src_components_ui_select",
-      "label": "select.tsx",
+      "id": "src_features_map_map_page",
+      "label": "map/map-page.tsx",
       "_origin": "ast",
       "community": 234,
-      "community_name": "select.tsx",
+      "community_name": "map/map-page.tsx",
       "file_type": "code",
-      "norm_label": "select.tsx",
-      "source_file": "src/components/ui/select.tsx",
+      "norm_label": "map/map-page.tsx",
+      "source_file": "src/features/map/map-page.tsx",
       "source_location": "L1"
+    },
+    {
+      "id": "src_features_map_map_page_dangerous",
+      "label": "DANGEROUS",
+      "_origin": "ast",
+      "community": 234,
+      "community_name": "map/map-page.tsx",
+      "file_type": "code",
+      "norm_label": "dangerous",
+      "source_file": "src/features/map/map-page.tsx",
+      "source_location": "L24"
     },
     {
       "id": "package_devdependencies_vite",
@@ -14618,15 +14593,26 @@
       "source_location": "L35"
     },
     {
-      "id": "src_components_animated_transition_link",
-      "label": "transition-link.tsx",
+      "id": "src_features_services_service_detail_page",
+      "label": "service-detail-page.tsx",
       "_origin": "ast",
       "community": 237,
-      "community_name": "transition-link.tsx",
+      "community_name": "service-detail-page.tsx",
       "file_type": "code",
-      "norm_label": "transition-link.tsx",
-      "source_file": "src/components/animated/transition-link.tsx",
+      "norm_label": "service-detail-page.tsx",
+      "source_file": "src/features/services/service-detail-page.tsx",
       "source_location": "L1"
+    },
+    {
+      "id": "src_features_services_service_detail_page_facility_map_layers",
+      "label": "FACILITY_MAP_LAYERS",
+      "_origin": "ast",
+      "community": 237,
+      "community_name": "service-detail-page.tsx",
+      "file_type": "code",
+      "norm_label": "facility_map_layers",
+      "source_file": "src/features/services/service-detail-page.tsx",
+      "source_location": "L21"
     },
     {
       "id": "src_pages_templates_animations_page",
@@ -14695,14 +14681,14 @@
       "source_location": "L9"
     },
     {
-      "id": "src_components_home_get_started",
-      "label": "get-started.tsx",
+      "id": "src_features_notifications_notifications_menu",
+      "label": "notifications-menu.tsx",
       "_origin": "ast",
       "community": 240,
-      "community_name": "get-started.tsx",
+      "community_name": "notifications-menu.tsx",
       "file_type": "code",
-      "norm_label": "get-started.tsx",
-      "source_file": "src/components/home/get-started.tsx",
+      "norm_label": "notifications-menu.tsx",
+      "source_file": "src/features/notifications/notifications-menu.tsx",
       "source_location": "L1"
     },
     {
@@ -14750,15 +14736,26 @@
       "source_location": "L43"
     },
     {
-      "id": "src_components_ui_sonner",
-      "label": "sonner.tsx",
+      "id": "package_devdependencies_testing_library_user_event",
+      "label": "@testing-library/user-event",
       "_origin": "ast",
       "community": 244,
-      "community_name": "sonner.tsx",
+      "community_name": "@testing-library/user-event",
       "file_type": "code",
-      "norm_label": "sonner.tsx",
-      "source_file": "src/components/ui/sonner.tsx",
-      "source_location": "L1"
+      "norm_label": "@testing-library/user-event",
+      "source_file": "package.json",
+      "source_location": "L37"
+    },
+    {
+      "id": "testing_library_user_event",
+      "label": "@testing-library/user-event",
+      "_origin": "ast",
+      "community": 244,
+      "community_name": "@testing-library/user-event",
+      "file_type": "concept",
+      "norm_label": "@testing-library/user-event",
+      "source_file": "package.json",
+      "source_location": "L37"
     },
     {
       "id": "src_components_home_navbar",
@@ -14772,26 +14769,26 @@
       "source_location": "L1"
     },
     {
-      "id": "package_devdependencies_jsdom",
-      "label": "jsdom",
+      "id": "package_devdependencies_supabase",
+      "label": "supabase",
       "_origin": "ast",
       "community": 246,
-      "community_name": "jsdom",
+      "community_name": "supabase",
       "file_type": "code",
-      "norm_label": "jsdom",
+      "norm_label": "supabase",
       "source_file": "package.json",
-      "source_location": "L44"
+      "source_location": "L46"
     },
     {
-      "id": "jsdom",
-      "label": "jsdom",
+      "id": "supabase",
+      "label": "supabase",
       "_origin": "ast",
       "community": 246,
-      "community_name": "jsdom",
+      "community_name": "supabase",
       "file_type": "concept",
-      "norm_label": "jsdom",
+      "norm_label": "supabase",
       "source_file": "package.json",
-      "source_location": "L44"
+      "source_location": "L46"
     },
     {
       "id": "src_features_alerts_heatwave_guidance_test",
@@ -14805,14 +14802,14 @@
       "source_location": "L1"
     },
     {
-      "id": "src_features_auth_login_page",
-      "label": "login-page.tsx",
+      "id": "src_features_services_services_page",
+      "label": "services-page.tsx",
       "_origin": "ast",
       "community": 248,
-      "community_name": "login-page.tsx",
+      "community_name": "services-page.tsx",
       "file_type": "code",
-      "norm_label": "login-page.tsx",
-      "source_file": "src/features/auth/login-page.tsx",
+      "norm_label": "services-page.tsx",
+      "source_file": "src/features/services/services-page.tsx",
       "source_location": "L1"
     },
     {
@@ -14835,28 +14832,6 @@
       "file_type": "code",
       "norm_label": "scene.ts",
       "source_file": "src/components/three/scene.ts",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_features_profile_profile_details_form",
-      "label": "profile-details-form.tsx",
-      "_origin": "ast",
-      "community": 250,
-      "community_name": "profile-details-form.tsx",
-      "file_type": "code",
-      "norm_label": "profile-details-form.tsx",
-      "source_file": "src/features/profile/profile-details-form.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_features_services_services_page",
-      "label": "services-page.tsx",
-      "_origin": "ast",
-      "community": 251,
-      "community_name": "services-page.tsx",
-      "file_type": "code",
-      "norm_label": "services-page.tsx",
-      "source_file": "src/features/services/services-page.tsx",
       "source_location": "L1"
     },
     {
@@ -15014,6 +14989,17 @@
       "source_location": "L1"
     },
     {
+      "id": "src_components_home_interactive_background",
+      "label": "home-interactive-background.tsx",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "home-interactive-background.tsx",
+      "source_file": "src/components/home-interactive-background.tsx",
+      "source_location": "L1"
+    },
+    {
       "id": "src_components_interactive_like_button",
       "label": "like-button.tsx",
       "_origin": "ast",
@@ -15080,6 +15066,17 @@
       "source_location": "L1"
     },
     {
+      "id": "src_components_ui_input",
+      "label": "input.tsx",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "input.tsx",
+      "source_file": "src/components/ui/input.tsx",
+      "source_location": "L1"
+    },
+    {
       "id": "src_components_ui_label",
       "label": "label.tsx",
       "_origin": "ast",
@@ -15091,6 +15088,17 @@
       "source_location": "L1"
     },
     {
+      "id": "src_components_ui_select",
+      "label": "select.tsx",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "select.tsx",
+      "source_file": "src/components/ui/select.tsx",
+      "source_location": "L1"
+    },
+    {
       "id": "src_components_ui_separator",
       "label": "separator.tsx",
       "_origin": "ast",
@@ -15099,6 +15107,17 @@
       "file_type": "code",
       "norm_label": "separator.tsx",
       "source_file": "src/components/ui/separator.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_components_ui_sonner",
+      "label": "sonner.tsx",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "sonner.tsx",
+      "source_file": "src/components/ui/sonner.tsx",
       "source_location": "L1"
     },
     {
@@ -15135,17 +15154,6 @@
       "source_location": "L1"
     },
     {
-      "id": "src_features_agent_agent_team_page",
-      "label": "agent-team-page.tsx",
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "agent-team-page.tsx",
-      "source_file": "src/features/agent/agent-team-page.tsx",
-      "source_location": "L1"
-    },
-    {
       "id": "src_features_auth_admin_login_page",
       "label": "admin-login-page.tsx",
       "_origin": "ast",
@@ -15157,14 +15165,14 @@
       "source_location": "L1"
     },
     {
-      "id": "src_features_items_item_detail_page",
-      "label": "item-detail-page.tsx",
+      "id": "src_features_auth_login_page",
+      "label": "login-page.tsx",
       "_origin": "ast",
       "community": 3,
       "community_name": "react",
       "file_type": "code",
-      "norm_label": "item-detail-page.tsx",
-      "source_file": "src/features/items/item-detail-page.tsx",
+      "norm_label": "login-page.tsx",
+      "source_file": "src/features/auth/login-page.tsx",
       "source_location": "L1"
     },
     {
@@ -15179,28 +15187,6 @@
       "source_location": "L1"
     },
     {
-      "id": "src_features_map_map_page",
-      "label": "map/map-page.tsx",
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "map/map-page.tsx",
-      "source_file": "src/features/map/map-page.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_features_map_map_page_dangerous",
-      "label": "DANGEROUS",
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "dangerous",
-      "source_file": "src/features/map/map-page.tsx",
-      "source_location": "L24"
-    },
-    {
       "id": "src_features_news_news_page",
       "label": "news-page.tsx",
       "_origin": "ast",
@@ -15212,14 +15198,14 @@
       "source_location": "L1"
     },
     {
-      "id": "src_features_notifications_notifications_menu",
-      "label": "notifications-menu.tsx",
+      "id": "src_features_profile_profile_details_form",
+      "label": "profile-details-form.tsx",
       "_origin": "ast",
       "community": 3,
       "community_name": "react",
       "file_type": "code",
-      "norm_label": "notifications-menu.tsx",
-      "source_file": "src/features/notifications/notifications-menu.tsx",
+      "norm_label": "profile-details-form.tsx",
+      "source_file": "src/features/profile/profile-details-form.tsx",
       "source_location": "L1"
     },
     {
@@ -18064,14 +18050,14 @@
       "source_location": "L332"
     },
     {
-      "id": "src_components_home_interactive_background",
-      "label": "home-interactive-background.tsx",
+      "id": "src_components_confirm_dialog",
+      "label": "confirm-dialog.tsx",
       "_origin": "ast",
       "community": 69,
-      "community_name": "home-interactive-background.tsx",
+      "community_name": "confirm-dialog.tsx",
       "file_type": "code",
-      "norm_label": "home-interactive-background.tsx",
-      "source_file": "src/components/home-interactive-background.tsx",
+      "norm_label": "confirm-dialog.tsx",
+      "source_file": "src/components/confirm-dialog.tsx",
       "source_location": "L1"
     },
     {
@@ -18889,15 +18875,52 @@
       "source_location": "L1"
     },
     {
-      "id": "src_components_confirm_dialog",
-      "label": "confirm-dialog.tsx",
+      "id": "ruleset_7_1_component_structure",
+      "label": "7.1 Component Structure",
       "_origin": "ast",
       "community": 86,
-      "community_name": "confirm-dialog.tsx",
-      "file_type": "code",
-      "norm_label": "confirm-dialog.tsx",
-      "source_file": "src/components/confirm-dialog.tsx",
-      "source_location": "L1"
+      "community_name": "7. CREATING NEW COMPONENTS",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "7.1 component structure",
+      "source_file": "RULESET.md",
+      "source_location": "L333"
+    },
+    {
+      "id": "ruleset_7_2_where_to_place_components",
+      "label": "7.2 Where to Place Components",
+      "_origin": "ast",
+      "community": 86,
+      "community_name": "7. CREATING NEW COMPONENTS",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "7.2 where to place components",
+      "source_file": "RULESET.md",
+      "source_location": "L354"
+    },
+    {
+      "id": "ruleset_7_3_props_pattern",
+      "label": "7.3 Props Pattern",
+      "_origin": "ast",
+      "community": 86,
+      "community_name": "7. CREATING NEW COMPONENTS",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "7.3 props pattern",
+      "source_file": "RULESET.md",
+      "source_location": "L361"
+    },
+    {
+      "id": "ruleset_7_creating_new_components",
+      "label": "7. CREATING NEW COMPONENTS",
+      "_origin": "ast",
+      "community": 86,
+      "community_name": "7. CREATING NEW COMPONENTS",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "7. creating new components",
+      "source_file": "RULESET.md",
+      "source_location": "L331"
     },
     {
       "id": "src_lib_site",
@@ -19346,6 +19369,54 @@
       "source_location": "L73"
     },
     {
+      "id": "docs_google_ai_studio_voice",
+      "label": "GOOGLE-AI-STUDIO-VOICE.md",
+      "_origin": "ast",
+      "community": 99,
+      "community_name": "REQUESTS.md",
+      "file_type": "document",
+      "node_kind": "page",
+      "norm_label": "google-ai-studio-voice.md",
+      "source_file": "docs/GOOGLE-AI-STUDIO-VOICE.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "docs_google_ai_studio_voice_chat_vocal_google_ai_studio",
+      "label": "Chat vocal Google AI Studio",
+      "_origin": "ast",
+      "community": 99,
+      "community_name": "REQUESTS.md",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "chat vocal google ai studio",
+      "source_file": "docs/GOOGLE-AI-STUDIO-VOICE.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "docs_google_ai_studio_voice_configuration",
+      "label": "Configuration",
+      "_origin": "ast",
+      "community": 99,
+      "community_name": "REQUESTS.md",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "configuration",
+      "source_file": "docs/GOOGLE-AI-STUDIO-VOICE.md",
+      "source_location": "L5"
+    },
+    {
+      "id": "docs_google_ai_studio_voice_donn\u00e9es_et_confidentialit\u00e9",
+      "label": "Donn\u00e9es et confidentialit\u00e9",
+      "_origin": "ast",
+      "community": 99,
+      "community_name": "REQUESTS.md",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "donnees et confidentialite",
+      "source_file": "docs/GOOGLE-AI-STUDIO-VOICE.md",
+      "source_location": "L25"
+    },
+    {
       "id": "docs_openrouter",
       "label": "OPENROUTER.md",
       "_origin": "ast",
@@ -19354,18 +19425,6 @@
       "file_type": "document",
       "node_kind": "page",
       "norm_label": "openrouter.md",
-      "source_file": "docs/OPENROUTER.md",
-      "source_location": "L1"
-    },
-    {
-      "id": "docs_openrouter_assistant_openrouter",
-      "label": "Assistant OpenRouter",
-      "_origin": "ast",
-      "community": 99,
-      "community_name": "REQUESTS.md",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "assistant openrouter",
       "source_file": "docs/OPENROUTER.md",
       "source_location": "L1"
     },
@@ -19380,6 +19439,18 @@
       "norm_label": "historique facultatif",
       "source_file": "docs/OPENROUTER.md",
       "source_location": "L35"
+    },
+    {
+      "id": "docs_openrouter_openrouter_int\u00e9gration_h\u00e9rit\u00e9e",
+      "label": "OpenRouter \u2014 int\u00e9gration h\u00e9rit\u00e9e",
+      "_origin": "ast",
+      "community": 99,
+      "community_name": "REQUESTS.md",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "openrouter \u2014 integration heritee",
+      "source_file": "docs/OPENROUTER.md",
+      "source_location": "L1"
     },
     {
       "id": "docs_openrouter_pr\u00e9requis",
@@ -21001,7 +21072,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/features/chatbot/chatbot-page.tsx",
-      "source_location": "L84",
+      "source_location": "L134",
       "weight": 1.0
     },
     {
@@ -21013,7 +21084,19 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/features/chatbot/chatbot-page.tsx",
-      "source_location": "L89",
+      "source_location": "L140",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_chatbot_chatbot_page_chatbotpage",
+      "target": "src_features_chatbot_chatbot_page_getchatchoices",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/features/chatbot/chatbot-page.tsx",
+      "source_location": "L144",
       "weight": 1.0
     },
     {
@@ -21517,7 +21600,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/features/voice/speech.ts",
-      "source_location": "L102",
+      "source_location": "L108",
       "weight": 1.0
     },
     {
@@ -21529,7 +21612,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/features/voice/speech.ts",
-      "source_location": "L109",
+      "source_location": "L115",
       "weight": 1.0
     },
     {
@@ -21541,7 +21624,7 @@
       "confidence_score": 1.0,
       "context": "call",
       "source_file": "src/features/voice/speech.ts",
-      "source_location": "L120",
+      "source_location": "L127",
       "weight": 1.0
     },
     {
@@ -24341,6 +24424,66 @@
       "weight": 1.0
     },
     {
+      "source": "supabase_functions_gemini_chat_index",
+      "target": "supabase_functions_shared_http_authenticateduser",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "supabase/functions/gemini-chat/index.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "supabase_functions_gemini_chat_index",
+      "target": "supabase_functions_shared_http_json",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "supabase/functions/gemini-chat/index.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "supabase_functions_gemini_chat_index",
+      "target": "supabase_functions_shared_http_originallowed",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "supabase/functions/gemini-chat/index.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "supabase_functions_gemini_chat_index",
+      "target": "supabase_functions_shared_http_preflight",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "supabase/functions/gemini-chat/index.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "supabase_functions_gemini_chat_index",
+      "target": "supabase_functions_shared_http_userclient",
+      "relation": "imports",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "supabase/functions/gemini-chat/index.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
       "source": "supabase_functions_gemini_voice_chat_index",
       "target": "supabase_functions_shared_http_authenticateduser",
       "relation": "imports",
@@ -26333,6 +26476,18 @@
       "weight": 1.0
     },
     {
+      "source": "supabase_functions_gemini_chat_index",
+      "target": "supabase_functions_shared_http",
+      "relation": "imports_from",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "import",
+      "source_file": "supabase/functions/gemini-chat/index.ts",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
       "source": "supabase_functions_gemini_voice_chat_index",
       "target": "supabase_functions_shared_http",
       "relation": "imports_from",
@@ -26688,8 +26843,41 @@
       "weight": 1.0
     },
     {
+      "source": "docs_google_ai_studio_voice",
+      "target": "docs_google_ai_studio_voice_chat_vocal_google_ai_studio",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/GOOGLE-AI-STUDIO-VOICE.md",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_google_ai_studio_voice_chat_vocal_google_ai_studio",
+      "target": "docs_google_ai_studio_voice_donn\u00e9es_et_confidentialit\u00e9",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/GOOGLE-AI-STUDIO-VOICE.md",
+      "source_location": "L25",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_google_ai_studio_voice_chat_vocal_google_ai_studio",
+      "target": "docs_google_ai_studio_voice_configuration",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/GOOGLE-AI-STUDIO-VOICE.md",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
       "source": "docs_openrouter",
-      "target": "docs_openrouter_assistant_openrouter",
+      "target": "docs_openrouter_openrouter_int\u00e9gration_h\u00e9rit\u00e9e",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -26699,7 +26887,7 @@
       "weight": 1.0
     },
     {
-      "source": "docs_openrouter_assistant_openrouter",
+      "source": "docs_openrouter_openrouter_int\u00e9gration_h\u00e9rit\u00e9e",
       "target": "docs_openrouter_historique_facultatif",
       "relation": "contains",
       "_origin": "ast",
@@ -26710,7 +26898,7 @@
       "weight": 1.0
     },
     {
-      "source": "docs_openrouter_assistant_openrouter",
+      "source": "docs_openrouter_openrouter_int\u00e9gration_h\u00e9rit\u00e9e",
       "target": "docs_openrouter_s\u00e9curit\u00e9_et_limites",
       "relation": "contains",
       "_origin": "ast",
@@ -26721,7 +26909,7 @@
       "weight": 1.0
     },
     {
-      "source": "docs_openrouter_assistant_openrouter",
+      "source": "docs_openrouter_openrouter_int\u00e9gration_h\u00e9rit\u00e9e",
       "target": "docs_openrouter_pr\u00e9requis",
       "relation": "contains",
       "_origin": "ast",
@@ -34268,6 +34456,17 @@
     },
     {
       "source": "src_features_chatbot_chatbot_page",
+      "target": "src_features_chatbot_chatbot_page_chatbotpage",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/features/chatbot/chatbot-page.tsx",
+      "source_location": "L129",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_chatbot_chatbot_page",
       "target": "src_features_chatbot_chatbot_page_message",
       "relation": "contains",
       "_origin": "ast",
@@ -34285,7 +34484,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/features/chatbot/chatbot-page.tsx",
-      "source_location": "L40",
+      "source_location": "L41",
       "weight": 1.0
     },
     {
@@ -34296,7 +34495,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/features/chatbot/chatbot-page.tsx",
-      "source_location": "L48",
+      "source_location": "L49",
       "weight": 1.0
     },
     {
@@ -34307,12 +34506,12 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/features/chatbot/chatbot-page.tsx",
-      "source_location": "L76",
+      "source_location": "L77",
       "weight": 1.0
     },
     {
       "source": "src_features_chatbot_chatbot_page",
-      "target": "src_features_chatbot_chatbot_page_chatbotpage",
+      "target": "src_features_chatbot_chatbot_page_getchatchoices",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -36793,7 +36992,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/features/voice/speech.ts",
-      "source_location": "L119",
+      "source_location": "L126",
       "weight": 1.0
     },
     {
@@ -41109,7 +41308,7 @@
     },
     {
       "source": "docs_deploiement_hodi",
-      "target": "docs_openrouter",
+      "target": "docs_google_ai_studio_voice",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -41127,6 +41326,17 @@
       "confidence_score": 1.0,
       "source_file": "docs/DEPLOIEMENT-HODI.md",
       "source_location": "L80",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_openrouter",
+      "target": "docs_google_ai_studio_voice",
+      "relation": "references",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/OPENROUTER.md",
+      "source_location": "L3",
       "weight": 1.0
     },
     {
@@ -41752,5 +41962,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "2a1c51b96f4f3f941f812ed8d3fa88974fdd4af0"
+  "built_at_commit": "e82659970fb152bfa2364422a4aa0bcd605216aa"
 }

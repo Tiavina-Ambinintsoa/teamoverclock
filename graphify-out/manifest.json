@@ -930,15 +930,15 @@
     "semantic_hash": ""
   },
   "docs/DEPLOIEMENT-HODI.md": {
-    "mtime": 1790960132.3716805,
-    "seen": 1791017711.3662786,
-    "ast_hash": "5847b52c0df4f573ece6d5f5d2e8c3c9",
+    "mtime": 1791043567.057437,
+    "seen": 1791043623.44551,
+    "ast_hash": "ffdb2d27e3ee41aa22324576b20403dc",
     "semantic_hash": ""
   },
   "docs/OPENROUTER.md": {
-    "mtime": 1791041463.1641386,
-    "seen": 1791041827.9127457,
-    "ast_hash": "1ecefd14ee99cfac6a514267a59b9e05",
+    "mtime": 1791043721.7994902,
+    "seen": 1791043775.1262226,
+    "ast_hash": "4354eb106e73a053211730656dfd5b43",
     "semantic_hash": ""
   },
   "docs/SUPABASE.md": {
@@ -1182,21 +1182,21 @@
     "semantic_hash": ""
   },
   "src/features/chatbot/chatbot-engine.test.ts": {
-    "mtime": 1791038490.8389728,
-    "seen": 1791038543.7351959,
-    "ast_hash": "5ca9cdf4e57cf03923930817af5ab4e1",
+    "mtime": 1791043541.579407,
+    "seen": 1791043623.3131864,
+    "ast_hash": "51aaa1879b154ccb37fc29e6bea0d334",
     "semantic_hash": ""
   },
   "src/features/chatbot/chatbot-engine.ts": {
-    "mtime": 1791038507.0861616,
-    "seen": 1791038543.7351959,
-    "ast_hash": "de2c3c8d80d4e230d9ff5b85a6e3d979",
+    "mtime": 1791043537.5333602,
+    "seen": 1791043623.3131864,
+    "ast_hash": "93ae71997db8b8b18daac951a52355e2",
     "semantic_hash": ""
   },
   "src/features/chatbot/chatbot-page.tsx": {
-    "mtime": 1791042739.685145,
-    "seen": 1791042783.6969833,
-    "ast_hash": "6fa7cd5971938ef1ff194ad604d0d4c0",
+    "mtime": 1791043920.3010774,
+    "seen": 1791043954.038626,
+    "ast_hash": "b61fc24c6e82ca11aff95980cb8d74d6",
     "semantic_hash": ""
   },
   "src/features/citizen/citizen-dashboard.tsx": {
@@ -1707,6 +1707,18 @@
     "mtime": 1791041600.8325348,
     "seen": 1791041827.9067366,
     "ast_hash": "c9f17a0f62c8cc85b16aa9ed6f800a52",
+    "semantic_hash": ""
+  },
+  "docs/GOOGLE-AI-STUDIO-VOICE.md": {
+    "mtime": 1791041569.1559522,
+    "seen": 1791043347.2886996,
+    "ast_hash": "0fcc7074dd2a5e9a70dcee30b2effcfe",
+    "semantic_hash": ""
+  },
+  "supabase/functions/gemini-chat/index.ts": {
+    "mtime": 1791043799.3102913,
+    "seen": 1791043954.0596247,
+    "ast_hash": "1d8cc323b1e514334186e998ad691b91",
     "semantic_hash": ""
   }
 }

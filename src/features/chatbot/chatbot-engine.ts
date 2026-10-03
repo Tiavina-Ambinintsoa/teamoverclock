@@ -367,6 +367,22 @@ export function buildReply(context: ReplyContext): ChatReply {
     return { intent, kind: "normal", content: parts.join("\n"), sources, confidence: service.score }
   }
 
+  const normalizedQuestion = normalize(text)
+  if (
+    /(carte|map)/.test(normalizedQuestion)
+    && /(interactive|ecran|page|trouver|retrouver|ouvrir|where|which|screen)/.test(normalizedQuestion)
+  ) {
+    return {
+      intent,
+      kind: "normal",
+      content: locale === "en"
+        ? "The interactive city map is on the Map page. Open it to explore sectors and facilities."
+        : "La carte interactive se trouve sur l’écran Carte. Ouvrez cette page pour explorer les secteurs et les équipements.",
+      sources: [{ type: "faq", title: locale === "en" ? "Use the map and find a facility" : "Utiliser la carte et localiser un équipement", url: "/map" }],
+      confidence: 1,
+    }
+  }
+
   const hits = searchKnowledge(kb, text, 3).filter((h) => h.score >= MIN_CONFIDENCE)
   if (hits.length === 0) {
     return { intent, kind: "unknown", content: t.unknown, sources: [], confidence: 0, pendingAction: { type: "escalate" } }

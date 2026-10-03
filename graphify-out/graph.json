@@ -1785,6 +1785,19 @@
       "source_location": "L6"
     },
     {
+      "id": "src_components_home_interactive_background_homebackgroundstyle",
+      "label": "HomeBackgroundStyle",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 222,
+      "community_name": "home-interactive-background.tsx",
+      "file_type": "code",
+      "norm_label": "homebackgroundstyle",
+      "source_file": "src/components/home-interactive-background.tsx",
+      "source_location": "L6"
+    },
+    {
       "id": "src_components_ui_breadcrumb_breadcrumbitem",
       "label": "BreadcrumbItem",
       "_callable": true,
@@ -1861,19 +1874,6 @@
       "norm_label": "appnotification",
       "source_file": "src/features/notifications/notifications-menu.tsx",
       "source_location": "L8"
-    },
-    {
-      "id": "src_components_page_header_pageheaderprops",
-      "label": "PageHeaderProps",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 241,
-      "community_name": "page-header.tsx",
-      "file_type": "code",
-      "norm_label": "pageheaderprops",
-      "source_file": "src/components/page-header.tsx",
-      "source_location": "L5"
     },
     {
       "id": "src_components_ui_slider_sliderprops",
@@ -1978,6 +1978,19 @@
       "norm_label": "getstartedprops",
       "source_file": "src/components/home/get-started.tsx",
       "source_location": "L6"
+    },
+    {
+      "id": "src_components_page_header_pageheaderprops",
+      "label": "PageHeaderProps",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "pageheaderprops",
+      "source_file": "src/components/page-header.tsx",
+      "source_location": "L5"
     },
     {
       "id": "src_features_auth_auth_context_appuser",
@@ -2409,17 +2422,17 @@
       "source_location": "L4"
     },
     {
-      "id": "src_components_home_interactive_background_homebackgroundstyle",
-      "label": "HomeBackgroundStyle",
+      "id": "src_components_confirm_dialog_confirmdialogprops",
+      "label": "ConfirmDialogProps",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
       "community": 69,
-      "community_name": "home-interactive-background.tsx",
+      "community_name": "confirm-dialog.tsx",
       "file_type": "code",
-      "norm_label": "homebackgroundstyle",
-      "source_file": "src/components/home-interactive-background.tsx",
-      "source_location": "L6"
+      "norm_label": "confirmdialogprops",
+      "source_file": "src/components/confirm-dialog.tsx",
+      "source_location": "L15"
     },
     {
       "id": "src_components_home_presets_alternate_home_heroes_homeherovariant",
@@ -2641,19 +2654,6 @@
       "norm_label": "switchprops",
       "source_file": "src/components/ui/switch.tsx",
       "source_location": "L4"
-    },
-    {
-      "id": "src_components_confirm_dialog_confirmdialogprops",
-      "label": "ConfirmDialogProps",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 86,
-      "community_name": "confirm-dialog.tsx",
-      "file_type": "code",
-      "norm_label": "confirmdialogprops",
-      "source_file": "src/components/confirm-dialog.tsx",
-      "source_location": "L15"
     },
     {
       "id": "src_lib_site_siteconfig",
@@ -5857,28 +5857,16 @@
       "source_location": "L14"
     },
     {
-      "id": "src_components_layout_application_layout_applicationlayout",
-      "label": "ApplicationLayout()",
+      "id": "src_components_animated_transition_link_transitionlink",
+      "label": "TransitionLink()",
       "_callable": true,
       "_origin": "ast",
       "community": 218,
-      "community_name": "application-layout.tsx",
+      "community_name": "transition-link.tsx",
       "file_type": "code",
-      "norm_label": "applicationlayout()",
-      "source_file": "src/components/layout/application-layout.tsx",
-      "source_location": "L69"
-    },
-    {
-      "id": "src_components_layout_application_layout_sidebar",
-      "label": "Sidebar()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 218,
-      "community_name": "application-layout.tsx",
-      "file_type": "code",
-      "norm_label": "sidebar()",
-      "source_file": "src/components/layout/application-layout.tsx",
-      "source_location": "L16"
+      "norm_label": "transitionlink()",
+      "source_file": "src/components/animated/transition-link.tsx",
+      "source_location": "L5"
     },
     {
       "id": "src_pages_templates_map_page_mapembedurl",
@@ -5975,6 +5963,18 @@
       "norm_label": "lightbox()",
       "source_file": "src/components/lightbox.tsx",
       "source_location": "L21"
+    },
+    {
+      "id": "src_components_home_interactive_background_homeinteractivebackground",
+      "label": "HomeInteractiveBackground()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 222,
+      "community_name": "home-interactive-background.tsx",
+      "file_type": "code",
+      "norm_label": "homeinteractivebackground()",
+      "source_file": "src/components/home-interactive-background.tsx",
+      "source_location": "L15"
     },
     {
       "id": "src_components_ui_breadcrumb_breadcrumb",
@@ -6109,18 +6109,6 @@
       "source_location": "L27"
     },
     {
-      "id": "src_components_animated_transition_link_transitionlink",
-      "label": "TransitionLink()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 237,
-      "community_name": "transition-link.tsx",
-      "file_type": "code",
-      "norm_label": "transitionlink()",
-      "source_file": "src/components/animated/transition-link.tsx",
-      "source_location": "L5"
-    },
-    {
       "id": "src_pages_templates_animations_page_animationspage",
       "label": "AnimationsPage()",
       "_callable": true,
@@ -6205,16 +6193,16 @@
       "source_location": "L10"
     },
     {
-      "id": "src_components_page_header_pageheader",
-      "label": "PageHeader()",
+      "id": "src_features_auth_admin_login_page_adminloginpage",
+      "label": "AdminLoginPage()",
       "_callable": true,
       "_origin": "ast",
       "community": 241,
-      "community_name": "page-header.tsx",
+      "community_name": "admin-login-page.tsx",
       "file_type": "code",
-      "norm_label": "pageheader()",
-      "source_file": "src/components/page-header.tsx",
-      "source_location": "L14"
+      "norm_label": "adminloginpage()",
+      "source_file": "src/features/auth/admin-login-page.tsx",
+      "source_location": "L11"
     },
     {
       "id": "src_components_ui_slider_slider",
@@ -6239,6 +6227,18 @@
       "norm_label": "navbar()",
       "source_file": "src/components/home/navbar.tsx",
       "source_location": "L12"
+    },
+    {
+      "id": "src_features_news_news_page_newspage",
+      "label": "NewsPage()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 248,
+      "community_name": "news-page.tsx",
+      "file_type": "code",
+      "norm_label": "newspage()",
+      "source_file": "src/features/news/news-page.tsx",
+      "source_location": "L17"
     },
     {
       "id": "src_pages_custom_home_page_customhomepage",
@@ -6311,6 +6311,18 @@
       "norm_label": "resize()",
       "source_file": "src/components/three/scene.ts",
       "source_location": "L96"
+    },
+    {
+      "id": "src_features_requests_my_requests_page_myrequestspage",
+      "label": "MyRequestsPage()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 250,
+      "community_name": "my-requests-page.tsx",
+      "file_type": "code",
+      "norm_label": "myrequestspage()",
+      "source_file": "src/features/requests/my-requests-page.tsx",
+      "source_location": "L18"
     },
     {
       "id": "src_components_ui_tabs_tabs",
@@ -6553,6 +6565,30 @@
       "source_location": "L7"
     },
     {
+      "id": "src_components_layout_application_layout_applicationlayout",
+      "label": "ApplicationLayout()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "applicationlayout()",
+      "source_file": "src/components/layout/application-layout.tsx",
+      "source_location": "L69"
+    },
+    {
+      "id": "src_components_layout_application_layout_sidebar",
+      "label": "Sidebar()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "sidebar()",
+      "source_file": "src/components/layout/application-layout.tsx",
+      "source_location": "L16"
+    },
+    {
       "id": "src_components_layout_container_container",
       "label": "Container()",
       "_callable": true,
@@ -6563,6 +6599,18 @@
       "norm_label": "container()",
       "source_file": "src/components/layout/container.tsx",
       "source_location": "L6"
+    },
+    {
+      "id": "src_components_page_header_pageheader",
+      "label": "PageHeader()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "pageheader()",
+      "source_file": "src/components/page-header.tsx",
+      "source_location": "L14"
     },
     {
       "id": "src_components_ui_checkbox_checkbox",
@@ -6673,18 +6721,6 @@
       "source_location": "L25"
     },
     {
-      "id": "src_features_auth_admin_login_page_adminloginpage",
-      "label": "AdminLoginPage()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "adminloginpage()",
-      "source_file": "src/features/auth/admin-login-page.tsx",
-      "source_location": "L11"
-    },
-    {
       "id": "src_features_auth_login_page_loginpage",
       "label": "LoginPage()",
       "_callable": true,
@@ -6721,18 +6757,6 @@
       "source_location": "L23"
     },
     {
-      "id": "src_features_news_news_page_newspage",
-      "label": "NewsPage()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "newspage()",
-      "source_file": "src/features/news/news-page.tsx",
-      "source_location": "L17"
-    },
-    {
       "id": "src_features_profile_profile_details_form_profiledetailsform",
       "label": "ProfileDetailsForm()",
       "_callable": true,
@@ -6743,18 +6767,6 @@
       "norm_label": "profiledetailsform()",
       "source_file": "src/features/profile/profile-details-form.tsx",
       "source_location": "L17"
-    },
-    {
-      "id": "src_features_requests_my_requests_page_myrequestspage",
-      "label": "MyRequestsPage()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "myrequestspage()",
-      "source_file": "src/features/requests/my-requests-page.tsx",
-      "source_location": "L18"
     },
     {
       "id": "src_features_services_service_detail_page_servicedetailpage",
@@ -7729,16 +7741,16 @@
       "source_location": "L10"
     },
     {
-      "id": "src_components_home_interactive_background_homeinteractivebackground",
-      "label": "HomeInteractiveBackground()",
+      "id": "src_components_confirm_dialog_confirmdialog",
+      "label": "ConfirmDialog()",
       "_callable": true,
       "_origin": "ast",
       "community": 69,
-      "community_name": "home-interactive-background.tsx",
+      "community_name": "confirm-dialog.tsx",
       "file_type": "code",
-      "norm_label": "homeinteractivebackground()",
-      "source_file": "src/components/home-interactive-background.tsx",
-      "source_location": "L15"
+      "norm_label": "confirmdialog()",
+      "source_file": "src/components/confirm-dialog.tsx",
+      "source_location": "L27"
     },
     {
       "id": "src_components_home_presets_alternate_home_heroes_alternatehomehero",
@@ -8221,15 +8233,27 @@
       "source_location": "L22"
     },
     {
-      "id": "src_components_confirm_dialog_confirmdialog",
-      "label": "ConfirmDialog()",
+      "id": "supabase_functions_gemini_chat_index_corsheaders",
+      "label": "corsHeaders()",
       "_callable": true,
       "_origin": "ast",
       "community": 86,
-      "community_name": "confirm-dialog.tsx",
+      "community_name": "gemini-chat/index.ts",
       "file_type": "code",
-      "norm_label": "confirmdialog()",
-      "source_file": "src/components/confirm-dialog.tsx",
+      "norm_label": "corsheaders()",
+      "source_file": "supabase/functions/gemini-chat/index.ts",
+      "source_location": "L13"
+    },
+    {
+      "id": "supabase_functions_gemini_chat_index_json",
+      "label": "json()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 86,
+      "community_name": "gemini-chat/index.ts",
+      "file_type": "code",
+      "norm_label": "json()",
+      "source_file": "supabase/functions/gemini-chat/index.ts",
       "source_location": "L27"
     },
     {
@@ -13595,15 +13619,15 @@
       "source_location": "L45"
     },
     {
-      "id": "package_devdependencies_supabase",
-      "label": "supabase",
+      "id": "package_devdependencies_playwright_test",
+      "label": "@playwright/test",
       "_origin": "ast",
       "community": 2,
       "community_name": "devDependencies",
       "file_type": "code",
-      "norm_label": "supabase",
+      "norm_label": "@playwright/test",
       "source_file": "package.json",
-      "source_location": "L46"
+      "source_location": "L33"
     },
     {
       "id": "package_devdependencies_tailwindcss_vite",
@@ -13672,15 +13696,15 @@
       "source_location": "L45"
     },
     {
-      "id": "supabase",
-      "label": "supabase",
+      "id": "playwright_test",
+      "label": "@playwright/test",
       "_origin": "ast",
       "community": 2,
       "community_name": "devDependencies",
       "file_type": "concept",
-      "norm_label": "supabase",
+      "norm_label": "@playwright/test",
       "source_file": "package.json",
-      "source_location": "L46"
+      "source_location": "L33"
     },
     {
       "id": "tailwindcss_vite",
@@ -13749,52 +13773,40 @@
       "source_location": "L1"
     },
     {
-      "id": "ruleset_9_1_query_data_read",
-      "label": "9.1 Query Data (Read)",
+      "id": "ruleset_18_getting_help",
+      "label": "18. GETTING HELP",
       "_origin": "ast",
       "community": 200,
-      "community_name": "9. DATA FETCHING & MUTATIONS",
+      "community_name": "18. GETTING HELP",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "9.1 query data (read)",
+      "norm_label": "18. getting help",
       "source_file": "RULESET.md",
-      "source_location": "L411"
+      "source_location": "L1027"
     },
     {
-      "id": "ruleset_9_2_mutate_data_create_update_delete",
-      "label": "9.2 Mutate Data (Create/Update/Delete)",
+      "id": "ruleset_check_these_files_first",
+      "label": "Check These Files First",
       "_origin": "ast",
       "community": 200,
-      "community_name": "9. DATA FETCHING & MUTATIONS",
+      "community_name": "18. GETTING HELP",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "9.2 mutate data (create/update/delete)",
+      "norm_label": "check these files first",
       "source_file": "RULESET.md",
-      "source_location": "L437"
+      "source_location": "L1029"
     },
     {
-      "id": "ruleset_9_3_existing_hooks_for_crud_items",
-      "label": "9.3 Existing Hooks for CRUD Items",
+      "id": "ruleset_run_these_commands",
+      "label": "Run These Commands",
       "_origin": "ast",
       "community": 200,
-      "community_name": "9. DATA FETCHING & MUTATIONS",
+      "community_name": "18. GETTING HELP",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "9.3 existing hooks for crud items",
+      "norm_label": "run these commands",
       "source_file": "RULESET.md",
-      "source_location": "L466"
-    },
-    {
-      "id": "ruleset_9_data_fetching_mutations",
-      "label": "9. DATA FETCHING & MUTATIONS",
-      "_origin": "ast",
-      "community": 200,
-      "community_name": "9. DATA FETCHING & MUTATIONS",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "9. data fetching & mutations",
-      "source_file": "RULESET.md",
-      "source_location": "L409"
+      "source_location": "L1036"
     },
     {
       "id": "src_features_agent_sync_queries",
@@ -14139,14 +14151,14 @@
       "source_location": "L1"
     },
     {
-      "id": "src_components_layout_application_layout",
-      "label": "application-layout.tsx",
+      "id": "src_components_animated_transition_link",
+      "label": "transition-link.tsx",
       "_origin": "ast",
       "community": 218,
-      "community_name": "application-layout.tsx",
+      "community_name": "transition-link.tsx",
       "file_type": "code",
-      "norm_label": "application-layout.tsx",
-      "source_file": "src/components/layout/application-layout.tsx",
+      "norm_label": "transition-link.tsx",
+      "source_file": "src/components/animated/transition-link.tsx",
       "source_location": "L1"
     },
     {
@@ -14253,40 +14265,15 @@
       "source_location": "L1"
     },
     {
-      "id": "ruleset_18_getting_help",
-      "label": "18. GETTING HELP",
+      "id": "src_components_home_interactive_background",
+      "label": "home-interactive-background.tsx",
       "_origin": "ast",
       "community": 222,
-      "community_name": "18. GETTING HELP",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "18. getting help",
-      "source_file": "RULESET.md",
-      "source_location": "L1027"
-    },
-    {
-      "id": "ruleset_check_these_files_first",
-      "label": "Check These Files First",
-      "_origin": "ast",
-      "community": 222,
-      "community_name": "18. GETTING HELP",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "check these files first",
-      "source_file": "RULESET.md",
-      "source_location": "L1029"
-    },
-    {
-      "id": "ruleset_run_these_commands",
-      "label": "Run These Commands",
-      "_origin": "ast",
-      "community": 222,
-      "community_name": "18. GETTING HELP",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "run these commands",
-      "source_file": "RULESET.md",
-      "source_location": "L1036"
+      "community_name": "home-interactive-background.tsx",
+      "file_type": "code",
+      "norm_label": "home-interactive-background.tsx",
+      "source_file": "src/components/home-interactive-background.tsx",
+      "source_location": "L1"
     },
     {
       "id": "src_components_ui_breadcrumb",
@@ -14630,15 +14617,26 @@
       "source_location": "L35"
     },
     {
-      "id": "src_components_animated_transition_link",
-      "label": "transition-link.tsx",
+      "id": "package_devdependencies_jsdom",
+      "label": "jsdom",
       "_origin": "ast",
       "community": 237,
-      "community_name": "transition-link.tsx",
+      "community_name": "jsdom",
       "file_type": "code",
-      "norm_label": "transition-link.tsx",
-      "source_file": "src/components/animated/transition-link.tsx",
-      "source_location": "L1"
+      "norm_label": "jsdom",
+      "source_file": "package.json",
+      "source_location": "L44"
+    },
+    {
+      "id": "jsdom",
+      "label": "jsdom",
+      "_origin": "ast",
+      "community": 237,
+      "community_name": "jsdom",
+      "file_type": "concept",
+      "norm_label": "jsdom",
+      "source_file": "package.json",
+      "source_location": "L44"
     },
     {
       "id": "src_pages_templates_animations_page",
@@ -14718,14 +14716,14 @@
       "source_location": "L1"
     },
     {
-      "id": "src_components_page_header",
-      "label": "page-header.tsx",
+      "id": "src_features_auth_admin_login_page",
+      "label": "admin-login-page.tsx",
       "_origin": "ast",
       "community": 241,
-      "community_name": "page-header.tsx",
+      "community_name": "admin-login-page.tsx",
       "file_type": "code",
-      "norm_label": "page-header.tsx",
-      "source_file": "src/components/page-header.tsx",
+      "norm_label": "admin-login-page.tsx",
+      "source_file": "src/features/auth/admin-login-page.tsx",
       "source_location": "L1"
     },
     {
@@ -14795,26 +14793,26 @@
       "source_location": "L1"
     },
     {
-      "id": "package_devdependencies_jsdom",
-      "label": "jsdom",
+      "id": "package_devdependencies_supabase",
+      "label": "supabase",
       "_origin": "ast",
       "community": 246,
-      "community_name": "jsdom",
+      "community_name": "supabase",
       "file_type": "code",
-      "norm_label": "jsdom",
+      "norm_label": "supabase",
       "source_file": "package.json",
-      "source_location": "L44"
+      "source_location": "L46"
     },
     {
-      "id": "jsdom",
-      "label": "jsdom",
+      "id": "supabase",
+      "label": "supabase",
       "_origin": "ast",
       "community": 246,
-      "community_name": "jsdom",
+      "community_name": "supabase",
       "file_type": "concept",
-      "norm_label": "jsdom",
+      "norm_label": "supabase",
       "source_file": "package.json",
-      "source_location": "L44"
+      "source_location": "L46"
     },
     {
       "id": "src_features_alerts_heatwave_guidance_test",
@@ -14825,6 +14823,17 @@
       "file_type": "code",
       "norm_label": "heatwave-guidance.test.ts",
       "source_file": "src/features/alerts/heatwave-guidance.test.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_features_news_news_page",
+      "label": "news-page.tsx",
+      "_origin": "ast",
+      "community": 248,
+      "community_name": "news-page.tsx",
+      "file_type": "code",
+      "norm_label": "news-page.tsx",
+      "source_file": "src/features/news/news-page.tsx",
       "source_location": "L1"
     },
     {
@@ -14847,6 +14856,17 @@
       "file_type": "code",
       "norm_label": "scene.ts",
       "source_file": "src/components/three/scene.ts",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_features_requests_my_requests_page",
+      "label": "my-requests-page.tsx",
+      "_origin": "ast",
+      "community": 250,
+      "community_name": "my-requests-page.tsx",
+      "file_type": "code",
+      "norm_label": "my-requests-page.tsx",
+      "source_file": "src/features/requests/my-requests-page.tsx",
       "source_location": "L1"
     },
     {
@@ -15026,6 +15046,17 @@
       "source_location": "L1"
     },
     {
+      "id": "src_components_layout_application_layout",
+      "label": "application-layout.tsx",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "application-layout.tsx",
+      "source_file": "src/components/layout/application-layout.tsx",
+      "source_location": "L1"
+    },
+    {
       "id": "src_components_layout_container",
       "label": "container.tsx",
       "_origin": "ast",
@@ -15034,6 +15065,17 @@
       "file_type": "code",
       "norm_label": "container.tsx",
       "source_file": "src/components/layout/container.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_components_page_header",
+      "label": "page-header.tsx",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "page-header.tsx",
+      "source_file": "src/components/page-header.tsx",
       "source_location": "L1"
     },
     {
@@ -15136,17 +15178,6 @@
       "source_location": "L1"
     },
     {
-      "id": "src_features_auth_admin_login_page",
-      "label": "admin-login-page.tsx",
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "admin-login-page.tsx",
-      "source_file": "src/features/auth/admin-login-page.tsx",
-      "source_location": "L1"
-    },
-    {
       "id": "src_features_auth_login_page",
       "label": "login-page.tsx",
       "_origin": "ast",
@@ -15180,17 +15211,6 @@
       "source_location": "L1"
     },
     {
-      "id": "src_features_news_news_page",
-      "label": "news-page.tsx",
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "news-page.tsx",
-      "source_file": "src/features/news/news-page.tsx",
-      "source_location": "L1"
-    },
-    {
       "id": "src_features_profile_profile_details_form",
       "label": "profile-details-form.tsx",
       "_origin": "ast",
@@ -15199,17 +15219,6 @@
       "file_type": "code",
       "norm_label": "profile-details-form.tsx",
       "source_file": "src/features/profile/profile-details-form.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_features_requests_my_requests_page",
-      "label": "my-requests-page.tsx",
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "my-requests-page.tsx",
-      "source_file": "src/features/requests/my-requests-page.tsx",
       "source_location": "L1"
     },
     {
@@ -18076,14 +18085,14 @@
       "source_location": "L332"
     },
     {
-      "id": "src_components_home_interactive_background",
-      "label": "home-interactive-background.tsx",
+      "id": "src_components_confirm_dialog",
+      "label": "confirm-dialog.tsx",
       "_origin": "ast",
       "community": 69,
-      "community_name": "home-interactive-background.tsx",
+      "community_name": "confirm-dialog.tsx",
       "file_type": "code",
-      "norm_label": "home-interactive-background.tsx",
-      "source_file": "src/components/home-interactive-background.tsx",
+      "norm_label": "confirm-dialog.tsx",
+      "source_file": "src/components/confirm-dialog.tsx",
       "source_location": "L1"
     },
     {
@@ -18450,26 +18459,52 @@
       "source_location": "L1"
     },
     {
-      "id": "package_devdependencies_playwright_test",
-      "label": "@playwright/test",
+      "id": "ruleset_9_1_query_data_read",
+      "label": "9.1 Query Data (Read)",
       "_origin": "ast",
       "community": 78,
-      "community_name": "@playwright/test",
-      "file_type": "code",
-      "norm_label": "@playwright/test",
-      "source_file": "package.json",
-      "source_location": "L33"
+      "community_name": "9. DATA FETCHING & MUTATIONS",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "9.1 query data (read)",
+      "source_file": "RULESET.md",
+      "source_location": "L411"
     },
     {
-      "id": "playwright_test",
-      "label": "@playwright/test",
+      "id": "ruleset_9_2_mutate_data_create_update_delete",
+      "label": "9.2 Mutate Data (Create/Update/Delete)",
       "_origin": "ast",
       "community": 78,
-      "community_name": "@playwright/test",
-      "file_type": "concept",
-      "norm_label": "@playwright/test",
-      "source_file": "package.json",
-      "source_location": "L33"
+      "community_name": "9. DATA FETCHING & MUTATIONS",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "9.2 mutate data (create/update/delete)",
+      "source_file": "RULESET.md",
+      "source_location": "L437"
+    },
+    {
+      "id": "ruleset_9_3_existing_hooks_for_crud_items",
+      "label": "9.3 Existing Hooks for CRUD Items",
+      "_origin": "ast",
+      "community": 78,
+      "community_name": "9. DATA FETCHING & MUTATIONS",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "9.3 existing hooks for crud items",
+      "source_file": "RULESET.md",
+      "source_location": "L466"
+    },
+    {
+      "id": "ruleset_9_data_fetching_mutations",
+      "label": "9. DATA FETCHING & MUTATIONS",
+      "_origin": "ast",
+      "community": 78,
+      "community_name": "9. DATA FETCHING & MUTATIONS",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "9. data fetching & mutations",
+      "source_file": "RULESET.md",
+      "source_location": "L409"
     },
     {
       "id": "src_components_ui_badge",
@@ -18901,15 +18936,26 @@
       "source_location": "L1"
     },
     {
-      "id": "src_components_confirm_dialog",
-      "label": "confirm-dialog.tsx",
+      "id": "supabase_functions_gemini_chat_index",
+      "label": "gemini-chat/index.ts",
       "_origin": "ast",
       "community": 86,
-      "community_name": "confirm-dialog.tsx",
+      "community_name": "gemini-chat/index.ts",
       "file_type": "code",
-      "norm_label": "confirm-dialog.tsx",
-      "source_file": "src/components/confirm-dialog.tsx",
+      "norm_label": "gemini-chat/index.ts",
+      "source_file": "supabase/functions/gemini-chat/index.ts",
       "source_location": "L1"
+    },
+    {
+      "id": "supabase_functions_gemini_chat_index_allowedorigins",
+      "label": "allowedOrigins",
+      "_origin": "ast",
+      "community": 86,
+      "community_name": "gemini-chat/index.ts",
+      "file_type": "code",
+      "norm_label": "allowedorigins",
+      "source_file": "supabase/functions/gemini-chat/index.ts",
+      "source_location": "L8"
     },
     {
       "id": "src_lib_site",
@@ -19358,6 +19404,54 @@
       "source_location": "L73"
     },
     {
+      "id": "docs_google_ai_studio_voice",
+      "label": "GOOGLE-AI-STUDIO-VOICE.md",
+      "_origin": "ast",
+      "community": 99,
+      "community_name": "REQUESTS.md",
+      "file_type": "document",
+      "node_kind": "page",
+      "norm_label": "google-ai-studio-voice.md",
+      "source_file": "docs/GOOGLE-AI-STUDIO-VOICE.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "docs_google_ai_studio_voice_chat_vocal_google_ai_studio",
+      "label": "Chat vocal Google AI Studio",
+      "_origin": "ast",
+      "community": 99,
+      "community_name": "REQUESTS.md",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "chat vocal google ai studio",
+      "source_file": "docs/GOOGLE-AI-STUDIO-VOICE.md",
+      "source_location": "L1"
+    },
+    {
+      "id": "docs_google_ai_studio_voice_configuration",
+      "label": "Configuration",
+      "_origin": "ast",
+      "community": 99,
+      "community_name": "REQUESTS.md",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "configuration",
+      "source_file": "docs/GOOGLE-AI-STUDIO-VOICE.md",
+      "source_location": "L5"
+    },
+    {
+      "id": "docs_google_ai_studio_voice_donn\u00e9es_et_confidentialit\u00e9",
+      "label": "Donn\u00e9es et confidentialit\u00e9",
+      "_origin": "ast",
+      "community": 99,
+      "community_name": "REQUESTS.md",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "donnees et confidentialite",
+      "source_file": "docs/GOOGLE-AI-STUDIO-VOICE.md",
+      "source_location": "L25"
+    },
+    {
       "id": "docs_openrouter",
       "label": "OPENROUTER.md",
       "_origin": "ast",
@@ -19370,52 +19464,16 @@
       "source_location": "L1"
     },
     {
-      "id": "docs_openrouter_assistant_openrouter",
-      "label": "Assistant OpenRouter",
+      "id": "docs_openrouter_openrouter_int\u00e9gration_h\u00e9rit\u00e9e",
+      "label": "OpenRouter \u2014 int\u00e9gration h\u00e9rit\u00e9e",
       "_origin": "ast",
       "community": 99,
       "community_name": "REQUESTS.md",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "assistant openrouter",
+      "norm_label": "openrouter \u2014 integration heritee",
       "source_file": "docs/OPENROUTER.md",
       "source_location": "L1"
-    },
-    {
-      "id": "docs_openrouter_historique_facultatif",
-      "label": "Historique facultatif",
-      "_origin": "ast",
-      "community": 99,
-      "community_name": "REQUESTS.md",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "historique facultatif",
-      "source_file": "docs/OPENROUTER.md",
-      "source_location": "L35"
-    },
-    {
-      "id": "docs_openrouter_pr\u00e9requis",
-      "label": "Pr\u00e9requis",
-      "_origin": "ast",
-      "community": 99,
-      "community_name": "REQUESTS.md",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "prerequis",
-      "source_file": "docs/OPENROUTER.md",
-      "source_location": "L5"
-    },
-    {
-      "id": "docs_openrouter_s\u00e9curit\u00e9_et_limites",
-      "label": "S\u00e9curit\u00e9 et limites",
-      "_origin": "ast",
-      "community": 99,
-      "community_name": "REQUESTS.md",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "securite et limites",
-      "source_file": "docs/OPENROUTER.md",
-      "source_location": "L49"
     },
     {
       "id": "docs_plan",
@@ -21878,6 +21936,18 @@
       "context": "call",
       "source_file": "src/pages/templates/map-page.tsx",
       "source_location": "L42",
+      "weight": 1.0
+    },
+    {
+      "source": "supabase_functions_gemini_chat_index_json",
+      "target": "supabase_functions_gemini_chat_index_corsheaders",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "supabase/functions/gemini-chat/index.ts",
+      "source_location": "L30",
       "weight": 1.0
     },
     {
@@ -26712,47 +26782,47 @@
       "weight": 1.0
     },
     {
+      "source": "docs_google_ai_studio_voice",
+      "target": "docs_google_ai_studio_voice_chat_vocal_google_ai_studio",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/GOOGLE-AI-STUDIO-VOICE.md",
+      "source_location": "L1",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_google_ai_studio_voice_chat_vocal_google_ai_studio",
+      "target": "docs_google_ai_studio_voice_donn\u00e9es_et_confidentialit\u00e9",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/GOOGLE-AI-STUDIO-VOICE.md",
+      "source_location": "L25",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_google_ai_studio_voice_chat_vocal_google_ai_studio",
+      "target": "docs_google_ai_studio_voice_configuration",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/GOOGLE-AI-STUDIO-VOICE.md",
+      "source_location": "L5",
+      "weight": 1.0
+    },
+    {
       "source": "docs_openrouter",
-      "target": "docs_openrouter_assistant_openrouter",
+      "target": "docs_openrouter_openrouter_int\u00e9gration_h\u00e9rit\u00e9e",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "docs/OPENROUTER.md",
       "source_location": "L1",
-      "weight": 1.0
-    },
-    {
-      "source": "docs_openrouter_assistant_openrouter",
-      "target": "docs_openrouter_historique_facultatif",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "docs/OPENROUTER.md",
-      "source_location": "L35",
-      "weight": 1.0
-    },
-    {
-      "source": "docs_openrouter_assistant_openrouter",
-      "target": "docs_openrouter_s\u00e9curit\u00e9_et_limites",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "docs/OPENROUTER.md",
-      "source_location": "L49",
-      "weight": 1.0
-    },
-    {
-      "source": "docs_openrouter_assistant_openrouter",
-      "target": "docs_openrouter_pr\u00e9requis",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "docs/OPENROUTER.md",
-      "source_location": "L5",
       "weight": 1.0
     },
     {
@@ -39439,6 +39509,39 @@
       "weight": 1.0
     },
     {
+      "source": "supabase_functions_gemini_chat_index",
+      "target": "supabase_functions_gemini_chat_index_corsheaders",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "supabase/functions/gemini-chat/index.ts",
+      "source_location": "L13",
+      "weight": 1.0
+    },
+    {
+      "source": "supabase_functions_gemini_chat_index",
+      "target": "supabase_functions_gemini_chat_index_json",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "supabase/functions/gemini-chat/index.ts",
+      "source_location": "L27",
+      "weight": 1.0
+    },
+    {
+      "source": "supabase_functions_gemini_chat_index",
+      "target": "supabase_functions_gemini_chat_index_allowedorigins",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "supabase/functions/gemini-chat/index.ts",
+      "source_location": "L8",
+      "weight": 1.0
+    },
+    {
       "source": "supabase_functions_shared_http",
       "target": "supabase_functions_shared_http_originallowed",
       "relation": "contains",
@@ -41144,7 +41247,7 @@
     },
     {
       "source": "docs_deploiement_hodi",
-      "target": "docs_openrouter",
+      "target": "docs_google_ai_studio_voice",
       "relation": "references",
       "_origin": "ast",
       "confidence": "EXTRACTED",
@@ -41162,6 +41265,17 @@
       "confidence_score": 1.0,
       "source_file": "docs/DEPLOIEMENT-HODI.md",
       "source_location": "L80",
+      "weight": 1.0
+    },
+    {
+      "source": "docs_openrouter",
+      "target": "docs_google_ai_studio_voice",
+      "relation": "references",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "docs/OPENROUTER.md",
+      "source_location": "L3",
       "weight": 1.0
     },
     {
@@ -41787,5 +41901,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "2a1c51b96f4f3f941f812ed8d3fa88974fdd4af0"
+  "built_at_commit": "e82659970fb152bfa2364422a4aa0bcd605216aa"
 }

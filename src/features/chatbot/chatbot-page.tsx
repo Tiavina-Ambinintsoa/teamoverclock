@@ -174,7 +174,7 @@ export function ChatbotPage() {
     if (knowledgeContext.length > 60_000) {
       throw new Error(tx("La base de connaissances dépasse la limite autorisée pour le chat vocal.", "The knowledge base exceeds the voice chat context limit."))
     }
-    const history = messages.slice(-12).map(({ role, content }) => ({ role, content }))
+    const history = messages.slice(-12).map(({ role, content: historyContent }) => ({ role, content: historyContent }))
     const { data, error } = await supabase.functions.invoke("gemini-voice-chat", {
       body: { audioBase64, language, knowledge: knowledgeContext, history },
     })
@@ -329,33 +329,51 @@ export function ChatbotPage() {
       sectorId: user?.sectorId,
     })
     let content = reply.content
-    if (env.enableAIChat && supabase && user && !user.isDemo && (reply.intent === "info" || reply.intent === "emergency") && reply.kind !== "unknown") {
-      const grounding = JSON.stringify({ verifiedAnswer: reply.content, sources: reply.sources })
-      if (grounding.length <= 12_000) {
+    let sources = reply.sources
+    const availableKnowledge = knowledge.data
+    if (env.enableAIChat && supabase && user && !user.isDemo && availableKnowledge && (reply.intent === "info" || reply.intent === "emergency")) {
+      const knowledgeContext = JSON.stringify(availableKnowledge)
+      if (knowledgeContext.length <= 60_000) {
         setBusy(true)
         try {
-          const { data, error } = await supabase.functions.invoke("openrouter-chat", {
-            body: { message: text, grounding },
+          const history = messages.slice(-12).map(({ role, content: historyContent }) => ({ role, content: historyContent }))
+          const { data, error } = await supabase.functions.invoke("gemini-chat", {
+            body: { message: text, language: locale, knowledge: knowledgeContext, history },
           })
           if (error) throw new Error(error.message)
           if (data?.error) throw new Error(data.error)
-          if (typeof data?.answer !== "string" || !data.answer.trim()) throw new Error("OpenRouter did not return an answer.")
+          if (typeof data?.answer !== "string" || !data.answer.trim()) throw new Error("Gemini did not return an answer.")
           content = data.answer
+          const sourceCandidates: ChatSource[] = [
+            ...availableKnowledge.kb.filter((entry): entry is KbEntry & { url: string } => Boolean(entry.url))
+              .map((entry) => ({ type: entry.entity_type, title: entry.title, url: entry.url })),
+            ...availableKnowledge.services.map((service) => ({ type: "service", title: service.name, url: `/services/${service.slug}` })),
+            ...availableKnowledge.dangers.map((danger) => ({ type: "danger", title: danger.title, url: `/dangers/${danger.slug}` })),
+          ]
+          const requestedUrls: string[] = Array.isArray(data.sourceUrls)
+            ? data.sourceUrls.filter((url: unknown): url is string => typeof url === "string")
+            : []
+          const citedSources = requestedUrls.flatMap((url) => {
+            const source = sourceCandidates.find((candidate) => candidate.url === url)
+            return source ? [source] : []
+          })
+          sources = citedSources.length > 0 ? citedSources : reply.sources
         } catch (error) {
-          console.error("Grounded OpenRouter response failed", error)
-          content += `\n\n${tx("Le service IA n'est pas disponible pour le moment ; cette réponse reprend directement les informations publiées.", "The AI service is unavailable right now; this answer uses the published information directly.")}`
+          console.error("Grounded Gemini response failed", error)
+          content += `\n\n${tx("Gemini n'est pas disponible pour le moment ; cette réponse reprend directement les informations publiées.", "Gemini is unavailable right now; this answer uses the published information directly.")}`
         } finally {
           setBusy(false)
         }
       } else {
-        content += `\n\n${tx("La réponse complète est trop volumineuse pour le service IA ; les informations publiées sont affichées directement.", "The complete answer is too large for the AI service; the published information is shown directly.")}`
+        console.error("Published knowledge exceeds Gemini text context limit", knowledgeContext.length)
+        content += `\n\n${tx("La base de connaissances dépasse la limite de Gemini ; les informations publiées sont affichées directement.", "The knowledge base exceeds Gemini's context limit; published information is shown directly.")}`
       }
     }
     push({
       role: "assistant",
       content,
       kind: reply.kind,
-      sources: reply.sources,
+      sources,
       pending: reply.pendingAction ?? null,
       choices: getChatChoices(reply, locale),
     })
