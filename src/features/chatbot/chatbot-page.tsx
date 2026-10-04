@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState, type FormEvent } from "react"
+﻿import { useCallback, useEffect, useRef, useState, type FormEvent } from "react"
 import { useQuery } from "@tanstack/react-query"
 import { ArrowUpRight, Bot, Pin, PinOff, Send, Square, Volume2, VolumeX, X } from "lucide-react"
 import { Link, useLocation, useNavigate } from "react-router"
@@ -16,6 +16,9 @@ import {
   type PendingAction,
   type ServiceFacts,
 } from "@/features/chatbot/chatbot-engine"
+import { APP_GUIDE } from "@/features/chatbot/app-guide"
+import { selectKnowledge } from "@/features/chatbot/knowledge-context"
+import type { ChatBuilding } from "@/features/chatbot/intent-router"
 import type { DangerRow, Sector } from "@/lib/db-types"
 import { env } from "@/lib/env"
 import { dueDateFor } from "@/features/requests/request-workflow"
@@ -23,7 +26,7 @@ import { speak, stopSpeaking } from "@/features/voice/speech"
 import { DictationButton } from "@/features/voice/dictation-button"
 import { audioBlobToWavBase64 } from "@/features/voice/audio"
 import type { DictationVoiceResponse } from "@/features/voice/use-dictation"
-import { useLocale } from "@/lib/locale"
+import { copyLocale, useLocale } from "@/lib/locale"
 import { supabase } from "@/lib/supabase"
 import { cn } from "@/lib/utils"
 
@@ -43,7 +46,7 @@ interface ChatKnowledge {
   services: ServiceFacts[]
   dangers: DangerRow[]
   sectors: Sector[]
-  buildings: { id: string; name: string; address: string | null; sector_id: string }[]
+  buildings: ChatBuilding[]
 }
 
 function useKnowledge() {
@@ -51,13 +54,13 @@ function useKnowledge() {
     queryKey: ["chat-knowledge"],
     staleTime: 60_000,
     queryFn: async (): Promise<ChatKnowledge> => {
-      if (!supabase) return { kb: [], services: [], dangers: [], sectors: [], buildings: [] }
+      if (!supabase) return { kb: APP_GUIDE, services: [], dangers: [], sectors: [], buildings: [] }
       const [kb, services, dangers, sectors, buildings] = await Promise.all([
         supabase.from("knowledge_base").select("id,entity_type,title,content,url").eq("is_published", true),
         supabase.from("services").select("id,slug,name,category,description,phone,opening_hours,required_documents,procedures,status,is_emergency"),
         supabase.from("dangers").select("*").in("status", ["active", "archived"]).order("valid_from", { ascending: false }),
         supabase.from("sectors").select("*").order("code"),
-        supabase.from("buildings").select("id,name,address,sector_id").order("name"),
+        supabase.from("buildings").select("id,name,address,sector_id,service_id,facility_type,offerings,phone,opening_hours,status,description").order("name"),
       ])
       for (const result of [kb, services, dangers, sectors, buildings]) {
         if (result.error) throw new Error(result.error.message)
@@ -128,7 +131,7 @@ function getChatChoices(reply: ChatReply, locale: "fr" | "en"): { label: string;
 /** Assistant flottant : répond depuis les contenus publiés, cite ses sources, confirme avant toute création. */
 export function ChatbotPage() {
   const { user } = useAuth()
-  const { tx, locale } = useLocale()
+  const { tx, locale, tag } = useLocale()
   const navigate = useNavigate()
   const location = useLocation()
   const knowledge = useKnowledge()
@@ -141,7 +144,7 @@ export function ChatbotPage() {
       role: "assistant",
       kind: "normal",
       content: tx("Bonjour ! Posez-moi une question sur les services, les démarches, les actualités ou les alertes de Nova Terra. Je peux aussi préparer un signalement ou une demande (avec votre confirmation).", "Hello! Ask me about Nova Terra's services, procedures, news or alerts. I can also prepare a report or a request (with your confirmation)."),
-      choices: getChatChoices({ intent: "greeting", kind: "normal", content: "", sources: [], confidence: 1 }, locale),
+      choices: getChatChoices({ intent: "greeting", kind: "normal", content: "", sources: [], confidence: 1 }, copyLocale(locale)),
     },
   ])
   const [draft, setDraft] = useState("")
@@ -153,7 +156,7 @@ export function ChatbotPage() {
   const sessionRef = useRef<string | null>(null)
   const conversationRef = useRef<HTMLDivElement>(null)
   const messageCount = messages.length
-  const lang = locale === "en" ? "en-GB" : "fr-FR"
+  const lang = tag
   const speakChat = useCallback((text: string) => {
     const started = speak(text, {
       lang,
@@ -227,7 +230,7 @@ export function ChatbotPage() {
     push({ role: "user", content: transcript, channel: "voice" })
     const reply = buildReply({
       text: transcript,
-      locale,
+      locale: copyLocale(locale),
       kb: knowledge.data?.kb ?? [],
       services: knowledge.data?.services ?? [],
       dangers: knowledge.data?.dangers ?? [],
@@ -245,7 +248,7 @@ export function ChatbotPage() {
       sources: resolvedReply.sources,
       pending: resolvedReply.pendingAction ?? null,
       channel: "voice",
-      choices: getChatChoices(resolvedReply, locale),
+      choices: getChatChoices(resolvedReply, copyLocale(locale)),
     })
     if (!readAloud) speakChat(answer)
   }
@@ -323,7 +326,7 @@ export function ChatbotPage() {
     }
     const reply = buildReply({
       text,
-      locale,
+      locale: copyLocale(locale),
       kb: knowledge.data?.kb ?? [],
       services: knowledge.data?.services ?? [],
       dangers: knowledge.data?.dangers ?? [],
@@ -336,12 +339,12 @@ export function ChatbotPage() {
     let responseKind = reply.kind
     let pendingAction = reply.pendingAction ?? null
     const availableKnowledge = knowledge.data
-    if (supabase && user && !user.isDemo && availableKnowledge && (reply.intent === "info" || reply.intent === "emergency")) {
-      const knowledgeContext = JSON.stringify(availableKnowledge)
+    if (supabase && user && !user.isDemo && availableKnowledge && !reply.pendingAction) {
+      const knowledgeContext = JSON.stringify(selectKnowledge(availableKnowledge, text))
       if (knowledgeContext.length <= 60_000) {
         setBusy(true)
         try {
-          const history = messages.slice(-12).map(({ role, content: historyContent }) => ({ role, content: historyContent }))
+          const history = messages.slice(-6).map(({ role, content: historyContent }) => ({ role, content: historyContent }))
           const { data, error } = await supabase.functions.invoke("gemini-chat", {
             body: { message: text, language: locale, knowledge: knowledgeContext, history },
           })
@@ -384,7 +387,7 @@ export function ChatbotPage() {
       kind: responseKind,
       sources,
       pending: pendingAction,
-      choices: getChatChoices({ ...reply, kind: responseKind }, locale),
+      choices: getChatChoices({ ...reply, kind: responseKind }, copyLocale(locale)),
     })
   }
 

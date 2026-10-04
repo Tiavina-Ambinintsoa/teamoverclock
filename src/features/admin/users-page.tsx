@@ -63,7 +63,7 @@ export function AdminUsersPage() {
       if (!supabase) return []
       let query = supabase
         .from("profiles")
-        .select("id,display_name,first_name,last_name,role,account_status,primary_service_id,last_login_at,created_at,citizens(kyc_status,reputation_points),service_members(id,service_id,member_role,can_validate_reports,revoked_at)")
+        .select("id,display_name,first_name,last_name,role,account_status,primary_service_id,last_login_at,created_at,citizens(kyc_status,reputation_points),service_members!service_members_profile_id_fkey(id,service_id,member_role,can_validate_reports,revoked_at)")
         .is("deleted_at", null)
         .order("created_at", { ascending: false })
         .limit(200)

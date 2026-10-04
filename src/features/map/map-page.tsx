@@ -18,6 +18,7 @@ import { MapDetailPanel } from "@/features/map/map-detail-panel"
 import { DEFAULT_FILTERS, filterMapBuildings, filterMapReports, MapFilters, type MapFilterState } from "@/features/map/map-filters"
 import { usePublicReports, type PublicReport } from "@/features/reports/report-queries"
 import { useLocale } from "@/lib/locale"
+import { localizedField } from "@/features/i18n/content-translations"
 import { unwrap } from "@/lib/query-helpers"
 import { supabase } from "@/lib/supabase"
 
@@ -54,7 +55,7 @@ const toMapReport = (r: PublicReport): MapReport => ({
 export function MapPage() {
   const { user } = useAuth()
   const { preset } = useTheme()
-  const { tx } = useLocale()
+  const { tx, locale } = useLocale()
   const [params, setSearchParams] = useSearchParams()
   const sectors = useSectors()
   const buildings = useBuildings()
@@ -134,8 +135,11 @@ export function MapPage() {
 
   const buildingSuggestions = useMemo(() => {
     const term = (serviceFilter ? facilitySearch : search).trim().toLocaleLowerCase()
-    return term ? serviceBuildings.filter((building) => building.name.toLocaleLowerCase().includes(term)) : []
-  }, [serviceFilter, facilitySearch, search, serviceBuildings])
+    return term ? serviceBuildings.filter((building) =>
+      building.name.toLocaleLowerCase().includes(term) ||
+      localizedField(building.translations, "name", locale, building.name).toLocaleLowerCase().includes(term)
+    ) : []
+  }, [serviceFilter, facilitySearch, search, serviceBuildings, locale])
 
   const staff = user?.profileRole === "agent" || user?.profileRole === "service_admin"
   const reportHref = (id: string) => (staff ? `/agent/reports/${id}` : `/app/reports/${id}`)
@@ -193,7 +197,7 @@ export function MapPage() {
       status: `${sector.activity_level}% ${tx("d'activité", "activity")}`, pick: { kind: "sector", id: sector.id },
     })),
     ...serviceBuildings.map((building): MapListItem => ({
-      id: building.id, kind: "building", name: building.name, sectorId: building.sector_id,
+      id: building.id, kind: "building", name: localizedField(building.translations, "name", locale, building.name), sectorId: building.sector_id,
       status: building.status, pick: { kind: "building", id: building.id },
     })),
     ...(transports.data ?? []).map((transport): MapListItem => ({
@@ -204,7 +208,7 @@ export function MapPage() {
       id: report.id, kind: "report", name: report.title, sectorId: report.sector_id,
       status: report.status, pick: { kind: "report", id: report.id },
     })),
-  ], [sectors.data, serviceBuildings, transports.data, reports.data, tx])
+  ], [sectors.data, serviceBuildings, transports.data, reports.data, locale, tx])
   const filteredListItems = useMemo(() => {
     const term = listSearch.trim().toLocaleLowerCase()
     return listItems.filter((item) => {

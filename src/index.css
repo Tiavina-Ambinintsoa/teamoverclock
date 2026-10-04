@@ -171,6 +171,270 @@
   }
 }
 
+.pdf-document {
+  display: none;
+}
+
+@page {
+  size: A4;
+  margin: 18mm 16mm 21mm;
+}
+
+@media print {
+  body.printing-pdf-report * {
+    visibility: hidden !important;
+  }
+
+  body.printing-pdf-report .pdf-document,
+  body.printing-pdf-report .pdf-document * {
+    visibility: visible !important;
+  }
+
+  body.printing-pdf-report .pdf-document {
+    position: absolute;
+    inset: 0;
+    display: block !important;
+    width: 100%;
+    color: #111;
+    background: #fff;
+    font-family: Arial, sans-serif;
+    font-size: 10pt;
+    line-height: 1.45;
+  }
+
+  .pdf-report-header {
+    margin-bottom: 20pt;
+    padding-bottom: 12pt;
+    border-bottom: 2px solid #1f4b45;
+    break-inside: avoid;
+  }
+
+  .pdf-report-brand {
+    margin: 0 0 6pt;
+    color: #1f4b45;
+    font-size: 9pt;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+  }
+
+  .pdf-report-header h1 {
+    margin: 0 0 12pt;
+    color: #142c29;
+    font-size: 23pt;
+  }
+
+  .pdf-report-meta,
+  .pdf-report-fields {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 7pt 14pt;
+    margin: 0;
+  }
+
+  .pdf-report-meta dt,
+  .pdf-report-field dt {
+    color: #4b5563;
+    font-size: 8pt;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .pdf-report-meta dd,
+  .pdf-report-field dd {
+    margin: 2pt 0 0;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+  }
+
+  .pdf-report-section {
+    margin: 0 0 16pt;
+  }
+
+  .pdf-report-section h2 {
+    margin: 0 0 8pt;
+    padding-bottom: 4pt;
+    border-bottom: 1px solid #cbd5d1;
+    color: #1f4b45;
+    font-size: 14pt;
+    break-after: avoid;
+  }
+}
+
+/* Nova Terra auth orb */
+@keyframes auth-orb-drift {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-10px) scale(1.012); }
+}
+@keyframes auth-orb-rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+@keyframes auth-orb-surface {
+  0% { transform: translateX(-8%) rotate(0deg) scale(1.08); }
+  50% { transform: translateX(8%) rotate(180deg) scale(1.14); }
+  100% { transform: translateX(-8%) rotate(360deg) scale(1.08); }
+}
+@keyframes auth-orb-twinkle {
+  0%, 100% { opacity: .35; transform: scale(1); }
+  50% { opacity: .85; transform: scale(1.08); }
+}
+
+.auth-nova-orb {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: min(72vw, 19rem);
+  aspect-ratio: 1;
+  animation: auth-orb-drift 7s ease-in-out infinite;
+}
+
+.auth-nova-stars,
+.auth-nova-ring,
+.auth-nova-particles,
+.auth-nova-planet,
+.auth-nova-atmosphere,
+.auth-nova-surface,
+.auth-nova-shine {
+  position: absolute;
+  inset: 0;
+  border-radius: 999px;
+}
+
+.auth-nova-stars {
+  inset: -10%;
+  background:
+    radial-gradient(circle at 18% 30%, rgb(255 255 255 / 0.85) 0 1px, transparent 1.8px),
+    radial-gradient(circle at 76% 22%, rgb(255 255 255 / 0.9) 0 1.2px, transparent 2px),
+    radial-gradient(circle at 80% 72%, rgb(255 255 255 / 0.78) 0 1px, transparent 2px),
+    radial-gradient(circle at 28% 76%, rgb(255 255 255 / 0.7) 0 1.1px, transparent 2px),
+    radial-gradient(circle at 55% 12%, color-mix(in oklab, var(--highlight) 70%, white) 0 1.2px, transparent 2px);
+  filter: drop-shadow(0 0 8px color-mix(in oklab, var(--highlight) 55%, white));
+  animation: auth-orb-twinkle 6s ease-in-out infinite;
+}
+
+.auth-nova-planet {
+  inset: 14%;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 30% 30%, color-mix(in oklab, var(--primary) 40%, white) 0%, transparent 34%),
+    radial-gradient(circle at 70% 70%, color-mix(in oklab, var(--chart-2) 85%, black 10%) 0%, transparent 35%),
+    linear-gradient(135deg, color-mix(in oklab, var(--primary) 68%, black 10%), color-mix(in oklab, var(--chart-2) 74%, black 14%) 44%, color-mix(in oklab, var(--highlight) 78%, black 8%) 100%);
+  box-shadow:
+    0 0 0 1px rgb(255 255 255 / 0.12) inset,
+    0 0 34px color-mix(in oklab, var(--primary) 52%, transparent),
+    0 0 75px color-mix(in oklab, var(--chart-2) 30%, transparent);
+}
+
+.auth-nova-atmosphere {
+  inset: -3%;
+  border: 1px solid rgb(255 255 255 / 0.26);
+  box-shadow: 0 0 22px color-mix(in oklab, var(--highlight) 42%, transparent);
+}
+
+.auth-nova-surface {
+  inset: -18%;
+  opacity: 0.95;
+  background:
+    radial-gradient(circle at 36% 32%, rgb(255 255 255 / 0.3), transparent 23%),
+    radial-gradient(circle at 64% 58%, rgb(255 255 255 / 0.18), transparent 18%),
+    repeating-linear-gradient(120deg, transparent 0 14px, rgb(255 255 255 / 0.08) 14px 26px, transparent 26px 42px);
+  mix-blend-mode: screen;
+  animation: auth-orb-surface 15s linear infinite;
+}
+
+.auth-nova-shine {
+  inset: 0;
+  background:
+    radial-gradient(circle at 32% 30%, rgb(255 255 255 / 0.65), transparent 20%),
+    linear-gradient(160deg, rgb(255 255 255 / 0.12), transparent 58%);
+}
+
+.auth-nova-ring {
+  inset: 6%;
+  border: 1px solid rgb(255 255 255 / 0.22);
+  transform-origin: center;
+}
+
+.auth-nova-ring-one {
+  transform: rotate(18deg) scaleY(0.42);
+  box-shadow: 0 0 24px color-mix(in oklab, var(--chart-2) 55%, transparent);
+  animation: auth-orb-rotate 20s linear infinite;
+}
+
+.auth-nova-ring-two {
+  inset: 2%;
+  transform: rotate(-24deg) scaleY(0.58);
+  border-color: rgb(255 255 255 / 0.1);
+  animation: auth-orb-rotate 30s linear infinite reverse;
+}
+
+.auth-nova-particles {
+  inset: 1%;
+  background:
+    radial-gradient(circle at 18% 46%, color-mix(in oklab, var(--highlight) 70%, white) 0 1.5px, transparent 2.5px),
+    radial-gradient(circle at 76% 56%, color-mix(in oklab, var(--primary) 72%, white) 0 1.3px, transparent 2.4px),
+    radial-gradient(circle at 58% 18%, color-mix(in oklab, var(--chart-2) 75%, white) 0 1.4px, transparent 2.4px);
+  animation: auth-orb-rotate 18s linear infinite reverse;
+}
+
+[data-reduce-motion="true"] .auth-nova-orb,
+[data-reduce-motion="true"] .auth-nova-stars,
+[data-reduce-motion="true"] .auth-nova-ring-one,
+[data-reduce-motion="true"] .auth-nova-ring-two,
+[data-reduce-motion="true"] .auth-nova-particles,
+[data-reduce-motion="true"] .auth-nova-surface {
+  animation: none !important;
+}
+
+@media (max-width: 1023px) {
+  .auth-nova-orb {
+    width: min(52vw, 12rem);
+  }
+
+  .pdf-report-record {
+    margin: 0 0 12pt;
+    padding: 0 0 10pt;
+    border-bottom: 1px solid #e5e7eb;
+    break-inside: avoid;
+  }
+
+  .pdf-report-record h3 {
+    margin: 0 0 7pt;
+    color: #142c29;
+    font-size: 11pt;
+    break-after: avoid;
+  }
+
+  .pdf-report-list {
+    margin: 2pt 0 0;
+    padding-left: 15pt;
+  }
+
+  .pdf-report-nested {
+    grid-template-columns: minmax(0, 1fr);
+    margin-top: 6pt;
+    padding-left: 9pt;
+    border-left: 2px solid #e5e7eb;
+  }
+
+  .pdf-report-footer {
+    position: fixed;
+    right: 0;
+    bottom: -14mm;
+    left: 0;
+    display: flex;
+    justify-content: space-between;
+    padding-top: 5pt;
+    border-top: 1px solid #cbd5d1;
+    color: #6b7280;
+    font-size: 8pt;
+  }
+
+  .pdf-report-page-number::after {
+    content: "Page " counter(page) " of " counter(pages);
+  }
+}
+
 /* Panneaux d'authentification : entrée latérale courte, avec respect de la réduction des mouvements. */
 @keyframes auth-slide-from-right {
   from { opacity: 0; transform: translateX(1.4rem); }

@@ -1,5 +1,7 @@
+import { translatePhrase, type Locale } from "@/lib/locale"
+
 /** Libellés et styles des statuts contrôlés (enums SQL). Utilisés par <StatusBadge> et les filtres. */
-export type LabelLocale = "fr" | "en"
+export type LabelLocale = Locale
 export type BadgeTone = "default" | "secondary" | "destructive" | "outline" | "highlight"
 
 type LabelTable = Record<string, { fr: string; en: string; tone: BadgeTone }>
@@ -108,7 +110,9 @@ export const REPORT_STATUSES = Object.keys(TABLES.report)
 
 export function statusLabel(kind: StatusKind, value: string, locale: LabelLocale = "fr"): string {
   const table: LabelTable = TABLES[kind]
-  return table[value]?.[locale] ?? value
+  const label = table[value]
+  if (!label) return value
+  return locale === "fr" ? label.fr : locale === "en" ? label.en : translatePhrase(locale, label.en)
 }
 
 export function statusTone(kind: StatusKind, value: string): BadgeTone {
@@ -171,5 +175,7 @@ export const REPORT_CATEGORY_LABELS: Record<string, { fr: string; en: string }> 
 }
 
 export function pickLabel(table: Record<string, { fr: string; en: string }>, value: string, locale: LabelLocale = "fr"): string {
-  return table[value]?.[locale] ?? value
+  const label = table[value]
+  if (!label) return value
+  return locale === "fr" ? label.fr : locale === "en" ? label.en : translatePhrase(locale, label.en)
 }

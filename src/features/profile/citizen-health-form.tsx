@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label"
 import { Select } from "@/components/ui/select"
 import { HEALTH_CONDITIONS, ageAtDate, type HealthCondition } from "@/features/alerts/heatwave-guidance"
 import { useAuth } from "@/features/auth/auth-context"
-import { useLocale } from "@/lib/locale"
+import { copyLocale, useLocale } from "@/lib/locale"
 import { supabase } from "@/lib/supabase"
 
 type HealthProfile = {
@@ -138,7 +138,7 @@ function CitizenHealthFields({ profile, profileId, age }: { profile: HealthProfi
               checked={conditions.includes(condition.id)}
               onChange={() => toggleCondition(condition.id)}
             />
-            {locale === "fr" ? condition.fr : condition.en}
+            {condition[copyLocale(locale)]}
           </label>
         ))}
       </fieldset>

@@ -3,7 +3,7 @@ import { motion, useScroll, useSpring, useTransform } from "framer-motion"
 import { ShootingStars } from "@/components/home/shooting-stars"
 import { SpaceCraftViewer } from "@/components/home/space-craft-viewer"
 import { Container } from "@/components/layout/container"
-import { homeAsset } from "@/lib/home-assets"
+import { useLocale } from "@/lib/locale"
 
 interface GetStartedProps {
   /** Image d'arrière-plan */
@@ -23,6 +23,7 @@ export function GetStarted({
   backgroundImage = `${import.meta.env.BASE_URL}bg-getStarted.webp`,
   isPaused = false,
 }: GetStartedProps) {
+  const { tx } = useLocale()
   const containerRef = useRef<HTMLDivElement>(null)
   const [isMobile, setIsMobile] = useState(false)
 
@@ -71,7 +72,7 @@ export function GetStarted({
         {/* 1. Arrière-plan ciel stratosphérique */}
         <img
           src={backgroundImage}
-          alt="Arrière-plan Terra Nova"
+          alt={tx("Arrière-plan Terra Nova", "Nova Terra background")}
           loading="lazy"
           decoding="async"
           className="absolute inset-0 size-full object-cover object-center pointer-events-none"
@@ -158,7 +159,7 @@ export function GetStarted({
                   transition={{ duration: 0.8, delay: 0.15 }}
                   className="font-display text-4xl sm:text-5xl md:text-5xl lg:text-6xl xl:text-7xl font-bold tracking-tight text-white drop-shadow-[0_4px_20px_rgba(0,0,0,0.9)] leading-tight"
                 >
-                  Bienvenue à <span className="text-primary">Terra Nova</span>
+                  {tx("Bienvenue à", "Welcome to")} <span className="text-primary">Terra Nova</span>
                 </motion.h1>
 
                 <motion.p
@@ -166,8 +167,10 @@ export function GetStarted({
                   animate={{ opacity: 1, y: 0 }}
                   className="mt-6 text-base sm:text-lg lg:text-xl text-white/90 drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)] max-w-xl leading-relaxed font-light"
                 >
-                  Découvrez une cité où l'homme et la technologie s'élèvent ensemble vers les étoiles.
-                  Initiez votre voyage au cœur d'une gouvernance citoyenne innovante.
+                  {tx(
+                    "Découvrez une cité où l'homme et la technologie s'élèvent ensemble vers les étoiles. Initiez votre voyage au cœur d'une gouvernance citoyenne innovante.",
+                    "Discover a city where people and technology rise together toward the stars. Begin your journey into innovative civic life."
+                  )}
                 </motion.p>
               </motion.div>
             </div>
@@ -182,10 +185,10 @@ export function GetStarted({
           className="absolute inset-x-0 bottom-24 flex flex-col items-center pointer-events-none select-none z-20 px-4 text-center"
         >
           <p className="font-mono text-xs sm:text-sm tracking-[0.35em] text-cyan-300 drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)] uppercase mb-3">
-            Structure Orbitale — Terra Nova I
+            {tx("Structure Orbitale — Terra Nova I", "Orbital structure — Nova Terra I")}
           </p>
           <h2 className="font-display text-3xl sm:text-5xl lg:text-6xl font-bold text-white drop-shadow-[0_2px_24px_rgba(0,0,0,0.95)] leading-tight">
-            Au plus près du <span className="text-cyan-400">cœur de propulsion</span>
+            {tx("Au plus près du", "Up close to the")} <span className="text-cyan-400">{tx("cœur de propulsion", "propulsion core")}</span>
           </h2>
         </motion.div>
 
@@ -200,28 +203,28 @@ export function GetStarted({
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-cyan-950/70 border border-cyan-400/40 backdrop-blur-md mb-3 shadow-[0_0_20px_rgba(6,182,212,0.3)]">
             <span className="size-2 rounded-full bg-cyan-400 animate-pulse" />
             <span className="font-mono text-[11px] sm:text-xs tracking-[0.25em] text-cyan-300 uppercase font-semibold">
-              Phase de Vol — Propulsion Active
+              {tx("Phase de Vol — Propulsion Active", "Flight phase — propulsion active")}
             </span>
           </div>
 
           <h2 className="font-display text-3xl sm:text-5xl font-bold text-white drop-shadow-[0_2px_24px_rgba(0,0,0,0.95)] leading-tight">
-            Traversée de la <span className="text-cyan-400">haute atmosphère</span>
+            {tx("Traversée de la", "Crossing the")} <span className="text-cyan-400">{tx("haute atmosphère", "upper atmosphere")}</span>
           </h2>
 
           <p className="mt-3 text-sm sm:text-base text-white/90 drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)] max-w-xl font-light">
-            Le vaisseau mère déploie sa pleine envergure et stabilise son vecteur d'approche.
+            {tx("Le vaisseau mère déploie sa pleine envergure et stabilise son vecteur d'approche.", "The mothership unfolds to its full span and stabilizes its approach vector.")}
           </p>
 
           {/* Badges télémétrie discrets */}
           <div className="mt-5 flex flex-wrap items-center justify-center gap-2.5 sm:gap-4">
             <span className="px-3 py-1 rounded-lg bg-black/40 border border-white/10 text-[11px] font-mono text-cyan-200 backdrop-blur-md">
-              ALT : 14 200 m
+              {tx("ALT", "ALT")} : 14 200 m
             </span>
             <span className="px-3 py-1 rounded-lg bg-black/40 border border-white/10 text-[11px] font-mono text-cyan-200 backdrop-blur-md">
-              POUSSÉE : 100% NOMINALE
+              {tx("POUSSÉE", "THRUST")} : 100% {tx("NOMINALE", "NOMINAL")}
             </span>
             <span className="px-3 py-1 rounded-lg bg-black/40 border border-white/10 text-[11px] font-mono text-cyan-200 backdrop-blur-md">
-              VITESSE : MACH 4.8
+              {tx("VITESSE", "SPEED")} : MACH 4.8
             </span>
           </div>
         </motion.div>

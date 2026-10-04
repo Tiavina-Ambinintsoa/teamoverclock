@@ -13,6 +13,10 @@ describe("statusLabel / statusTone", () => {
   it("translates known statuses", () => {
     expect(statusLabel("request", "in_progress", "fr")).toBe("En cours")
     expect(statusLabel("request", "in_progress", "en")).toBe("In progress")
+    expect(statusLabel("request", "in_progress", "mg")).toBe("Eo am-panatanterahana")
+    expect(statusLabel("request", "in_progress", "mfe")).toBe("Pe fer")
+    expect(statusLabel("request", "in_progress", "rcf")).toBe("An kour")
+    expect(statusLabel("request", "in_progress", "x-nova")).toBe("Nexa-active")
     expect(statusLabel("severity", "extreme", "fr")).toBe("Extrême")
   })
   it("falls back to the raw value and a neutral tone for unknown statuses", () => {

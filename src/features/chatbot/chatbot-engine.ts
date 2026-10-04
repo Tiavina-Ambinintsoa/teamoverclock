@@ -1,4 +1,5 @@
-import type { Building, DangerRow, ReportCategory, Sector } from "@/lib/db-types"
+import type { DangerRow, ReportCategory, Sector } from "@/lib/db-types"
+import { routeIntent, type ChatBuilding } from "@/features/chatbot/intent-router"
 
 /**
  * Moteur de l'assistant : il ne répond qu'à partir des contenus PUBLIÉS (base de connaissances et fiches de services),
@@ -186,7 +187,7 @@ const T = {
     greeting: "Bonjour ! Je peux vous renseigner sur les services, les actualités, les démarches et les alertes de Nova Terra, ou vous aider à préparer un signalement ou une demande.",
     unknown: "Je n'ai pas cette information dans les contenus publiés de Nova Terra. Je préfère ne pas inventer : vous pouvez contacter le service concerné ou demander un conseiller.",
     emergencyIntro: "Gardez votre calme. En cas de danger immédiat, appelez les secours :",
-    emergencyDanger: "Consigne officielle (exercice fictif) :",
+    emergencyDanger: "Consigne officielle :",
     emergencyNote: "Cette réponse reprend la procédure officielle publiée. Suivez les consignes des autorités.",
     humanOffer: "Je peux vous mettre en relation avec un agent. Souhaitez-vous que je transmette votre demande ? Répondez « oui » pour confirmer.",
     reportOffer: (title: string, cat: string) => `Je peux préparer ce signalement : « ${title} » (catégorie : ${cat}). Rien n'est créé sans votre accord. Répondez « oui » pour confirmer, « non » pour annuler.`,
@@ -202,7 +203,7 @@ const T = {
     greeting: "Hello! I can tell you about Nova Terra's services, news, procedures and alerts, or help you prepare a report or a request.",
     unknown: "I do not have this information in the published Nova Terra content. I prefer not to make things up: you can contact the relevant service or ask for an agent.",
     emergencyIntro: "Stay calm. In case of immediate danger, call emergency services:",
-    emergencyDanger: "Official instruction (fictional drill):",
+    emergencyDanger: "Official instruction:",
     emergencyNote: "This answer reuses the published official procedure. Follow the authorities' instructions.",
     humanOffer: "I can connect you with an agent. Do you want me to pass on your request? Answer “yes” to confirm.",
     reportOffer: (title: string, cat: string) => `I can prepare this report: “${title}” (category: ${cat}). Nothing is created without your approval. Answer “yes” to confirm, “no” to cancel.`,
@@ -225,7 +226,7 @@ export interface ReplyContext {
   services: ServiceFacts[]
   dangers?: DangerFacts[]
   sectors?: Sector[]
-  buildings?: Pick<Building, "id" | "name" | "address" | "sector_id">[]
+  buildings?: ChatBuilding[]
   sectorId?: string | null
 }
 
@@ -233,9 +234,43 @@ export interface ReplyContext {
 export function buildReply(context: ReplyContext): ChatReply {
   const { text, locale, kb, services } = context
   const t = T[locale]
+  const facet = detectFacet(text)
+  const service = findService(services, text)
+  const normalizedQuestion = normalize(text)
+
+  if (detectIntent(text) === "greeting") return { intent: "greeting", kind: "normal", content: t.greeting, sources: [], confidence: 1 }
+
+  if (
+    /(carte|map)/.test(normalizedQuestion)
+    && /(interactive|ecran|page|trouver|retrouver|ouvrir|where|which|screen)/.test(normalizedQuestion)
+  ) {
+    return {
+      intent: "info",
+      kind: "normal",
+      content: locale === "en"
+        ? "The interactive city map is on the Map page. Open it to explore sectors and facilities."
+        : "La carte interactive se trouve sur l’écran Carte. Ouvrez cette page pour explorer les secteurs et les équipements.",
+      sources: [{ type: "faq", title: locale === "en" ? "Use the map and find a facility" : "Utiliser la carte et localiser un équipement", url: "/map" }],
+      confidence: 1,
+    }
+  }
+
+  if (service && facet && service.score >= MIN_CONFIDENCE) {
+    const s = service.item
+    const sources: ChatSource[] = [{ type: "service", title: s.name, url: `/services/${s.slug}` }]
+    const parts: string[] = []
+    if (facet === "documents") parts.push(t.documents(s.name, s.required_documents))
+    else if (facet === "steps") parts.push(t.steps(s.name, s.procedures.map((p) => `${p.step}. ${p.text}`)))
+    else if (facet === "hours") parts.push(t.hours(s.name, Object.entries(s.opening_hours).map(([k, v]) => `${k} ${v}`).join(", ")))
+    else if (facet === "phone") parts.push(t.phone(s.name, s.phone))
+    if (s.status !== "open") parts.push(t.closed(s.name))
+    return { intent: "info", kind: "normal", content: parts.join("\n"), sources, confidence: service.score }
+  }
+
+  const routed = routeIntent({ text, locale, services, buildings: context.buildings })
   const intent = detectIntent(text)
 
-  if (intent === "greeting") return { intent, kind: "normal", content: t.greeting, sources: [], confidence: 1 }
+  if (routed && (routed.intent === "emergency" || (intent === "info" && !(service && service.score >= MIN_CONFIDENCE)))) return routed
 
   if (intent === "emergency") {
     const isSectorQuestion = /(mon secteur|dans mon secteur|mon quartier|my sector|in my sector|my neighborhood)/.test(normalize(text))
@@ -254,7 +289,7 @@ export function buildReply(context: ReplyContext): ChatReply {
         .map((building) => `${building.name}${building.address ? ` (${building.address})` : ""}`)
       const knownBuildingIds = new Set((context.buildings ?? []).map((building) => building.id))
       const unknownBuildingIds = danger.assembly_building_ids.filter((id) => !knownBuildingIds.has(id))
-      const responsibleService = context.services.find((service) => service.id === danger.responsible_service_id)?.name
+      const responsibleService = context.services.find((candidate) => candidate.id === danger.responsible_service_id)?.name
       const details = [
         danger.summary,
         `${locale === "en" ? "Severity" : "Gravité"}: ${danger.severity}`,
@@ -273,7 +308,7 @@ export function buildReply(context: ReplyContext): ChatReply {
         `${locale === "en" ? "Validated at" : "Validée le"}: ${danger.validated_at ?? "—"}`,
         `${locale === "en" ? "Responsible service" : "Service responsable"}: ${responsibleService ?? danger.responsible_service_id ?? "—"}`,
         `${locale === "en" ? "Source" : "Source"}: ${danger.source ?? "—"}`,
-        danger.is_fictional_alert ? (locale === "en" ? "Fictional simulation alert" : "Alerte fictive de simulation") : "",
+        "",
       ].filter(Boolean)
       return {
         item: {
@@ -335,17 +370,18 @@ export function buildReply(context: ReplyContext): ChatReply {
   if (intent === "create_report") {
     const category = guessReportCategory(text)
     const title = clip(text.replace(/^(je veux |je voudrais |je souhaite |i want to |i would like to )?(signaler|report)\s*/i, ""), 80) || clip(text, 80)
+    const reportDetails = routed?.intent === "create_report" ? `\n${routed.content}` : ""
     return {
       intent, kind: "normal", confidence: 0.9, sources: [],
-      content: t.reportOffer(title, category),
-      pendingAction: { type: "create_report", draft: { title, description: clip(text, 500), category } },
+      content: `${t.reportOffer(title, category)}${reportDetails}`,
+      pendingAction: routed?.pendingAction?.type === "create_report"
+        ? routed.pendingAction
+        : { type: "create_report", draft: { title, description: clip(text, 500), category } },
     }
   }
 
-  const facet = detectFacet(text)
-  const service = findService(services, text)
-
   if (intent === "create_request") {
+    if (routed?.intent === "create_request") return routed
     return {
       intent, kind: "normal", confidence: 0.85,
       sources: service ? [{ type: "service", title: service.item.name, url: `/services/${service.item.slug}` }] : [],
@@ -365,22 +401,6 @@ export function buildReply(context: ReplyContext): ChatReply {
     else parts.push(`${s.name} — ${clip(s.description ?? "", 220)}`)
     if (s.status !== "open") parts.push(t.closed(s.name))
     return { intent, kind: "normal", content: parts.join("\n"), sources, confidence: service.score }
-  }
-
-  const normalizedQuestion = normalize(text)
-  if (
-    /(carte|map)/.test(normalizedQuestion)
-    && /(interactive|ecran|page|trouver|retrouver|ouvrir|where|which|screen)/.test(normalizedQuestion)
-  ) {
-    return {
-      intent,
-      kind: "normal",
-      content: locale === "en"
-        ? "The interactive city map is on the Map page. Open it to explore sectors and facilities."
-        : "La carte interactive se trouve sur l’écran Carte. Ouvrez cette page pour explorer les secteurs et les équipements.",
-      sources: [{ type: "faq", title: locale === "en" ? "Use the map and find a facility" : "Utiliser la carte et localiser un équipement", url: "/map" }],
-      confidence: 1,
-    }
   }
 
   const hits = searchKnowledge(kb, text, kb.length).filter((h) => h.score >= MIN_CONFIDENCE)

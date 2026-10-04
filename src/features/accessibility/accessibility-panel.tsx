@@ -41,8 +41,8 @@ const VOICE_TOGGLES: { key: keyof Pick<A11yPrefs, "voiceNavigation" | "voiceGuid
 /** Réglages d'accessibilité : profils (« mal voyant », « mal entendant »), thème contrasté, taille du texte, assistance vocale. */
 export function AccessibilityPanel() {
   const { prefs, update, reset } = useAccessibility()
-  const { tx, locale } = useLocale()
-  const lang = locale === "en" ? "en-GB" : "fr-FR"
+  const { tx, tag } = useLocale()
+  const lang = tag
   const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([])
   const [voiceSearch, setVoiceSearch] = useState("")
   const filteredVoices = useMemo(() => filterSpeechVoices(voices, voiceSearch), [voices, voiceSearch])
@@ -52,7 +52,7 @@ export function AccessibilityPanel() {
       ? [selectedVoice, ...filteredVoices]
       : filteredVoices
   }, [filteredVoices, prefs.speechVoiceURI, voices])
-  const displayNames = useMemo(() => new Intl.DisplayNames([locale], { type: "language" }), [locale])
+  const displayNames = useMemo(() => new Intl.DisplayNames([tag], { type: "language" }), [tag])
 
   useEffect(() => {
     if (!isSynthesisSupported()) return
@@ -90,7 +90,7 @@ export function AccessibilityPanel() {
             <label key={theme} className={cn("flex cursor-pointer items-center gap-3 rounded-lg border p-3 text-sm", prefs.theme === theme && "border-primary ring-2 ring-ring")}>
               <input type="radio" name="a11y-theme" value={theme} checked={prefs.theme === theme}
                 onChange={(event) => { const value = event.currentTarget.value; if (isUiTheme(value)) update({ theme: value }) }} />
-              {THEME_LABELS[theme][locale]}
+              {tx(THEME_LABELS[theme].fr, THEME_LABELS[theme].en)}
             </label>
           ))}
         </div>
@@ -117,7 +117,7 @@ export function AccessibilityPanel() {
       <ul className="mt-3 grid gap-3">
         {VOICE_TOGGLES.map((toggle) => (
           <li key={toggle.key} className="flex items-center justify-between gap-4">
-            <Label htmlFor={`a11y-${toggle.key}`}>{toggle[locale]}</Label>
+            <Label htmlFor={`a11y-${toggle.key}`}>{tx(toggle.fr, toggle.en)}</Label>
             <Switch id={`a11y-${toggle.key}`} checked={prefs[toggle.key]} onCheckedChange={(value) => update({ [toggle.key]: value })} />
           </li>
         ))}
@@ -160,7 +160,7 @@ export function AccessibilityPanel() {
           ? <p className="text-xs text-muted-foreground">{tx("Aucune voix de synthèse n'est disponible dans ce navigateur.", "No speech voices are available in this browser.")}</p>
           : filteredVoices.length === 0
             ? <p className="text-xs text-muted-foreground">{tx("Aucune voix ne correspond à cette recherche.", "No voices match this search.")}</p>
-            : <p className="text-xs text-muted-foreground">{tx(`${filteredVoices.length} voix disponibles sur cet appareil.`, `${filteredVoices.length} voices available on this device.`)}</p>}
+            : <p className="text-xs text-muted-foreground">{filteredVoices.length} {tx("voix disponibles sur cet appareil", "voices available on this device")}.</p>}
       </div>
       <p className="mt-3 text-xs text-muted-foreground">{tx("Le micro ne s'active que lorsque vous cliquez sur le bouton « Parler ». Aucun enregistrement audio n'est conservé.", "The microphone only turns on when you click the “Talk” button. No audio recording is kept.")}</p>
 

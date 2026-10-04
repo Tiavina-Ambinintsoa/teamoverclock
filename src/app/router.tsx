@@ -1,4 +1,4 @@
-import { createBrowserRouter, createHashRouter, Navigate, type RouteObject } from "react-router"
+﻿import { createBrowserRouter, createHashRouter, Navigate, type RouteObject } from "react-router"
 
 import { ApplicationLayout } from "@/components/layout/application-layout"
 import { RootLayout } from "@/components/layout/root-layout"
@@ -17,14 +17,17 @@ const routes: RouteObject[] = [
       {
         errorElement: <RouteError />,
         children: [
-          { index: true, lazy: async () => ({ Component: (await import("@/pages/custom-home-page")).CustomHomePage }) },
+          { index: true, lazy: async () => ({ Component: (await import("@/features/hub/city-hub-page")).CityHubPage }) },
+          { path: "welcome", lazy: async () => ({ Component: (await import("@/pages/custom-home-page")).CustomHomePage }) },
           { path: "connexion", lazy: async () => ({ Component: (await import("@/features/auth/login-page")).LoginPage }) },
           { path: "inscription", lazy: async () => ({ Component: (await import("@/features/auth/register-page")).RegisterPage }) },
           { path: "mot-de-passe-oublie", lazy: async () => ({ Component: (await import("@/features/auth/password-pages")).PasswordRecoveryPage }) },
           { path: "nouveau-mot-de-passe", lazy: async () => ({ Component: (await import("@/features/auth/password-pages")).PasswordUpdatePage }) },
           { path: "admin/connexion", lazy: async () => ({ Component: (await import("@/features/auth/admin-login-page")).AdminLoginPage }) },
           { path: "services", lazy: async () => ({ Component: (await import("@/features/services/services-page")).ServicesPage }) },
+          { path: "faq", lazy: async () => ({ Component: (await import("@/pages/faq-page")).FaqPage }) },
           { path: "services/:slug", lazy: async () => ({ Component: (await import("@/features/services/service-detail-page")).ServiceDetailPage }) },
+          { path: "projects", lazy: async () => ({ Component: (await import("@/features/projects/city-projects-page")).CityProjectsPage }) },
           { path: "news", lazy: async () => ({ Component: (await import("@/features/news/news-page")).NewsPage }) },
           { path: "news/:slug", lazy: async () => ({ Component: (await import("@/features/news/news-detail-page")).NewsDetailPage }) },
           { path: "reports", lazy: async () => ({ Component: (await import("@/features/reports/reports-lists")).PublicReportsPage }) },
@@ -34,6 +37,7 @@ const routes: RouteObject[] = [
           { path: "guide", lazy: async () => ({ Component: (await import("@/features/guide/guide-page")).GuidePage }) },
           { path: "equipe", lazy: async () => ({ Component: (await import("@/pages/site-pages")).TeamPage }) },
           { path: "contact", lazy: async () => ({ Component: (await import("@/features/requests/contact-page")).ContactPage }) },
+          { path: "developers", lazy: async () => ({ Component: (await import("@/features/developers/developers-page")).DevelopersPage }) },
           { path: "conditions", lazy: async () => ({ Component: (await import("@/pages/site-pages")).LegalNoticePage }) },
           { path: "confidentialite", lazy: async () => ({ Component: (await import("@/pages/site-pages")).PrivacyPage }) },
 
@@ -56,6 +60,11 @@ const routes: RouteObject[] = [
                   { path: "app/reports/:id", lazy: async () => ({ Component: (await import("@/features/reports/report-detail")).CitizenReportDetailPage }) },
                   { path: "app/newsletter", lazy: async () => ({ Component: (await import("@/features/newsletter/newsletter-page")).NewsletterPage }) },
                   { path: "app/assistant", element: <Navigate to="/app?assistant=open" replace /> },
+                  { path: "app/services", lazy: async () => ({ Component: (await import("@/features/services/services-page")).ServicesPage }) },
+                  { path: "app/services/:slug", lazy: async () => ({ Component: (await import("@/features/services/service-detail-page")).ServiceDetailPage }) },
+                  { path: "app/projects", lazy: async () => ({ Component: (await import("@/features/projects/city-projects-page")).CityProjectsPage }) },
+                  { path: "app/reputation", lazy: async () => ({ Component: (await import("@/features/reputation/reputation-page")).ReputationPage }) },
+                  { path: "app/reputation/:profileId", lazy: async () => ({ Component: (await import("@/features/reputation/reputation-profile-page")).ReputationProfilePage }) },
                   {
                     element: <RequireRole allow={["agent", "service_admin"]} />,
                     children: [
@@ -69,11 +78,16 @@ const routes: RouteObject[] = [
                       { path: "agent/team", lazy: async () => ({ Component: (await import("@/features/agent/agent-team-page")).AgentTeamPage }) },
                       { path: "agent/news", lazy: async () => ({ Component: (await import("@/features/admin/news-manager-pages")).AgentNewsPage }) },
                       { path: "agent/services", lazy: async () => ({ Component: (await import("@/features/admin/news-manager-pages")).AgentServicesPage }) },
+                      { path: "agent/projects", lazy: async () => ({ Component: (await import("@/features/projects/city-projects-page")).ServiceProjectStatsPage }) },
+                      { path: "agent/dangers", lazy: async () => ({ Component: (await import("@/features/admin/dangers-manager")).DangersManager }) },
+                      { path: "agent/analytics", lazy: async () => ({ Component: (await import("@/features/analytics/analytics-page")).AnalyticsPage }) },
                     ],
                   },
                   {
                     element: <RequireRole allow={[]} />,
                     children: [
+                      { path: "admin/reports", lazy: async () => ({ Component: (await import("@/features/reports/all-reports-page")).AllReportsPage }) },
+                      { path: "admin/analytics", lazy: async () => ({ Component: (await import("@/features/analytics/analytics-page")).AnalyticsPage }) },
                       { path: "admin/dangers", lazy: async () => ({ Component: (await import("@/features/admin/dangers-manager")).DangersManager }) },
                       { path: "admin/map", lazy: async () => ({ Component: (await import("@/features/map/map-editor-page")).MapEditorPage }) },
                       { path: "admin", lazy: async () => ({ Component: (await import("@/features/admin/admin-extra-pages")).AdminOverviewPage }) },
@@ -83,6 +97,7 @@ const routes: RouteObject[] = [
                       { path: "admin/news", lazy: async () => ({ Component: (await import("@/features/admin/news-manager-pages")).AdminNewsPage }) },
                       { path: "admin/users", lazy: async () => ({ Component: (await import("@/features/admin/users-page")).AdminUsersPage }) },
                       { path: "admin/verifications", lazy: async () => ({ Component: (await import("@/features/admin/verifications-page")).AdminVerificationsPage }) },
+                      { path: "admin/projects", lazy: async () => ({ Component: (await import("@/features/projects/city-projects-page")).AdminCityProjectsPage }) },
                     ],
                   },
                 ],

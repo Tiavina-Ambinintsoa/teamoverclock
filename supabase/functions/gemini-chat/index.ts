@@ -1,8 +1,8 @@
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2"
+﻿import { createClient } from "https://esm.sh/@supabase/supabase-js@2"
 
 const MAX_MESSAGE = 4000
 const MAX_KNOWLEDGE = 60_000
-const MAX_HISTORY = 12
+const MAX_HISTORY = 6
 const DEFAULT_MODEL = "gemini-3.8-flash"
 
 const allowedOrigins = (Deno.env.get("APP_ORIGINS") ?? "")
@@ -134,7 +134,7 @@ Deno.serve(async (request) => {
                 required: ["answer", "sourceUrls"],
               },
               temperature: 0.2,
-              maxOutputTokens: 3000,
+              maxOutputTokens: 1200,
             },
           }),
           signal: AbortSignal.timeout(45_000),

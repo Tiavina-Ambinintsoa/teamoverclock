@@ -166,7 +166,7 @@ alter table public.profiles
   add column if not exists primary_service_id   uuid,
   add column if not exists allowed_sector_ids   uuid[] not null default '{}',
   add column if not exists notification_prefs   jsonb not null default '{"email": true, "in_app": true}'::jsonb,
-  add column if not exists locale               text not null default 'fr' check (locale in ('fr', 'en')),
+  add column if not exists locale               text not null default 'fr' check (locale in ('fr', 'en', 'mg', 'mfe', 'rcf', 'x-nova')),
   add column if not exists requires_2fa         boolean not null default false,
   add column if not exists last_login_at        timestamptz,
   add column if not exists updated_at           timestamptz not null default now(),
@@ -692,7 +692,7 @@ create table if not exists public.guide_tour_steps (
   body            text not null,
   voice_script    text,
   placement       text not null default 'bottom' check (placement in ('top', 'bottom', 'left', 'right', 'center')),
-  locale          text not null default 'fr' check (locale in ('fr', 'en')),
+  locale          text not null default 'fr' check (locale in ('fr', 'en', 'mg', 'mfe', 'rcf', 'x-nova')),
   created_at      timestamptz not null default now(),
   unique (tour_id, step_order, locale)
 );
@@ -700,7 +700,7 @@ create table if not exists public.guide_tour_steps (
 create table if not exists public.voice_commands (
   id                    uuid primary key default gen_random_uuid(),
   code                  text not null,
-  locale                text not null default 'any' check (locale in ('fr', 'en', 'any')),
+  locale                text not null default 'any' check (locale in ('fr', 'en', 'mg', 'mfe', 'rcf', 'x-nova', 'any')),
   phrases               text[] not null check (cardinality(phrases) >= 1),
   action                public.voice_action_type not null,
   target                text,
@@ -710,6 +710,48 @@ create table if not exists public.voice_commands (
   created_at            timestamptz not null default now(),
   unique (code, locale)
 );
+
+-- ---------------------------------------------------------------------------
+-- Projets municipaux et votes citoyens (distincts des votes de réputation)
+-- ---------------------------------------------------------------------------
+create table if not exists public.city_projects (
+  id          uuid primary key default gen_random_uuid(),
+  service_id  uuid not null references public.services (id) on delete restrict,
+  created_by  uuid not null default auth.uid() references public.profiles (id) on delete restrict,
+  title       text not null check (char_length(title) between 3 and 150),
+  description text not null check (char_length(description) between 10 and 5000),
+  status      text not null default 'draft' check (status in ('draft', 'published', 'closed')),
+  created_at  timestamptz not null default now()
+);
+create index if not exists city_projects_service_status_idx on public.city_projects (service_id, status, created_at desc);
+
+create table if not exists public.city_project_votes (
+  id          uuid primary key default gen_random_uuid(),
+  project_id  uuid not null references public.city_projects (id) on delete cascade,
+  citizen_id  uuid not null references public.citizens (id) on delete cascade,
+  support     boolean not null,
+  created_at  timestamptz not null default now(),
+  unique (project_id, citizen_id)
+);
+create index if not exists city_project_votes_project_idx on public.city_project_votes (project_id, support);
+
+create table if not exists public.city_project_comments (
+  id          uuid primary key default gen_random_uuid(),
+  project_id  uuid not null references public.city_projects (id) on delete cascade,
+  author_id   uuid not null default auth.uid() references public.profiles (id) on delete restrict,
+  body        text not null check (char_length(btrim(body)) between 1 and 2000),
+  created_at  timestamptz not null default now()
+);
+create index if not exists city_project_comments_project_idx on public.city_project_comments (project_id, created_at);
+
+create table if not exists public.report_upvotes (
+  id          uuid primary key default gen_random_uuid(),
+  report_id   uuid not null references public.reports (id) on delete cascade,
+  citizen_id  uuid not null references public.citizens (id) on delete cascade,
+  created_at  timestamptz not null default now(),
+  unique (report_id, citizen_id)
+);
+create index if not exists report_upvotes_report_idx on public.report_upvotes (report_id);
 
 -- ---------------------------------------------------------------------------
 -- Clés étrangères circulaires (ajoutées après création de toutes les tables)

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+﻿import { useEffect, useState } from "react"
 import { ChevronDown, Menu, ShieldCheck, Sparkles, X } from "lucide-react"
 import { Link, NavLink, useNavigate } from "react-router"
 
@@ -16,10 +16,12 @@ import { cn } from "@/lib/utils"
 
 const PUBLIC_LINKS = [
   { to: "/", fr: "Accueil", en: "Home" },
+  { to: "/welcome", fr: "Bienvenue", en: "Welcome" },
   { to: "/services", fr: "Services", en: "Services" },
   { to: "/news", fr: "Actualités", en: "News" },
   { to: "/map", fr: "Carte", en: "Map" },
   { to: "/dangers", fr: "Dangers", en: "Dangers" },
+  { to: "/faq", fr: "FAQ", en: "FAQ" },
   { to: "/contact", fr: "Contact", en: "Contact" },
 ]
 
@@ -64,7 +66,7 @@ export function SiteHeader() {
   return (
     <div className="site-header-shell" data-detached={detached ? "true" : undefined}>
       <header data-tour="header" className="site-header border-b bg-background/90 backdrop-blur supports-[backdrop-filter]:bg-background/75">
-        <Container className="flex min-h-16 items-center gap-3">
+        <Container className="flex min-h-16 max-w-[1700px] items-center gap-3">
           <Link to="/" className="flex shrink-0 items-center gap-2 font-display text-lg font-semibold tracking-tight">
             <span className="grid size-9 place-items-center rounded-xl bg-primary text-primary-foreground">
               <Sparkles className="size-4" aria-hidden />
@@ -72,13 +74,13 @@ export function SiteHeader() {
             <AuroraTitle>{SITE.shortName}</AuroraTitle>
           </Link>
 
-          <nav aria-label={tx("Navigation principale", "Main navigation")} className="hidden items-center gap-1 lg:flex">
+          <nav aria-label={tx("Navigation principale", "Main navigation")} className="hidden items-center gap-1 2xl:flex">
             {PUBLIC_LINKS.map((link) => (
               <HeaderLink key={link.to} to={link.to} onClick={closeMenu}>{tx(link.fr, link.en)}</HeaderLink>
             ))}
           </nav>
 
-          <div className="ml-auto hidden shrink-0 items-center gap-2 lg:flex">
+          <div className="ml-auto hidden shrink-0 items-center gap-2 2xl:flex">
             <LanguageSwitcher />
             <HelpMenu />
             <ModeToggle />
@@ -86,7 +88,7 @@ export function SiteHeader() {
               <>
                 {user.isAdmin && (
                   <Button asChild variant="outline" size="sm" shape="pill">
-                    <Link to="/admin"><ShieldCheck aria-hidden />{t("nav.admin")}</Link>
+                    <Link to="/admin" aria-label={t("nav.admin")} title={t("nav.admin")}><ShieldCheck aria-hidden /></Link>
                   </Button>
                 )}
                 <details className="relative">
@@ -113,7 +115,8 @@ export function SiteHeader() {
             )}
           </div>
 
-          <div className="ml-auto flex items-center gap-1 lg:hidden">
+          <div className="ml-auto flex items-center gap-1 2xl:hidden">
+            <LanguageSwitcher />
             <HelpMenu />
             <ModeToggle />
             <Button
@@ -131,7 +134,7 @@ export function SiteHeader() {
         </Container>
 
         {menuOpen && (
-          <nav id="navigation-mobile" aria-label={tx("Navigation mobile", "Mobile navigation")} className="border-t bg-background p-4 lg:hidden">
+          <nav id="navigation-mobile" aria-label={tx("Navigation mobile", "Mobile navigation")} className="border-t bg-background p-4 2xl:hidden">
             <div className="mx-auto grid max-w-7xl gap-1">
               {PUBLIC_LINKS.map((link) => (
                 <HeaderLink key={link.to} to={link.to} onClick={closeMenu}>{tx(link.fr, link.en)}</HeaderLink>
