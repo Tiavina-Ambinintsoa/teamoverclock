@@ -2,18 +2,22 @@ import { useQuery } from "@tanstack/react-query"
 import { Link } from "react-router"
 
 import { BarChart } from "@/components/charts/bar-chart"
+import { DataState } from "@/components/data-state"
 import { Container } from "@/components/layout/container"
 import { PageHeader } from "@/components/page-header"
 import { StatusBadge } from "@/components/status-badge"
 import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { loadAnalyticsDashboard } from "@/features/analytics/analytics-queries"
 import { useAuth } from "@/features/auth/auth-context"
-import { aggregateStats, type ServiceStats } from "@/features/agent/stats"
+import { aggregateStats, statsCards, type ServiceStats } from "@/features/agent/stats"
 import { SyncIndicator } from "@/features/agent/sync-indicator"
 import { useServices } from "@/features/city/city-queries"
 import { needsAction } from "@/features/requests/request-workflow"
 import type { RequestRow } from "@/lib/db-types"
 import { useLocale } from "@/lib/locale"
-import { isOverdue, unwrap } from "@/lib/query-helpers"
+import { formatDateTime, isOverdue, unwrap } from "@/lib/query-helpers"
 import { statusLabel } from "@/lib/status-labels"
 import { supabase } from "@/lib/supabase"
 
@@ -49,6 +53,27 @@ export function AgentDashboard() {
   const mine = (requests.data ?? []).filter((r) => user && needsAction(r, user.id)).slice(0, 6)
   const late = (requests.data ?? []).filter((r) => isOverdue(r.due_at, r.status)).slice(0, 6)
   const s = stats.data
+  const analytics = useQuery({
+    queryKey: ["agent-dashboard-analytics", user?.id, serviceIds.join(",")],
+    enabled: Boolean(supabase && user && serviceIds.length > 0),
+    queryFn: async () => loadAnalyticsDashboard(supabase!, {
+      scope: "agent",
+      periodDays: 30,
+      serviceIds,
+      userId: user?.id,
+      citizenId: user?.citizenId,
+    }),
+  })
+  const cards = s ? statsCards(s).map((card) => ({
+    label: card.key === "openRequests"
+      ? tx("Demandes ouvertes", "Open requests")
+      : card.key === "overdue"
+        ? tx("En retard", "Overdue")
+        : card.key === "reportsToVerify"
+          ? tx("Signalements à vérifier", "Reports to verify")
+          : tx("Délai moyen (h)", "Avg resolution (h)"),
+    value: card.value,
+  })) : []
 
   return (
     <Container className="max-w-6xl">
@@ -56,12 +81,7 @@ export function AgentDashboard() {
       <PageHeader eyebrow={tx("Espace agent", "Agent workspace")} title={tx("Tableau de bord", "Dashboard")} description={tx("Vos demandes à traiter, les retards et l'état de la synchronisation API.", "Your requests to handle, overdue items and the API synchronization state.")} />
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-        {[
-          { label: tx("Demandes ouvertes", "Open requests"), value: s?.openRequests },
-          { label: tx("En retard", "Overdue"), value: s?.overdue },
-          { label: tx("Signalements à vérifier", "Reports to verify"), value: s?.reportsToVerify },
-          { label: tx("Délai moyen (h)", "Avg resolution (h)"), value: s?.avgResolutionHours ?? "—" },
-        ].map((kpi) => (
+        {cards.map((kpi) => (
           <section key={kpi.label} className="rounded-xl border bg-card p-5">
             <h2 className="text-sm font-medium text-muted-foreground">{kpi.label}</h2>
             <p className="mt-2 text-3xl font-semibold">{kpi.value ?? "—"}</p>
@@ -83,6 +103,86 @@ export function AgentDashboard() {
         <RequestList title={tx("À traiter", "To handle")} rows={mine} empty={tx("Rien à traiter pour le moment.", "Nothing to handle right now.")} />
         <RequestList title={tx("En retard", "Overdue")} rows={late} empty={tx("Aucun retard.", "No overdue item.")} danger />
       </div>
+
+      <section className="mt-6 rounded-xl border bg-card p-5">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h2 className="font-semibold">{tx("Analyse des 30 derniers jours", "Last 30 days analysis")}</h2>
+            <p className="text-sm text-muted-foreground">{tx("Vue synthétique de la charge, des urgences et de la performance de vos services.", "Summary view of workload, urgencies and performance for your services.")}</p>
+          </div>
+          <Button asChild variant="outline" size="sm">
+            <Link to="/agent/analytics">{tx("Voir l'analyse complète", "Open full analytics")}</Link>
+          </Button>
+        </div>
+
+        <DataState
+          data={analytics.data}
+          isLoading={analytics.isLoading}
+          error={analytics.error as Error | null}
+          emptyTitle={tx("Aucune donnée analytique.", "No analytics data.")}
+          emptyDescription={tx("Ajoutez au moins un service à votre profil pour obtenir des statistiques.", "Add at least one service to your profile to get statistics.")}
+          onRetry={() => analytics.refetch()}
+        >
+          {(data) => (
+            <div className="mt-4 grid gap-4 xl:grid-cols-[1.15fr_1fr]">
+              <section className="rounded-lg border p-4">
+                <h3 className="font-medium">{tx("Créés vs résolus", "Created vs resolved")}</h3>
+                <div className="mt-4 grid gap-4 lg:grid-cols-2">
+                  <BarChart data={data.breakdowns.requestsByStatus.slice(0, 6).map((row) => ({ label: statusLabel("request", row.key, locale), value: row.current }))} />
+                  <BarChart data={data.breakdowns.combinedPriority.slice(0, 6).map((row) => ({ label: statusLabel("priority", row.key, locale), value: row.current }))} />
+                </div>
+                <Table className="mt-4">
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>{tx("Date", "Date")}</TableHead>
+                      <TableHead>{tx("Créés", "Created")}</TableHead>
+                      <TableHead>{tx("Résolus", "Resolved")}</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {data.trends.combined.slice(-7).map((row) => (
+                      <TableRow key={row.date}>
+                        <TableCell>{row.date}</TableCell>
+                        <TableCell>{row.created}</TableCell>
+                        <TableCell>{row.resolved}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </section>
+
+              <section className="rounded-lg border p-4">
+                <h3 className="font-medium">{tx("Dossiers prioritaires", "Priority workload")}</h3>
+                <div className="mt-4 grid gap-3 sm:grid-cols-3">
+                  <Kpi title={tx("Backlog", "Backlog")} value={data.totals.openBacklog} />
+                  <Kpi title={tx("Non affectés", "Unassigned")} value={data.totals.unassigned} />
+                  <Kpi title={tx("Brèches SLA", "SLA breaches")} value={data.totals.slaBreaches} />
+                </div>
+                <Table className="mt-4">
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>{tx("Réf.", "Ref.")}</TableHead>
+                      <TableHead>{tx("Service", "Service")}</TableHead>
+                      <TableHead>{tx("Statut", "Status")}</TableHead>
+                      <TableHead>{tx("Créé", "Created")}</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {data.tables.criticalOpenItems.slice(0, 5).map((row) => (
+                      <TableRow key={row.id}>
+                        <TableCell>{row.reference}</TableCell>
+                        <TableCell>{row.serviceName}</TableCell>
+                        <TableCell>{statusLabel(row.kind, row.status, locale)}</TableCell>
+                        <TableCell>{formatDateTime(row.createdAt, locale === "fr" ? "fr-FR" : "en-US")}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </section>
+            </div>
+          )}
+        </DataState>
+      </section>
     </Container>
   )
 }
@@ -106,5 +206,14 @@ function RequestList({ title, rows, empty, danger }: { title: string; rows: Requ
       )}
       <Link to="/agent/requests" className="mt-3 inline-block text-sm text-primary underline-offset-4 hover:underline">{tx("Toutes les demandes", "All requests")}</Link>
     </section>
+  )
+}
+
+function Kpi({ title, value }: { title: string; value: number }) {
+  return (
+    <div className="rounded-lg border bg-muted/20 p-3">
+      <p className="text-xs text-muted-foreground">{title}</p>
+      <p className="mt-1 text-2xl font-semibold">{value}</p>
+    </div>
   )
 }

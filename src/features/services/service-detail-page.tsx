@@ -21,6 +21,7 @@ import { AuroraTitle } from "@/components/magic-ui/aurora-title"
 import { ServiceAppointmentCalendar } from "@/features/services/service-appointments"
 import { effectiveServiceStatus } from "@/features/services/service-availability"
 import { isFutureTimestamp } from "@/features/services/service-availability"
+import { ServiceReviews } from "@/features/services/service-reviews"
 import { useNow } from "@/hooks/use-now"
 import { localizedField, localizedStructuredField } from "@/features/i18n/content-translations"
 
@@ -248,6 +249,15 @@ export function ServiceDetailPage() {
           </div>
         )}
       </section>
+      <div className="mt-6">
+        <ServiceReviews
+          serviceId={s.id}
+          facilities={serviceFacilities.map((facility) => ({
+            id: facility.id,
+            name: localizedField(facility.translations, "name", locale, facility.name),
+          }))}
+        />
+      </div>
     </Container>
   )
 }

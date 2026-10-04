@@ -11,15 +11,18 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Select } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { useAuth } from "@/features/auth/auth-context"
 import { useServices } from "@/features/city/city-queries"
 import { canParticipateInCivicVoting, type CityProjectStats } from "@/features/projects/project-voting"
+import { ProjectEditDialog } from "@/features/projects/project-edit-dialog"
 import { localizedField, type FieldTranslations } from "@/features/i18n/content-translations"
+import { canEditProject } from "@/features/reports/editability"
 import { useLocale } from "@/lib/locale"
 import { unwrap } from "@/lib/query-helpers"
 import { supabase } from "@/lib/supabase"
 
-interface CityProjectRow {
+interface PublicCityProjectRow {
   id: string
   service_id: string
   title: string
@@ -27,6 +30,12 @@ interface CityProjectRow {
   status: "draft" | "published" | "closed"
   created_at: string
   translations?: FieldTranslations
+}
+
+interface ManagedCityProjectRow extends PublicCityProjectRow {
+  created_by: string
+  status_changed_at?: string | null
+  taken_over_at?: string | null
 }
 
 interface ProjectCommentRow {
@@ -60,12 +69,12 @@ export function CityProjectsPage() {
   const projects = useQuery({
     queryKey: ["city-projects"],
     enabled: Boolean(supabase),
-    queryFn: async (): Promise<CityProjectRow[]> => {
+    queryFn: async (): Promise<PublicCityProjectRow[]> => {
       if (!supabase) return []
       return unwrap(
         await supabase.from("city_projects").select("id,service_id,title,description,status,created_at,translations").in("status", ["published", "closed"]).order("created_at", { ascending: false }),
         []
-      ) as CityProjectRow[]
+      ) as PublicCityProjectRow[]
     },
   })
   const projectIds = (projects.data ?? []).map((project) => project.id)
@@ -254,12 +263,16 @@ export function AdminCityProjectsPage() {
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
   const [serviceId, setServiceId] = useState("")
+  const [editingProject, setEditingProject] = useState<ManagedCityProjectRow | null>(null)
   const projects = useQuery({
     queryKey: ["admin-city-projects"],
     enabled: Boolean(supabase),
-    queryFn: async (): Promise<CityProjectRow[]> => {
+    queryFn: async (): Promise<ManagedCityProjectRow[]> => {
       if (!supabase) return []
-      return unwrap(await supabase.from("city_projects").select("id,service_id,title,description,status,created_at").order("created_at", { ascending: false }), []) as CityProjectRow[]
+      return unwrap(
+        await supabase.from("city_projects").select("id,service_id,created_by,title,description,status,created_at,status_changed_at,taken_over_at").order("created_at", { ascending: false }),
+        []
+      ) as ManagedCityProjectRow[]
     },
   })
   const save = useMutation({
@@ -289,7 +302,7 @@ export function AdminCityProjectsPage() {
     onError: (error: Error) => toast.error(error.message),
   })
   const setProjectStatus = useMutation({
-    mutationFn: async (input: { id: string; status: CityProjectRow["status"] }) => {
+    mutationFn: async (input: { id: string; status: ManagedCityProjectRow["status"] }) => {
       if (!supabase) throw new Error("Supabase is not configured.")
       const { error } = await supabase.from("city_projects").update({ status: input.status }).eq("id", input.id)
       if (error) throw new Error(error.message)
@@ -331,6 +344,24 @@ export function AdminCityProjectsPage() {
                 <div><h2 className="font-medium">{project.title}</h2><p className="text-sm text-muted-foreground">{services.data?.find((service) => service.id === project.service_id)?.name ?? project.service_id}</p></div>
                 <div className="flex items-center gap-2">
                   <Badge variant={project.status === "published" ? "secondary" : "outline"}>{project.status}</Badge>
+                  {(() => {
+                    const editability = canEditProject(project, user?.id)
+                    if (editability.editable) {
+                      return <Button size="sm" variant="outline" onClick={() => setEditingProject(project)}>{tx("Modifier", "Edit")}</Button>
+                    }
+                    return (
+                      <TooltipProvider>
+                        <Tooltip>
+                          <TooltipTrigger asChild>
+                            <span>
+                              <Button size="sm" variant="outline" disabled>{tx("Modifier", "Edit")}</Button>
+                            </span>
+                          </TooltipTrigger>
+                          <TooltipContent>{editability.reason ? tx(editability.reason.fr, editability.reason.en) : tx("Modification non disponible.", "Editing unavailable.")}</TooltipContent>
+                        </Tooltip>
+                      </TooltipProvider>
+                    )
+                  })()}
                   <Button
                     size="sm"
                     variant="outline"
@@ -343,6 +374,7 @@ export function AdminCityProjectsPage() {
           </ul>
         )}
       </DataState>
+      {editingProject && <ProjectEditDialog open={Boolean(editingProject)} onOpenChange={(open) => !open && setEditingProject(null)} project={editingProject} services={services.data ?? []} />}
     </Container>
   )
 }

@@ -4,7 +4,7 @@ import { supabase } from "@/lib/supabase"
 import { toast } from "sonner"
 
 export function LanguageSwitcher() {
-  const { locale, setLocale, t, tx } = useLocale()
+  const { locale, setLocale, t } = useLocale()
   const { user, refreshProfile } = useAuth()
 
   const onChange = async (value: string) => {
@@ -32,7 +32,7 @@ export function LanguageSwitcher() {
       >
         {LOCALE_OPTIONS.map((option) => (
           <option key={option.value} value={option.value}>
-            {option.value === "x-nova" ? tx("Zorblax (langue fictive)", "Zorblax (fictional language)") : option.label}
+            {option.label}
           </option>
         ))}
       </select>

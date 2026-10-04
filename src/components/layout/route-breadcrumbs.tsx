@@ -1,5 +1,6 @@
 import { useLayoutEffect, useState } from "react"
 import { createPortal } from "react-dom"
+import { ExportMenu } from "@/components/export-menu"
 import { Breadcrumb, type BreadcrumbItem } from "@/components/ui/breadcrumb"
 import { navForRole } from "@/components/layout/nav-config"
 import { useAuth } from "@/features/auth/auth-context"
@@ -15,7 +16,9 @@ function readableSegment(segment: string): string {
 const ROUTE_LABELS: Record<string, { fr: string; en: string }> = {
   confidentialite: { fr: "Confidentialité", en: "Privacy" },
   conditions: { fr: "Mentions légales", en: "Legal notice" },
+  developers: { fr: "API développeurs", en: "Developer API" },
   equipe: { fr: "Équipe", en: "Team" },
+  welcome: { fr: "Bienvenue", en: "Welcome" },
 }
 
 export function RouteBreadcrumbs() {
@@ -61,7 +64,10 @@ export function RouteBreadcrumbs() {
 
   if (!host) return null
   return createPortal(
-    <Breadcrumb items={items} ariaLabel={tx("Fil d'Ariane", "Breadcrumb")} className="mt-3 mb-5" />,
+    <div className="mt-3 mb-5 flex flex-wrap items-center justify-between gap-2">
+      <Breadcrumb items={items} ariaLabel={tx("Fil d'Ariane", "Breadcrumb")} />
+      <ExportMenu />
+    </div>,
     host,
   )
 }

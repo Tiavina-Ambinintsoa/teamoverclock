@@ -1,4 +1,5 @@
 import { useMemo } from "react"
+import { useQuery } from "@tanstack/react-query"
 import { Clock, Phone, Siren } from "lucide-react"
 import { Link, useSearchParams } from "react-router"
 
@@ -13,13 +14,16 @@ import { useServices } from "@/features/city/city-queries"
 import { localizedField } from "@/features/i18n/content-translations"
 import { describeOpeningHours } from "@/features/services/hours"
 import { effectiveServiceStatus } from "@/features/services/service-availability"
+import { buildServiceStatsMap, formatAverageRating, type ReviewStat } from "@/features/services/service-reviews-utils"
 import { useLocale } from "@/lib/locale"
+import { unwrap } from "@/lib/query-helpers"
+import { supabase } from "@/lib/supabase"
 import { cn } from "@/lib/utils"
 import { useNow } from "@/hooks/use-now"
 
 /** D05 — liste des services municipaux : recherche par mot-clé, filtre par catégorie, services fermés signalés. */
 export function ServicesPage() {
-  const { tx, locale } = useLocale()
+  const { tx, locale, tag } = useLocale()
   const now = useNow(60_000)
   const [params, setParams] = useSearchParams()
   const q = params.get("q") ?? ""
@@ -28,6 +32,22 @@ export function ServicesPage() {
   const all = useServices({})
   const services = useServices({ search: q, category })
   const categories = useMemo(() => Array.from(new Set((all.data ?? []).map((s) => s.category))).sort(), [all.data])
+  const reviewStats = useQuery({
+    queryKey: ["service-review-card-stats", (services.data ?? []).map((service) => service.id).sort().join(",")],
+    enabled: Boolean(supabase && (services.data?.length ?? 0) > 0),
+    queryFn: async () => {
+      if (!supabase || !services.data?.length) return {} as Record<string, ReviewStat>
+      const rows = unwrap(
+        await supabase
+          .from("service_review_stats")
+          .select("service_id,building_id,average_rating,review_count")
+          .in("service_id", services.data.map((service) => service.id))
+          .is("building_id", null),
+        []
+      ) as ReviewStat[]
+      return buildServiceStatsMap(rows)
+    },
+  })
 
   const update = (patch: Record<string, string>) => {
     const next = new URLSearchParams(params)
@@ -95,6 +115,15 @@ export function ServicesPage() {
                   <div className="flex flex-wrap gap-2">
                     <Badge variant="secondary">{localizedField(service.translations, "category", locale, service.category)}</Badge>
                     <StatusBadge kind="service" value={serviceStatus} />
+                    {(() => {
+                      const stats = reviewStats.data?.[service.id]
+                      if (!stats || !stats.review_count) return null
+                      return (
+                        <Badge variant="outline">
+                          ★ {formatAverageRating(stats.average_rating, tag)} · {stats.review_count} {tx("avis", "reviews")}
+                        </Badge>
+                      )
+                    })()}
                   </div>
                   <p className="text-sm text-muted-foreground">{localizedField(service.translations, "description", locale, service.description ?? "")}</p>
                   {closed && service.status_reason && <p className="rounded-md border border-highlight/60 bg-highlight/10 p-2 text-sm">{service.status_reason}</p>}

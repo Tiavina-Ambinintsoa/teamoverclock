@@ -16,10 +16,12 @@ import { cn } from "@/lib/utils"
 
 const PUBLIC_LINKS = [
   { to: "/", fr: "Accueil", en: "Home" },
+  { to: "/welcome", fr: "Bienvenue", en: "Welcome" },
   { to: "/services", fr: "Services", en: "Services" },
   { to: "/news", fr: "Actualités", en: "News" },
   { to: "/map", fr: "Carte", en: "Map" },
   { to: "/dangers", fr: "Dangers", en: "Dangers" },
+  { to: "/faq", fr: "FAQ", en: "FAQ" },
   { to: "/contact", fr: "Contact", en: "Contact" },
 ]
 

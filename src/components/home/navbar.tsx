@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { Link } from "react-router"
 import { motion } from "framer-motion"
-import { Compass, Hexagon, Layers, Menu, Sparkles, User, X } from "lucide-react"
+import { Hexagon, Menu, Sparkles, User, X } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { useAuth } from "@/features/auth/auth-context"
@@ -42,7 +42,7 @@ export function Navbar() {
     >
       <div className="max-w-7xl mx-auto h-full px-4 sm:px-6 lg:px-8 flex items-center justify-between">
         {/* Logo / Nom du projet */}
-        <Link to="/" className="flex items-center gap-2.5 font-display text-lg font-bold tracking-tight text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">
+        <Link to="/welcome" className="flex items-center gap-2.5 font-display text-lg font-bold tracking-tight text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.8)]">
           <span className="grid size-8 place-items-center rounded-lg bg-cyan-500 text-black shadow-[0_0_15px_rgba(6,182,212,0.5)]">
             <Sparkles className="size-4" aria-hidden />
           </span>

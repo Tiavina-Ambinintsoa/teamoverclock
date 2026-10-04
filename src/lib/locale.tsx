@@ -12,7 +12,7 @@ export const LOCALE_OPTIONS: { value: Locale; label: string; tag: string; htmlTa
   { value: "mg", label: "Malagasy", tag: "mg-MG", htmlTag: "mg-MG" },
   { value: "mfe", label: "Kreol Morisien", tag: "fr-FR", htmlTag: "mfe-MU" },
   { value: "rcf", label: "Kréol rényoné", tag: "fr-FR", htmlTag: "rcf-RE" },
-  { value: "x-nova", label: "Zorblax (fictional)", tag: "en-GB", htmlTag: "x-nova" },
+  { value: "x-nova", label: "Zorblax", tag: "en-GB", htmlTag: "x-nova" },
 ]
 
 export function isLocale(value: string): value is Locale {

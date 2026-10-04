@@ -19,7 +19,7 @@ export function SiteFooter() {
             <TextAnimate as="p" by="word" animation="blurInUp" className="mt-3 leading-6">
               {tx(SITE.tagline, "The futuristic city: services, a hive map, reports and alerts.")}
             </TextAnimate>
-            <p className="mt-5 text-xs">{tx("Simulation : toutes les données de Nova Terra sont fictives.", "Simulation: all Nova Terra data is fictional.")}</p>
+
           </div>
           <div>
             <h2 className="font-semibold text-foreground">{tx("À propos", "About")}</h2>
@@ -31,6 +31,7 @@ export function SiteFooter() {
           <div>
             <h2 className="font-semibold text-foreground">{tx("Liens utiles", "Useful links")}</h2>
             <ul className="mt-3 grid gap-2">
+              <li><Link className="hover:text-foreground" to="/faq">{tx("Questions fréquentes", "FAQ")}</Link></li>
               <li><Link className="hover:text-foreground" to="/connexion">{tx("Se connecter", "Sign in")}</Link></li>
             </ul>
           </div>

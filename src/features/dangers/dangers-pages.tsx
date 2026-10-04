@@ -7,7 +7,6 @@ import { Container } from "@/components/layout/container"
 import { PageHeader } from "@/components/page-header"
 import { PageLoader } from "@/components/page-loader"
 import { StatusBadge } from "@/components/status-badge"
-import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { useBuildings, useDanger, useDangers, useSectors, useServices } from "@/features/city/city-queries"
 import { useLocale } from "@/lib/locale"
@@ -32,7 +31,7 @@ export function DangersPage() {
         <div className="mb-2 flex flex-wrap items-center gap-2">
           <StatusBadge kind="severity" value={d.severity} />
           <StatusBadge kind="danger" value={d.status} />
-          {d.is_fictional_alert && <Badge variant="outline">{tx("Fictive", "Fictional")}</Badge>}
+          
         </div>
         <h3 className="text-lg font-semibold"><Link to={`/dangers/${d.slug}`} className="underline-offset-4 hover:underline">{title}</Link></h3>
         <p className="mt-1 text-sm text-muted-foreground">{summary}</p>
@@ -45,7 +44,7 @@ export function DangersPage() {
     <Container className="py-10">
       <title>{tx("Dangers et protocoles", "Dangers & protocols")}</title>
       <PageHeader eyebrow={tx("La ville", "The city")} title={tx("Dangers et protocoles", "Dangers & protocols")} description={tx("Mesures de sécurité intergalactiques et protocole en cas d'invasion extraterrestre. Gardez votre calme : suivez les consignes officielles.", "Intergalactic safety measures and the extraterrestrial invasion protocol. Stay calm: follow the official instructions.")} />
-      <p role="note" className="mb-6 rounded-lg border p-3 text-sm text-muted-foreground">{tx("Alerte fictive : cette procédure fait partie de la simulation Nova Terra et ne décrit pas une situation réelle.", "Fictional alert: this procedure is part of the Nova Terra simulation and does not describe a real situation.")}</p>
+
       <DataState data={items} isLoading={dangers.isLoading} error={dangers.error} onRetry={() => void dangers.refetch()} emptyTitle={tx("Aucune alerte", "No alert")}>
         {() => (
           <div className="grid gap-8">
@@ -107,13 +106,13 @@ export function DangerDetailPage() {
       <title>{title}</title>
       <nav aria-label={tx("Fil d'Ariane", "Breadcrumb")} className="mb-4 text-sm text-muted-foreground"><Link to="/dangers" className="underline-offset-4 hover:underline">{tx("Dangers", "Dangers")}</Link> / {title}</nav>
       <header className="mb-6">
-        <div className="mb-2 flex flex-wrap items-center gap-2"><StatusBadge kind="severity" value={d.severity} /><StatusBadge kind="danger" value={d.status} />{d.is_fictional_alert && <Badge variant="outline">{tx("Alerte fictive", "Fictional alert")}</Badge>}</div>
+        <div className="mb-2 flex flex-wrap items-center gap-2"><StatusBadge kind="severity" value={d.severity} /><StatusBadge kind="danger" value={d.status} /></div>
         <h1 className="font-display text-3xl font-semibold"><AuroraTitle>{title}</AuroraTitle></h1>
         <p className="mt-2 text-muted-foreground">{summary}</p>
         <p className="mt-2 text-xs text-muted-foreground">
           {tx("Procédure v", "Procedure v")}{d.procedure_version} · {tx("validée le", "validated on")} {formatDate(d.validated_at, tag)} · {ownerName} · {d.source ?? "—"}
         </p>
-        {d.is_fictional_alert && <p role="note" className="mt-3 rounded-lg border p-3 text-sm text-muted-foreground">{tx("Alerte fictive : cette procédure fait partie de la simulation Nova Terra et ne décrit pas une situation réelle.", "Fictional alert: this procedure is part of the Nova Terra simulation and does not describe a real situation.")}</p>}
+
       </header>
 
       <div className="grid gap-5 md:grid-cols-2">

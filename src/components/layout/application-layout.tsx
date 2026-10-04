@@ -10,6 +10,7 @@ import { AuroraTitle } from "@/components/magic-ui"
 import { Button } from "@/components/ui/button"
 import { HelpMenu } from "@/features/guide/help-menu"
 import { useAuth } from "@/features/auth/auth-context"
+import { CriticalAlertsWatcher } from "@/features/notifications/critical-alerts-watcher"
 import { NotificationsMenu } from "@/features/notifications/notifications-menu"
 import { HeatAlertDialog } from "@/features/notifications/heat-alert-dialog"
 import { parseFavoritePages, toggleFavoritePage } from "@/features/navigation/favorite-pages"
@@ -186,11 +187,12 @@ export function ApplicationLayout() {
         </header>
 
         <main data-tour="page-content" className="flex-1 py-6 sm:py-9">
+          <CriticalAlertsWatcher />
           <RouteBreadcrumbs />
           <Outlet />
         </main>
         <footer className="border-t px-5 py-4 text-xs text-muted-foreground sm:px-8">
-          {tx("Simulation — ville fictive", "Simulation — fictional city")} · {SITE.name}
+          {SITE.name}
         </footer>
       </div>
     </div>

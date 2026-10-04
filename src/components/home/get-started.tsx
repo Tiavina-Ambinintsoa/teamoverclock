@@ -3,7 +3,6 @@ import { motion, useScroll, useSpring, useTransform } from "framer-motion"
 import { ShootingStars } from "@/components/home/shooting-stars"
 import { SpaceCraftViewer } from "@/components/home/space-craft-viewer"
 import { Container } from "@/components/layout/container"
-import { homeAsset } from "@/lib/home-assets"
 import { useLocale } from "@/lib/locale"
 
 interface GetStartedProps {

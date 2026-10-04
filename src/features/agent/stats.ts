@@ -16,6 +16,20 @@ export interface AggregatedStats {
 
 const CLOSED = new Set(["resolved", "closed", "rejected", "cancelled"])
 
+export interface AgentStatsCard {
+  key: "openRequests" | "overdue" | "reportsToVerify" | "avgResolutionHours"
+  value: number | string
+}
+
+export function statsCards(stats: AggregatedStats): AgentStatsCard[] {
+  return [
+    { key: "openRequests", value: stats.openRequests },
+    { key: "overdue", value: stats.overdue },
+    { key: "reportsToVerify", value: stats.reportsToVerify },
+    { key: "avgResolutionHours", value: stats.avgResolutionHours ?? "—" },
+  ]
+}
+
 /** Additionne les statistiques de plusieurs services (la moyenne est pondérée par le nombre de demandes closes). */
 export function aggregateStats(list: ServiceStats[]): AggregatedStats {
   const byStatus: Record<string, number> = {}

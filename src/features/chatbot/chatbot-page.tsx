@@ -16,6 +16,7 @@ import {
   type PendingAction,
   type ServiceFacts,
 } from "@/features/chatbot/chatbot-engine"
+import type { ChatBuilding } from "@/features/chatbot/intent-router"
 import type { DangerRow, Sector } from "@/lib/db-types"
 import { env } from "@/lib/env"
 import { dueDateFor } from "@/features/requests/request-workflow"
@@ -43,7 +44,7 @@ interface ChatKnowledge {
   services: ServiceFacts[]
   dangers: DangerRow[]
   sectors: Sector[]
-  buildings: { id: string; name: string; address: string | null; sector_id: string }[]
+  buildings: ChatBuilding[]
 }
 
 function useKnowledge() {
@@ -57,7 +58,7 @@ function useKnowledge() {
         supabase.from("services").select("id,slug,name,category,description,phone,opening_hours,required_documents,procedures,status,is_emergency"),
         supabase.from("dangers").select("*").in("status", ["active", "archived"]).order("valid_from", { ascending: false }),
         supabase.from("sectors").select("*").order("code"),
-        supabase.from("buildings").select("id,name,address,sector_id").order("name"),
+        supabase.from("buildings").select("id,name,address,sector_id,service_id,facility_type,offerings,phone,opening_hours,status,description").order("name"),
       ])
       for (const result of [kb, services, dangers, sectors, buildings]) {
         if (result.error) throw new Error(result.error.message)

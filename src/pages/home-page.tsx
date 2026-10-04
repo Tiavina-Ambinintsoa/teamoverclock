@@ -75,7 +75,7 @@ export function HomePage() {
           <div role="alert" className="border-b border-destructive/50 bg-destructive/10">
             <Container className="flex flex-wrap items-center gap-3 py-3 text-sm">
               <AlertTriangle className="size-4 text-destructive" aria-hidden />
-              <strong>{tx("Alerte officielle (exercice fictif)", "Official alert (fictional drill)")}</strong>
+              <strong>{tx("Alerte officielle", "Official alert")}</strong>
               {alerts.slice(0, 2).map((a) => (
                 <Link key={a.id} to={`/dangers/${a.slug}`} className="underline underline-offset-4">{a.title}</Link>
               ))}
@@ -125,7 +125,7 @@ export function HomePage() {
           <Container className="py-14 sm:py-20">
             <p className="inline-flex items-center gap-2 rounded-full border bg-background/80 px-3 py-1.5 text-xs font-medium text-primary shadow-sm">
               <span className="size-1.5 rounded-full bg-highlight" aria-hidden />
-              {tx("Ville fictive et futuriste", "Fictional futuristic city")}
+              {tx("La ville connectée", "The connected city")}
             </p>
             <h1 className="mt-5 max-w-3xl font-display text-[clamp(2.6rem,7vw,5.5rem)] leading-[0.98] font-semibold tracking-tight">
               {tx("Bienvenue à Nova Terra", "Welcome to Nova Terra")}
@@ -228,7 +228,7 @@ export function HomePage() {
                 </li>
               ))}
             </ul>
-            <p className="mt-3 text-xs text-muted-foreground">{tx("Numéros fictifs de la simulation Nova Terra.", "Fictional numbers of the Nova Terra simulation.")}</p>
+            <p className="mt-3 text-xs text-muted-foreground">{tx("Numéros d'urgence de Nova Terra.", "Nova Terra emergency numbers.")}</p>
           </section>
         </Container>
       </div>

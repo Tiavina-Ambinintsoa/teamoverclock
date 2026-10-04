@@ -13,8 +13,10 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Select } from "@/components/ui/select"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { useAuth } from "@/features/auth/auth-context"
 import { useSectors } from "@/features/city/city-queries"
+import { canEditReport } from "@/features/reports/editability"
 import { useMyReports, usePublicReports } from "@/features/reports/report-queries"
 import { ReportSummaryPanel } from "@/features/reports/report-summary-panel"
 import { groupReports, REPORT_CATEGORIES, type ReportGrouping } from "@/features/reports/report-workflow"
@@ -49,17 +51,37 @@ export function MyReportsPage() {
         {(items) => (
           <ul className="grid gap-3">
             {items.map((r) => (
-              <li key={r.id}>
-                <Link to={`/app/reports/${r.id}`} className="flex flex-wrap items-center justify-between gap-3 rounded-xl border bg-card p-4 hover:bg-accent">
-                  <div className="min-w-0">
+              <li key={r.id} className="rounded-xl border bg-card p-4">
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                  <Link to={`/app/reports/${r.id}`} className="min-w-0 flex-1 hover:text-primary">
                     <p className="font-medium">{r.title}</p>
                     <p className="text-sm text-muted-foreground"><span className="font-mono">{r.report_number}</span> · {pickLabel(REPORT_CATEGORY_LABELS, r.category, locale)} · {formatDateTime(r.created_at, tag)}</p>
                     {r.postponement_reason && <p className="mt-1 text-sm"><strong>{tx("Reporté :", "Postponed:")}</strong> {r.postponement_reason}</p>}
                     {r.next_steps && <p className="mt-1 text-sm"><strong>{tx("Étapes suivantes :", "Next steps:")}</strong> {r.next_steps}</p>}
                     {(r.required_documents ?? []).length > 0 && <p className="mt-1 text-sm"><strong>{tx("Documents :", "Documents:")}</strong> {(r.required_documents ?? []).join(", ")}</p>}
+                  </Link>
+                  <div className="flex items-center gap-2">
+                    <StatusBadge kind="report" value={r.status} />
+                    {(() => {
+                      const editability = canEditReport({ ...r, history: [] }, user?.citizenId)
+                      if (editability.editable) {
+                        return <Button asChild size="sm" variant="outline"><Link to={`/app/reports/${r.id}`}>{tx("Modifier", "Edit")}</Link></Button>
+                      }
+                      return (
+                        <TooltipProvider>
+                          <Tooltip>
+                            <TooltipTrigger asChild>
+                              <span>
+                                <Button size="sm" variant="outline" disabled>{tx("Modifier", "Edit")}</Button>
+                              </span>
+                            </TooltipTrigger>
+                            <TooltipContent>{editability.reason ? tx(editability.reason.fr, editability.reason.en) : tx("Modification non disponible.", "Editing unavailable.")}</TooltipContent>
+                          </Tooltip>
+                        </TooltipProvider>
+                      )
+                    })()}
                   </div>
-                  <StatusBadge kind="report" value={r.status} />
-                </Link>
+                </div>
               </li>
             ))}
           </ul>
@@ -95,11 +117,13 @@ export function AgentReportsPage() {
 
   const filtered = useMemo(() => {
     const term = search.trim().toLowerCase()
-    return (reports.data ?? []).filter((r) =>
-      (!status || r.status === status) && (!priority || r.priority === priority) && (!sectorId || r.sector_id === sectorId) &&
-      (!source || r.source === source) && (!from || r.created_at.slice(0, 10) >= from) &&
-      (!term || `${r.title} ${r.report_number}`.toLowerCase().includes(term))
-    )
+    return [...(reports.data ?? [])]
+      .filter((r) =>
+        (!status || r.status === status) && (!priority || r.priority === priority) && (!sectorId || r.sector_id === sectorId) &&
+        (!source || r.source === source) && (!from || r.created_at.slice(0, 10) >= from) &&
+        (!term || `${r.title} ${r.report_number}`.toLowerCase().includes(term))
+      )
+      .sort((a, b) => Number(b.priority === "critical") - Number(a.priority === "critical") || b.created_at.localeCompare(a.created_at))
   }, [reports.data, status, priority, sectorId, source, from, search])
 
   const pageCount = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE))
@@ -143,7 +167,10 @@ export function AgentReportsPage() {
                 const external = !["citizen", "agent", "chatbot"].includes(r.source)
                 return (
                   <li key={r.id}>
-                    <Link to={`/agent/reports/${r.id}`} className="flex flex-wrap items-center justify-between gap-3 rounded-xl border bg-card p-4 hover:bg-accent">
+                    <Link
+                      to={`/agent/reports/${r.id}`}
+                      className={`flex flex-wrap items-center justify-between gap-3 rounded-xl border bg-card p-4 ${r.priority === "critical" ? "border-destructive/40 bg-destructive/5 hover:bg-destructive/10" : "hover:bg-accent"}`}
+                    >
                       <div className="min-w-0">
                         <p className="font-medium">{r.title}</p>
                         <p className="text-sm text-muted-foreground"><span className="font-mono">{r.report_number}</span> · {sectorName(r.sector_id)} · {formatDateTime(r.created_at, tag)}</p>

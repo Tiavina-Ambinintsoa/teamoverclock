@@ -214,4 +214,75 @@ describe("buildReply", () => {
   it("speaks English when asked to", () => {
     expect(buildReply({ ...ctx, locale: "en", text: "hello" }).content).toContain("Hello")
   })
+
+  it("uses the intent router for health and administrative guidance", () => {
+    const reply = buildReply({
+      ...ctx,
+      locale: "fr",
+      buildings: [{
+        id: "hospital-1",
+        name: "Vitalis Central Hospital",
+        address: "3 Avenue Vitalis",
+        sector_id: "sector-6",
+        facility_type: "hospital",
+        offerings: ["Urgences 24 h/24"],
+        opening_hours: { always: "24/7" },
+        service_id: "svc-health",
+      }],
+      services: [
+        ...services,
+        {
+          id: "svc-health",
+          slug: "emergency-medical",
+          name: "Emergency Medical",
+          category: "health",
+          description: "Ambulances, urgences et premiers secours.",
+          phone: "+999 115 0004",
+          opening_hours: { always: "24/7" },
+          required_documents: [],
+          procedures: [],
+          status: "open",
+          is_emergency: true,
+        },
+        {
+          id: "svc-urban",
+          slug: "urban-planning",
+          name: "Urban Planning",
+          category: "urbanism",
+          description: "Permis de construire et plans d'aménagement.",
+          phone: "+999 200 0010",
+          opening_hours: { "mon-fri": "09:00-15:00" },
+          required_documents: ["Plans"],
+          procedures: [],
+          status: "hidden",
+          is_emergency: false,
+        },
+      ],
+      text: "J'ai une douleur à la cheville après une chute",
+    })
+    expect(reply.content).toContain("Vitalis Central Hospital")
+
+    const permit = buildReply({
+      ...ctx,
+      locale: "en",
+      services: [
+        ...services,
+        {
+          id: "svc-urban",
+          slug: "urban-planning",
+          name: "Urban Planning",
+          category: "urbanism",
+          description: "Permits and plans.",
+          phone: "+999 200 0010",
+          opening_hours: { "mon-fri": "09:00-15:00" },
+          required_documents: ["Plans"],
+          procedures: [],
+          status: "hidden",
+          is_emergency: false,
+        },
+      ],
+      text: "I need a building permit",
+    })
+    expect(permit.content).toContain("/app/requests/new?service=urban-planning")
+  })
 })
