@@ -11,6 +11,10 @@ export default defineConfig(({ mode }) => {
     // Si l'app est servie dans un sous-dossier (ex: https://hote/equipe-12/),
     // définir VITE_BASE=/equipe-12/ dans .env.local (voir docs/06-deploiement-hodi.md)
     base: env.VITE_BASE || "/",
+    // Cache hors OneDrive : la synchro verrouille node_modules/.vite (EPERM au rename)
+    cacheDir: process.env.LOCALAPPDATA
+      ? `${process.env.LOCALAPPDATA}/vite-cache/teamoverclock`
+      : "node_modules/.vite",
     plugins: [react(), tailwindcss()],
     resolve: {
       alias: { "@": fileURLToPath(new URL("./src", import.meta.url)) },

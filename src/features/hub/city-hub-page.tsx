@@ -210,7 +210,7 @@ export function CityHubPage() {
 
       <section aria-labelledby="hub-kpis" className="mb-8">
         <h2 id="hub-kpis" className="sr-only">{tx("Indicateurs clés", "Headline KPIs")}</h2>
-        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
+        <div className="grid grid-cols-1 gap-4 min-[500px]:grid-cols-2 min-[500px]:[&>*:last-child:nth-child(odd)]:col-span-2 lg:grid-cols-5 lg:[&>*:last-child:nth-child(odd)]:col-span-1">
           {kpis.map((kpi) => (
             <Card key={kpi.key}>
               <CardHeader className="pb-0">
