@@ -14,9 +14,11 @@ import { Textarea } from "@/components/ui/textarea"
 import { useAuth } from "@/features/auth/auth-context"
 import { useServices } from "@/features/city/city-queries"
 import { dueDateFor, safeFileName, validateAttachments } from "@/features/requests/request-workflow"
-import { useLocale } from "@/lib/locale"
+import { copyLocale, useLocale } from "@/lib/locale"
 import { supabase } from "@/lib/supabase"
 import { AuroraTitle } from "@/components/magic-ui/aurora-title"
+import { effectiveServiceStatus } from "@/features/services/service-availability"
+import { useNow } from "@/hooks/use-now"
 
 const CATEGORIES = [
   { value: "information", fr: "Information", en: "Information" },
@@ -32,6 +34,7 @@ export function RequestNewPage() {
   const { user } = useAuth()
   const { tx, locale } = useLocale()
   const queryClient = useQueryClient()
+  const now = useNow(60_000)
   const [params] = useSearchParams()
   const services = useServices({})
   const published = (services.data ?? []).filter((s) => s.status !== "hidden" && s.published_at)
@@ -44,6 +47,8 @@ export function RequestNewPage() {
   const [consent, setConsent] = useState(false)
   const [files, setFiles] = useState<File[]>([])
   const [tracking, setTracking] = useState<string | null>(null)
+  const selectedService = published.find((service) => service.slug === serviceSlug)
+  const serviceAvailable = selectedService ? effectiveServiceStatus(selectedService, now) === "open" : false
   // Identifiant généré une seule fois : un second envoi accidentel échoue sur la clé primaire au lieu de créer un doublon.
   const requestId = useRef(crypto.randomUUID())
 
@@ -52,6 +57,7 @@ export function RequestNewPage() {
       if (!supabase || !user) throw new Error(tx("Connexion requise.", "Sign-in required."))
       const service = published.find((s) => s.slug === serviceSlug)
       if (!service) throw new Error(tx("Choisissez un service destinataire.", "Choose a recipient service."))
+      if (effectiveServiceStatus(service, now) !== "open") throw new Error(tx("Ce service est temporairement indisponible. Choisissez un autre service ou réessayez plus tard.", "This service is temporarily unavailable. Choose another service or try again later."))
       const fileError = validateAttachments(files)
       if (fileError) throw new Error(fileError)
 
@@ -128,13 +134,23 @@ export function RequestNewPage() {
           <Label htmlFor="r-service">{tx("Service destinataire", "Recipient service")}</Label>
           <Select id="r-service" value={serviceSlug} onChange={(e) => setServiceSlug(e.target.value)} required>
             <option value="">{tx("Choisir…", "Choose…")}</option>
-            {published.map((s) => <option key={s.id} value={s.slug}>{s.name}</option>)}
+            {published.map((s) => {
+              const available = effectiveServiceStatus(s, now) === "open"
+              return <option key={s.id} value={s.slug} disabled={!available}>{s.name}{available ? "" : ` — ${tx("indisponible", "unavailable")}`}</option>
+            })}
           </Select>
         </div>
+        {selectedService && !serviceAvailable && (
+          <output className="rounded-lg border border-highlight/60 bg-highlight/10 p-3 text-sm">
+            <strong>{tx("Service indisponible.", "Service unavailable.")}</strong>{" "}
+            {selectedService.status_reason || tx("Les demandes en ligne sont suspendues pour le moment.", "Online requests are paused right now.")}
+            {selectedService.reopens_at && ` ${tx("Réouverture prévue :", "Expected to reopen:")} ${new Intl.DateTimeFormat(locale).format(new Date(selectedService.reopens_at))}`}
+          </output>
+        )}
         <div className="grid gap-2">
           <Label htmlFor="r-category">{tx("Catégorie", "Category")}</Label>
           <Select id="r-category" value={category} onChange={(e) => setCategory(e.target.value)}>
-            {CATEGORIES.map((c) => <option key={c.value} value={c.value}>{locale === "en" ? c.en : c.fr}</option>)}
+            {CATEGORIES.map((c) => <option key={c.value} value={c.value}>{c[copyLocale(locale)]}</option>)}
           </Select>
         </div>
         <div className="grid gap-2">
@@ -160,7 +176,7 @@ export function RequestNewPage() {
         </div>
         <label className="flex items-center gap-2 text-sm"><input type="checkbox" className="size-4 accent-primary" checked={urgent} onChange={(e) => setUrgent(e.target.checked)} />{tx("Cette demande est urgente", "This request is urgent")}</label>
         <label className="flex items-start gap-2 text-sm"><input type="checkbox" className="mt-1 size-4 accent-primary" checked={consent} onChange={(e) => setConsent(e.target.checked)} required />{tx("J'accepte le traitement de mes données pour traiter cette demande.", "I accept the processing of my data to handle this request.")}</label>
-        <Button type="submit" size="lg" data-voice="envoyer ma demande" data-voice-confirm disabled={submit.isPending || !consent || subject.trim().length < 3 || description.trim().length < 10}>
+        <Button type="submit" size="lg" data-voice="envoyer ma demande" data-voice-confirm disabled={submit.isPending || !serviceAvailable || !consent || subject.trim().length < 3 || description.trim().length < 10}>
           {submit.isPending ? tx("Envoi…", "Sending…") : tx("Envoyer ma demande", "Send my request")}
         </Button>
       </form>

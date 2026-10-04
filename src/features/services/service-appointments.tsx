@@ -24,7 +24,7 @@ function localDate(value: string | number): string {
 }
 
 function describeAppointmentTime(value: string, locale: string): string {
-  return new Intl.DateTimeFormat(locale === "en" ? "en-US" : "fr-FR", {
+  return new Intl.DateTimeFormat(locale, {
     dateStyle: "medium",
     timeStyle: "short",
   }).format(new Date(value))
@@ -32,7 +32,7 @@ function describeAppointmentTime(value: string, locale: string): string {
 
 export function ServiceAppointmentCalendar({ service, mode }: { service: Service; mode: "public" | "manage" }) {
   const { user } = useAuth()
-  const { tx, locale } = useLocale()
+  const { tx, tag } = useLocale()
   const queryClient = useQueryClient()
   const now = useNow(60_000)
   const [date, setDate] = useState("")
@@ -120,7 +120,7 @@ export function ServiceAppointmentCalendar({ service, mode }: { service: Service
               {items.map((item) => (
                 <li key={item.id} className="flex flex-wrap items-center justify-between gap-3 rounded-md border p-3 text-sm">
                   <div>
-                    <time dateTime={item.starts_at} className="font-medium">{describeAppointmentTime(item.starts_at, locale)}</time>
+                    <time dateTime={item.starts_at} className="font-medium">{describeAppointmentTime(item.starts_at, tag)}</time>
                     <p className="text-muted-foreground">{item.purpose}</p>
                   </div>
                   <div className="flex items-center gap-2">
@@ -188,11 +188,21 @@ export function ServiceAppointmentCalendar({ service, mode }: { service: Service
               <ul className="mt-2 grid gap-2">
                 {selectedDateAppointments.map((item) => (
                   <li key={item.id} className="rounded-md border p-3 text-sm">
-                    <time dateTime={item.starts_at} className="font-medium">{describeAppointmentTime(item.starts_at, locale)}</time>
+                    <time dateTime={item.starts_at} className="font-medium">{describeAppointmentTime(item.starts_at, tag)}</time>
                     <Badge className="ml-2" variant={item.status === "confirmed" ? "secondary" : "highlight"}>
                       {item.status === "confirmed" ? tx("Confirmé", "Confirmed") : tx("À confirmer", "Awaiting confirmation")}
                     </Badge>
                     <span className="text-muted-foreground"> · {item.purpose}</span>
+                    <div className="mt-2 grid gap-1 rounded-md bg-muted/50 p-3 text-xs">
+                      <strong>{tx("Préparez votre rendez-vous", "Prepare for your appointment")}</strong>
+                      {service.address && <p>{tx("Lieu :", "Location:")} {service.address}</p>}
+                      {service.phone && <p>{tx("Téléphone :", "Phone:")} {service.phone}</p>}
+                      {service.required_documents.length > 0
+                        ? <p>{tx("Documents à apporter :", "Documents to bring:")} {service.required_documents.join(", ")}</p>
+                        : <p>{tx("Aucun document requis n'est indiqué. Apportez votre confirmation de rendez-vous.", "No required documents are listed. Bring your appointment confirmation.")}</p>}
+                      {service.procedures.length > 0 && <p>{tx("Démarches :", "Steps:")} {service.procedures.map((step) => step.text).join(" ")}</p>}
+                      {service.fees && <p>{tx("Tarif indicatif :", "Fee:")} {service.fees}</p>}
+                    </div>
                   </li>
                 ))}
               </ul>

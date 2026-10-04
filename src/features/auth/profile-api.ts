@@ -1,6 +1,7 @@
 import type { SupabaseClient } from "@supabase/supabase-js"
 
 import type { AccountStatus, KycStatus, UserRole } from "@/lib/types"
+import { isLocale, type Locale } from "@/lib/locale"
 
 /** Données de profil Nova Terra chargées après la connexion (profiles + citizens + service_members). */
 export interface ProfileExtras {
@@ -17,6 +18,7 @@ export interface ProfileExtras {
   lastName: string | null
   phone: string | null
   birthDate: string | null
+  locale: Locale
   profileLoaded: true
 }
 
@@ -26,6 +28,7 @@ interface ProfileRow {
   first_name?: string | null
   last_name?: string | null
   phone?: string | null
+  locale?: string | null
 }
 interface CitizenRow {
   id?: string | null
@@ -63,12 +66,17 @@ export function mapProfileExtras(
     lastName: profile?.last_name ?? null,
     phone: profile?.phone ?? null,
     birthDate: citizen?.birth_date ?? null,
+    locale: profile?.locale && isLocale(profile.locale) ? profile.locale : "fr",
     profileLoaded: true,
   }
 }
 
 /** Valeurs par défaut (mode démo local, ou avant la fin du chargement du profil). */
-export function baseExtras(isAdmin: boolean, loaded: boolean): Omit<ProfileExtras, "profileLoaded"> & { profileLoaded: boolean } {
+export function baseExtras(
+  isAdmin: boolean,
+  loaded: boolean,
+  locale: Locale = "fr",
+): Omit<ProfileExtras, "profileLoaded"> & { profileLoaded: boolean } {
   return {
     profileRole: isAdmin ? "general_admin" : "citizen",
     accountStatus: "active",
@@ -82,6 +90,7 @@ export function baseExtras(isAdmin: boolean, loaded: boolean): Omit<ProfileExtra
     lastName: null,
     phone: null,
     birthDate: null,
+    locale,
     profileLoaded: loaded,
   }
 }
@@ -89,7 +98,7 @@ export function baseExtras(isAdmin: boolean, loaded: boolean): Omit<ProfileExtra
 /** Charge le profil, la fiche citoyenne et les rattachements de service de l'utilisateur. */
 export async function fetchProfileExtras(client: SupabaseClient, userId: string): Promise<ProfileExtras> {
   const [profile, citizen, members] = await Promise.all([
-    client.from("profiles").select("role,account_status,first_name,last_name,phone").eq("id", userId).maybeSingle(),
+    client.from("profiles").select("role,account_status,first_name,last_name,phone,locale").eq("id", userId).maybeSingle(),
     client.from("citizens").select("id,kyc_status,is_minor,sector_id,birth_date").eq("profile_id", userId).maybeSingle(),
     client.from("service_members").select("service_id,member_role,can_validate_reports").eq("profile_id", userId).is("revoked_at", null),
   ])

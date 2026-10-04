@@ -3,6 +3,7 @@ import { ArrowLeft, Sparkles } from "lucide-react"
 import { Link } from "react-router"
 
 import { ModeToggle } from "@/components/theme-switcher"
+import { LanguageSwitcher } from "@/components/language-switcher"
 import { useLocale } from "@/lib/locale"
 import { SITE } from "@/lib/site"
 import { AuroraTitle } from "@/components/magic-ui/aurora-title"
@@ -58,6 +59,7 @@ export function AuthShell({ mode, children, isExiting = false }: { mode: AuthMod
               <span className="hidden sm:inline">{t("auth.backHome")}</span>
             </Link>
             <div className="flex items-center gap-2">
+              <LanguageSwitcher />
               <ModeToggle />
             </div>
           </div>

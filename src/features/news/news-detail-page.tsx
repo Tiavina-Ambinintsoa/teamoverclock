@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { useAuth } from "@/features/auth/auth-context"
 import { isNewsActive, useNewsItem } from "@/features/city/city-queries"
+import { localizedField } from "@/features/i18n/content-translations"
 import { useLocale } from "@/lib/locale"
 import { formatDate, formatDateTime, unwrap } from "@/lib/query-helpers"
 import { supabase } from "@/lib/supabase"
@@ -28,11 +29,14 @@ interface CommentRow {
 /** D06 — page de détail : contenu, partage du lien, commentaires modérés. */
 export function NewsDetailPage() {
   const { slug } = useParams()
-  const { tx, tag } = useLocale()
+  const { tx, tag, locale } = useLocale()
   const { user } = useAuth()
   const queryClient = useQueryClient()
   const news = useNewsItem(slug)
   const item = news.data
+  const title = item ? localizedField(item.translations, "title", locale, item.title) : ""
+  const summary = item ? localizedField(item.translations, "summary", locale, item.summary) : ""
+  const content = item ? localizedField(item.translations, "body", locale, item.body) : ""
   const [body, setBody] = useState("")
 
   const comments = useQuery({
@@ -108,26 +112,26 @@ export function NewsDetailPage() {
 
   return (
     <Container className="max-w-3xl py-10">
-      <title>{item.title}</title>
+      <title>{title}</title>
       <nav aria-label={tx("Fil d'Ariane", "Breadcrumb")} className="mb-4 text-sm text-muted-foreground">
-        <Link to="/news" className="underline-offset-4 hover:underline">{tx("Actualités", "News")}</Link> / {item.title}
+        <Link to="/news" className="underline-offset-4 hover:underline">{tx("Actualités", "News")}</Link> / {title}
       </nav>
       <article>
         <header className="mb-6">
           <div className="mb-2 flex flex-wrap items-center gap-2">
             {item.importance !== "normal" && <StatusBadge kind="importance" value={item.importance} />}
-            <Badge variant="secondary">{item.category}</Badge>
+            <Badge variant="secondary">{localizedField(item.translations, "category", locale, item.category)}</Badge>
             {!active && <Badge variant="outline">{tx("Archivée", "Archived")}</Badge>}
           </div>
-          <h1 className="font-display text-3xl font-semibold"><AuroraTitle>{item.title}</AuroraTitle></h1>
+          <h1 className="font-display text-3xl font-semibold"><AuroraTitle>{title}</AuroraTitle></h1>
           <p className="mt-2 text-sm text-muted-foreground">
             {tx("Publiée le", "Published on")} {formatDate(item.published_at, tag)}
             {item.valid_until ? ` · ${tx("valable jusqu'au", "valid until")} ${formatDate(item.valid_until, tag)}` : ""}
           </p>
           <Button variant="outline" size="sm" className="mt-3" onClick={() => void copyLink()}><LinkIcon aria-hidden />{tx("Copier le lien", "Copy link")}</Button>
         </header>
-        <p className="text-lg text-muted-foreground">{item.summary}</p>
-        <div className="mt-4 whitespace-pre-line leading-7">{item.body}</div>
+        <p className="text-lg text-muted-foreground">{summary}</p>
+        <div className="mt-4 whitespace-pre-line leading-7">{content}</div>
       </article>
 
       <section aria-labelledby="comments-title" className="mt-10">

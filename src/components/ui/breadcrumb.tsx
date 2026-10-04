@@ -8,9 +8,9 @@ export interface BreadcrumbItem {
   to?: string
 }
 
-export function Breadcrumb({ items, className }: { items: BreadcrumbItem[]; className?: string }) {
+export function Breadcrumb({ items, className, ariaLabel = "Fil d'Ariane" }: { items: BreadcrumbItem[]; className?: string; ariaLabel?: string }) {
   return (
-    <nav aria-label="Fil d'Ariane" className={className}>
+    <nav aria-label={ariaLabel} className={className}>
       <ol className="flex flex-wrap items-center gap-1 text-sm text-muted-foreground">
         {items.map((item, index) => {
           const isCurrent = index === items.length - 1

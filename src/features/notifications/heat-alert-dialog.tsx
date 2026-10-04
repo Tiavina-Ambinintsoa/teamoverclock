@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { ageAtDate, personalizedHeatAdvice } from "@/features/alerts/heatwave-guidance"
 import { useAuth } from "@/features/auth/auth-context"
-import { useLocale } from "@/lib/locale"
+import { copyLocale, useLocale } from "@/lib/locale"
 import { supabase } from "@/lib/supabase"
 
 type AlertNotification = {
@@ -170,7 +170,7 @@ export function HeatAlertDialog() {
     ageAtDate(user?.birthDate),
     health.data?.health_conditions ?? [],
     health.data?.consent_recommendations === true,
-    locale
+    copyLocale(locale)
   )
   const recommendedActions = alert.data?.recommended_actions ?? []
 

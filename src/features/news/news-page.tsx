@@ -9,13 +9,14 @@ import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useNews } from "@/features/city/city-queries"
+import { localizedField } from "@/features/i18n/content-translations"
 import { useLocale } from "@/lib/locale"
 import { formatDate } from "@/lib/query-helpers"
 import { cn } from "@/lib/utils"
 
 /** D06 — actualités municipales : récentes d'abord, recherche, catégories, urgences en évidence, archives. */
 export function NewsPage() {
-  const { tx, tag } = useLocale()
+  const { tx, tag, locale } = useLocale()
   const [params, setParams] = useSearchParams()
   const q = params.get("q") ?? ""
   const category = params.get("category") ?? ""
@@ -77,11 +78,11 @@ export function NewsPage() {
               <li key={item.id} className={cn("rounded-xl border bg-card p-5", item.importance === "urgent" && "border-destructive ring-1 ring-destructive/40")}>
                 <div className="mb-2 flex flex-wrap items-center gap-2">
                   {item.importance !== "normal" && <StatusBadge kind="importance" value={item.importance} />}
-                  <Badge variant="secondary">{item.category}</Badge>
+                  <Badge variant="secondary">{localizedField(item.translations, "category", locale, item.category)}</Badge>
                   <span className="text-xs text-muted-foreground">{formatDate(item.published_at, tag)}</span>
                 </div>
-                <h2 className="text-lg font-semibold"><Link to={`/news/${item.slug}`} className="underline-offset-4 hover:underline">{item.title}</Link></h2>
-                <p className="mt-2 text-sm text-muted-foreground">{item.summary}</p>
+                <h2 className="text-lg font-semibold"><Link to={`/news/${item.slug}`} className="underline-offset-4 hover:underline">{localizedField(item.translations, "title", locale, item.title)}</Link></h2>
+                <p className="mt-2 text-sm text-muted-foreground">{localizedField(item.translations, "summary", locale, item.summary)}</p>
               </li>
             ))}
           </ul>

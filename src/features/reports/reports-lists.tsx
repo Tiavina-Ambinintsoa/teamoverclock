@@ -16,6 +16,7 @@ import { Select } from "@/components/ui/select"
 import { useAuth } from "@/features/auth/auth-context"
 import { useSectors } from "@/features/city/city-queries"
 import { useMyReports, usePublicReports } from "@/features/reports/report-queries"
+import { ReportSummaryPanel } from "@/features/reports/report-summary-panel"
 import { groupReports, REPORT_CATEGORIES, type ReportGrouping } from "@/features/reports/report-workflow"
 import type { ReportRow } from "@/lib/db-types"
 import { useLocale } from "@/lib/locale"
@@ -43,6 +44,7 @@ export function MyReportsPage() {
           {tx("Votre identité n'est pas vérifiée : vous ne pouvez pas encore déposer de signalement.", "Your identity is not verified: you cannot file reports yet.")} <Link to="/app/verification" className="underline underline-offset-4">{tx("Vérifier", "Verify")}</Link>
         </p>
       )}
+      {reports.data && <ReportSummaryPanel reports={reports.data} />}
       <DataState data={reports.data} isLoading={reports.isLoading} error={reports.error} onRetry={() => void reports.refetch()} emptyTitle={tx("Aucun signalement", "No report")}>
         {(items) => (
           <ul className="grid gap-3">
@@ -179,6 +181,23 @@ export function PublicReportsPage() {
   const groups = groupReports(filtered, grouping)
   const groupLabel = (key: string) => grouping === "type" ? pickLabel(REPORT_CATEGORY_LABELS, key, locale) : (sectors.data?.find((s) => s.id === key)?.name ?? key)
   const canVote = user?.kycStatus === "verified"
+  const visibleReportIds = filtered.map((report) => report.id)
+  const upvoteCounts = useQuery({
+    queryKey: ["public-report-upvote-counts", visibleReportIds],
+    enabled: Boolean(supabase && reports.data),
+    queryFn: async () => {
+      if (!supabase || visibleReportIds.length === 0) return [] as { report_id: string; upvote_count: number }[]
+      return unwrap(await supabase.rpc("get_public_report_upvote_counts", { p_report_ids: visibleReportIds }), []) as { report_id: string; upvote_count: number }[]
+    },
+  })
+  const myUpvotes = useQuery({
+    queryKey: ["my-public-report-upvotes", user?.citizenId],
+    enabled: Boolean(supabase && user?.citizenId),
+    queryFn: async () => {
+      if (!supabase || !user?.citizenId) return [] as { report_id: string }[]
+      return unwrap(await supabase.from("report_upvotes").select("report_id").eq("citizen_id", user.citizenId), []) as { report_id: string }[]
+    },
+  })
 
   const vote = useMutation({
     mutationFn: async (input: { toCitizenId: string; points: 1 | -1 }) => {
@@ -195,11 +214,31 @@ export function PublicReportsPage() {
     },
     onError: (error: Error) => toast.error(error.message),
   })
+  const upvote = useMutation({
+    mutationFn: async (reportId: string) => {
+      if (!supabase || !user?.citizenId || !canVote) throw new Error(tx("La vérification du compte est requise pour voter.", "Account verification is required to vote."))
+      const alreadyVoted = (myUpvotes.data ?? []).some((item) => item.report_id === reportId)
+      const result = alreadyVoted
+        ? await supabase.from("report_upvotes").delete().eq("report_id", reportId).eq("citizen_id", user.citizenId)
+        : await supabase.from("report_upvotes").insert({ report_id: reportId, citizen_id: user.citizenId })
+      if (result.error) throw new Error(result.error.message)
+    },
+    onSuccess: async () => {
+      await Promise.all([
+        queryClient.invalidateQueries({ queryKey: ["public-report-upvote-counts"] }),
+        queryClient.invalidateQueries({ queryKey: ["my-public-report-upvotes"] }),
+      ])
+    },
+    onError: (error: Error) => toast.error(error.message),
+  })
+  const upvotesByReport = new Map((upvoteCounts.data ?? []).map((item) => [item.report_id, Number(item.upvote_count)]))
+  const myUpvotedReports = new Set((myUpvotes.data ?? []).map((item) => item.report_id))
 
   return (
     <Container className="py-10">
       <title>{tx("Signalements publics", "Public reports")}</title>
       <PageHeader eyebrow={tx("La ville", "The city")} title={tx("Signalements publics", "Public reports")} description={tx("Signalements validés par les administrateurs de service. La réputation de l'auteur est indicative et ne remplace jamais la validation officielle.", "Reports validated by service administrators. The author's reputation is indicative and never replaces official validation.")} />
+      {!canVote && <p role="note" className="mb-4 rounded-lg border border-highlight/60 bg-highlight/10 p-3 text-sm">{tx("Vérifiez votre identité pour soutenir un signalement.", "Verify your identity to support a report.")}</p>}
 
       <div className="mb-5 flex flex-wrap items-end gap-4">
         <fieldset className="flex gap-2"><legend className="sr-only">{tx("Regrouper par", "Group by")}</legend>
@@ -227,6 +266,20 @@ export function PublicReportsPage() {
                       <div className="mb-1 flex flex-wrap items-center gap-2"><StatusBadge kind="report" value={r.status} /><span className="text-xs text-muted-foreground">{formatDateTime(r.observed_at, tag)}</span></div>
                       <h3 className="font-medium">{r.title}</h3>
                       <p className="mt-1 line-clamp-3 text-sm text-muted-foreground">{r.description}</p>
+                      <div className="mt-3 flex items-center gap-2">
+                        <Button
+                          size="sm"
+                          variant={myUpvotedReports.has(r.id) ? "default" : "outline"}
+                          disabled={!canVote || upvote.isPending}
+                          aria-pressed={myUpvotedReports.has(r.id)}
+                          aria-label={myUpvotedReports.has(r.id)
+                            ? tx(`Retirer mon vote de soutien, ${upvotesByReport.get(r.id) ?? 0} votes`, `Remove my support vote, ${upvotesByReport.get(r.id) ?? 0} votes`)
+                            : tx(`Soutenir ce signalement, ${upvotesByReport.get(r.id) ?? 0} votes`, `Support this report, ${upvotesByReport.get(r.id) ?? 0} votes`)}
+                          onClick={() => upvote.mutate(r.id)}
+                        >
+                          <ThumbsUp aria-hidden /> {tx("Soutenir", "Support")} · {upvotesByReport.get(r.id) ?? 0}
+                        </Button>
+                      </div>
                       {r.reporter_name && (
                         <p className="mt-2 flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
                           {tx("Par", "By")} {r.reporter_name} · {tx("réputation", "reputation")} {r.reporter_reputation ?? 0}

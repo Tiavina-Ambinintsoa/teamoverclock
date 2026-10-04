@@ -44,7 +44,7 @@ function describeObservation(analysis: Record<string, unknown>): string {
 }
 
 export function HeatAlertCreateDialog() {
-  const { tx, locale } = useLocale()
+  const { tx, tag } = useLocale()
   const queryClient = useQueryClient()
   const sectors = useSectors()
   const services = useServices({})
@@ -206,7 +206,7 @@ export function HeatAlertCreateDialog() {
                 <option value="">{tx("Choisir une observation…", "Choose an observation…")}</option>
                 {availableObservations.map((observation) => (
                   <option key={observation.id} value={observation.id}>
-                    {observation.satellite_code} · {sectors.data?.find((sector) => sector.id === observation.sector_id)?.code ?? observation.sector_id.slice(0, 8)} · {new Date(observation.observed_at).toLocaleString(locale === "fr" ? "fr-FR" : "en")}
+                    {observation.satellite_code} · {sectors.data?.find((sector) => sector.id === observation.sector_id)?.code ?? observation.sector_id.slice(0, 8)} · {new Date(observation.observed_at).toLocaleString(tag)}
                     {observation.confidence_score === null ? "" : ` · ${Math.round(observation.confidence_score * 100)} %`}
                   </option>
                 ))}

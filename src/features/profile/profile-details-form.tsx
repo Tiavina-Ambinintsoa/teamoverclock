@@ -10,7 +10,7 @@ import { Select } from "@/components/ui/select"
 import { StatusBadge } from "@/components/status-badge"
 import { useAuth } from "@/features/auth/auth-context"
 import { profileDetailsSchema, toProfileUpdate, type ProfileDetailsValues } from "@/features/profile/schema"
-import { useLocale } from "@/lib/locale"
+import { LOCALE_OPTIONS, useLocale } from "@/lib/locale"
 import { supabase } from "@/lib/supabase"
 
 /** D08 — informations du profil : identité, téléphone, langue et préférences de notification. */
@@ -29,7 +29,7 @@ export function ProfileDetailsForm() {
       firstName: user?.firstName ?? "",
       lastName: user?.lastName ?? "",
       phone: user?.phone ?? "",
-      locale,
+      locale: user?.locale ?? locale,
       notifyEmail: true,
       notifyInApp: true,
     },
@@ -87,8 +87,9 @@ export function ProfileDetailsForm() {
           <div className="grid gap-2">
             <Label htmlFor="p-locale">{tx("Langue", "Language")}</Label>
             <Select id="p-locale" {...register("locale")}>
-              <option value="fr">Français</option>
-              <option value="en">English</option>
+              {LOCALE_OPTIONS.map((option) => (
+                <option key={option.value} value={option.value}>{option.label}</option>
+              ))}
             </Select>
           </div>
         </div>

@@ -7,6 +7,7 @@ export interface GuideState {
   tours: GuideTour[]
   activeCode: string | null
   start: (code: string) => void
+  startPage: () => void
   close: (markCompleted?: boolean) => void
   isCompleted: (code: string) => boolean
 }

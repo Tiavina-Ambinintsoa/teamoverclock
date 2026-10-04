@@ -14,8 +14,11 @@ import { Select } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 import { useAuth } from "@/features/auth/auth-context"
 import { useServices } from "@/features/city/city-queries"
+import { ContentTranslationButton } from "@/features/i18n/content-translation-button"
+import type { FieldTranslations } from "@/features/i18n/content-translations"
 import type { NewsImportance, NewsItem, NewsStatus } from "@/lib/db-types"
-import { useLocale } from "@/lib/locale"
+import { env } from "@/lib/env"
+import { LOCALE_OPTIONS, useLocale } from "@/lib/locale"
 import { unwrap } from "@/lib/query-helpers"
 import { uniqueSlug } from "@/lib/slug"
 import { supabase } from "@/lib/supabase"
@@ -33,6 +36,7 @@ interface NewsDraft {
   category: string
   importance: NewsImportance
   validUntil: string
+  translations: FieldTranslations
 }
 
 /** D06 — rédaction et modération des actualités : brouillon → relecture → publication par un administrateur. */
@@ -80,6 +84,7 @@ export function NewsManager({ scope }: { scope: "all" | "mine" }) {
         body: input.draft.body.trim(),
         category: input.draft.category.trim() || "general",
         importance: input.draft.importance,
+        translations: input.draft.translations,
         valid_until: input.draft.validUntil ? new Date(input.draft.validUntil).toISOString() : null,
       }
       if (input.id) {
@@ -139,12 +144,20 @@ export function NewsManager({ scope }: { scope: "all" | "mine" }) {
 }
 
 function NewsDialog({ item, busy, onClose, onSave }: { item: NewsItem | null; busy: boolean; onClose: () => void; onSave: (draft: NewsDraft, submit: boolean) => void }) {
-  const { tx } = useLocale()
+  const { tx, locale } = useLocale()
+  const [translationLocale, setTranslationLocale] = useState(locale)
   const [draft, setDraft] = useState<NewsDraft>({
     title: item?.title ?? "", summary: item?.summary ?? "", body: item?.body ?? "", category: item?.category ?? "",
     importance: item?.importance ?? "normal", validUntil: item?.valid_until ? item.valid_until.slice(0, 10) : "",
+    translations: item?.translations ?? {},
   })
-  const set = <K extends keyof NewsDraft>(key: K, value: NewsDraft[K]) => setDraft((d) => ({ ...d, [key]: value }))
+  const set = <K extends keyof NewsDraft>(key: K, value: NewsDraft[K]) => setDraft((d) => ({
+    ...d,
+    [key]: value,
+    ...(key === "title" || key === "summary" || key === "body" || key === "category"
+      ? { translations: { ...d.translations, [key]: {} } }
+      : {}),
+  }))
   const valid = draft.title.trim().length >= 3 && draft.summary.trim().length >= 3 && draft.body.trim().length >= 3
 
   return (
@@ -167,6 +180,58 @@ function NewsDialog({ item, busy, onClose, onSave }: { item: NewsItem | null; bu
               </Select>
             </div>
             <div className="grid gap-1"><Label htmlFor="n-until">{tx("Valable jusqu'au", "Valid until")}</Label><Input id="n-until" type="date" value={draft.validUntil} onChange={(e) => set("validUntil", e.target.value)} /></div>
+          </div>
+          <div className="grid gap-2 rounded-lg border p-3">
+            <p className="text-sm text-muted-foreground">{tx("La source est en", "Source language")}: {locale}</p>
+            <ContentTranslationButton
+              fields={{ title: draft.title, summary: draft.summary, body: draft.body, category: draft.category }}
+              onTranslated={(translations) => setDraft((current) => ({ ...current, translations }))}
+            />
+            {!env.enableAIChat && <p className="text-xs text-muted-foreground">{tx("L’administrateur doit activer le module IA pour traduire.", "An administrator must enable the AI feature to translate.")}</p>}
+            {Object.keys(draft.translations).length > 0 && (
+              <div className="grid gap-3 border-t pt-3">
+                <output className="text-sm text-muted-foreground">{tx("Six versions linguistiques enregistrées dans le brouillon. Relisez-les avant publication.", "Six language versions are saved with this draft. Review them before publishing.")}</output>
+                <div className="grid gap-1">
+                  <Label htmlFor="n-translation-locale">{tx("Relire la traduction", "Review translation")}</Label>
+                  <Select id="n-translation-locale" value={translationLocale} onChange={(event) => setTranslationLocale(event.target.value as typeof translationLocale)}>
+                    {LOCALE_OPTIONS.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}
+                  </Select>
+                </div>
+                {(["title", "summary", "body", "category"] as const).map((field) => (
+                  <div key={field} className="grid gap-1">
+                    <Label htmlFor={`n-translation-${field}`}>{tx(
+                      field === "title" ? "Titre traduit" : field === "summary" ? "Résumé traduit" : field === "body" ? "Contenu traduit" : "Catégorie traduite",
+                      `Translated ${field}`,
+                    )}</Label>
+                    {field === "title" || field === "category" ? (
+                      <Input
+                        id={`n-translation-${field}`}
+                        value={draft.translations[field]?.[translationLocale] ?? ""}
+                        onChange={(event) => setDraft((current) => ({
+                          ...current,
+                          translations: {
+                            ...current.translations,
+                            [field]: { ...current.translations[field], [translationLocale]: event.target.value },
+                          },
+                        }))}
+                      />
+                    ) : (
+                      <Textarea
+                        id={`n-translation-${field}`}
+                        value={draft.translations[field]?.[translationLocale] ?? ""}
+                        onChange={(event) => setDraft((current) => ({
+                          ...current,
+                          translations: {
+                            ...current.translations,
+                            [field]: { ...current.translations[field], [translationLocale]: event.target.value },
+                          },
+                        }))}
+                      />
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
           <div className="flex flex-wrap gap-2">
             <Button variant="outline" disabled={busy || !valid} onClick={() => onSave(draft, false)}>{tx("Enregistrer le brouillon", "Save draft")}</Button>

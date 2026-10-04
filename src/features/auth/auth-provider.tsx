@@ -12,6 +12,7 @@ import {
   type ProfileExtras,
 } from "@/features/auth/profile-api"
 import { env } from "@/lib/env"
+import { useLocale } from "@/lib/locale"
 import { safeStorage } from "@/lib/storage"
 import { supabase } from "@/lib/supabase"
 
@@ -104,11 +105,43 @@ function translateAuthError(message: string): string {
   return message
 }
 
+function createLoginDeviceId(): string {
+  if (typeof crypto.randomUUID === "function") return crypto.randomUUID()
+  const bytes = crypto.getRandomValues(new Uint8Array(16))
+  bytes[6] = (bytes[6] & 0x0f) | 0x40
+  bytes[8] = (bytes[8] & 0x3f) | 0x80
+  const hex = Array.from(bytes, (value) => value.toString(16).padStart(2, "0")).join("")
+  return `${hex.slice(0, 8)}-${hex.slice(8, 12)}-${hex.slice(12, 16)}-${hex.slice(16, 20)}-${hex.slice(20)}`
+}
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const { resetTheme } = useTheme()
+  const { locale, setLocale } = useLocale()
   const [user, setUser] = useState<AppUser | null>(() => (supabase ? null : readLocalUser()))
   const [loading, setLoading] = useState<boolean>(supabase !== null)
   const authenticatedUserId = useRef(user?.id ?? null)
+
+  const notifyNewDevice = useCallback(async () => {
+    if (!supabase) return
+    const key = "webcup:login-device-id"
+    let deviceId = safeStorage.get(key)
+    if (!deviceId || !/^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(deviceId)) {
+      deviceId = createLoginDeviceId()
+      safeStorage.set(key, deviceId)
+    }
+    const { error, data } = await supabase.functions.invoke("device-login-alert", {
+      body: { deviceId },
+    })
+    if (error) {
+      toast.error("Connexion réussie, mais l’alerte de nouvel appareil n’a pas pu être envoyée.")
+      console.error("Device login alert failed", error.message)
+      return
+    }
+    if (data?.error) {
+      toast.error("Connexion réussie, mais l’alerte de nouvel appareil n’a pas pu être envoyée.")
+      console.error("Device login alert failed", data.error)
+    }
+  }, [])
 
   /** Charge le profil ; un compte suspendu/désactivé est déconnecté immédiatement (D03, D08). */
   const loadExtras = useCallback(async (base: AppUser): Promise<boolean> => {
@@ -121,6 +154,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setUser(null)
         return false
       }
+      setLocale(extras.locale)
       setUser((current) => (current?.id === base.id ? withExtras(current, extras) : current))
       return true
     } catch {
@@ -128,7 +162,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setUser((current) => (current?.id === base.id ? { ...current, profileLoaded: true } : current))
       return true
     }
-  }, [])
+  }, [setLocale])
 
   useEffect(() => {
     if (!supabase) return
@@ -147,10 +181,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       if (active) apply(data.session?.user)
     })
 
-    const { data: subscription } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: subscription } = supabase.auth.onAuthStateChange((event, session) => {
       // Appel différé : ne jamais appeler Supabase de façon synchrone dans ce callback.
       setTimeout(() => {
-        if (active) apply(session?.user)
+        if (active) {
+          apply(session?.user)
+          if (event === "SIGNED_IN" && session?.user) void notifyNewDevice()
+        }
       }, 0)
     })
 
@@ -158,7 +195,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       active = false
       subscription.subscription.unsubscribe()
     }
-  }, [loadExtras, resetTheme])
+  }, [loadExtras, notifyNewDevice, resetTheme])
 
   const value = useMemo<AuthState>(() => {
     const setLocalUser = (next: AppUser | null) => {
@@ -187,7 +224,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           role: "member",
           isDemo: true,
           isAdmin: false,
-          ...baseExtras(false, true),
+          ...baseExtras(false, true, locale),
         })
         return
       }
@@ -226,7 +263,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
             role: "member",
             isDemo: true,
             isAdmin: false,
-            ...baseExtras(false, true),
+            ...baseExtras(false, true, details?.locale ?? locale),
           })
           return
         }
@@ -236,6 +273,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
           options: {
             data: {
               display_name: displayName,
+              locale: details?.locale ?? locale,
               ...(details
                 ? {
                     first_name: details.firstName,
@@ -344,7 +382,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         if (user && supabase && !user.isDemo) await loadExtras(user)
       },
     }
-  }, [user, loading, loadExtras, resetTheme])
+  }, [user, loading, loadExtras, resetTheme, locale])
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
 }

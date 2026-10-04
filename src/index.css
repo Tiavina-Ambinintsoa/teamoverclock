@@ -171,6 +171,138 @@
   }
 }
 
+.pdf-document {
+  display: none;
+}
+
+@page {
+  size: A4;
+  margin: 18mm 16mm 21mm;
+}
+
+@media print {
+  body.printing-pdf-report * {
+    visibility: hidden !important;
+  }
+
+  body.printing-pdf-report .pdf-document,
+  body.printing-pdf-report .pdf-document * {
+    visibility: visible !important;
+  }
+
+  body.printing-pdf-report .pdf-document {
+    position: absolute;
+    inset: 0;
+    display: block !important;
+    width: 100%;
+    color: #111;
+    background: #fff;
+    font-family: Arial, sans-serif;
+    font-size: 10pt;
+    line-height: 1.45;
+  }
+
+  .pdf-report-header {
+    margin-bottom: 20pt;
+    padding-bottom: 12pt;
+    border-bottom: 2px solid #1f4b45;
+    break-inside: avoid;
+  }
+
+  .pdf-report-brand {
+    margin: 0 0 6pt;
+    color: #1f4b45;
+    font-size: 9pt;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+  }
+
+  .pdf-report-header h1 {
+    margin: 0 0 12pt;
+    color: #142c29;
+    font-size: 23pt;
+  }
+
+  .pdf-report-meta,
+  .pdf-report-fields {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 7pt 14pt;
+    margin: 0;
+  }
+
+  .pdf-report-meta dt,
+  .pdf-report-field dt {
+    color: #4b5563;
+    font-size: 8pt;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .pdf-report-meta dd,
+  .pdf-report-field dd {
+    margin: 2pt 0 0;
+    overflow-wrap: anywhere;
+    white-space: pre-wrap;
+  }
+
+  .pdf-report-section {
+    margin: 0 0 16pt;
+  }
+
+  .pdf-report-section h2 {
+    margin: 0 0 8pt;
+    padding-bottom: 4pt;
+    border-bottom: 1px solid #cbd5d1;
+    color: #1f4b45;
+    font-size: 14pt;
+    break-after: avoid;
+  }
+
+  .pdf-report-record {
+    margin: 0 0 12pt;
+    padding: 0 0 10pt;
+    border-bottom: 1px solid #e5e7eb;
+    break-inside: avoid;
+  }
+
+  .pdf-report-record h3 {
+    margin: 0 0 7pt;
+    color: #142c29;
+    font-size: 11pt;
+    break-after: avoid;
+  }
+
+  .pdf-report-list {
+    margin: 2pt 0 0;
+    padding-left: 15pt;
+  }
+
+  .pdf-report-nested {
+    grid-template-columns: minmax(0, 1fr);
+    margin-top: 6pt;
+    padding-left: 9pt;
+    border-left: 2px solid #e5e7eb;
+  }
+
+  .pdf-report-footer {
+    position: fixed;
+    right: 0;
+    bottom: -14mm;
+    left: 0;
+    display: flex;
+    justify-content: space-between;
+    padding-top: 5pt;
+    border-top: 1px solid #cbd5d1;
+    color: #6b7280;
+    font-size: 8pt;
+  }
+
+  .pdf-report-page-number::after {
+    content: "Page " counter(page) " of " counter(pages);
+  }
+}
+
 /* Panneaux d'authentification : entrée latérale courte, avec respect de la réduction des mouvements. */
 @keyframes auth-slide-from-right {
   from { opacity: 0; transform: translateX(1.4rem); }

@@ -22,6 +22,7 @@ import { ServiceAppointmentCalendar } from "@/features/services/service-appointm
 import { effectiveServiceStatus } from "@/features/services/service-availability"
 import { isFutureTimestamp } from "@/features/services/service-availability"
 import { useNow } from "@/hooks/use-now"
+import { localizedField, localizedStructuredField } from "@/features/i18n/content-translations"
 
 const FACILITY_MAP_LAYERS: MapLayers = {
   sectors: true, buildings: true, transports: false, dangers: false, reports: false, observations: false,
@@ -55,6 +56,17 @@ export function ServiceDetailPage() {
     )
   }
 
+  const serviceName = localizedField(s.translations, "name", locale, s.name)
+  const serviceCategory = localizedField(s.translations, "category", locale, s.category)
+  const serviceDescription = localizedField(s.translations, "description", locale, s.description ?? "")
+  const procedures = localizedStructuredField(s.translations, "procedures", locale, s.procedures, (value): value is typeof s.procedures =>
+    Array.isArray(value) && value.every((entry) =>
+      typeof entry === "object" && entry !== null && "step" in entry &&
+      typeof entry.step === "number" && "text" in entry && typeof entry.text === "string"
+    ))
+  const requiredDocuments = localizedStructuredField(s.translations, "required_documents", locale, s.required_documents, (value): value is string[] =>
+    Array.isArray(value) && value.every((entry) => typeof entry === "string"))
+  const serviceFees = localizedField(s.translations, "fees", locale, s.fees ?? "")
   const building = buildings.data?.find((b) => b.id === s.building_id)
   const sector = sectors.data?.find((x) => x.id === building?.sector_id)
   const hours = describeOpeningHours(s.opening_hours, locale)
@@ -78,18 +90,18 @@ export function ServiceDetailPage() {
 
   return (
     <Container className="max-w-6xl py-10">
-      <title>{s.name}</title>
+      <title>{serviceName}</title>
       <nav aria-label={tx("Fil d'Ariane", "Breadcrumb")} className="mb-4 text-sm text-muted-foreground">
-        <Link to="/services" className="underline-offset-4 hover:underline">{tx("Services", "Services")}</Link> / {s.name}
+        <Link to="/services" className="underline-offset-4 hover:underline">{tx("Services", "Services")}</Link> / {serviceName}
       </nav>
       <header className="mb-6">
         <div className="flex flex-wrap items-center gap-2">
-          <h1 className="font-display text-3xl font-semibold"><AuroraTitle>{s.name}</AuroraTitle></h1>
-          <Badge variant="secondary">{s.category}</Badge>
+          <h1 className="font-display text-3xl font-semibold"><AuroraTitle>{serviceName}</AuroraTitle></h1>
+          <Badge variant="secondary">{serviceCategory}</Badge>
           {s.is_emergency && <Badge variant="destructive">{tx("Urgence", "Emergency")}</Badge>}
           <StatusBadge kind="service" value={serviceStatus} />
         </div>
-        <p className="mt-3 text-muted-foreground">{s.description}</p>
+        <p className="mt-3 text-muted-foreground">{serviceDescription}</p>
         {closed && (
           <output className="mt-4 block rounded-lg border border-highlight/60 bg-highlight/10 p-3 text-sm">
             <strong>{tx("Service fermé ou suspendu.", "Service closed or suspended.")}</strong>{" "}
@@ -107,8 +119,9 @@ export function ServiceDetailPage() {
           </output>
         )}
         <div className="mt-5 flex flex-wrap gap-3">
-          <Button asChild><Link to={`/app/requests/new?service=${s.slug}`}>{tx("Contacter ce service", "Contact this service")}</Link></Button>
-          {s.booking_url && <Button asChild variant="outline"><a href={s.booking_url} target="_blank" rel="noopener noreferrer">{tx("Prendre rendez-vous", "Book an appointment")}</a></Button>}
+          {!closed && <Button asChild><Link to={`/app/requests/new?service=${s.slug}`}>{tx("Contacter ce service", "Contact this service")}</Link></Button>}
+          {!closed && s.booking_url && <Button asChild variant="outline"><a href={s.booking_url} target="_blank" rel="noopener noreferrer">{tx("Prendre rendez-vous", "Book an appointment")}</a></Button>}
+          {closed && <p className="text-sm text-muted-foreground">{tx("Les démarches et rendez-vous en ligne sont suspendus jusqu'à la réouverture du service.", "Online requests and appointments are paused until this service reopens.")}</p>}
         </div>
       </header>
 
@@ -127,23 +140,23 @@ export function ServiceDetailPage() {
 
         <section aria-labelledby="location" className="rounded-xl border bg-card p-5">
           <h2 id="location" className="mb-3 font-semibold">{tx("Localisation", "Location")}</h2>
-          <p className="text-sm">{building?.name ?? "—"}{sector ? ` · ${sector.code} ${sector.name}` : ""}</p>
+          <p className="text-sm">{building ? localizedField(building.translations, "name", locale, building.name) : "—"}{sector ? ` · ${sector.code} ${sector.name}` : ""}</p>
           {building && <p className="mt-1 text-sm text-muted-foreground">{building.address}</p>}
           {building && <div className="mt-2"><StatusBadge kind="building" value={building.status} /></div>}
           <Button asChild variant="outline" size="sm" className="mt-4"><Link to={`/map?building=${building?.id ?? ""}`}>{tx("Voir sur la carte", "View on the map")}</Link></Button>
         </section>
 
-        {s.procedures.length > 0 && (
+        {procedures.length > 0 && (
           <section aria-labelledby="procedures" className="rounded-xl border bg-card p-5">
             <h2 id="procedures" className="mb-3 font-semibold">{tx("Démarches", "Procedures")}</h2>
-            <ol className="grid list-decimal gap-1 pl-5 text-sm">{s.procedures.map((p) => <li key={p.step}>{p.text}</li>)}</ol>
+            <ol className="grid list-decimal gap-1 pl-5 text-sm">{procedures.map((p) => <li key={p.step}>{p.text}</li>)}</ol>
           </section>
         )}
 
         <section aria-labelledby="docs" className="rounded-xl border bg-card p-5">
           <h2 id="docs" className="mb-3 font-semibold">{tx("Documents et tarifs", "Documents & fees")}</h2>
-          {s.required_documents.length > 0 ? <ul className="list-disc pl-5 text-sm">{s.required_documents.map((d) => <li key={d}>{d}</li>)}</ul> : <p className="text-sm text-muted-foreground">{tx("Aucun document requis.", "No document required.")}</p>}
-          {s.fees && <p className="mt-3 text-sm"><span className="font-medium">{tx("Tarif :", "Fee:")}</span> {s.fees}</p>}
+          {requiredDocuments.length > 0 ? <ul className="list-disc pl-5 text-sm">{requiredDocuments.map((d) => <li key={d}>{d}</li>)}</ul> : <p className="text-sm text-muted-foreground">{tx("Aucun document requis.", "No document required.")}</p>}
+          {serviceFees && <p className="mt-3 text-sm"><span className="font-medium">{tx("Tarif :", "Fee:")}</span> {serviceFees}</p>}
           <p className="mt-3 text-xs text-muted-foreground">{tx("Dernière mise à jour :", "Last updated:")} {formatDate(s.updated_at, tag)}</p>
         </section>
       </div>
@@ -189,7 +202,7 @@ export function ServiceDetailPage() {
                   <div className="flex flex-wrap items-start justify-between gap-2">
                     <div>
                       <h3 className="font-medium">
-                        <button type="button" className="text-left underline-offset-4 hover:underline" onClick={() => setMapSelection({ type: "building", id: facility.id })}>{facility.name}</button>
+                        <button type="button" className="text-left underline-offset-4 hover:underline" onClick={() => setMapSelection({ type: "building", id: facility.id })}>{localizedField(facility.translations, "name", locale, facility.name)}</button>
                       </h3>
                       <p className="text-sm text-muted-foreground">{facility.facility_type ? pickLabel(FACILITY_TYPE_LABELS, facility.facility_type, locale) : ""}</p>
                     </div>
@@ -200,12 +213,12 @@ export function ServiceDetailPage() {
                     {facility.phone && <div><dt className="sr-only">{tx("Téléphone", "Phone")}</dt><dd><a className="underline-offset-4 hover:underline" href={`tel:${facility.phone.replace(/\s/g, "")}`}>{facility.phone}</a></dd></div>}
                     {facility.email && <div><dt className="sr-only">E-mail</dt><dd><a className="underline-offset-4 hover:underline" href={`mailto:${facility.email}`}>{facility.email}</a></dd></div>}
                     {describeOpeningHours(facility.opening_hours, locale).map((entry) => <div key={entry.days}><dt className="sr-only">{tx("Horaires", "Hours")}</dt><dd>{entry.days} : {entry.hours}</dd></div>)}
-                    {facility.description && <div className="text-muted-foreground"><dt className="sr-only">{tx("Description", "Description")}</dt><dd>{facility.description}</dd></div>}
+                    {facility.description && <div className="text-muted-foreground"><dt className="sr-only">{tx("Description", "Description")}</dt><dd>{localizedField(facility.translations, "description", locale, facility.description)}</dd></div>}
                   </dl>
                   {(facility.offerings ?? []).length > 0 && (
                     <div className="mt-3">
                       <h4 className="text-sm font-medium">{tx("Soins et prestations", "Treatments and services")}</h4>
-                      <ul className="mt-1 flex flex-wrap gap-1.5">{(facility.offerings ?? []).map((offering) => <li key={offering}><Badge variant="secondary">{offering}</Badge></li>)}</ul>
+                      <ul className="mt-1 flex flex-wrap gap-1.5">{localizedStructuredField(facility.translations, "offerings", locale, facility.offerings ?? [], (value): value is string[] => Array.isArray(value) && value.every((entry) => typeof entry === "string")).map((offering) => <li key={offering}><Badge variant="secondary">{offering}</Badge></li>)}</ul>
                     </div>
                   )}
                 </li>
@@ -223,7 +236,7 @@ export function ServiceDetailPage() {
               />
               {selectedFacility && (
                 <div className="mt-3 rounded-lg border p-3 text-sm" aria-live="polite">
-                  <p className="font-medium">{selectedFacility.name}</p>
+                  <p className="font-medium">{localizedField(selectedFacility.translations, "name", locale, selectedFacility.name)}</p>
                   <p>{selectedFacility.address}</p>
                   {selectedFacility.phone && <a className="underline-offset-4 hover:underline" href={`tel:${selectedFacility.phone.replace(/\s/g, "")}`}>{selectedFacility.phone}</a>}
                   {selectedFacility.email && <p><a className="underline-offset-4 hover:underline" href={`mailto:${selectedFacility.email}`}>{selectedFacility.email}</a></p>}

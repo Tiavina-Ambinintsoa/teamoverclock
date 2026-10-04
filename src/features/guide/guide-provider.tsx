@@ -8,9 +8,11 @@ import { useAuth } from "@/features/auth/auth-context"
 import { GuideContext, type GuideState } from "@/features/guide/guide-context"
 import {
   mergeTours,
+  currentPageTour,
   pendingWelcome,
   popoverPosition,
   stepsFor,
+  tourTitle,
   toursForRole,
   type GuideStep,
   type GuideTour,
@@ -44,6 +46,7 @@ function useDbTours() {
 }
 
 const PROMPT_KEY = "webcup:tour-prompt-dismissed"
+const CURRENT_PAGE_TOUR = "current-page"
 
 /** Mesure le rectangle d'un élément ciblé (null si introuvable). */
 function measure(selector: string | null): { rect: Rect; element: Element } | null {
@@ -61,20 +64,21 @@ function measure(selector: string | null): { rect: Rect; element: Element } | nu
 export function GuideProvider({ children }: { children: ReactNode }) {
   const { user } = useAuth()
   const { prefs, update } = useAccessibility()
-  const { locale, tx } = useLocale()
+  const { locale, tag, tx } = useLocale()
   const navigate = useNavigate()
   const { pathname } = useLocation()
   const dbTours = useDbTours()
   const tours = useMemo(() => toursForRole(mergeTours(dbTours.data ?? []), user?.profileRole ?? null), [dbTours.data, user?.profileRole])
 
   const [active, setActive] = useState<{ code: string; index: number } | null>(null)
+  const [pageTour, setPageTour] = useState<GuideTour | null>(null)
   const [target, setTarget] = useState<Rect | null>(null)
   const [promptHidden, setPromptHidden] = useState(() => {
     try { return window.sessionStorage.getItem(PROMPT_KEY) === "1" } catch { return false }
   })
   const cardRef = useRef<HTMLDialogElement>(null)
 
-  const tour = tours.find((t) => t.code === active?.code) ?? null
+  const tour = active?.code === CURRENT_PAGE_TOUR ? pageTour : tours.find((t) => t.code === active?.code) ?? null
   const steps = useMemo(() => (tour ? stepsFor(tour, locale) : []), [tour, locale])
   const step: GuideStep | null = active && steps[active.index] ? steps[active.index] : null
 
@@ -92,6 +96,12 @@ export function GuideProvider({ children }: { children: ReactNode }) {
   const start = useCallback((code: string) => {
     setActive({ code, index: 0 })
   }, [])
+
+  const startPage = useCallback(() => {
+    const title = document.querySelector("main h1")?.textContent?.trim() || document.title
+    setPageTour(currentPageTour(pathname, title, locale))
+    setActive({ code: CURRENT_PAGE_TOUR, index: 0 })
+  }, [locale, pathname])
 
   // Aller sur la route de l'étape, puis mesurer et suivre la cible (défilement, redimensionnement, rendu tardif).
   const stepRoute = step?.route ?? null
@@ -131,9 +141,9 @@ export function GuideProvider({ children }: { children: ReactNode }) {
     if (!step) return
     cardRef.current?.focus()
     if ((prefs.voiceGuide || prefs.voiceNavigation || prefs.readScreenAloud) && step.voice_script) {
-      speak(step.voice_script, { lang: locale === "en" ? "en-GB" : "fr-FR", rate: prefs.ttsRate })
+      speak(step.voice_script, { lang: tag, rate: prefs.ttsRate })
     }
-  }, [step, prefs.voiceGuide, prefs.voiceNavigation, prefs.readScreenAloud, prefs.ttsRate, locale])
+  }, [step, prefs.voiceGuide, prefs.voiceNavigation, prefs.readScreenAloud, prefs.ttsRate, tag])
 
   const go = (delta: number) => {
     if (!active) return
@@ -161,8 +171,8 @@ export function GuideProvider({ children }: { children: ReactNode }) {
   }
 
   const value = useMemo<GuideState>(
-    () => ({ tours, activeCode: active?.code ?? null, start, close, isCompleted: (code) => prefs.tourCompleted.includes(code) }),
-    [tours, active?.code, start, close, prefs.tourCompleted]
+    () => ({ tours, activeCode: active?.code ?? null, start, startPage, close, isCompleted: (code) => prefs.tourCompleted.includes(code) }),
+    [tours, active?.code, start, startPage, close, prefs.tourCompleted]
   )
 
   const welcome = pendingWelcome(tours, prefs.tourCompleted)
@@ -206,7 +216,7 @@ export function GuideProvider({ children }: { children: ReactNode }) {
             className="fixed z-[70] m-0 w-[min(340px,calc(100vw-24px))] rounded-xl border bg-popover p-4 text-popover-foreground shadow-2xl outline-none"
             style={{ top: pos.top, left: pos.left }}
           >
-            <p className="text-xs text-muted-foreground" aria-live="polite">{tx("Étape", "Step")} {active.index + 1}/{steps.length} · {tour?.title}</p>
+            <p className="text-xs text-muted-foreground" aria-live="polite">{tx("Étape", "Step")} {active.index + 1}/{steps.length} · {tour ? tourTitle(tour, locale) : ""}</p>
             <h2 id="guide-title" className="mt-1 text-lg font-semibold">{step.title}</h2>
             <p id="guide-body" className="mt-2 text-sm">{step.body}</p>
             <div className="mt-4 flex flex-wrap items-center gap-2">

@@ -113,13 +113,18 @@ declare
   v_birth  date;
   v_sector uuid;
 begin
-  insert into public.profiles (id, display_name, first_name, last_name, account_status)
+  insert into public.profiles (id, display_name, first_name, last_name, account_status, locale)
   values (
     new.id,
     coalesce(nullif(new.raw_user_meta_data ->> 'display_name', ''), split_part(new.email, '@', 1)),
     nullif(new.raw_user_meta_data ->> 'first_name', ''),
     nullif(new.raw_user_meta_data ->> 'last_name', ''),
-    case when new.email_confirmed_at is not null then 'active'::public.account_status else 'pending'::public.account_status end
+    case when new.email_confirmed_at is not null then 'active'::public.account_status else 'pending'::public.account_status end,
+    case
+      when new.raw_user_meta_data ->> 'locale' in ('fr', 'en', 'mg', 'mfe', 'rcf', 'x-nova')
+        then new.raw_user_meta_data ->> 'locale'
+      else 'fr'
+    end
   )
   on conflict (id) do nothing;
 

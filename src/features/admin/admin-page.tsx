@@ -4,6 +4,7 @@ import { Link, useParams } from "react-router"
 
 import { Button } from "@/components/ui/button"
 import { ModeToggle } from "@/components/theme-switcher"
+import { LanguageSwitcher } from "@/components/language-switcher"
 import { useLocale } from "@/lib/locale"
 import { SITE } from "@/lib/site"
 import { cn } from "@/lib/utils"
@@ -136,6 +137,7 @@ export function AdminPage() {
           {t("admin.header")} · {SITE.shortName}
         </Link>
         <div className="flex items-center gap-2">
+          <LanguageSwitcher />
           <ModeToggle />
           <Button asChild variant="outline" size="sm"><Link to="/app">{t("admin.back")}</Link></Button>
         </div>
