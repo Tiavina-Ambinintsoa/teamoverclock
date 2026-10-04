@@ -211,14 +211,17 @@ export function SmoothCursor({
       })
     }
 
-    document.body.style.cursor = "none"
+    const style = document.createElement("style")
+    style.id = "smooth-cursor-hide"
+    style.textContent = "*, *::before, *::after { cursor: none !important; }"
+    document.head.appendChild(style)
     window.addEventListener("pointermove", throttledPointerMove, {
       passive: true,
     })
 
     return () => {
       window.removeEventListener("pointermove", throttledPointerMove)
-      document.body.style.cursor = "auto"
+      document.getElementById("smooth-cursor-hide")?.remove()
       if (rafId) cancelAnimationFrame(rafId)
       if (timeout !== null) {
         clearTimeout(timeout)
