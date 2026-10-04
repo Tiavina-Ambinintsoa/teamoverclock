@@ -1,26 +1,41 @@
-import { useState, type FormEvent } from "react"
-import { ChevronDown, LogOut, Menu, Search, Settings, X } from "lucide-react"
+import { useEffect, useState, type FormEvent } from "react"
+import { ChevronDown, LogOut, Menu, Search, Settings, Star, X } from "lucide-react"
 import { Link, NavLink, Outlet, useNavigate } from "react-router"
 
 import { navForRole } from "@/components/layout/nav-config"
+import { RouteBreadcrumbs } from "@/components/layout/route-breadcrumbs"
 import { ModeToggle } from "@/components/theme-switcher"
+import { LanguageSwitcher } from "@/components/language-switcher"
 import { AuroraTitle } from "@/components/magic-ui"
 import { Button } from "@/components/ui/button"
 import { HelpMenu } from "@/features/guide/help-menu"
 import { useAuth } from "@/features/auth/auth-context"
+import { CriticalAlertsWatcher } from "@/features/notifications/critical-alerts-watcher"
 import { NotificationsMenu } from "@/features/notifications/notifications-menu"
 import { HeatAlertDialog } from "@/features/notifications/heat-alert-dialog"
+import { parseFavoritePages, toggleFavoritePage } from "@/features/navigation/favorite-pages"
 import { useLocale } from "@/lib/locale"
 import { SITE } from "@/lib/site"
+import { safeStorage } from "@/lib/storage"
 import { cn } from "@/lib/utils"
 
 function Sidebar({ close }: { close?: () => void }) {
   const { user } = useAuth()
   const { tx } = useLocale()
   const groups = navForRole(user?.profileRole, user?.isAdmin === true)
+  const [favoritePaths, setFavoritePaths] = useState<string[]>(() => parseFavoritePages(safeStorage.get("webcup:favorite-pages")))
+  const availableItems = groups.flatMap((group) => group.items.map((item) => ({ ...item, label: tx(item.fr, item.en) })))
+  const favorites = availableItems.filter((item) => favoritePaths.includes(item.to))
+  useEffect(() => {
+    safeStorage.set("webcup:favorite-pages", JSON.stringify(favoritePaths))
+  }, [favoritePaths])
+
+  const toggleFavorite = (path: string) => {
+    setFavoritePaths((current) => toggleFavoritePage(current, path))
+  }
 
   return (
-    <div className="flex h-full flex-col overflow-y-auto">
+    <div className="flex h-full flex-col overflow-x-hidden overflow-y-auto">
       <div className="flex h-16 shrink-0 items-center justify-between border-b px-5">
         <Link to="/" className="flex items-center gap-3 font-display text-lg font-semibold" onClick={close}>
           <span className="grid size-9 place-items-center rounded-xl bg-primary text-primary-foreground">N</span>
@@ -32,28 +47,53 @@ function Sidebar({ close }: { close?: () => void }) {
           </Button>
         )}
       </div>
-      <nav aria-label={tx("Navigation de l'application", "Application navigation")} className="grid gap-5 px-4 py-5">
+      <nav aria-label={tx("Navigation de l'application", "Application navigation")} className="grid grid-cols-[minmax(0,1fr)] gap-5 px-4 py-5">
+        {favorites.length > 0 && (
+          <div>
+            <p className="mb-2 px-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">{tx("Pages favorites", "Favorite pages")}</p>
+            <div className="grid grid-cols-[minmax(0,1fr)] gap-1">
+              {favorites.map(({ to, label, icon: Icon }) => (
+                <NavLink key={to} to={to} viewTransition onClick={close} className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-muted-foreground hover:bg-accent hover:text-foreground">
+                  <Icon className="size-4" aria-hidden />
+                  {label}
+                </NavLink>
+              ))}
+            </div>
+          </div>
+        )}
         {groups.map((group) => (
           <div key={group.id}>
             <p className="mb-2 px-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">{tx(group.fr, group.en)}</p>
-            <div className="grid gap-1">
+            <div className="grid grid-cols-[minmax(0,1fr)] gap-1">
               {group.items.map(({ to, fr, en, icon: Icon, exact }) => (
-                <NavLink
-                  key={to}
-                  to={to}
-                  end={exact}
-                  viewTransition
-                  onClick={close}
-                  className={({ isActive }) =>
-                    cn(
-                      "flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-muted-foreground hover:bg-accent hover:text-foreground",
-                      isActive && "bg-accent font-medium text-foreground"
-                    )
-                  }
-                >
-                  <Icon className="size-4" aria-hidden />
-                  {tx(fr, en)}
-                </NavLink>
+                <div key={to} className="flex items-center gap-1">
+                  <NavLink
+                    to={to}
+                    end={exact}
+                    viewTransition
+                    onClick={close}
+                    className={({ isActive }) =>
+                      cn(
+                        "flex min-w-0 flex-1 items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-muted-foreground hover:bg-accent hover:text-foreground",
+                        isActive && "bg-accent font-medium text-foreground"
+                      )
+                    }
+                  >
+                    <Icon className="size-4 shrink-0" aria-hidden />
+                    <span className="truncate">{tx(fr, en)}</span>
+                  </NavLink>
+                  <Button
+                    type="button"
+                    size="icon"
+                    variant="ghost"
+                    className="size-9 shrink-0"
+                    aria-label={favoritePaths.includes(to) ? tx(`Retirer ${tx(fr, en)} des favoris`, `Remove ${tx(fr, en)} from favorites`) : tx(`Ajouter ${tx(fr, en)} aux favoris`, `Add ${tx(fr, en)} to favorites`)}
+                    aria-pressed={favoritePaths.includes(to)}
+                    onClick={() => toggleFavorite(to)}
+                  >
+                    <Star aria-hidden className={cn("size-4", favoritePaths.includes(to) && "fill-current text-primary")} />
+                  </Button>
+                </div>
               ))}
             </div>
           </div>
@@ -121,6 +161,7 @@ export function ApplicationLayout() {
             </form>
           </search>
           <div className="ml-auto flex items-center gap-2">
+            <LanguageSwitcher />
             <HelpMenu />
             <ModeToggle />
             <NotificationsMenu />
@@ -145,11 +186,13 @@ export function ApplicationLayout() {
           </div>
         </header>
 
-        <main className="flex-1 py-6 sm:py-9">
+        <main data-tour="page-content" className="flex-1 py-6 sm:py-9">
+          <CriticalAlertsWatcher />
+          <RouteBreadcrumbs />
           <Outlet />
         </main>
         <footer className="border-t px-5 py-4 text-xs text-muted-foreground sm:px-8">
-          {tx("Simulation — ville fictive", "Simulation — fictional city")} · {SITE.name}
+          {SITE.name}
         </footer>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useMemo, useState } from "react"
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { toast } from "sonner"
 
@@ -7,22 +7,15 @@ import { Container } from "@/components/layout/container"
 import { PageHeader } from "@/components/page-header"
 import { StatusBadge } from "@/components/status-badge"
 import { Button } from "@/components/ui/button"
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Select } from "@/components/ui/select"
-import { Textarea } from "@/components/ui/textarea"
 import { useAuth } from "@/features/auth/auth-context"
-import { useServices } from "@/features/city/city-queries"
 import { HeatAlertCreateDialog } from "@/features/admin/heat-alert-create-dialog"
+import { DangerForm } from "@/features/admin/danger-form"
+import { buildDangerPayload, dangerRowToFormValues, emptyDangerFormValues, type DangerFormValues } from "@/features/admin/danger-form-helpers"
+import { useBuildings, useSectors, useServices } from "@/features/city/city-queries"
 import type { DangerRow } from "@/lib/db-types"
 import { useLocale } from "@/lib/locale"
 import { unwrap } from "@/lib/query-helpers"
-import { uniqueSlug } from "@/lib/slug"
 import { supabase } from "@/lib/supabase"
-import type { DangerSeverity } from "@/lib/types"
-
-const SEVERITIES: DangerSeverity[] = ["info", "low", "moderate", "high", "extreme"]
 
 /** Une alerte ne peut être activée que si elle a un responsable ; la validation est horodatée (contrainte SQL). */
 export function activationPatch(userId: string, responsibleServiceId: string | null, now: Date = new Date()) {
@@ -30,13 +23,17 @@ export function activationPatch(userId: string, responsibleServiceId: string | n
   return { status: "active", validated_by: userId, validated_at: now.toISOString() }
 }
 
-/** Gestion des dangers (administrateur) : brouillon → activation validée → archivage. */
+type EditingState = { mode: "create" } | { mode: "edit"; danger: DangerRow }
+
+/** Gestion des dangers pour l'administration générale et les équipes de service. */
 export function DangersManager() {
   const { user } = useAuth()
   const { tx } = useLocale()
   const queryClient = useQueryClient()
   const services = useServices({})
-  const [creating, setCreating] = useState(false)
+  const sectors = useSectors()
+  const buildings = useBuildings()
+  const [editing, setEditing] = useState<EditingState | null>(null)
 
   const dangers = useQuery({
     queryKey: ["manage-dangers"],
@@ -46,9 +43,18 @@ export function DangersManager() {
     },
   })
 
+  const manageableServices = useMemo(() => {
+    if (user?.isAdmin) return services.data ?? []
+    const allowedIds = new Set([...(user?.serviceIds ?? []), ...(user?.validatorServiceIds ?? [])])
+    return (services.data ?? []).filter((service) => allowedIds.has(service.id))
+  }, [services.data, user?.isAdmin, user?.serviceIds, user?.validatorServiceIds])
+
   const refresh = async () => {
-    await queryClient.invalidateQueries({ queryKey: ["manage-dangers"] })
-    await queryClient.invalidateQueries({ queryKey: ["dangers"] })
+    await Promise.all([
+      queryClient.invalidateQueries({ queryKey: ["manage-dangers"] }),
+      queryClient.invalidateQueries({ queryKey: ["dangers"] }),
+      queryClient.invalidateQueries({ queryKey: ["critical-alerts", "dangers"] }),
+    ])
   }
 
   const change = useMutation({
@@ -57,72 +63,135 @@ export function DangersManager() {
       const { error } = await supabase.from("dangers").update(input.patch).eq("id", input.id)
       if (error) throw new Error(error.message)
     },
-    onSuccess: async () => { toast.success(tx("Alerte mise à jour.", "Alert updated.")); await refresh() },
+    onSuccess: async () => {
+      toast.success(tx("Alerte mise à jour.", "Alert updated."))
+      setEditing(null)
+      await refresh()
+    },
     onError: (error: Error) => toast.error(error.message),
   })
 
   const create = useMutation({
-    mutationFn: async (input: { title: string; summary: string; severity: DangerSeverity; serviceId: string }) => {
+    mutationFn: async (payload: Record<string, unknown>) => {
       if (!supabase) throw new Error("Supabase")
-      const { error } = await supabase.from("dangers").insert({
-        slug: uniqueSlug(input.title), title: input.title, summary: input.summary, severity: input.severity,
-        responsible_service_id: input.serviceId || null, status: "draft", is_fictional_alert: true,
-      })
+      const { error } = await supabase.from("dangers").insert(payload)
       if (error) throw new Error(error.message)
     },
-    onSuccess: async () => { setCreating(false); toast.success(tx("Brouillon créé.", "Draft created.")); await refresh() },
+    onSuccess: async () => {
+      toast.success(tx("Brouillon créé.", "Draft created."))
+      setEditing(null)
+      await refresh()
+    },
     onError: (error: Error) => toast.error(error.message),
   })
 
-  const activate = (d: DangerRow) => {
-    const patch = user ? activationPatch(user.id, d.responsible_service_id) : null
-    if (!patch) return toast.error(tx("Attribuez d'abord un service responsable.", "Assign a responsible service first."))
-    change.mutate({ id: d.id, patch })
+  const submit = (values: DangerFormValues, action: "save" | "activate") => {
+    const existing = editing?.mode === "edit" ? editing.danger : null
+    const payload = buildDangerPayload(values, existing)
+    const activation = action === "activate" && user ? activationPatch(user.id, payload.responsible_service_id) : null
+    if (action === "activate" && !activation) {
+      toast.error(tx("Attribuez d'abord un service responsable.", "Assign a responsible service first."))
+      return
+    }
+    const patch: Record<string, unknown> = activation ? { ...payload, ...activation } : payload
+
+    if (existing) {
+      change.mutate({ id: existing.id, patch })
+      return
+    }
+
+    create.mutate(activation ? { ...patch, status: "active" } : patch)
   }
 
+  const activate = (danger: DangerRow) => {
+    const patch = user ? activationPatch(user.id, danger.responsible_service_id) : null
+    if (!patch) {
+      toast.error(tx("Attribuez d'abord un service responsable.", "Assign a responsible service first."))
+      return
+    }
+    change.mutate({ id: danger.id, patch })
+  }
+
+  const items = dangers.data ?? []
+  const eyebrow = user?.isAdmin ? tx("Administration", "Administration") : tx("Espace agent", "Agent workspace")
+  const title = user?.isAdmin ? tx("Dangers et protocoles", "Dangers & protocols") : tx("Mes dangers et protocoles", "My dangers & protocols")
+  const description = user?.isAdmin
+    ? tx("Chaque procédure a un responsable et une date de validation. Les anciennes alertes sont archivées.", "Every procedure has an owner and a validation date. Old alerts are archived.")
+    : tx("Créez, activez et mettez à jour les protocoles de votre périmètre de service.", "Create, activate, and update protocols for your service scope.")
+  const editingValues = editing?.mode === "edit" ? dangerRowToFormValues(editing.danger) : emptyDangerFormValues()
+
   return (
-    <Container className="max-w-5xl">
+    <Container className="max-w-6xl">
       <title>{tx("Dangers", "Dangers")}</title>
-      <PageHeader eyebrow={tx("Administration", "Administration")} title={tx("Dangers et protocoles", "Dangers & protocols")} description={tx("Chaque procédure a un responsable et une date de validation. Les anciennes alertes sont archivées.", "Every procedure has an owner and a validation date. Old alerts are archived.")} actions={<div className="flex flex-wrap gap-2">{user?.isAdmin && <HeatAlertCreateDialog />}<Button onClick={() => setCreating(true)}>{tx("Nouvelle alerte", "New alert")}</Button></div>} />
-      <DataState data={dangers.data} isLoading={dangers.isLoading} error={dangers.error} onRetry={() => void dangers.refetch()} emptyTitle={tx("Aucune alerte", "No alert")}>
-        {(items) => (
+      <PageHeader
+        eyebrow={eyebrow}
+        title={title}
+        description={description}
+        actions={
+          <div className="flex flex-wrap gap-2">
+            {user?.isAdmin && <HeatAlertCreateDialog />}
+            <Button onClick={() => setEditing({ mode: "create" })}>{tx("Nouvelle alerte", "New alert")}</Button>
+          </div>
+        }
+      />
+      <DataState data={items} isLoading={dangers.isLoading} error={dangers.error} onRetry={() => void dangers.refetch()} emptyTitle={tx("Aucune alerte", "No alert")}>
+        {(rows) => (
           <ul className="grid gap-3">
-            {items.map((d) => (
-              <li key={d.id} className="flex flex-wrap items-center justify-between gap-3 rounded-xl border bg-card p-4">
-                <div className="min-w-0"><p className="font-medium">{d.title}</p><p className="text-sm text-muted-foreground">v{d.procedure_version} · {services.data?.find((s) => s.id === d.responsible_service_id)?.name ?? tx("sans responsable", "no owner")}</p></div>
-                <div className="flex flex-wrap items-center gap-2">
-                  <StatusBadge kind="severity" value={d.severity} /><StatusBadge kind="danger" value={d.status} />
-                  {d.status !== "active" && d.status !== "archived" && <Button size="sm" disabled={change.isPending} onClick={() => activate(d)}>{tx("Valider et activer", "Validate & activate")}</Button>}
-                  {d.status === "active" && <Button size="sm" variant="outline" disabled={change.isPending} onClick={() => change.mutate({ id: d.id, patch: { status: "archived", valid_until: new Date().toISOString() } })}>{tx("Clôturer (archiver)", "Close (archive)")}</Button>}
+            {rows.map((danger) => (
+              <li key={danger.id} className="rounded-xl border bg-card p-4">
+                <div className="flex flex-wrap items-start justify-between gap-3">
+                  <div className="min-w-0 space-y-1">
+                    <p className="font-medium">{danger.title}</p>
+                    <p className="text-sm text-muted-foreground">
+                      v{danger.procedure_version} · {services.data?.find((service) => service.id === danger.responsible_service_id)?.name ?? tx("sans responsable", "no owner")}
+                    </p>
+                    <p className="text-sm text-muted-foreground">{danger.summary}</p>
+                  </div>
+                  <div className="flex flex-wrap items-center gap-2">
+                    <StatusBadge kind="severity" value={danger.severity} />
+                    <StatusBadge kind="danger" value={danger.status} />
+                    <Button size="sm" variant="outline" onClick={() => setEditing({ mode: "edit", danger })}>{tx("Modifier", "Edit")}</Button>
+                    {danger.status !== "active" && danger.status !== "archived" && (
+                      <Button size="sm" disabled={change.isPending} onClick={() => activate(danger)}>
+                        {tx("Valider et activer", "Validate & activate")}
+                      </Button>
+                    )}
+                    {danger.status === "active" && (
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        disabled={change.isPending}
+                        onClick={() => change.mutate({ id: danger.id, patch: { status: "archived", valid_until: new Date().toISOString() } })}
+                      >
+                        {tx("Clôturer (archiver)", "Close (archive)")}
+                      </Button>
+                    )}
+                  </div>
                 </div>
               </li>
             ))}
           </ul>
         )}
       </DataState>
-      {creating && <CreateDialog services={services.data ?? []} busy={create.isPending} onClose={() => setCreating(false)} onCreate={(v) => create.mutate(v)} />}
-    </Container>
-  )
-}
 
-function CreateDialog({ services, busy, onClose, onCreate }: { services: { id: string; name: string }[]; busy: boolean; onClose: () => void; onCreate: (v: { title: string; summary: string; severity: DangerSeverity; serviceId: string }) => void }) {
-  const { tx } = useLocale()
-  const [title, setTitle] = useState("")
-  const [summary, setSummary] = useState("")
-  const [severity, setSeverity] = useState<DangerSeverity>("moderate")
-  const [serviceId, setServiceId] = useState("")
-  return (
-    <Dialog open onOpenChange={(open) => !open && onClose()}>
-      <DialogContent>
-        <DialogHeader><DialogTitle>{tx("Nouvelle alerte", "New alert")}</DialogTitle><DialogDescription>{tx("Elle reste en brouillon jusqu'à validation.", "It stays a draft until validated.")}</DialogDescription></DialogHeader>
-        <div className="grid gap-3">
-          <div className="grid gap-1"><Label htmlFor="d-title">{tx("Titre", "Title")}</Label><Input id="d-title" value={title} onChange={(e) => setTitle(e.target.value)} /></div>
-          <div className="grid gap-1"><Label htmlFor="d-sum">{tx("Résumé", "Summary")}</Label><Textarea id="d-sum" value={summary} onChange={(e) => setSummary(e.target.value)} /></div>
-          <div className="grid gap-1"><Label htmlFor="d-sev">{tx("Gravité", "Severity")}</Label><Select id="d-sev" value={severity} onChange={(e) => setSeverity(e.target.value as DangerSeverity)}>{SEVERITIES.map((s) => <option key={s} value={s}>{s}</option>)}</Select></div>
-          <div className="grid gap-1"><Label htmlFor="d-svc">{tx("Service responsable", "Responsible service")}</Label><Select id="d-svc" value={serviceId} onChange={(e) => setServiceId(e.target.value)}><option value="">—</option>{services.map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}</Select></div>
-          <Button disabled={busy || title.trim().length < 3 || summary.trim().length < 3} onClick={() => onCreate({ title: title.trim(), summary: summary.trim(), severity, serviceId })}>{tx("Créer le brouillon", "Create draft")}</Button>
-        </div>
-      </DialogContent>
-    </Dialog>
+      {editing && (
+        <DangerForm
+          key={editing.mode === "edit" ? editing.danger.id : "create"}
+          open
+          busy={create.isPending || change.isPending}
+          title={editing.mode === "edit" ? tx("Modifier l'alerte", "Edit alert") : tx("Nouvelle alerte", "New alert")}
+          description={editing.mode === "edit"
+            ? tx("Mettez à jour le protocole complet. Une alerte active publie automatiquement une nouvelle version.", "Update the full protocol. Editing an active alert automatically publishes a new version.")
+            : tx("Créez le protocole complet, puis activez-le quand il est prêt.", "Create the full protocol, then activate it when it is ready.")}
+          services={manageableServices}
+          sectors={sectors.data ?? []}
+          buildings={buildings.data ?? []}
+          initialValues={editingValues}
+          existingStatus={editing.mode === "edit" ? editing.danger.status : "draft"}
+          onClose={() => setEditing(null)}
+          onSubmit={submit}
+        />
+      )}
+    </Container>
   )
 }

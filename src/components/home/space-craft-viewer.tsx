@@ -63,6 +63,8 @@ export interface SpaceCraftViewerProps {
   scrollProgress?: number | MotionValue<number>
   /** Camera Z range for scroll animation [far, close] (default: [4.7, 2.0]) */
   scrollZRange?: [number, number]
+  /** Mettre en pause le rendu WebGL (ex: pendant le preloader vidéo) */
+  paused?: boolean
 }
 
 export function SpaceCraftViewer({
@@ -92,9 +94,11 @@ export function SpaceCraftViewer({
   enableInteraction = true,
   scrollProgress,
   scrollZRange = [4.7, 2.0],
+  paused = false,
 }: SpaceCraftViewerProps) {
   const mountRef = useRef<HTMLDivElement>(null)
   const cleanupRef = useRef<(() => void) | null>(null)
+  const pausedRef = useRef(paused)
   // Refs for external scroll-driven camera & transforms
   const scrollProgressRef = useRef(scrollProgress)
   const scrollZRangeRef = useRef(scrollZRange)
@@ -147,6 +151,7 @@ export function SpaceCraftViewer({
     phase2CameraYRef.current = phase2CameraY
     phase2CameraFovRef.current = phase2CameraFov
     enableInteractionRef.current = enableInteraction
+    pausedRef.current = paused
   })
 
   useEffect(() => {
@@ -315,6 +320,7 @@ export function SpaceCraftViewer({
 
       const animate = () => {
         animationFrameId = requestAnimationFrame(animate)
+        if (pausedRef.current) return
         const t = clock.getElapsedTime()
 
         if (isModelReady) {

@@ -11,6 +11,7 @@ import { describeOpeningHours } from "@/features/services/hours"
 import type { Building, DangerRow, Sector, Service, Transport } from "@/lib/db-types"
 import { useLocale } from "@/lib/locale"
 import { BUILDING_TYPE_LABELS, FACILITY_TYPE_LABELS, pickLabel, REPORT_CATEGORY_LABELS, TRANSPORT_TYPE_LABELS } from "@/lib/status-labels"
+import { localizedField, localizedStructuredField } from "@/features/i18n/content-translations"
 
 interface MapDetailPanelProps {
   selected: Pick
@@ -37,7 +38,7 @@ function Row({ label, children }: { label: string; children: React.ReactNode }) 
 
 /** Fiche holographique de l'élément sélectionné : bâtiment, secteur, signalement ou transport. */
 export function MapDetailPanel({ selected, sectors, buildings, transports, reports, dangers, services, reportHref, onSelect, showReportLink = true, presentation = "hologram" }: MapDetailPanelProps) {
-  const { tx, locale } = useLocale()
+  const { tx, locale, tag } = useLocale()
   const sectorOf = (id: string) => sectors.find((s) => s.id === id)
   const sectorLabel = (id: string) => {
     const s = sectorOf(id)
@@ -50,7 +51,7 @@ export function MapDetailPanel({ selected, sectors, buildings, transports, repor
   const transport = selected.kind === "transport" ? transports.find((t) => t.id === selected.id) : undefined
 
   const eyebrow = { building: tx("Bâtiment", "Building"), sector: tx("Secteur", "Sector"), report: tx("Signalement", "Report"), transport: tx("Transport", "Transport") }[selected.kind]
-  const title = building?.name ?? (sector ? `${sector.code} — ${sector.name}` : report?.title ?? transport?.code ?? tx("Élément introuvable", "Item not found"))
+  const title = (building ? localizedField(building.translations, "name", locale, building.name) : undefined) ?? (sector ? `${sector.code} — ${sector.name}` : report?.title ?? transport?.code ?? tx("Élément introuvable", "Item not found"))
 
   const sectorBuildings = sector ? buildings.filter((b) => b.sector_id === sector.id) : []
   const sectorReports = sector ? reports.filter((r) => r.sector_id === sector.id) : []
@@ -93,14 +94,14 @@ export function MapDetailPanel({ selected, sectors, buildings, transports, repor
                 </Row>
               )}
             </dl>
-            {building.description && <p className="text-muted-foreground">{building.description}</p>}
+            {building.description && <p className="text-muted-foreground">{localizedField(building.translations, "description", locale, building.description)}</p>}
             {(building.offerings ?? []).length > 0 && (
-              <ul className="flex flex-wrap gap-1">{building.offerings.map((offering) => <li key={offering}><Badge variant="secondary">{offering}</Badge></li>)}</ul>
+              <ul className="flex flex-wrap gap-1">{localizedStructuredField(building.translations, "offerings", locale, building.offerings, (value): value is string[] => Array.isArray(value) && value.every((entry) => typeof entry === "string")).map((offering) => <li key={offering}><Badge variant="secondary">{offering}</Badge></li>)}</ul>
             )}
             {buildingServices.length > 0 && (
               <div>
                 <p className="holo-eyebrow mb-1">{tx("Services présents", "Services here")}</p>
-                <ul className="grid gap-0.5">{buildingServices.map((s) => <li key={s.id}><Link className="underline underline-offset-4" to={`/services/${s.slug}`}>{s.name}</Link></li>)}</ul>
+                <ul className="grid gap-0.5">{buildingServices.map((s) => <li key={s.id}><Link className="underline underline-offset-4" to={`/services/${s.slug}`}>{localizedField(s.translations, "name", locale, s.name)}</Link></li>)}</ul>
               </div>
             )}
             <div className="flex flex-wrap gap-2">
@@ -119,7 +120,7 @@ export function MapDetailPanel({ selected, sectors, buildings, transports, repor
             {sectorAlerts.length > 0 && (
               <div className="rounded-lg border border-destructive/50 bg-destructive/10 p-2">
                 <p className="holo-eyebrow mb-1 !text-destructive">{tx("Alertes actives", "Active alerts")}</p>
-                <ul className="grid gap-0.5">{sectorAlerts.map((d) => <li key={d.id}><Link className="underline underline-offset-4" to={`/dangers/${d.slug}`}>{d.title}</Link></li>)}</ul>
+                <ul className="grid gap-0.5">{sectorAlerts.map((d) => <li key={d.id}><Link className="underline underline-offset-4" to={`/dangers/${d.slug}`}>{localizedField(d.translations, "title", locale, d.title)}</Link></li>)}</ul>
               </div>
             )}
             {sectorBuildings.length > 0 && (
@@ -149,7 +150,7 @@ export function MapDetailPanel({ selected, sectors, buildings, transports, repor
               <Row label={tx("Secteur", "Sector")}>
                 <button type="button" className="underline underline-offset-4" onClick={() => onSelect({ kind: "sector", id: report.sector_id })}>{sectorLabel(report.sector_id)}</button>
               </Row>
-              <Row label={tx("Observé le", "Observed")}>{new Date(report.observed_at).toLocaleString(locale === "fr" ? "fr-FR" : "en-GB", { dateStyle: "medium", timeStyle: "short" })}</Row>
+              <Row label={tx("Observé le", "Observed")}>{new Date(report.observed_at).toLocaleString(tag, { dateStyle: "medium", timeStyle: "short" })}</Row>
               <Row label={tx("Priorité", "Priority")}>{report.priority}</Row>
             </dl>
             <p className="line-clamp-5 text-muted-foreground">{report.description}</p>

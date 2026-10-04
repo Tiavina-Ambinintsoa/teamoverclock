@@ -171,7 +171,7 @@ export function VerificationPage() {
 
           {!user.isMinor && user.kycStatus !== "verified" && (
             <form onSubmit={onSubmitCin} className="grid gap-4 rounded-xl border bg-card p-6" aria-labelledby="cin-title">
-              <h2 id="cin-title" className="text-lg font-semibold">{tx("Soumettre mon CIN fictif", "Submit my fictional CIN")}</h2>
+              <h2 id="cin-title" className="text-lg font-semibold">{tx("Soumettre mon CIN", "Submit my CIN")}</h2>
               <p className="text-sm text-muted-foreground">
                 {tx("Le modèle de vérification attend un CIN au format NT-CIN-000000.", "The verification model expects a CIN in the format NT-CIN-000000.")}
               </p>

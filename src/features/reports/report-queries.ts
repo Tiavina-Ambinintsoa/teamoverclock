@@ -62,7 +62,17 @@ export function useMyReports(citizenId: string | null | undefined) {
     enabled: Boolean(citizenId && supabase),
     queryFn: async (): Promise<ReportRow[]> => {
       if (!supabase || !citizenId) return []
-      return unwrap(await supabase.from("reports").select("*").eq("reporter_citizen_id", citizenId).is("deleted_at", null).order("created_at", { ascending: false }), []) as ReportRow[]
+      const pageSize = 500
+      const reports: ReportRow[] = []
+      for (let from = 0; ; from += pageSize) {
+        const { data, error } = await supabase.from("reports").select("*")
+          .eq("reporter_citizen_id", citizenId).is("deleted_at", null)
+          .order("created_at", { ascending: false }).range(from, from + pageSize - 1)
+        if (error) throw new Error(error.message)
+        const page = (data ?? []) as ReportRow[]
+        reports.push(...page)
+        if (page.length < pageSize) return reports
+      }
     },
   })
 }

@@ -1,21 +1,34 @@
 import { useState } from "react"
-import { Accessibility, Volume2, VolumeX } from "lucide-react"
+import { Accessibility, CircleHelp, Volume2, VolumeX } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { useAccessibility } from "@/features/accessibility/accessibility-context"
 import { stopSpeaking } from "@/features/voice/speech"
 import { AccessibilityPanel } from "@/features/accessibility/accessibility-panel"
+import { useGuide } from "@/features/guide/guide-context"
 import { useLocale } from "@/lib/locale"
 
 /** Quick access controls stay beside the chatbot on every route. */
 export function FloatingAccessibilityControls() {
   const { prefs, update } = useAccessibility()
   const { tx } = useLocale()
+  const guide = useGuide()
   const [open, setOpen] = useState(false)
 
   return (
     <>
+      <Button
+        type="button"
+        size="icon"
+        variant="outline"
+        aria-label={tx("Visite guidée de cette page", "Guided tour of this page")}
+        title={tx("Aide sur cette page", "Help for this page")}
+        className="fixed right-5 bottom-52 z-50 size-11 rounded-full shadow-lg"
+        onClick={guide.startPage}
+      >
+        <CircleHelp aria-hidden />
+      </Button>
       <Button
         type="button"
         size="icon"

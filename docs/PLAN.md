@@ -97,7 +97,7 @@ voice_action_type    navigate | click | read | fill | submit | help | stop | ope
 notification_type    request_update | report_update | news | danger_alert | system | newsletter | reputation
 ```
 
-### 3.3 Tables (40) — each gets **10 seed rows**
+### 3.3 Tables (44) — each gets **10 seed rows unless noted**
 
 Legend: **PK** primary key · **FK→** foreign key · `?` nullable.
 
@@ -180,9 +180,13 @@ Legend: **PK** primary key · **FK→** foreign key · `?` nullable.
 | 38 | `guide_tour_steps`          | id,`tour_id FK→guide_tours`, `step_order int` (unique with tour), `route text`, `target_selector text?` (`[data-tour="…"]`, null = centered), title, `body` (text shown), `voice_script text?` (spoken variant), `placement` (`top/bottom/left/right/center`), `locale text`                                                                                                                                                                                                                                                                                                                                                                                                   |
 | 39 | `voice_commands`            | id,`code` (unique), `locale`, `phrases text[]` (utterances: "open the map", "ouvre la carte"…), `action voice_action_type`, `target text?` (route or `data-voice` id), `description`, `requires_confirmation bool`, `min_role user_role?` — admin-editable so commands evolve without redeploy                                                                                                                                                                                                                                                                                                                                                                                   |
 | 40 | `citizen_health_profiles`   | `profile_id PK/FK→profiles`, `blood_group?`, `health_conditions text[]`, `consent_recommendations bool`, `updated_at`; sensitive fields are accessible only by their owner and are erased when consent is withdrawn |
+| 41 | `city_projects`             | id, `service_id FK→services`, `created_by FK→profiles`, title, description, status (`draft`/`published`/`closed`), created_at; created and published by the general city administration |
+| 42 | `city_project_votes`        | id, `project_id FK→city_projects`, `citizen_id FK→citizens`, `support bool`, created_at; unique per project/citizen and readable only as the citizen's own vote |
+| 43 | `city_project_comments`     | id, `project_id FK→city_projects`, `author_id FK→profiles`, body, created_at; verified citizens may comment on published projects; public reads omit author identity |
+| 44 | `report_upvotes`            | id, `report_id FK→reports`, `citizen_id FK→citizens`, created_at; one support vote per verified citizen/report, separate from reputation |
 
 > Starter tables `items` is dropped (demo). `ai_conversations / ai_messages / ai_usage` are **kept** only for quota (`ai_usage`); history moves to `chat_*`. `contact_messages` and `contact_rate_limits` kept for anonymous contact.
-> **Total: 40 tables (+ 4 kept) → 390 existing seed rows minimum** (`guide_tour_steps` may exceed 10 so the full Welcome tour is seeded). No health-profile rows are seeded.
+> **Total: 44 tables (+ 4 kept) → 390 existing seed rows minimum** (`guide_tour_steps` may exceed 10 so the full Welcome tour is seeded). Health profiles and civic-voting tables are user-generated and have no seed rows.
 
 ### 3.4 Key relations (ER overview)
 
@@ -203,6 +207,7 @@ dangers ─> sectors, buildings(assembly), services(responsible)
 chat_sessions 1─* chat_messages ; knowledge_base ← services/news/dangers
 profiles 1─1 accessibility_preferences / citizen_health_profiles (owner-only sensitive data) ; guide_tours 1─* guide_tour_steps ; voice_commands (lookup)
 audit_logs ← every sensitive write ; api_synchronizations ← imports
+city_projects *─1 services ; city_projects 1─* city_project_votes / city_project_comments ; reports 1─* report_upvotes
 ```
 
 ### 3.5 Functions & triggers
@@ -251,7 +256,7 @@ Default = **deny**. Highlights:
 - `reputation_level` is a generated column; `is_minor` is maintained by trigger (a generated column cannot use `current_date`). `reputation_points = reputation_base + sum(votes received)`.
 - `embedding vector` on `knowledge_base` is omitted (pgvector optional) — full-text GIN index instead.
 - Extra enums: `report_category`, `news_status`. `transport_type` also contains `aethelon_apex` (car) and `vortex_phantom` (motorcycle).
-- `voice_commands.locale` accepts `fr | en | any` (seed uses `any` with bilingual phrases).
+- `profiles.locale` accepts `fr | en | mg | mfe | rcf | x-nova`; locale constraints for guide steps and voice commands accept the same tags (`any` remains available for commands). Client-side guide and voice copy still falls back to French/English.
 - Tracking numbers use sequences starting at 1000 (`NT-REQ-YYYY-NNNN`, `NT-REP-YYYY-NNNN`); seed uses 0001–0010.
 - Column protection: `guard_profile_update` / `guard_citizen_update` triggers stop non-admins from changing `role`, `account_status`, `kyc_status`, reputation, etc. Citizens cancel / rate their own request through RPCs `cancel_my_request`, `rate_my_request`.
 - `is_admin()` is true for the starter JWT claim (`app_metadata.role = 'admin'`) **or** an active `profiles.role = 'general_admin'`.
@@ -263,7 +268,7 @@ Default = **deny**. Highlights:
 supabase/nova-terra/
   00_reset_dev.sql        -- optional: drops Nova Terra objects (dev only, guarded)
   01_enums_extensions.sql -- extensions (pgcrypto, pg_trgm, unaccent), enums
-  02_tables.sql           -- 35 tables, FKs, checks, indexes
+  02_tables.sql           -- Nova Terra tables, FKs, checks, indexes (including project voting)
   03_functions_triggers.sql
   04_rls_grants.sql       -- GRANT + ENABLE RLS + policies for every table
   05_storage.sql          -- buckets + storage policies
@@ -275,7 +280,7 @@ supabase/nova-terra/
   09_workflow_support.sql -- phases 3-6: request notifications, remind_stalled_requests, public_reports view, simulate_observation/api_sync, list_agents
   10_knowledge_base.sql   -- phases 7-9: rebuild_knowledge_base, apply_ai_content, propose_ai_content, send_newsletter_digest
   11_heat_alerts.sql     -- owner-only opt-in health profile, admin heatwave report RPC, notification dispatch RPC, public heat guidance
-  99_verify.sql           -- SELECT count(*) per table must be ≥ 10; FK/orphan checks
+  99_verify.sql           -- seeded-table counts, FK/orphan checks, and RLS coverage
 ```
 
 `00_reset_dev.sql` wipes only the fictional data (guarded by `set app.allow_nova_reset = 'yes'`). Each file is **idempotent** and < 100 KB (SQL Editor limit comfort). A `scripts/build-sql.mjs` can concatenate into one `nova-terra_full.sql` if wanted.
@@ -484,7 +489,7 @@ Points shown on profile; only verified citizens vote; one vote per pair; no self
 
 ## 7. Accessibility, performance, UX
 
-Baseline WCAG 2.2 AA for everyone, **AAA contrast in the high-contrast themes** (see §5.5). Keyboard navigation, contrast AA, alt text from `alt_text`, labelled forms, SR-friendly map (list alternative of buildings), pagination on lists, React Query cache for public data, skeleton loaders, graceful API-error states, i18n (fr/en) using existing `locale.tsx`.
+Baseline WCAG 2.2 AA for everyone, **AAA contrast in the high-contrast themes** (see §5.5). Keyboard navigation, contrast AA, alt text from `alt_text`, labelled forms, SR-friendly map (list alternative of buildings), pagination on lists, React Query cache for public data, skeleton loaders, graceful API-error states, i18n (`fr`, `en`, `mg`, `mfe`, `rcf`, `x-nova`) using `locale.tsx`; untranslated catalog entries currently fall back to English.
 
 ## 8. Testing
 
@@ -602,6 +607,77 @@ Legend `[ ]` todo · `[~]` in progress · `[x]` done
 - [~] 11.3 Knowledge-base heat guidance, additional age/condition precautions, nearby operational health facilities
 - [ ] 11.4 Import `11_heat_alerts.sql`, deploy `dispatch-heat-alert`, configure the secret-backed Database Webhook, and verify delivery on Supabase
 
+### Phase 12 — Multilingual support
+
+- [X] 12.1 Add locale codes for French, English, Malagasy, Mauritian Creole, Réunion Creole, and fictional Zorblax; persist a citizen's selection at signup and in profile settings.
+- [~] 12.2 Finish translated interface catalogs and localized voice/guide copy for every page; untranslated copy currently falls back to English or the existing French/English text.
+- [ ] 12.3 Store and display AI-generated translations for user-created and city-published content, with an on-demand translate action and reviewable source text.
+
+### Phase 13 — Navigation and page guidance
+
+- [X] 13.1 Add route-aware breadcrumbs to public, account, agent, and admin pages.
+- [X] 13.2 Add keyboard-operable favorite-page shortcuts to the account navigation; keep favorites on the current device.
+- [X] 13.3 Add a persistent helper button that launches a contextual tour on the current route, including signup; preserve the full portal tour.
+- [X] 13.4 Keep the admin workspace header sticky while scrolling (already provided by the shared application layout).
+- [~] 13.5 Continue the keyboard-only accessibility audit across all page controls and dialogs.
+
+### Phase 14 — Civic projects and report support
+
+- [x] 14.1 Publish city projects linked to a responsible service; let verified citizens vote once per project and change or remove their vote.
+- [x] 14.2 Add project comments, public vote totals, and vote statistics for service and general administrators.
+- [x] 14.3 Let verified citizens upvote public reports without affecting citizen reputation.
+- [ ] 14.4 Apply `20261004002000_civic_voting.sql` to existing Supabase projects and verify RLS/statistics against the hosted database.
+
+Project votes and report upvotes use separate tables from `reputation_votes`. Aggregate RPCs return counts only to general administrators and administrators of the associated service, without exposing voter identities. General administrators publish projects; service administrators can view statistics only for their services.
+
+### Phase 15 — Service and report alerts
+
+- [x] 15.1 Send deduplicated appointment reminders around 24 hours and 1 hour before the booking, including service, time, purpose, location, contact, required documents, and preparation guidance.
+- [x] 15.2 Notify a report's citizen when its status, assignment, publication, or follow-up instructions change.
+- [x] 15.3 Keep closed/suspended services visible with their status, prevent online appointment and request submission while unavailable, and enforce availability in request RLS.
+- [ ] 15.4 Apply `20261004003000_service_report_alerts.sql` and schedule `send_appointment_reminders()` every 15 minutes in Supabase Cron.
+
+Appointment reminders use the existing `system` notification type and distinct `entity_type` values for 24-hour and 1-hour idempotency. Only active account holders with requested or confirmed appointments receive reminders. Re-run `send_appointment_reminders()` every 15 minutes using Supabase Cron; notification inserts are safe to retry.
+
+### Phase 16 — Personal data access and privacy
+
+- [x] 16.1 Let a signed-in citizen choose which account, profile, request, report, appointment, notification, health, and civic-participation data to export.
+- [x] 16.2 Provide a downloadable JSON copy and a print-ready copy; retrieve large collections in pages and report query failures instead of silently omitting records.
+- [x] 16.3 Explain the application's actual data categories, purposes, visibility, health-data consent, AI-assistant use, account deletion, and deployment-specific retention on the privacy page.
+- [ ] 16.4 Complete city-specific legal bases, controller contact details, and exact retention periods before production.
+
+Project comment export uses a security-definer RPC that scopes every result to `auth.uid()` and does not grant callers access to other authors' IDs.
+
+### Phase 18 — New-device sign-in notifications
+
+- [x] 18.1 Detect successful password/OAuth sign-ins and request a server-side check for a browser-local device token.
+- [x] 18.2 Store only a SHA-256 device-token hash, send a first-seen alert to the authenticated account email through Resend, and retry after delivery failures.
+- [ ] 18.3 Apply `20261004005000_device_login_alerts.sql`, deploy `device-login-alert`, and configure Resend secrets/from address.
+
+The device identifier is an untrusted browser token, not a physical-device fingerprint. Alerts include UTC time and the browser's user-agent string, but no IP address or precise location.
+
+### Phase 19 — AI-assisted content translations (first editor)
+
+- [x] 19.1 Add an authenticated, quota-limited translation Edge Function for English, French, Malagasy, Mauritian Creole, Réunion Creole, and fictional Zorblax.
+- [x] 19.2 Add a review-before-publish translation action to news drafts and display saved title, summary, and body translations in the selected locale.
+- [ ] 19.3 Finish displaying saved translations in the remaining content views, configure Google AI Studio secrets, and test the translation flows.
+
+The six-locale catalogs now cover common navigation labels, while much of the interface still falls back to English. Translated city services, projects, reports, requests, and a full keyboard-only audit remain outstanding.
+
+### Phase 20 — Scheduled public-content translation backfill
+
+- [x] 20.1 Deploy the Gemini-backed hourly worker and schedule it to process public news, services, city projects, public alerts, and facilities in batches of four.
+- [x] 20.2 Add translation storage, source-change invalidation, and retry tracking for those public records; exclude citizen reports, appointments, requests, and comments.
+- [ ] 20.3 Add the service-role JWT to Supabase Vault, ensure the Google AI Studio key is configured, and verify the first scheduled run.
+
+### Phase 17 — Report summary downloads
+
+- [x] 17.1 Add title/description/number, status, category, priority, and inclusive date filters to the citizen's report summary.
+- [x] 17.2 Download a readable summary or print the filtered view, including status counts, report descriptions, and follow-up requirements.
+- [x] 17.3 Offer an optional AI rewrite through the existing authenticated OpenRouter function; require explicit consent, send at most 50 bounded report records, and keep the AI output transient.
+
+The existing AI feature flag, server key, account quota, and Edge Function deployment are prerequisites; report details are sent to the configured AI provider only after the citizen opts in.
+
 ### Implementation status and known gaps (updated after phases 1–10)
 
 Everything below was built with **only the packages already installed** (RULESET §1.3) and validated with `npm run typecheck`, `npm run lint` (no error in new files), 200+ Vitest tests and 73 SQL/RLS checks on an in-memory Postgres.
@@ -669,3 +745,8 @@ Real payment, real cameras/satellites, 2FA, multi-city, native mobile app, real 
 | 2026-10-03 | **Phases 1–10 implemented** (see §9 and the status table before §10). New SQL: 08, 09, 10. New front-end features: auth/profile/KYC, services, news + comments, newsletter, requests (citizen + agent), reports (voice, evidence, validation, public clusters, reputation), hex map + editor + routes, dangers, retrieval chatbot with voice, AI-content review, audit log, support calls, accessibility (themes, font, voice assist, captions), guided tours. `/contact` now follows decision 4. |
 | 2026-10-03 | **Phase 11 implementation started**: private consent-based citizen health preferences; admin heatwave report/danger creation from a simulated satellite observation or manual critical report; centered personalized alert with knowledge-base advice and nearby care facilities; idempotent sector notifications via `dispatch-heat-alert`. Requires SQL import, Edge Function deployment, and Dashboard webhook configuration before live Supabase delivery. |
 | 2026-10-03 | Phase 11 update: home sector is required at signup and editable by existing citizens in settings; administrators can send a manual heat alert to every active sector. Re-run `11_heat_alerts.sql` to install the updated RPCs. |
+| 2026-10-04 | **Phase 14**: added city project publishing, verified-citizen votes/comments, aggregate administration statistics, and independent public-report upvotes. The new civic voting migration still needs applying to hosted Supabase. |
+| 2026-10-04 | **Phase 15**: added 24-hour/1-hour appointment reminder RPC, report status/assignment/follow-up notifications, unavailable-service request guards, and appointment preparation details. Apply migration `20261004003000_service_report_alerts.sql` and configure Supabase Cron before hosted delivery. |
+| 2026-10-04 | **Phase 16**: added selected-category personal data export/printing, owner-only project comment export, and an application-specific privacy disclosure. Apply migration `20261004004000_personal_data_export.sql`; city-specific legal details remain a production prerequisite. |
+| 2026-10-04 | **Phase 17**: added filtered citizen report summaries, text download/printing, and explicit-consent AI enhancement using the existing authenticated AI endpoint. |
+| 2026-10-04 | **Phases 18–19**: added first-seen device login e-mail alerts, a reviewable six-language AI translation flow for news, and SPA route focus restoration. Supabase migrations, Edge Function deployment, and provider secrets remain deployment steps. |

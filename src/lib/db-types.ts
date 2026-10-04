@@ -10,6 +10,7 @@ import type {
   RequestStatus,
   ServiceStatus,
 } from "@/lib/types"
+import type { FieldTranslations } from "@/features/i18n/content-translations"
 
 export interface Sector {
   id: string
@@ -51,6 +52,8 @@ export interface Building {
   accessibility: Record<string, boolean>
   status: BuildingStatus
   description: string | null
+  translations?: FieldTranslations
+  translation_source_hash?: string | null
 }
 
 export interface Service {
@@ -81,6 +84,8 @@ export interface Service {
   published_at: string | null
   is_emergency: boolean
   updated_at: string
+  translations?: FieldTranslations
+  translation_source_hash?: string | null
 }
 
 export type TransportType =
@@ -118,6 +123,7 @@ export interface NewsItem {
   published_at: string | null
   valid_until: string | null
   affected_sector_ids: string[]
+  translations?: import("@/features/i18n/content-translations").FieldTranslations
   updated_at: string
 }
 
@@ -206,4 +212,6 @@ export interface DangerRow {
   validated_at: string | null
   procedure_version: number
   is_fictional_alert: boolean
+  translations?: FieldTranslations
+  translation_source_hash?: string | null
 }

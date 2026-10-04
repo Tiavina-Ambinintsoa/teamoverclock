@@ -27,7 +27,7 @@ import {
   parseDictation,
   type VoiceCommand,
 } from "@/features/voice/voice-commands"
-import { useLocale } from "@/lib/locale"
+import { copyLocale, useLocale } from "@/lib/locale"
 import { supabase } from "@/lib/supabase"
 
 const CAPTION_MS = 12_000
@@ -51,13 +51,13 @@ function useVoiceCommands() {
  */
 export function VoiceProvider({ children }: { children: ReactNode }) {
   const { prefs } = useAccessibility()
-  const { locale, tx } = useLocale()
+  const { locale, tag, tx } = useLocale()
   const { user } = useAuth()
   const guide = useGuide()
   const navigate = useNavigate()
   const { pathname } = useLocation()
   const commands = useVoiceCommands()
-  const lang = locale === "en" ? "en-GB" : "fr-FR"
+  const lang = tag
   const role = user ? user.profileRole : null
 
   const [caption, setCaption] = useState("")
@@ -87,16 +87,16 @@ export function VoiceProvider({ children }: { children: ReactNode }) {
 
   const readPage = useCallback(() => {
     const text = readableText(document)
-    say(text || describePage(document, locale))
+    say(text || describePage(document, copyLocale(locale)))
   }, [say, locale])
 
   const help = useCallback(() => {
     const list = (commands.data ?? DEFAULT_COMMANDS)
-      .filter((c) => c.locale === "any" || c.locale === locale)
+      .filter((c) => c.locale === "any" || c.locale === copyLocale(locale))
       .slice(0, 6)
       .map((c) => c.phrases[0])
       .join(", ")
-    say(`${describePage(document, locale, { title: document.title })} ${tx("Commandes possibles :", "Possible commands:")} ${list}. ${tx("Dites stop pour m'arrêter.", "Say stop to interrupt me.")}`)
+    say(`${describePage(document, copyLocale(locale), { title: document.title })} ${tx("Commandes possibles :", "Possible commands:")} ${list}. ${tx("Dites stop pour m'arrêter.", "Say stop to interrupt me.")}`)
   }, [commands.data, locale, say, tx])
 
   const confirmThen = useCallback((label: string, run: () => void) => {
@@ -122,7 +122,7 @@ export function VoiceProvider({ children }: { children: ReactNode }) {
       return
     }
 
-    const match = matchCommand(text, commands.data ?? DEFAULT_COMMANDS, locale, role)
+    const match = matchCommand(text, commands.data ?? DEFAULT_COMMANDS, copyLocale(locale), role)
     if (match) {
       const { command } = match
       const run = () => {
@@ -161,7 +161,7 @@ export function VoiceProvider({ children }: { children: ReactNode }) {
 
   const startRecognition = useCallback(() => {
     const Ctor = getRecognitionConstructor()
-    if (!Ctor) { setError(describeRecognitionError("service-not-allowed", locale)); return }
+    if (!Ctor) { setError(describeRecognitionError("service-not-allowed", copyLocale(locale))); return }
     recognitionRef.current?.abort()
     const recognition = new Ctor()
     recognition.lang = lang
@@ -173,7 +173,7 @@ export function VoiceProvider({ children }: { children: ReactNode }) {
     }
     recognition.onerror = (event) => {
       if (event.error === "no-speech" || event.error === "aborted") return
-      setError(describeRecognitionError(event.error, locale))
+      setError(describeRecognitionError(event.error, copyLocale(locale)))
       wantListening.current = false
       setListening(false)
     }
@@ -202,7 +202,7 @@ export function VoiceProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (!prefs.readScreenAloud && !prefs.voiceGuide) return
     const timer = window.setTimeout(() => {
-      if (prefs.readScreenAloud) say(describePage(document, locale, { title: document.title, withHint: prefs.voiceNavigation }))
+      if (prefs.readScreenAloud) say(describePage(document, copyLocale(locale), { title: document.title, withHint: prefs.voiceNavigation }))
       else {
         const title = document.querySelector("main h1")?.textContent?.trim() || document.title
         say(`${tx("Page", "Page")} : ${title}. ${tx("Dites aide pour connaître les commandes.", "Say help to hear the commands.")}`)

@@ -1,10 +1,12 @@
-import {
+﻿import {
   Accessibility,
   AlertTriangle,
+  BarChart3,
   Bell,
   Bot,
   Building2,
   ClipboardList,
+  Code2,
   FileWarning,
   Gauge,
   HelpCircle,
@@ -18,8 +20,10 @@ import {
   ScrollText,
   Settings,
   ShieldCheck,
+  Star,
   UserCheck,
   Users,
+  Vote,
   type LucideIcon,
 } from "lucide-react"
 
@@ -53,6 +57,9 @@ const citizenGroup: NavGroup = {
     { to: "/app/verification", fr: "Vérification d'identité", en: "Identity verification", icon: UserCheck },
     { to: "/app/accessibility", fr: "Accessibilité", en: "Accessibility", icon: Accessibility },
     { to: "/app/newsletter", fr: "Lettres d'information", en: "Newsletters", icon: Bell },
+    { to: "/app/projects", fr: "Projets et votes", en: "Projects & votes", icon: Vote },
+    { to: "/app/services", fr: "Services et avis", en: "Services & reviews", icon: Building2 },
+    { to: "/app/reputation", fr: "Réputation et votes", en: "Reputation & votes", icon: Star },
     { to: "/app/parametres", fr: "Paramètres", en: "Settings", icon: Settings },
   ],
 }
@@ -64,9 +71,11 @@ const cityGroup: NavGroup = {
   items: [
     { to: "/services", fr: "Services", en: "Services", icon: Building2 },
     { to: "/news", fr: "Actualités", en: "News", icon: Newspaper },
+    { to: "/projects", fr: "Projets de la ville", en: "City projects", icon: Vote },
     { to: "/map", fr: "Carte", en: "Map", icon: MapIcon },
     { to: "/dangers", fr: "Dangers et alertes", en: "Dangers & alerts", icon: AlertTriangle },
     { to: "/guide", fr: "Guide", en: "Guide", icon: HelpCircle },
+    { to: "/developers", fr: "API développeurs", en: "Developer API", icon: Code2 },
   ],
 }
 
@@ -78,9 +87,12 @@ const agentGroup: NavGroup = {
     { to: "/agent", fr: "Tableau de bord", en: "Dashboard", icon: Gauge, exact: true },
     { to: "/agent/requests", fr: "Demandes", en: "Requests", icon: Inbox },
     { to: "/agent/reports", fr: "Signalements", en: "Reports", icon: FileWarning },
+    { to: "/agent/dangers", fr: "Alertes et dangers", en: "Alerts & dangers", icon: AlertTriangle },
+    { to: "/agent/analytics", fr: "Analyses", en: "Analytics", icon: BarChart3 },
     { to: "/agent/calls", fr: "Appels", en: "Calls", icon: Phone },
     { to: "/agent/news", fr: "Actualités du service", en: "Service news", icon: Megaphone },
     { to: "/agent/services", fr: "Mes services", en: "My services", icon: Building2 },
+    { to: "/agent/projects", fr: "Votes sur les projets", en: "Project voting", icon: Vote },
     { to: "/agent/team", fr: "Mon équipe", en: "My team", icon: Users },
     { to: "/agent/sync", fr: "Synchronisation API", en: "API sync", icon: RefreshCw },
   ],
@@ -95,9 +107,12 @@ const adminGroup: NavGroup = {
     { to: "/admin/users", fr: "Utilisateurs et rôles", en: "Users & roles", icon: Users },
     { to: "/admin/verifications", fr: "Vérifications CIN", en: "CIN checks", icon: UserCheck },
     { to: "/admin/services", fr: "Services", en: "Services", icon: Building2 },
+    { to: "/admin/projects", fr: "Projets de la ville", en: "City projects", icon: Vote },
     { to: "/admin/map", fr: "Éditeur de carte", en: "Map editor", icon: MapIcon },
     { to: "/admin/news", fr: "Modération des actualités", en: "News moderation", icon: Newspaper },
     { to: "/admin/dangers", fr: "Dangers", en: "Dangers", icon: AlertTriangle },
+    { to: "/admin/reports", fr: "Tous les signalements", en: "All reports", icon: FileWarning },
+    { to: "/admin/analytics", fr: "Analyses", en: "Analytics", icon: BarChart3 },
     { to: "/admin/ai-content", fr: "Contenu généré par IA", en: "AI-generated content", icon: Bot },
     { to: "/admin/audit", fr: "Journal d'audit", en: "Audit log", icon: ScrollText },
   ],

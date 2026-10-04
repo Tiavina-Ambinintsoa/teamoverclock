@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { Link } from "react-router"
 import { toast } from "sonner"
 
+import { BarChart } from "@/components/charts/bar-chart"
 import { DataState } from "@/components/data-state"
 import { Container } from "@/components/layout/container"
 import { PageHeader } from "@/components/page-header"
@@ -11,11 +12,15 @@ import { StatusBadge } from "@/components/status-badge"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Select } from "@/components/ui/select"
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
+import { loadAnalyticsDashboard } from "@/features/analytics/analytics-queries"
 import { generateDescription, isValidDescription, type AiTargetTable } from "@/features/admin/ai-content"
 import { useBuildings, useSectors, useServices } from "@/features/city/city-queries"
+import { useAuth } from "@/features/auth/auth-context"
 import { SyncIndicator } from "@/features/agent/sync-indicator"
 import { useLocale } from "@/lib/locale"
 import { formatDateTime, unwrap } from "@/lib/query-helpers"
+import { statusLabel } from "@/lib/status-labels"
 import { supabase } from "@/lib/supabase"
 
 async function countOf(table: string, build: (q: ReturnType<NonNullable<typeof supabase>["from"]>) => PromiseLike<{ count: number | null }>): Promise<number> {
@@ -25,8 +30,9 @@ async function countOf(table: string, build: (q: ReturnType<NonNullable<typeof s
 }
 
 /** Vue d'ensemble de l'administration : ce qui attend une décision. */
-export function AdminOverviewPage() {
-  const { tx } = useLocale()
+export function AdminOverviewPage({ embedded = false }: { embedded?: boolean } = {}) {
+  const { tx, locale } = useLocale()
+  const { user } = useAuth()
   const newsletter = useMutation({
     mutationFn: async (frequency: "instant" | "daily" | "weekly") => {
       if (!supabase) throw new Error("Supabase")
@@ -53,6 +59,16 @@ export function AdminOverviewPage() {
       return { users, kyc, news, ai, reports, overdue }
     },
   })
+  const analytics = useQuery({
+    queryKey: ["admin-overview-analytics", user?.id],
+    enabled: Boolean(supabase && user),
+    queryFn: async () => loadAnalyticsDashboard(supabase!, {
+      scope: "admin",
+      periodDays: 30,
+      userId: user?.id,
+      citizenId: user?.citizenId,
+    }),
+  })
   const c = counts.data
   const cards = [
     { label: tx("Profils", "Profiles"), value: c?.users, to: "/admin/users" },
@@ -65,7 +81,7 @@ export function AdminOverviewPage() {
   return (
     <Container className="max-w-6xl">
       <title>{tx("Administration", "Administration")}</title>
-      <PageHeader eyebrow={tx("Administration", "Administration")} title={tx("Vue d'ensemble", "Overview")} description={tx("Ce qui attend une décision de l'administration générale.", "What is waiting for a decision from the general administration.")} />
+      {!embedded && <PageHeader eyebrow={tx("Administration", "Administration")} title={tx("Vue d'ensemble", "Overview")} description={tx("Ce qui attend une décision de l'administration générale.", "What is waiting for a decision from the general administration.")} />}
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {cards.map((card) => (
           <Link key={card.label} to={card.to} className="rounded-xl border bg-card p-5 hover:bg-accent">
@@ -86,7 +102,93 @@ export function AdminOverviewPage() {
           </div>
         </section>
       </div>
+
+      <section className="mt-6 rounded-xl border bg-card p-5">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div>
+            <h2 className="font-semibold">{tx("Analyse opérationnelle", "Operational analysis")}</h2>
+            <p className="text-sm text-muted-foreground">{tx("Synthèse ville entière sur 30 jours : volumes, délais, qualité et services en tension.", "30-day citywide summary: volumes, lead times, quality and stressed services.")}</p>
+          </div>
+          <Button asChild variant="outline" size="sm">
+            <Link to="/admin/analytics">{tx("Ouvrir l'analyse complète", "Open full analytics")}</Link>
+          </Button>
+        </div>
+
+        <DataState
+          data={analytics.data}
+          isLoading={analytics.isLoading}
+          error={analytics.error as Error | null}
+          emptyTitle={tx("Aucune donnée analytique.", "No analytics data.")}
+          emptyDescription={tx("Les sections apparaîtront lorsque la base exposera des données visibles.", "Sections will appear once the database exposes visible data.")}
+          onRetry={() => analytics.refetch()}
+        >
+          {(data) => (
+            <div className="mt-4 grid gap-4 xl:grid-cols-[1.15fr_1fr]">
+              <section className="rounded-lg border p-4">
+                <div className="grid gap-3 sm:grid-cols-3">
+                  <AdminMetric title={tx("Backlog", "Backlog")} value={data.totals.openBacklog} />
+                  <AdminMetric title={tx("Brèches SLA", "SLA breaches")} value={data.totals.slaBreaches} />
+                  <AdminMetric title={tx("Résolution médiane (h)", "Median resolution (h)")} value={data.resolutions.combined.medianHours ?? "—"} />
+                </div>
+                <div className="mt-4 grid gap-4 lg:grid-cols-2">
+                  <BarChart data={data.tables.topServices.slice(0, 6).map((row) => ({ label: row.serviceName, value: row.total }))} />
+                  <BarChart data={data.breakdowns.combinedPriority.slice(0, 6).map((row) => ({ label: statusLabel("priority", row.key, locale), value: row.current }))} />
+                </div>
+              </section>
+
+              <section className="rounded-lg border p-4">
+                <h3 className="font-medium">{tx("Services les plus sollicités", "Top services by volume")}</h3>
+                <Table className="mt-3">
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>{tx("Service", "Service")}</TableHead>
+                      <TableHead>{tx("Volume", "Volume")}</TableHead>
+                      <TableHead>{tx("Note", "Rating")}</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {data.tables.topServices.slice(0, 5).map((row) => (
+                      <TableRow key={row.serviceId}>
+                        <TableCell>{row.serviceName}</TableCell>
+                        <TableCell>{row.total}</TableCell>
+                        <TableCell>{row.averageRating === null ? "—" : `${row.averageRating} (${row.reviewCount})`}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+                <Table className="mt-4">
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>{tx("Élément critique", "Critical item")}</TableHead>
+                      <TableHead>{tx("Service", "Service")}</TableHead>
+                      <TableHead>{tx("Créé", "Created")}</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {data.tables.criticalOpenItems.slice(0, 5).map((row) => (
+                      <TableRow key={row.id}>
+                        <TableCell>{row.reference}</TableCell>
+                        <TableCell>{row.serviceName}</TableCell>
+                        <TableCell>{formatDateTime(row.createdAt, locale === "fr" ? "fr-FR" : "en-US")}</TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              </section>
+            </div>
+          )}
+        </DataState>
+      </section>
     </Container>
+  )
+}
+
+function AdminMetric({ title, value }: { title: string; value: number | string }) {
+  return (
+    <div className="rounded-lg border bg-muted/20 p-3">
+      <p className="text-xs text-muted-foreground">{title}</p>
+      <p className="mt-1 text-2xl font-semibold">{value}</p>
+    </div>
   )
 }
 

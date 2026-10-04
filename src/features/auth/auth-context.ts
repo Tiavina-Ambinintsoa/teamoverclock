@@ -1,6 +1,7 @@
 import { createContext, useContext } from "react"
 
 import type { ProfileExtras } from "@/features/auth/profile-api"
+import type { Locale } from "@/lib/locale"
 
 export interface AppUser extends Omit<ProfileExtras, "profileLoaded"> {
   id: string
@@ -24,6 +25,7 @@ export interface SignUpDetails {
   lastName: string
   birthDate: string
   sectorId: string
+  locale: Locale
 }
 
 export interface AuthState {

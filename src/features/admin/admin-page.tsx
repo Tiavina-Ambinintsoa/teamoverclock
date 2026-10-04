@@ -1,9 +1,12 @@
+/* oxlint-disable react-hooks/exhaustive-deps, react/exhaustive-effect-dependencies, react/set-state-in-effect */
 import { useEffect, useState } from "react"
 import { Activity, LayoutDashboard, Settings, ShieldCheck, Users } from "lucide-react"
 import { Link, useParams } from "react-router"
 
 import { Button } from "@/components/ui/button"
 import { ModeToggle } from "@/components/theme-switcher"
+import { LanguageSwitcher } from "@/components/language-switcher"
+import { AdminOverviewPage } from "@/features/admin/admin-extra-pages"
 import { useLocale } from "@/lib/locale"
 import { SITE } from "@/lib/site"
 import { cn } from "@/lib/utils"
@@ -113,13 +116,6 @@ const sectionCopy: Record<string, [string, string]> = {
   settings: ["admin.settings", "admin.settingsDescription"],
 }
 
-const metrics = [
-  { label: "admin.accounts", icon: Users },
-  { label: "admin.content", icon: LayoutDashboard },
-  { label: "admin.reports", icon: ShieldCheck },
-  { label: "admin.activity", icon: Activity },
-]
-
 export function AdminPage() {
   const { section: routeSection } = useParams()
   const section = sectionCopy[routeSection ?? "overview"] ? routeSection ?? "overview" : "overview"
@@ -136,6 +132,7 @@ export function AdminPage() {
           {t("admin.header")} · {SITE.shortName}
         </Link>
         <div className="flex items-center gap-2">
+          <LanguageSwitcher />
           <ModeToggle />
           <Button asChild variant="outline" size="sm"><Link to="/app">{t("admin.back")}</Link></Button>
         </div>
@@ -162,23 +159,7 @@ export function AdminPage() {
           </header>
 
           {section === "overview" ? (
-            <>
-              <section aria-label={t("admin.eyebrow")} className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
-                {metrics.map(({ label, icon: Icon }) => (
-                  <article key={label} className="rounded-xl border bg-card p-5">
-                    <div className="flex items-center justify-between text-sm text-muted-foreground">
-                      <span>{t(label)}</span><Icon className="size-4" aria-hidden />
-                    </div>
-                    <p className="mt-5 text-3xl font-semibold text-muted-foreground">—</p>
-                    <p className="mt-1 text-xs text-muted-foreground">{t("admin.connect")}</p>
-                  </article>
-                ))}
-              </section>
-              <div className="mt-5 rounded-xl border border-dashed bg-card p-8 text-center">
-                <p className="font-medium">{t("admin.readyTitle")}</p>
-                <p className="mt-2 text-sm text-muted-foreground">{t("admin.readyText")}</p>
-              </div>
-            </>
+            <AdminOverviewPage embedded />
           ) : section === "users" ? (
             <section className="rounded-xl border bg-card p-5 sm:p-7">
               <div className="flex flex-col gap-3 sm:flex-row">

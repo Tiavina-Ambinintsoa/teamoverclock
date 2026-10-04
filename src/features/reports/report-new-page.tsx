@@ -1,4 +1,4 @@
-import { useMemo, useRef, useState } from "react"
+import { useRef, useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { useForm, useWatch } from "react-hook-form"
@@ -10,11 +10,10 @@ import { PageHeader } from "@/components/page-header"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Select } from "@/components/ui/select"
-import { Textarea } from "@/components/ui/textarea"
 import { useAuth } from "@/features/auth/auth-context"
 import { useBuildings, useSectors } from "@/features/city/city-queries"
 import { safeFileName, validateAttachments } from "@/features/requests/request-workflow"
+import { ReportFormFields } from "@/features/reports/report-form-fields"
 import {
   REPORT_CATEGORIES,
   reportSchema,
@@ -23,7 +22,6 @@ import {
 } from "@/features/reports/report-workflow"
 import { DictationButton } from "@/features/voice/dictation-button"
 import { useLocale } from "@/lib/locale"
-import { pickLabel, REPORT_CATEGORY_LABELS } from "@/lib/status-labels"
 import { supabase } from "@/lib/supabase"
 import { AuroraTitle } from "@/components/magic-ui/aurora-title"
 
@@ -46,6 +44,8 @@ export function ReportNewPage() {
   const [transcript, setTranscript] = useState("")
   const [reviewed, setReviewed] = useState(false)
   const reportId = useRef(crypto.randomUUID())
+  const [defaultObservedAt] = useState(() => localDateTimeValue(new Date()))
+  const [maxObservedAt] = useState(() => localDateTimeValue(new Date()))
 
   const { register, handleSubmit, control, setValue, getValues, formState: { errors } } = useForm<ReportFormValues>({
     resolver: zodResolver(reportSchema),
@@ -55,12 +55,11 @@ export function ReportNewPage() {
       category: (REPORT_CATEGORIES as string[]).includes(params.get("category") ?? "") ? (params.get("category") as ReportFormValues["category"]) : "infrastructure",
       sectorId: params.get("sector") ?? user?.sectorId ?? "",
       buildingId: params.get("building") ?? "",
-      observedAt: localDateTimeValue(new Date()),
+      observedAt: defaultObservedAt,
       priority: "medium",
     },
   })
   const sectorId = useWatch({ control, name: "sectorId" })
-  const sectorBuildings = useMemo(() => (buildings.data ?? []).filter((b) => b.sector_id === sectorId), [buildings.data, sectorId])
 
   const submit = useMutation({
     mutationFn: async (input: { values: ReportFormValues; draft: boolean }) => {
@@ -128,7 +127,6 @@ export function ReportNewPage() {
   }
   if (!user) return <Navigate to="/connexion" replace />
 
-  const field = (name: keyof ReportFormValues) => errors[name]?.message ? <p role="alert" className="text-sm text-destructive">{errors[name]?.message}</p> : null
   const send = (draft: boolean) => handleSubmit((values) => submit.mutate({ values, draft }))
 
   return (
@@ -136,56 +134,23 @@ export function ReportNewPage() {
       <title>{tx("Signaler un problème", "Report a problem")}</title>
       <PageHeader eyebrow={tx("Mon espace", "My space")} title={tx("Signaler un problème", "Report a problem")} description={tx("Précisez le secteur et le bâtiment concernés. Vous pouvez dicter votre description à voix haute puis la relire.", "Specify the sector and building concerned. You can dictate your description out loud, then review it.")} />
       <form onSubmit={(e) => e.preventDefault()} noValidate className="grid gap-4 rounded-xl border bg-card p-6" aria-busy={submit.isPending} data-tour="report-form">
-        <div className="grid gap-4 sm:grid-cols-2">
-          <div className="grid gap-2">
-            <Label htmlFor="rp-sector">{tx("Secteur", "Sector")}</Label>
-            <Select id="rp-sector" aria-invalid={errors.sectorId ? true : undefined} {...register("sectorId", { onChange: () => setValue("buildingId", "") })}>
-              <option value="">{tx("Choisir…", "Choose…")}</option>
-              {(sectors.data ?? []).map((s) => <option key={s.id} value={s.id}>{s.code} — {s.name}</option>)}
-            </Select>
-            {field("sectorId")}
-          </div>
-          <div className="grid gap-2">
-            <Label htmlFor="rp-building">{tx("Bâtiment (facultatif)", "Building (optional)")}</Label>
-            <Select id="rp-building" disabled={!sectorId} {...register("buildingId")}>
-              <option value="">—</option>
-              {sectorBuildings.map((b) => <option key={b.id} value={b.id}>{b.name}</option>)}
-            </Select>
-          </div>
-        </div>
-        <div className="grid gap-4 sm:grid-cols-2">
-          <div className="grid gap-2">
-            <Label htmlFor="rp-category">{tx("Catégorie", "Category")}</Label>
-            <Select id="rp-category" {...register("category")}>
-              {REPORT_CATEGORIES.map((c) => <option key={c} value={c}>{pickLabel(REPORT_CATEGORY_LABELS, c, locale)}</option>)}
-            </Select>
-          </div>
-          <div className="grid gap-2">
-            <Label htmlFor="rp-priority">{tx("Priorité estimée", "Estimated priority")}</Label>
-            <Select id="rp-priority" {...register("priority")}>
-              <option value="low">{tx("Basse", "Low")}</option>
-              <option value="medium">{tx("Moyenne", "Medium")}</option>
-              <option value="high">{tx("Haute", "High")}</option>
-            </Select>
-          </div>
-        </div>
-        <div className="grid gap-2">
-          <Label htmlFor="rp-title">{tx("Titre", "Title")}</Label>
-          <Input id="rp-title" aria-invalid={errors.title ? true : undefined} {...register("title")} />
-          {field("title")}
-        </div>
-        <div className="grid gap-2">
-          <Label htmlFor="rp-desc">{tx("Description", "Description")}</Label>
-          <Textarea id="rp-desc" className="min-h-32" aria-invalid={errors.description ? true : undefined} {...register("description")} />
-          {field("description")}
-          <DictationButton
-            onText={(text) => {
-              setTranscript((t) => `${t} ${text}`.trim())
-              setReviewed(false)
-              setValue("description", `${getValues("description")} ${text}`.trim(), { shouldValidate: true })
-            }}
-          />
-        </div>
+        <ReportFormFields
+          buildings={buildings.data ?? []}
+          errors={errors}
+          locale={locale}
+          register={register}
+          sectorId={sectorId}
+          sectors={sectors.data ?? []}
+          tx={tx}
+          onSectorChange={() => setValue("buildingId", "")}
+        />
+        <DictationButton
+          onText={(text) => {
+            setTranscript((t) => `${t} ${text}`.trim())
+            setReviewed(false)
+            setValue("description", `${getValues("description")} ${text}`.trim(), { shouldValidate: true })
+          }}
+        />
         {transcript && (
           <div className="grid gap-2 rounded-lg border border-highlight/60 bg-highlight/10 p-3">
             <p className="text-sm font-medium">{tx("Transcription vocale à relire", "Voice transcript to review")}</p>
@@ -195,8 +160,8 @@ export function ReportNewPage() {
         )}
         <div className="grid gap-2">
           <Label htmlFor="rp-when">{tx("Constaté le", "Observed on")}</Label>
-          <Input id="rp-when" type="datetime-local" max={localDateTimeValue(new Date())} {...register("observedAt")} />
-          {field("observedAt")}
+          <Input id="rp-when" type="datetime-local" max={maxObservedAt} {...register("observedAt")} />
+          {errors.observedAt?.message && <p role="alert" className="text-sm text-destructive">{errors.observedAt.message}</p>}
         </div>
         <div className="grid gap-2">
           <Label htmlFor="rp-files">{tx("Photos / preuves (facultatif)", "Photos / evidence (optional)")}</Label>

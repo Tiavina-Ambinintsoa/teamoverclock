@@ -10,8 +10,11 @@ import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Select } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
 import { useAuth } from "@/features/auth/auth-context"
 import { useBuildings, useSectors, useServices } from "@/features/city/city-queries"
+import { canEditReport } from "@/features/reports/editability"
+import { ReportEditDialog } from "@/features/reports/report-edit-dialog"
 import { canPublish, canValidateReport, reportTransitions } from "@/features/reports/report-workflow"
 import { useReportDetail } from "@/features/reports/report-queries"
 import { fetchDisplayNames } from "@/features/requests/request-queries"
@@ -21,6 +24,11 @@ import { pickLabel, REPORT_CATEGORY_LABELS, statusLabel } from "@/lib/status-lab
 import { supabase } from "@/lib/supabase"
 import type { ReportStatus } from "@/lib/types"
 import { AuroraTitle } from "@/components/magic-ui/aurora-title"
+
+function ProfileTextLink({ profileId, children }: { profileId: string | null | undefined; children: string }) {
+  if (!profileId) return <>{children}</>
+  return <Link to={`/app/reputation/${profileId}`} className="underline underline-offset-4">{children}</Link>
+}
 
 /** Fiche d'un signalement : citoyen (suivi, envoi du brouillon) ou agent (validation, affectation, preuves restreintes). */
 export function ReportDetail({ mode }: { mode: "citizen" | "agent" }) {
@@ -35,6 +43,7 @@ export function ReportDetail({ mode }: { mode: "citizen" | "agent" }) {
   const report = detail.data?.report
   const agent = mode === "agent"
   const [assignee, setAssignee] = useState("")
+  const [editOpen, setEditOpen] = useState(false)
   const [guidanceDraft, setGuidanceDraft] = useState<{
     reportId: string
     nextSteps: string
@@ -64,6 +73,17 @@ export function ReportDetail({ mode }: { mode: "citizen" | "agent" }) {
       const rows = unwrap(await supabase.from("service_members").select("profile_id").eq("service_id", report.service_id).is("revoked_at", null), []) as { profile_id: string }[]
       const names = await fetchDisplayNames(rows.map((r) => r.profile_id))
       return rows.map((r) => ({ id: r.profile_id, name: names[r.profile_id] ?? r.profile_id }))
+    },
+  })
+  const reporter = useQuery({
+    queryKey: ["report-reporter-profile", report?.reporter_citizen_id],
+    enabled: Boolean(report?.reporter_citizen_id && supabase),
+    queryFn: async () => {
+      if (!supabase || !report?.reporter_citizen_id) return null as { profile_id: string; display_name: string | null } | null
+      const citizen = await supabase.from("citizens").select("profile_id").eq("id", report.reporter_citizen_id).maybeSingle()
+      if (citizen.error || !citizen.data?.profile_id) return null
+      const profile = await supabase.from("public_profiles").select("display_name").eq("id", citizen.data.profile_id).maybeSingle()
+      return { profile_id: citizen.data.profile_id, display_name: profile.data?.display_name ?? null }
     },
   })
 
@@ -136,6 +156,7 @@ export function ReportDetail({ mode }: { mode: "citizen" | "agent" }) {
   ))
   const external = report.source !== "citizen" && report.source !== "agent" && report.source !== "chatbot"
   const transitions = reportTransitions(report.status).filter((s) => (s === "validated" || s === "rejected" ? mayValidate : agent))
+  const editability = !agent ? canEditReport({ ...report, history: detail.data?.history ?? [] }, user?.citizenId) : { editable: false, reason: null }
 
   return (
     <Container className="max-w-4xl">
@@ -152,6 +173,27 @@ export function ReportDetail({ mode }: { mode: "citizen" | "agent" }) {
           {external && <Badge variant="highlight">{tx("Source externe", "External source")}</Badge>}
           {report.is_public && <Badge variant="outline">{tx("Publié", "Published")}</Badge>}
         </div>
+        {!agent && (
+          <div className="mt-4">
+            {editability.editable ? (
+              <>
+                <Button variant="outline" onClick={() => setEditOpen(true)}>{tx("Modifier", "Edit")}</Button>
+                <ReportEditDialog open={editOpen} onOpenChange={setEditOpen} report={report} />
+              </>
+            ) : (
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <span>
+                      <Button variant="outline" disabled>{tx("Modifier", "Edit")}</Button>
+                    </span>
+                  </TooltipTrigger>
+                  <TooltipContent>{editability.reason ? tx(editability.reason.fr, editability.reason.en) : tx("Modification non disponible.", "Editing unavailable.")}</TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            )}
+          </div>
+        )}
         <dl className="mt-3 grid gap-1 text-sm text-muted-foreground sm:grid-cols-2">
           <div><dt className="inline font-medium text-foreground">{tx("Secteur", "Sector")} : </dt><dd className="inline">{sector ? `${sector.code} ${sector.name}` : "—"}</dd></div>
           <div><dt className="inline font-medium text-foreground">{tx("Bâtiment", "Building")} : </dt><dd className="inline">{building?.name ?? "—"}</dd></div>
@@ -159,8 +201,16 @@ export function ReportDetail({ mode }: { mode: "citizen" | "agent" }) {
           <div><dt className="inline font-medium text-foreground">{tx("Service responsable", "Responsible service")} : </dt><dd className="inline">{service?.name ?? "—"}</dd></div>
           <div><dt className="inline font-medium text-foreground">{tx("Constaté le", "Observed on")} : </dt><dd className="inline">{formatDateTime(report.observed_at, tag)}</dd></div>
           <div><dt className="inline font-medium text-foreground">{tx("Source", "Source")} : </dt><dd className="inline">{report.source}{report.confidence_score !== null ? ` · ${tx("confiance", "confidence")} ${Math.round(report.confidence_score * 100)} %` : ""}</dd></div>
-          <div><dt className="inline font-medium text-foreground">{tx("Responsable", "Assigned to")} : </dt><dd className="inline">{report.assigned_agent_id ? (names[report.assigned_agent_id] ?? "—") : "—"}</dd></div>
-          <div><dt className="inline font-medium text-foreground">{tx("Validé par", "Validated by")} : </dt><dd className="inline">{report.validated_by ? (names[report.validated_by] ?? "—") : "—"}</dd></div>
+          {reporter.data?.profile_id && (
+            <div>
+              <dt className="inline font-medium text-foreground">{tx("Signalé par", "Reported by")} : </dt>
+              <dd className="inline">
+                <ProfileTextLink profileId={reporter.data.profile_id}>{reporter.data.display_name ?? "—"}</ProfileTextLink>
+              </dd>
+            </div>
+          )}
+          <div><dt className="inline font-medium text-foreground">{tx("Responsable", "Assigned to")} : </dt><dd className="inline">{report.assigned_agent_id ? <ProfileTextLink profileId={report.assigned_agent_id}>{names[report.assigned_agent_id] ?? "—"}</ProfileTextLink> : "—"}</dd></div>
+          <div><dt className="inline font-medium text-foreground">{tx("Validé par", "Validated by")} : </dt><dd className="inline">{report.validated_by ? <ProfileTextLink profileId={report.validated_by}>{names[report.validated_by] ?? "—"}</ProfileTextLink> : "—"}</dd></div>
         </dl>
       </header>
 
@@ -280,7 +330,7 @@ export function ReportDetail({ mode }: { mode: "citizen" | "agent" }) {
             <li key={h.id}>
               <span className="text-muted-foreground">{formatDateTime(h.changed_at, tag)} · </span>
               {h.from_status ? statusLabel("report", h.from_status, locale) : "—"} → <strong>{statusLabel("report", h.to_status, locale)}</strong>
-              {agent && h.changed_by ? <span className="text-muted-foreground"> ({names[h.changed_by] ?? "—"})</span> : null}
+              {agent && h.changed_by ? <span className="text-muted-foreground"> (<ProfileTextLink profileId={h.changed_by}>{names[h.changed_by] ?? "—"}</ProfileTextLink>)</span> : null}
             </li>
           ))}
         </ol>

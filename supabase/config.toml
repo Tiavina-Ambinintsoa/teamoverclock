@@ -3,3 +3,9 @@ verify_jwt = false
 
 [functions.dispatch-heat-alert]
 verify_jwt = false
+
+[functions.device-login-alert]
+verify_jwt = true
+
+[functions.translate-content]
+verify_jwt = true

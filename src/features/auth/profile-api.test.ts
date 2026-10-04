@@ -5,7 +5,7 @@ import { blockedAccountMessage, fetchProfileExtras, isBlockedAccount, mapProfile
 describe("mapProfileExtras", () => {
   it("falls back to an active citizen when nothing is stored", () => {
     const extras = mapProfileExtras(null, null, null)
-    expect(extras).toMatchObject({ profileRole: "citizen", accountStatus: "active", kycStatus: null, citizenId: null, serviceIds: [], profileLoaded: true })
+    expect(extras).toMatchObject({ profileRole: "citizen", accountStatus: "active", kycStatus: null, citizenId: null, serviceIds: [], locale: "fr", profileLoaded: true })
   })
 
   it("maps a staff profile with services", () => {
@@ -25,6 +25,11 @@ describe("mapProfileExtras", () => {
     const extras = mapProfileExtras({ role: "root" as never, account_status: "weird" as never }, null, null)
     expect(extras.profileRole).toBe("citizen")
     expect(extras.accountStatus).toBe("active")
+  })
+
+  it("loads supported account languages and falls back for unknown values", () => {
+    expect(mapProfileExtras({ locale: "mfe" }, null, null).locale).toBe("mfe")
+    expect(mapProfileExtras({ locale: "xx" }, null, null).locale).toBe("fr")
   })
 })
 
@@ -51,7 +56,7 @@ describe("fetchProfileExtras", () => {
       return builder
     }
     const from = vi.fn((table: string) => {
-      if (table === "profiles") return chain({ role: "agent", account_status: "active" })
+      if (table === "profiles") return chain({ role: "agent", account_status: "active", locale: "mg" })
       if (table === "citizens") return chain({ id: "c9", kyc_status: "pending", is_minor: false, sector_id: null })
       return chain([{ service_id: "svc-9" }])
     })
@@ -60,6 +65,7 @@ describe("fetchProfileExtras", () => {
     expect(from).toHaveBeenCalledWith("citizens")
     expect(from).toHaveBeenCalledWith("service_members")
     expect(extras.profileRole).toBe("agent")
+    expect(extras.locale).toBe("mg")
     expect(extras.citizenId).toBe("c9")
     expect(extras.serviceIds).toEqual(["svc-9"])
   })

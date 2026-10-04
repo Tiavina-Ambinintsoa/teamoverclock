@@ -19,8 +19,8 @@ interface SiteConfig {
 export const SITE: SiteConfig = {
   name: "Nova Terra",
   shortName: "Nova Terra",
-  tagline: "La ville fictive et futuriste : services, carte en ruche, signalements et alertes.",
-  description: "Portail citoyen de Nova Terra, ville fictive et futuriste : démarches, services, actualités, carte interactive, signalements et assistant vocal.",
+  tagline: "La ville connectée : services, carte en ruche, signalements et alertes.",
+  description: "Portail citoyen de Nova Terra : démarches, services, actualités, carte interactive, signalements et assistant vocal.",
   defaultPreset: "nova-terra",
   defaultMode: "dark",
   team: [

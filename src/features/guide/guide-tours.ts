@@ -1,6 +1,7 @@
 import type { UserRole } from "@/lib/types"
+import { translatePhrase, type Locale } from "@/lib/locale"
 
-export type GuideLocale = "fr" | "en"
+export type GuideLocale = Locale
 export type Placement = "top" | "bottom" | "left" | "right" | "center"
 
 export interface GuideStep {
@@ -22,6 +23,30 @@ export interface GuideTour {
   route_scope: string
   estimated_minutes: number
   steps: GuideStep[]
+}
+
+export function currentPageTour(pathname: string, title: string, locale: GuideLocale): GuideTour {
+  const french = locale === "fr"
+  return {
+    code: "current-page",
+    title,
+    description: french ? `Repères pour la page : ${title}` : `${translatePhrase(locale, "A quick guide to this page")}: ${title}`,
+    audience: ["citizen", "agent", "service_admin", "general_admin"],
+    route_scope: pathname,
+    estimated_minutes: 1,
+    steps: [{
+      step_order: 1,
+      route: pathname,
+      target_selector: pathname === "/inscription" ? '[data-tour="signup-form"]' : '[data-tour="page-content"]',
+      title: french ? "Repères sur cette page" : translatePhrase(locale, "This page at a glance"),
+      body: french
+        ? "Voici le contenu principal de cette page. Utilisez Tab et Maj+Tab pour parcourir les liens et les commandes."
+        : translatePhrase(locale, "This is the main content on this page. Use Tab and Shift+Tab to move through links and controls."),
+      voice_script: null,
+      placement: "top",
+      locale,
+    }],
+  }
 }
 
 const ALL: UserRole[] = ["citizen", "agent", "service_admin", "general_admin"]
@@ -93,11 +118,43 @@ export function toursForRole(tours: GuideTour[], role: UserRole | null): GuideTo
   return tours.filter((tour) => tour.audience.includes(effective))
 }
 
-/** Étapes d'un parcours dans la langue demandée (repli sur le français), triées. */
+/** Choisit la meilleure version source puis localise les copies françaises/anglaises disponibles. */
 export function stepsFor(tour: GuideTour, locale: GuideLocale): GuideStep[] {
   const wanted = tour.steps.filter((s) => s.locale === locale)
-  const steps = wanted.length > 0 ? wanted : tour.steps.filter((s) => s.locale === "fr")
-  return [...steps].sort((a, b) => a.step_order - b.step_order)
+  const english = tour.steps.filter((s) => s.locale === "en")
+  const french = tour.steps.filter((s) => s.locale === "fr")
+  const steps = wanted.length > 0 ? wanted : english.length > 0 ? english : french
+  return [...steps].sort((a, b) => a.step_order - b.step_order).map((entry) => {
+    if (locale === "fr" || entry.locale === locale) return entry
+    const translatedVoice = entry.voice_script ? translatePhrase(locale, entry.voice_script) : null
+    return {
+      ...entry,
+      title: translatePhrase(locale, entry.title),
+      body: translatePhrase(locale, entry.body),
+      voice_script: translatedVoice && translatedVoice !== entry.voice_script ? translatedVoice : translatePhrase(locale, entry.body),
+      locale,
+    }
+  })
+}
+
+export function tourTitle(tour: GuideTour, locale: GuideLocale): string {
+  if (locale === "fr") return tour.title
+  const titles: Record<string, string> = {
+    welcome: "Welcome to Nova Terra",
+    map: "The interactive map",
+    "file-report": "File a report",
+  }
+  return translatePhrase(locale, titles[tour.code] ?? tour.title)
+}
+
+export function tourDescription(tour: GuideTour, locale: GuideLocale): string {
+  if (locale === "fr") return tour.description
+  const descriptions: Record<string, string> = {
+    welcome: "Discover the main areas of the portal.",
+    map: "Sectors, buildings, transport and routes.",
+    "file-report": "Form, voice dictation and evidence.",
+  }
+  return translatePhrase(locale, descriptions[tour.code] ?? tour.description)
 }
 
 /** Premier parcours de bienvenue non terminé, ou null. */

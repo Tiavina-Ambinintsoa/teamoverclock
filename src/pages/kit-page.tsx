@@ -115,7 +115,7 @@ export function KitPage() {
 
   const diagnostics: [string, string][] = [
     ["Backend", isBackendConfigured ? "Supabase configuré" : "Mode démo local (Supabase absent)"],
-    ["Compte démo jury", env.demoEmail && env.demoPassword ? "Renseigné (VITE_DEMO_*)" : "Non renseigné : utilisateur local fictif"],
+    ["Compte démo jury", env.demoEmail && env.demoPassword ? "Renseigné (VITE_DEMO_*)" : "Non renseigné : utilisateur local"],
     ["Routeur", env.hashRouter ? "Hash (/#/route), aucune réécriture serveur requise" : "Navigateur (nécessite .htaccess ou équivalent)"],
     ["Base d'URL", import.meta.env.BASE_URL],
     ["Environnement", import.meta.env.DEV ? "Développement" : "Production"],

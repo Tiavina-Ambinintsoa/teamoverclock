@@ -23,8 +23,11 @@ export function HelpMenu() {
         <HelpCircle className="size-5" aria-hidden />
       </summary>
       <div className="absolute top-11 right-0 z-50 grid w-64 gap-1 rounded-xl border bg-popover p-2 shadow-lg">
+        <button type="button" className={item} onClick={(e) => { close(e.currentTarget); guide.startPage() }}>
+          <PlayCircle className="size-4" aria-hidden />{tx("Découvrir cette page", "Tour this page")}
+        </button>
         <button type="button" className={item} onClick={(e) => { close(e.currentTarget); guide.start("welcome") }}>
-          <PlayCircle className="size-4" aria-hidden />{tx("Lancer la visite guidée", "Start the guided tour")}
+          <PlayCircle className="size-4" aria-hidden />{tx("Visite guidée du portail", "Take the portal tour")}
         </button>
         <button type="button" className={item} onClick={(e) => { close(e.currentTarget); voice.help() }}>
           <Mic className="size-4" aria-hidden />{tx("Aide vocale : où suis-je ?", "Voice help: where am I?")}

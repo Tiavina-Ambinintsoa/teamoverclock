@@ -12,8 +12,9 @@ import { Select } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 import { useAuth } from "@/features/auth/auth-context"
 import { useServices } from "@/features/city/city-queries"
+import { localizedField } from "@/features/i18n/content-translations"
 import { fetchDisplayNames } from "@/features/requests/request-queries"
-import { useLocale } from "@/lib/locale"
+import { copyLocale, useLocale } from "@/lib/locale"
 import { formatDateTime, unwrap } from "@/lib/query-helpers"
 import { supabase } from "@/lib/supabase"
 
@@ -72,7 +73,10 @@ export function SupportPage() {
     onError: (error: Error) => toast.error(error.message),
   })
 
-  const nameOf = (id: string) => services.data?.find((s) => s.id === id)?.name ?? "—"
+  const nameOf = (id: string) => {
+    const service = services.data?.find((s) => s.id === id)
+    return service ? localizedField(service.translations, "name", locale, service.name) : "—"
+  }
 
   return (
     <Container className="max-w-3xl">
@@ -83,8 +87,8 @@ export function SupportPage() {
         <div className="grid gap-1">
           <label htmlFor="call-service" className="text-sm font-medium">{tx("Service", "Service")}</label>
           <Select id="call-service" className="w-72" value={serviceId} onChange={(e) => setServiceId(e.target.value)}>
-            <option value="">Citizen Relations Office</option>
-            {(services.data ?? []).filter((s) => s.status === "open" && s.slug !== "citizen-relations").map((s) => <option key={s.id} value={s.id}>{s.name}</option>)}
+            <option value="">{tx("Bureau des relations citoyennes", "Citizen Relations Office")}</option>
+            {(services.data ?? []).filter((s) => s.status === "open" && s.slug !== "citizen-relations").map((s) => <option key={s.id} value={s.id}>{localizedField(s.translations, "name", locale, s.name)}</option>)}
           </Select>
         </div>
         <Button disabled={request.isPending} onClick={() => request.mutate()}><Phone aria-hidden />{tx("Demander un appel", "Request a call")}</Button>
@@ -94,7 +98,7 @@ export function SupportPage() {
           <ul className="grid gap-3">
             {rows.map((c) => (
               <li key={c.id} className="rounded-xl border bg-card p-4 text-sm">
-                <div className="flex flex-wrap items-center justify-between gap-2"><p className="font-medium">{nameOf(c.service_id)}</p><Badge variant={c.status === "connected" ? "default" : "outline"}>{STATUS_LABEL[c.status][locale]}</Badge></div>
+                <div className="flex flex-wrap items-center justify-between gap-2"><p className="font-medium">{nameOf(c.service_id)}</p><Badge variant={c.status === "connected" ? "default" : "outline"}>{STATUS_LABEL[c.status][copyLocale(locale)]}</Badge></div>
                 <p className="text-muted-foreground">{formatDateTime(c.started_at, tag)}{c.duration_s > 0 ? ` · ${c.duration_s} s` : ""}</p>
                 {c.summary && <p className="mt-1">{c.summary}</p>}
               </li>
@@ -166,7 +170,7 @@ export function AgentCallsPage() {
               <li key={c.id} className="rounded-xl border bg-card p-4 text-sm">
                 <div className="flex flex-wrap items-center justify-between gap-2">
                   <p className="font-medium">{calls.data?.names[c.caller_id ?? ""] ?? "—"} <span className="font-normal text-muted-foreground">· {services.data?.find((s) => s.id === c.service_id)?.name}</span></p>
-                  <Badge variant={c.status === "requested" ? "highlight" : c.status === "connected" ? "default" : "outline"}>{STATUS_LABEL[c.status][locale]}</Badge>
+                  <Badge variant={c.status === "requested" ? "highlight" : c.status === "connected" ? "default" : "outline"}>{STATUS_LABEL[c.status][copyLocale(locale)]}</Badge>
                 </div>
                 <p className="text-muted-foreground">{formatDateTime(c.started_at, tag)}</p>
                 {c.status === "requested" && <div className="mt-2 flex gap-2"><Button size="sm" disabled={take.isPending} onClick={() => take.mutate(c.id)}>{tx("Prendre l'appel", "Take the call")}</Button><Button size="sm" variant="outline" disabled={miss.isPending} onClick={() => miss.mutate(c.id)}>{tx("Marquer manqué", "Mark missed")}</Button></div>}
