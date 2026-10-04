@@ -27,10 +27,8 @@ import { Link } from "react-router"
 
 
 import { Button } from "@/components/ui/button"
-import { useLocale } from "@/lib/locale"
 
 export function RaisonSection() {
-  const { tx } = useLocale()
   const [activeSpaceTab, setActiveSpaceTab] = useState<"citoyen" | "agent" | "admin">("citoyen")
 
   const spacesData = {
