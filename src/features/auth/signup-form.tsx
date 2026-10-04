@@ -68,14 +68,7 @@ export function SignupForm() {
         sectorId: values.sectorId,
         locale: values.locale,
       })
-      toast.success(
-        backend === "local"
-          ? tx("Compte démo créé", "Demo account created")
-          : tx(
-              "Compte créé. Ouvrez le lien de confirmation reçu par e-mail si une confirmation est demandée.",
-              "Account created. Open the confirmation link sent by email if confirmation is required."
-            )
-      )
+      toast.success(backend === "local" ? tx("Compte démo créé", "Demo account created") : tx("Compte créé.", "Account created."))
       void navigate("/connexion")
     } catch (error) {
       toast.error(error instanceof Error ? error.message : tx("Une erreur est survenue", "Something went wrong"))
