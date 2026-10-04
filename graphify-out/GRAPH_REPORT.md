@@ -309,6 +309,8 @@
   src/features/analytics/analytics-page.tsx → src/features/analytics/analytics-queries.ts
 - `ids()` --calls--> `navForRole()`  [EXTRACTED]
   src/components/layout/nav-config.test.ts → src/components/layout/nav-config.ts
+- `LocaleProbe()` --calls--> `useLocale()`  [EXTRACTED]
+  src/lib/locale.test.tsx → src/lib/locale.tsx
 
 ## Import Cycles
 - None detected.
@@ -325,7 +327,7 @@ Nodes (44): Admin Console, Alternate Home Hero Presets, Items API Module, Applic
 
 ### Community 2 - "devDependencies"
 Cohesion: 0.13
-Nodes (15): jsdom, oxlint, devDependencies, jsdom, oxlint, @tailwindcss/vite, @types/node, @types/react (+7 more)
+Nodes (15): oxlint, devDependencies, oxlint, supabase, @tailwindcss/vite, @types/node, @types/react, @types/react-dom (+7 more)
 
 ### Community 4 - "compilerOptions"
 Cohesion: 0.07

@@ -1785,6 +1785,19 @@
       "source_location": "L1"
     },
     {
+      "id": "src_features_projects_project_voting_cityprojectstats",
+      "label": "CityProjectStats",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 203,
+      "community_name": "project-voting.ts",
+      "file_type": "code",
+      "norm_label": "cityprojectstats",
+      "source_file": "src/features/projects/project-voting.ts",
+      "source_location": "L1"
+    },
+    {
       "id": "src_features_voice_dictation_button_dictationbuttonprops",
       "label": "DictationButtonProps",
       "_callable": true,
@@ -7945,6 +7958,18 @@
       "norm_label": "minicard()",
       "source_file": "src/features/citizen/citizen-dashboard.tsx",
       "source_location": "L177"
+    },
+    {
+      "id": "src_features_projects_project_voting_canparticipateincivicvoting",
+      "label": "canParticipateInCivicVoting()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 203,
+      "community_name": "project-voting.ts",
+      "file_type": "code",
+      "norm_label": "canparticipateincivicvoting()",
+      "source_file": "src/features/projects/project-voting.ts",
+      "source_location": "L11"
     },
     {
       "id": "src_features_projects_project_voting_canparticipateincivicvoting",
@@ -19546,17 +19571,6 @@
       "source_location": "L32"
     },
     {
-      "id": "package_devdependencies_jsdom",
-      "label": "jsdom",
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "devDependencies",
-      "file_type": "code",
-      "norm_label": "jsdom",
-      "source_file": "package.json",
-      "source_location": "L44"
-    },
-    {
       "id": "package_devdependencies_oxlint",
       "label": "oxlint",
       "_origin": "ast",
@@ -19566,6 +19580,17 @@
       "norm_label": "oxlint",
       "source_file": "package.json",
       "source_location": "L45"
+    },
+    {
+      "id": "package_devdependencies_supabase",
+      "label": "supabase",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "devDependencies",
+      "file_type": "code",
+      "norm_label": "supabase",
+      "source_file": "package.json",
+      "source_location": "L46"
     },
     {
       "id": "package_devdependencies_tailwindcss_vite",
@@ -19623,17 +19648,6 @@
       "source_location": "L50"
     },
     {
-      "id": "jsdom",
-      "label": "jsdom",
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "devDependencies",
-      "file_type": "concept",
-      "norm_label": "jsdom",
-      "source_file": "package.json",
-      "source_location": "L44"
-    },
-    {
       "id": "oxlint",
       "label": "oxlint",
       "_origin": "ast",
@@ -19643,6 +19657,17 @@
       "norm_label": "oxlint",
       "source_file": "package.json",
       "source_location": "L45"
+    },
+    {
+      "id": "supabase",
+      "label": "supabase",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "devDependencies",
+      "file_type": "concept",
+      "norm_label": "supabase",
+      "source_file": "package.json",
+      "source_location": "L46"
     },
     {
       "id": "tailwindcss_vite",
@@ -21573,20 +21598,20 @@
       "community": 268,
       "community_name": "@testing-library/user-event",
       "file_type": "code",
-      "norm_label": "@testing-library/user-event",
+      "norm_label": "@testing-library/react",
       "source_file": "package.json",
-      "source_location": "L37"
+      "source_location": "L36"
     },
     {
-      "id": "testing_library_user_event",
-      "label": "@testing-library/user-event",
+      "id": "testing_library_react",
+      "label": "@testing-library/react",
       "_origin": "ast",
       "community": 268,
       "community_name": "@testing-library/user-event",
       "file_type": "concept",
-      "norm_label": "@testing-library/user-event",
+      "norm_label": "@testing-library/react",
       "source_file": "package.json",
-      "source_location": "L37"
+      "source_location": "L36"
     },
     {
       "id": "src_features_projects_project_voting_test",
@@ -22480,17 +22505,6 @@
       "source_location": "L1"
     },
     {
-      "id": "src_features_agent_agent_requests_page",
-      "label": "agent-requests-page.tsx",
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "agent-requests-page.tsx",
-      "source_file": "src/features/agent/agent-requests-page.tsx",
-      "source_location": "L1"
-    },
-    {
       "id": "src_features_auth_admin_login_page",
       "label": "admin-login-page.tsx",
       "_origin": "ast",
@@ -22554,17 +22568,6 @@
       "file_type": "code",
       "norm_label": "items-page.tsx",
       "source_file": "src/features/items/items-page.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_features_news_news_page",
-      "label": "news-page.tsx",
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "news-page.tsx",
-      "source_file": "src/features/news/news-page.tsx",
       "source_location": "L1"
     },
     {
@@ -31951,6 +31954,18 @@
       "context": "call",
       "source_file": "src/features/reputation/reputation-utils.ts",
       "source_location": "L66",
+      "weight": 1.0
+    },
+    {
+      "source": "src_features_reports_report_summary_panel_reportsummarypanel",
+      "target": "src_features_reports_report_summary_panel_datesuffix",
+      "relation": "calls",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "context": "call",
+      "source_file": "src/features/reports/report-summary-panel.tsx",
+      "source_location": "L69",
       "weight": 1.0
     },
     {
@@ -43397,7 +43412,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/home/get-started.tsx",
-      "source_location": "L8",
+      "source_location": "L9",
       "weight": 1.0
     },
     {
