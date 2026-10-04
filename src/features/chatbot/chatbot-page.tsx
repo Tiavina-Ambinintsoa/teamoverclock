@@ -23,7 +23,7 @@ import { speak, stopSpeaking } from "@/features/voice/speech"
 import { DictationButton } from "@/features/voice/dictation-button"
 import { audioBlobToWavBase64 } from "@/features/voice/audio"
 import type { DictationVoiceResponse } from "@/features/voice/use-dictation"
-import { useLocale } from "@/lib/locale"
+import { copyLocale, useLocale } from "@/lib/locale"
 import { supabase } from "@/lib/supabase"
 import { cn } from "@/lib/utils"
 
@@ -128,7 +128,7 @@ function getChatChoices(reply: ChatReply, locale: "fr" | "en"): { label: string;
 /** Assistant flottant : répond depuis les contenus publiés, cite ses sources, confirme avant toute création. */
 export function ChatbotPage() {
   const { user } = useAuth()
-  const { tx, locale } = useLocale()
+  const { tx, locale, tag } = useLocale()
   const navigate = useNavigate()
   const location = useLocation()
   const knowledge = useKnowledge()
@@ -141,7 +141,7 @@ export function ChatbotPage() {
       role: "assistant",
       kind: "normal",
       content: tx("Bonjour ! Posez-moi une question sur les services, les démarches, les actualités ou les alertes de Nova Terra. Je peux aussi préparer un signalement ou une demande (avec votre confirmation).", "Hello! Ask me about Nova Terra's services, procedures, news or alerts. I can also prepare a report or a request (with your confirmation)."),
-      choices: getChatChoices({ intent: "greeting", kind: "normal", content: "", sources: [], confidence: 1 }, locale),
+      choices: getChatChoices({ intent: "greeting", kind: "normal", content: "", sources: [], confidence: 1 }, copyLocale(locale)),
     },
   ])
   const [draft, setDraft] = useState("")
@@ -153,7 +153,7 @@ export function ChatbotPage() {
   const sessionRef = useRef<string | null>(null)
   const conversationRef = useRef<HTMLDivElement>(null)
   const messageCount = messages.length
-  const lang = locale === "en" ? "en-GB" : "fr-FR"
+  const lang = tag
   const speakChat = useCallback((text: string) => {
     const started = speak(text, {
       lang,
@@ -227,7 +227,7 @@ export function ChatbotPage() {
     push({ role: "user", content: transcript, channel: "voice" })
     const reply = buildReply({
       text: transcript,
-      locale,
+      locale: copyLocale(locale),
       kb: knowledge.data?.kb ?? [],
       services: knowledge.data?.services ?? [],
       dangers: knowledge.data?.dangers ?? [],
@@ -245,7 +245,7 @@ export function ChatbotPage() {
       sources: resolvedReply.sources,
       pending: resolvedReply.pendingAction ?? null,
       channel: "voice",
-      choices: getChatChoices(resolvedReply, locale),
+      choices: getChatChoices(resolvedReply, copyLocale(locale)),
     })
     if (!readAloud) speakChat(answer)
   }
@@ -323,7 +323,7 @@ export function ChatbotPage() {
     }
     const reply = buildReply({
       text,
-      locale,
+      locale: copyLocale(locale),
       kb: knowledge.data?.kb ?? [],
       services: knowledge.data?.services ?? [],
       dangers: knowledge.data?.dangers ?? [],
@@ -384,7 +384,7 @@ export function ChatbotPage() {
       kind: responseKind,
       sources,
       pending: pendingAction,
-      choices: getChatChoices({ ...reply, kind: responseKind }, locale),
+      choices: getChatChoices({ ...reply, kind: responseKind }, copyLocale(locale)),
     })
   }
 

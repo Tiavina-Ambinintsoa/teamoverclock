@@ -13,12 +13,8 @@ import { useBuildings, useDanger, useDangers, useSectors, useServices } from "@/
 import { useLocale } from "@/lib/locale"
 import { formatDate } from "@/lib/query-helpers"
 import { cn } from "@/lib/utils"
+import { localizedField, localizedStructuredField } from "@/features/i18n/content-translations"
 import { AuroraTitle } from "@/components/magic-ui/aurora-title"
-
-const FICTIONAL_NOTE = {
-  fr: "Alerte fictive : cette procédure fait partie de la simulation Nova Terra et ne décrit pas une situation réelle.",
-  en: "Fictional alert: this procedure is part of the Nova Terra simulation and does not describe a real situation.",
-}
 
 /** Liste des alertes et protocoles : actives d'abord, archives ensuite. Ton calme, jamais alarmiste. */
 export function DangersPage() {
@@ -28,24 +24,28 @@ export function DangersPage() {
   const active = items.filter((d) => d.status === "active")
   const archived = items.filter((d) => d.status === "archived")
 
-  const card = (d: (typeof items)[number]) => (
-    <li key={d.id} className="rounded-xl border bg-card p-5">
-      <div className="mb-2 flex flex-wrap items-center gap-2">
-        <StatusBadge kind="severity" value={d.severity} />
-        <StatusBadge kind="danger" value={d.status} />
-        {d.is_fictional_alert && <Badge variant="outline">{tx("Fictive", "Fictional")}</Badge>}
-      </div>
-      <h3 className="text-lg font-semibold"><Link to={`/dangers/${d.slug}`} className="underline-offset-4 hover:underline">{d.title}</Link></h3>
-      <p className="mt-1 text-sm text-muted-foreground">{d.summary}</p>
-      <p className="mt-2 text-xs text-muted-foreground">{tx("Valable depuis le", "Valid since")} {formatDate(d.valid_from, tag)}{d.valid_until ? ` ${tx("jusqu'au", "until")} ${formatDate(d.valid_until, tag)}` : ""}</p>
-    </li>
-  )
+  const card = (d: (typeof items)[number]) => {
+    const title = localizedField(d.translations, "title", locale, d.title)
+    const summary = localizedField(d.translations, "summary", locale, d.summary)
+    return (
+      <li key={d.id} className="rounded-xl border bg-card p-5">
+        <div className="mb-2 flex flex-wrap items-center gap-2">
+          <StatusBadge kind="severity" value={d.severity} />
+          <StatusBadge kind="danger" value={d.status} />
+          {d.is_fictional_alert && <Badge variant="outline">{tx("Fictive", "Fictional")}</Badge>}
+        </div>
+        <h3 className="text-lg font-semibold"><Link to={`/dangers/${d.slug}`} className="underline-offset-4 hover:underline">{title}</Link></h3>
+        <p className="mt-1 text-sm text-muted-foreground">{summary}</p>
+        <p className="mt-2 text-xs text-muted-foreground">{tx("Valable depuis le", "Valid since")} {formatDate(d.valid_from, tag)}{d.valid_until ? ` ${tx("jusqu'au", "until")} ${formatDate(d.valid_until, tag)}` : ""}</p>
+      </li>
+    )
+  }
 
   return (
     <Container className="py-10">
       <title>{tx("Dangers et protocoles", "Dangers & protocols")}</title>
       <PageHeader eyebrow={tx("La ville", "The city")} title={tx("Dangers et protocoles", "Dangers & protocols")} description={tx("Mesures de sécurité intergalactiques et protocole en cas d'invasion extraterrestre. Gardez votre calme : suivez les consignes officielles.", "Intergalactic safety measures and the extraterrestrial invasion protocol. Stay calm: follow the official instructions.")} />
-      <p role="note" className="mb-6 rounded-lg border p-3 text-sm text-muted-foreground">{FICTIONAL_NOTE[locale]}</p>
+      <p role="note" className="mb-6 rounded-lg border p-3 text-sm text-muted-foreground">{tx("Alerte fictive : cette procédure fait partie de la simulation Nova Terra et ne décrit pas une situation réelle.", "Fictional alert: this procedure is part of the Nova Terra simulation and does not describe a real situation.")}</p>
       <DataState data={items} isLoading={dangers.isLoading} error={dangers.error} onRetry={() => void dangers.refetch()} emptyTitle={tx("Aucune alerte", "No alert")}>
         {() => (
           <div className="grid gap-8">
@@ -84,34 +84,47 @@ export function DangerDetailPage() {
     )
   }
 
-  const steps = [...d.protocol_steps].sort((a, b) => a.order - b.order)
+  const title = localizedField(d.translations, "title", locale, d.title)
+  const summary = localizedField(d.translations, "summary", locale, d.summary)
+  const recommendedActions = localizedStructuredField(d.translations, "recommended_actions", locale, d.recommended_actions, (value): value is string[] =>
+    Array.isArray(value) && value.every((entry) => typeof entry === "string"))
+  const forbiddenActions = localizedStructuredField(d.translations, "forbidden_actions", locale, d.forbidden_actions, (value): value is string[] =>
+    Array.isArray(value) && value.every((entry) => typeof entry === "string"))
+  const translatedSteps = localizedStructuredField(d.translations, "protocol_steps", locale, d.protocol_steps, (value): value is typeof d.protocol_steps =>
+    Array.isArray(value) && value.every((entry) =>
+      typeof entry === "object" && entry !== null && "order" in entry &&
+      typeof entry.order === "number" && "title" in entry &&
+      typeof entry.title === "string" && "detail" in entry && typeof entry.detail === "string"
+    ))
+  const steps = [...translatedSteps].sort((a, b) => a.order - b.order)
   const zones = (sectors.data ?? []).filter((s) => d.affected_sector_ids.includes(s.id))
   const assembly = (buildings.data ?? []).filter((b) => d.assembly_building_ids.includes(b.id))
   const owner = services.data?.find((s) => s.id === d.responsible_service_id)
+  const ownerName = owner ? localizedField(owner.translations, "name", locale, owner.name) : "—"
 
   return (
     <Container className="max-w-4xl py-10">
-      <title>{d.title}</title>
-      <nav aria-label={tx("Fil d'Ariane", "Breadcrumb")} className="mb-4 text-sm text-muted-foreground"><Link to="/dangers" className="underline-offset-4 hover:underline">{tx("Dangers", "Dangers")}</Link> / {d.title}</nav>
+      <title>{title}</title>
+      <nav aria-label={tx("Fil d'Ariane", "Breadcrumb")} className="mb-4 text-sm text-muted-foreground"><Link to="/dangers" className="underline-offset-4 hover:underline">{tx("Dangers", "Dangers")}</Link> / {title}</nav>
       <header className="mb-6">
         <div className="mb-2 flex flex-wrap items-center gap-2"><StatusBadge kind="severity" value={d.severity} /><StatusBadge kind="danger" value={d.status} />{d.is_fictional_alert && <Badge variant="outline">{tx("Alerte fictive", "Fictional alert")}</Badge>}</div>
-        <h1 className="font-display text-3xl font-semibold"><AuroraTitle>{d.title}</AuroraTitle></h1>
-        <p className="mt-2 text-muted-foreground">{d.summary}</p>
+        <h1 className="font-display text-3xl font-semibold"><AuroraTitle>{title}</AuroraTitle></h1>
+        <p className="mt-2 text-muted-foreground">{summary}</p>
         <p className="mt-2 text-xs text-muted-foreground">
-          {tx("Procédure v", "Procedure v")}{d.procedure_version} · {tx("validée le", "validated on")} {formatDate(d.validated_at, tag)} · {owner?.name ?? "—"} · {d.source ?? "—"}
+          {tx("Procédure v", "Procedure v")}{d.procedure_version} · {tx("validée le", "validated on")} {formatDate(d.validated_at, tag)} · {ownerName} · {d.source ?? "—"}
         </p>
-        {d.is_fictional_alert && <p role="note" className="mt-3 rounded-lg border p-3 text-sm text-muted-foreground">{FICTIONAL_NOTE[locale]}</p>}
+        {d.is_fictional_alert && <p role="note" className="mt-3 rounded-lg border p-3 text-sm text-muted-foreground">{tx("Alerte fictive : cette procédure fait partie de la simulation Nova Terra et ne décrit pas une situation réelle.", "Fictional alert: this procedure is part of the Nova Terra simulation and does not describe a real situation.")}</p>}
       </header>
 
       <div className="grid gap-5 md:grid-cols-2">
-        <section aria-labelledby="do" className="rounded-xl border bg-card p-5"><h2 id="do" className="mb-2 font-semibold">{tx("À faire", "What to do")}</h2><ul className="list-disc pl-5 text-sm">{d.recommended_actions.map((a) => <li key={a}>{a}</li>)}</ul></section>
-        <section aria-labelledby="dont" className="rounded-xl border bg-card p-5"><h2 id="dont" className="mb-2 font-semibold">{tx("À ne pas faire", "What not to do")}</h2><ul className="list-disc pl-5 text-sm">{d.forbidden_actions.map((a) => <li key={a}>{a}</li>)}{d.forbidden_actions.length === 0 && <li>—</li>}</ul></section>
+        <section aria-labelledby="do" className="rounded-xl border bg-card p-5"><h2 id="do" className="mb-2 font-semibold">{tx("À faire", "What to do")}</h2><ul className="list-disc pl-5 text-sm">{recommendedActions.map((a) => <li key={a}>{a}</li>)}</ul></section>
+        <section aria-labelledby="dont" className="rounded-xl border bg-card p-5"><h2 id="dont" className="mb-2 font-semibold">{tx("À ne pas faire", "What not to do")}</h2><ul className="list-disc pl-5 text-sm">{forbiddenActions.map((a) => <li key={a}>{a}</li>)}{forbiddenActions.length === 0 && <li>—</li>}</ul></section>
         <section aria-labelledby="zones" className="rounded-xl border bg-card p-5">
           <h2 id="zones" className="mb-2 font-semibold">{tx("Zones concernées", "Affected areas")}</h2>
           <ul className="list-disc pl-5 text-sm">{zones.map((z) => <li key={z.id}>{z.code} {z.name}</li>)}{zones.length === 0 && <li>—</li>}</ul>
           <Button asChild variant="outline" size="sm" className="mt-3"><Link to="/map">{tx("Voir sur la carte", "View on the map")}</Link></Button>
         </section>
-        <section aria-labelledby="assembly" className="rounded-xl border bg-card p-5"><h2 id="assembly" className="mb-2 font-semibold">{tx("Points de rassemblement", "Assembly points")}</h2><ul className="list-disc pl-5 text-sm">{assembly.map((b) => <li key={b.id}><Link className="underline underline-offset-4" to={`/map?building=${b.id}`}>{b.name}</Link></li>)}{assembly.length === 0 && <li>—</li>}</ul></section>
+        <section aria-labelledby="assembly" className="rounded-xl border bg-card p-5"><h2 id="assembly" className="mb-2 font-semibold">{tx("Points de rassemblement", "Assembly points")}</h2>        <ul className="list-disc pl-5 text-sm">{assembly.map((b) => <li key={b.id}><Link className="underline underline-offset-4" to={`/map?building=${b.id}`}>{localizedField(b.translations, "name", locale, b.name)}</Link></li>)}{assembly.length === 0 && <li>—</li>}</ul></section>
       </div>
 
       <section aria-labelledby="contacts" className="mt-5 rounded-xl border border-destructive/40 bg-destructive/5 p-5">

@@ -12,6 +12,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { ProfileDetailsForm } from "@/features/profile/profile-details-form"
 import { CitizenHealthForm } from "@/features/profile/citizen-health-form"
+import { PersonalDataExport } from "@/features/profile/personal-data-export"
 import { CitizenResidenceForm } from "@/features/profile/citizen-residence-form"
 import { AccessibilityPanel } from "@/features/accessibility/accessibility-panel"
 import { useAuth } from "@/features/auth/auth-context"
@@ -85,6 +86,7 @@ export function SettingsPage() {
         <ProfileDetailsForm />
         <CitizenResidenceForm />
         <CitizenHealthForm />
+        <PersonalDataExport />
         <AccessibilityPanel />
         <section className="rounded-xl border bg-card p-5 sm:p-7">
           <h2 className="font-semibold">Modifier le profil</h2>

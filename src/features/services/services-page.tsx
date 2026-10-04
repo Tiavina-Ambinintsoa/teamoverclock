@@ -10,6 +10,7 @@ import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { useServices } from "@/features/city/city-queries"
+import { localizedField } from "@/features/i18n/content-translations"
 import { describeOpeningHours } from "@/features/services/hours"
 import { effectiveServiceStatus } from "@/features/services/service-availability"
 import { useLocale } from "@/lib/locale"
@@ -87,15 +88,15 @@ export function ServicesPage() {
                 <li key={service.id} className={cn("flex flex-col gap-3 rounded-xl border bg-card p-5", closed && "border-dashed")}>
                   <div className="flex items-start justify-between gap-2">
                     <h2 className="text-lg font-semibold">
-                      <Link to={`/services/${service.slug}`} className="underline-offset-4 hover:underline">{service.name}</Link>
+                      <Link to={`/services/${service.slug}`} className="underline-offset-4 hover:underline">{localizedField(service.translations, "name", locale, service.name)}</Link>
                     </h2>
                     {service.is_emergency && <Badge variant="destructive"><Siren aria-hidden />{tx("Urgence", "Emergency")}</Badge>}
                   </div>
                   <div className="flex flex-wrap gap-2">
-                    <Badge variant="secondary">{service.category}</Badge>
+                    <Badge variant="secondary">{localizedField(service.translations, "category", locale, service.category)}</Badge>
                     <StatusBadge kind="service" value={serviceStatus} />
                   </div>
-                  <p className="text-sm text-muted-foreground">{service.description}</p>
+                  <p className="text-sm text-muted-foreground">{localizedField(service.translations, "description", locale, service.description ?? "")}</p>
                   {closed && service.status_reason && <p className="rounded-md border border-highlight/60 bg-highlight/10 p-2 text-sm">{service.status_reason}</p>}
                   <dl className="mt-auto grid gap-1 text-sm">
                     {hours && <div className="flex items-center gap-2"><Clock className="size-4 shrink-0" aria-hidden /><dt className="sr-only">{tx("Horaires", "Hours")}</dt><dd>{hours.days} · {hours.hours}</dd></div>}

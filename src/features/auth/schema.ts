@@ -1,4 +1,5 @@
 import { z } from "zod"
+import { LOCALES } from "@/lib/locale"
 
 /** Âge en années entières à une date donnée ; null si la date est invalide ou future. */
 export function ageFromBirthDate(birthDate: string, now: Date = new Date()): number | null {
@@ -52,6 +53,7 @@ export const signupSchema = z
     email: z.email("Adresse e-mail invalide."),
     birthDate: z.string().refine((value) => ageFromBirthDate(value) !== null, "Date de naissance invalide."),
     sectorId: z.string().min(1, "Choisissez votre secteur de résidence."),
+    locale: z.enum(LOCALES),
     password: z
       .string()
       .refine((value) => passwordStrength(value).ok, "Mot de passe trop faible : 8 caractères, une minuscule, une majuscule et un chiffre."),

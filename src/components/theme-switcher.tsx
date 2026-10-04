@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { PRESETS, isPresetId } from "@/lib/presets"
 import { isTypographyId, TYPOGRAPHIES } from "@/lib/typography-presets"
 import { isMorphismId, MORPHISMS } from "@/lib/morphisms"
+import { useLocale } from "@/lib/locale"
 
 const NEXT_MODE: Record<Mode, Mode> = { light: "dark", dark: "system", system: "light" }
 const MODE_LABEL: Record<Mode, string> = {
@@ -16,19 +17,27 @@ const MODE_LABEL: Record<Mode, string> = {
 /** Bouton qui fait tourner clair -> sombre -> système. */
 export function ModeToggle() {
   const { mode, setMode } = useTheme()
+  const { tx } = useLocale()
   const Icon = mode === "light" ? Sun : mode === "dark" ? Moon : Monitor
+  const label = tx(MODE_LABEL[mode], modeLabelEnglish[mode])
 
   return (
     <Button
       variant="ghost"
       size="icon"
       onClick={() => setMode(NEXT_MODE[mode])}
-      aria-label={`${MODE_LABEL[mode]}. Cliquer pour changer.`}
-      title={MODE_LABEL[mode]}
+      aria-label={`${label}. ${tx("Cliquer pour changer.", "Click to change.")}`}
+      title={label}
     >
       <Icon />
     </Button>
   )
+}
+
+const modeLabelEnglish: Record<Mode, string> = {
+  light: "Light theme",
+  dark: "Dark theme",
+  system: "System theme",
 }
 
 /** Sélecteur de preset (outil d'équipe : à retirer de l'interface finale si inutile). */

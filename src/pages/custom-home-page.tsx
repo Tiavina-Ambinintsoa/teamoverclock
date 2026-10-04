@@ -5,6 +5,7 @@ import { CloudCity } from "@/components/home/cloud-city"
 import { GetStarted } from "@/components/home/get-started"
 import { Hero } from "@/components/home/hero"
 import { HistoriqueSection } from "@/components/home/historique-section"
+import { LanguageSwitcher } from "@/components/language-switcher"
 import { Navbar } from "@/components/home/navbar"
 import { RaisonSection } from "@/components/home/raison-section"
 import { SITE } from "@/lib/site"
@@ -43,6 +44,11 @@ export function CustomHomePage() {
       <AnimatePresence>
         {phase === "started" && <Navbar />}
       </AnimatePresence>
+      {phase === "video" && (
+        <div className="fixed right-4 top-4 z-[60] rounded-md bg-background/90 p-1 shadow-lg">
+          <LanguageSwitcher />
+        </div>
+      )}
 
       {/* 2. OVERLAYS DE GLISSADE HORIZONTALE (uniquement actifs pendant la phase vidéo + transition) */}
       {!isTransitionComplete && (

@@ -1,4 +1,5 @@
 import { z } from "zod"
+import { LOCALES } from "@/lib/locale"
 
 /** Téléphone fictif de Nova Terra : chiffres, espaces, +, tirets ; 6 à 20 caractères. */
 const phoneSchema = z
@@ -10,7 +11,7 @@ export const profileDetailsSchema = z.object({
   firstName: z.string().trim().min(1, "Le prénom est obligatoire.").max(60),
   lastName: z.string().trim().min(1, "Le nom est obligatoire.").max(60),
   phone: phoneSchema,
-  locale: z.enum(["fr", "en"]),
+  locale: z.enum(LOCALES),
   notifyEmail: z.boolean(),
   notifyInApp: z.boolean(),
 })

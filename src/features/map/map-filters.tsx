@@ -79,7 +79,7 @@ export function MapFilters({ value, onChange, sectors, activeDangers, buildingTy
     ["dangers", tx("Zones d'alerte", "Alert zones")],
     ["reports", tx("Signalements", "Reports")],
     ["labels", tx("Étiquettes", "Labels")],
-    ...(canSeeObservations ? [["observations", tx("Observations (admin)", "Observations (admin)")] as [keyof MapFilterState, string]] : []),
+    ...(canSeeObservations ? [["observations", tx("Observations (admin)", "Admin observations")] as [keyof MapFilterState, string]] : []),
   ]
   const toggleStatus = (status: string) =>
     onChange({ reportStatuses: value.reportStatuses.includes(status) ? value.reportStatuses.filter((s) => s !== status) : [...value.reportStatuses, status] })

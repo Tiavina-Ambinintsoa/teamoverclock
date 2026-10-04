@@ -114,6 +114,7 @@ export function SiteHeader() {
           </div>
 
           <div className="ml-auto flex items-center gap-1 lg:hidden">
+            <LanguageSwitcher />
             <HelpMenu />
             <ModeToggle />
             <Button

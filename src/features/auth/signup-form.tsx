@@ -12,7 +12,7 @@ import { Select } from "@/components/ui/select"
 import { useAuth } from "@/features/auth/auth-context"
 import { isMinorBirthDate, passwordStrength, signupSchema, type SignupValues } from "@/features/auth/schema"
 import { useSectors } from "@/features/city/city-queries"
-import { useLocale } from "@/lib/locale"
+import { isLocale, LOCALE_OPTIONS, useLocale } from "@/lib/locale"
 
 const STRENGTH_LABELS = [
   ["Très faible", "Very weak"],
@@ -25,7 +25,7 @@ const STRENGTH_LABELS = [
 /** D01 — inscription : identité, secteur de résidence, mot de passe robuste et consentements. */
 export function SignupForm() {
   const { signUp, backend } = useAuth()
-  const { tx, locale } = useLocale()
+  const { tx, t, locale, setLocale } = useLocale()
   const sectors = useSectors()
   const [busy, setBusy] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
@@ -43,6 +43,7 @@ export function SignupForm() {
       email: "",
       birthDate: "",
       sectorId: "",
+      locale,
       password: "",
       confirmPassword: "",
       termsAccepted: undefined,
@@ -63,6 +64,7 @@ export function SignupForm() {
         lastName: values.lastName,
         birthDate: values.birthDate,
         sectorId: values.sectorId,
+        locale: values.locale,
       })
       toast.success(
         backend === "local"
@@ -123,6 +125,24 @@ export function SignupForm() {
           {fieldError("sectorId")}
           {sectors.isError && <p role="alert" className="text-sm text-destructive">{sectors.error.message}</p>}
         </div>
+      </div>
+
+      <div className="grid gap-2">
+        <Label htmlFor="locale">{t("auth.languagePreference")}</Label>
+        <Select
+          id="locale"
+          {...register("locale", {
+            onChange: (event) => {
+              const next = event.currentTarget.value
+              if (isLocale(next)) setLocale(next)
+            },
+          })}
+        >
+          {LOCALE_OPTIONS.map((option) => (
+            <option key={option.value} value={option.value}>{option.label}</option>
+          ))}
+        </Select>
+        {fieldError("locale")}
       </div>
 
       {minor && (

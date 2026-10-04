@@ -1,13 +1,45 @@
 import { describe, expect, it } from "vitest"
 
-import { BUILT_IN_TOURS, mergeTours, pendingWelcome, popoverPosition, stepsFor, toursForRole, type GuideTour } from "./guide-tours"
+import { LOCALES } from "@/lib/locale"
+import { BUILT_IN_TOURS, currentPageTour, mergeTours, pendingWelcome, popoverPosition, stepsFor, tourDescription, tourTitle, toursForRole, type GuideTour } from "./guide-tours"
 
 describe("built-in tours", () => {
+  it("creates a keyboard-guided tour for the current route and signup form", () => {
+    expect(currentPageTour("/inscription", "Create an account", "en").steps[0]).toMatchObject({
+      route: "/inscription",
+      target_selector: '[data-tour="signup-form"]',
+      body: expect.stringContaining("Tab"),
+    })
+    expect(currentPageTour("/admin/users", "Users", "fr").steps[0].target_selector).toBe('[data-tour="page-content"]')
+  })
+
   it("has a 10-step welcome tour in French and English", () => {
     const welcome = BUILT_IN_TOURS.find((t) => t.code === "welcome") as GuideTour
     expect(stepsFor(welcome, "fr")).toHaveLength(10)
     expect(stepsFor(welcome, "en")).toHaveLength(10)
     expect(stepsFor(welcome, "fr").map((s) => s.step_order)).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+  })
+  it("localizes tours and the current-page help for every supported language", () => {
+    const welcome = BUILT_IN_TOURS.find((tour) => tour.code === "welcome") as GuideTour
+    const translatedWelcome = new Map([
+      ["mg", ["Tongasoa", "Tanànan'ny hoavy i Nova Terra. Ity torolalana ity dia mampahafantatra anao ny vavahady amin'ny dingana vitsivitsy."]],
+      ["mfe", ["Bienveni", "Nova Terra se lavil fitir. Sa gid-la montre ou portal-la an detrwa letap."]],
+      ["rcf", ["Bienvenue", "Nova Terra sé la vil du fitir. Sa gid i fé découvr lo portay an kèk letap."]],
+      ["x-nova", ["Nexa-vexa", "Nova Terra future-city. Nexa-guide portal walk, several steps."]],
+    ])
+    for (const locale of LOCALES) {
+      const step = stepsFor(welcome, locale)[0]
+      expect(step).toBeDefined()
+      expect(step.locale).toBe(locale)
+      expect(tourTitle(welcome, locale)).not.toBe("")
+      expect(tourDescription(welcome, locale)).not.toBe("")
+      expect(currentPageTour("/", "Reports", locale).steps[0].body).not.toBe("")
+      if (locale !== "fr" && locale !== "en") {
+        const [title, body] = translatedWelcome.get(locale) ?? []
+        expect(step.title).toBe(title)
+        expect(step.body).toBe(body)
+      }
+    }
   })
   it("gives every step a spoken script", () => {
     for (const tour of BUILT_IN_TOURS) for (const s of tour.steps) expect(s.voice_script).toBeTruthy()

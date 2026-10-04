@@ -52,6 +52,7 @@ describe("signupSchema", () => {
     email: "elio@novaterra.test",
     birthDate: "1994-12-01",
     sectorId: "sector-1",
+    locale: "fr",
     password: "Abcdefg1",
     confirmPassword: "Abcdefg1",
     termsAccepted: true,
@@ -67,6 +68,9 @@ describe("signupSchema", () => {
   it("requires both consents", () => {
     expect(signupSchema.safeParse({ ...valid, termsAccepted: false }).success).toBe(false)
     expect(signupSchema.safeParse({ ...valid, dataConsent: false }).success).toBe(false)
+  })
+  it("requires a supported language", () => {
+    expect(signupSchema.safeParse({ ...valid, locale: "unsupported" }).success).toBe(false)
   })
   it("rejects a weak password", () => {
     expect(signupSchema.safeParse({ ...valid, password: "abc", confirmPassword: "abc" }).success).toBe(false)

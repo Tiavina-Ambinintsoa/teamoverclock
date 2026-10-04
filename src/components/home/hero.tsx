@@ -4,6 +4,7 @@ import { FastForward, Radio } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { homeAsset } from "@/lib/home-assets"
+import { useLocale } from "@/lib/locale"
 
 /**
  * Configuration des messages synchronisés avec la vidéo.
@@ -15,21 +16,27 @@ export const CAPTIONS = [
     start: 1,
     end: 4.5,
     text: "Terre en vue",
+    textEn: "Land in sight",
     subtext: "Approche orbitale et verrouillage des coordonnées",
+    subtextEn: "Orbital approach and coordinate lock",
     position: "top-right",
   },
   {
     start: 5,
     end: 8.5,
     text: "Découvre notre cité connectée",
+    textEn: "Discover our connected city",
     subtext: "Descente atmosphérique • Balises au sol actives",
+    subtextEn: "Atmospheric descent • Ground beacons active",
     position: "bottom-left",
   },
   {
     start: 9,
     end: 13,
     text: "Prêt à commencer ?",
+    textEn: "Ready to begin?",
     subtext: "Atterrissage réussi • Accès aux systèmes déverrouillé",
+    subtextEn: "Landing complete • System access unlocked",
     position: "top-left",
   },
 ] as const
@@ -64,6 +71,7 @@ export function Hero({
   onSkip,
   onEnded,
 }: HeroProps) {
+  const { tx } = useLocale()
   const videoRef = useRef<HTMLVideoElement>(null)
   const [activeCaptionIndex, setActiveCaptionIndex] = useState<number>(-1)
 
@@ -157,17 +165,17 @@ export function Hero({
             {/* Petit badge indicateur */}
             <div className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-black/40 px-3 py-1 text-[11px] font-mono tracking-wider text-white/90 shadow-sm backdrop-blur-md mb-2">
               <Radio className="size-3 text-primary animate-pulse" />
-              <span>TRANSMISSION</span>
+              <span>{tx("TRANSMISSION", "TRANSMISSION")}</span>
             </div>
 
             {/* Titre avec ombre légère pour une lisibilité parfaite */}
             <h1 className="font-display text-2xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white drop-shadow-[0_2px_10px_rgba(0,0,0,0.85)] leading-tight">
-              {currentCaption.text}
+              {tx(currentCaption.text, currentCaption.textEn)}
             </h1>
 
             {/* Sous-titre */}
             <p className="mt-2 text-xs sm:text-sm md:text-base text-white/90 font-medium drop-shadow-[0_2px_8px_rgba(0,0,0,0.9)]">
-              {currentCaption.subtext}
+              {tx(currentCaption.subtext, currentCaption.subtextEn)}
             </p>
           </motion.div>
         )}
@@ -183,7 +191,7 @@ export function Hero({
             onClick={onSkip}
             className="border-white/30 bg-black/40 text-white backdrop-blur-md hover:bg-white/20 hover:text-white transition-all shadow-lg text-xs font-medium tracking-wide"
           >
-            <span>Passer</span>
+            <span>{tx("Passer", "Skip")}</span>
             <FastForward className="ml-2 size-3.5" />
           </Button>
         </div>

@@ -3,6 +3,7 @@ import { motion, useScroll, useSpring, useTransform } from "framer-motion"
 
 import { CloudLayer } from "@/components/home/cloud-layer"
 import { homeAsset } from "@/lib/home-assets"
+import { useLocale } from "@/lib/locale"
 
 interface CloudCityProps {
   /** Image de la ville flottante (arrière-plan) */
@@ -37,6 +38,7 @@ export function CloudCity({
   cloudImage = homeAsset("cloud.webp"),
   cloudSeaImage = homeAsset("cloud_sea.webp"),
 }: CloudCityProps) {
+  const { tx } = useLocale()
   const containerRef = useRef<HTMLDivElement>(null)
 
   // 1. Suivi de la progression du scroll sur toute la hauteur 300vh
@@ -80,7 +82,7 @@ export function CloudCity({
         >
           <img
             src={cityImage}
-            alt="Cité sous dôme Terra Nova"
+            alt={tx("Cité sous dôme Terra Nova", "Nova Terra under its dome")}
             loading="lazy"
             decoding="async"
             className="size-full object-cover object-center"
@@ -107,7 +109,7 @@ export function CloudCity({
           {/* Mer de nuages avec transition douce depuis la brume blanche */}
           <img
             src={cloudSeaImage}
-            alt="Mer de nuages"
+            alt={tx("Mer de nuages", "Sea of clouds")}
             loading="lazy"
             decoding="async"
             className="size-full object-cover object-top"
@@ -172,12 +174,11 @@ export function CloudCity({
         >
 
           <h2 className="font-display text-4xl sm:text-6xl md:text-7xl font-bold tracking-tight text-white drop-shadow-[0_4px_20px_rgba(0,0,0,0.9)] max-w-4xl leading-tight">
-            Une ville où citoyens et technologie avancent ensemble
+            {tx("La cité par-delà les cieux", "The city beyond the skies")}
           </h2>
 
           <p className="mt-6 text-base sm:text-xl text-white/90 drop-shadow-[0_2px_10px_rgba(0,0,0,0.9)] max-w-2xl font-light leading-relaxed">
-            Là où l'horizon s'ouvre sur un monde nouveau. Bienvenue au cœur de la mégapole
-            flottante, prête à accueillir ses nouveaux pionniers.
+            {tx("Là où l'horizon s'ouvre sur un monde nouveau. Bienvenue au cœur de la mégapole flottante, prête à accueillir ses premiers pionniers.", "Where the horizon opens onto a new world. Welcome to the heart of the floating metropolis, ready to welcome its first pioneers.")}
           </p>
         </motion.div>
 

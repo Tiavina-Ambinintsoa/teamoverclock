@@ -25,6 +25,7 @@ const routes: RouteObject[] = [
           { path: "admin/connexion", lazy: async () => ({ Component: (await import("@/features/auth/admin-login-page")).AdminLoginPage }) },
           { path: "services", lazy: async () => ({ Component: (await import("@/features/services/services-page")).ServicesPage }) },
           { path: "services/:slug", lazy: async () => ({ Component: (await import("@/features/services/service-detail-page")).ServiceDetailPage }) },
+          { path: "projects", lazy: async () => ({ Component: (await import("@/features/projects/city-projects-page")).CityProjectsPage }) },
           { path: "news", lazy: async () => ({ Component: (await import("@/features/news/news-page")).NewsPage }) },
           { path: "news/:slug", lazy: async () => ({ Component: (await import("@/features/news/news-detail-page")).NewsDetailPage }) },
           { path: "reports", lazy: async () => ({ Component: (await import("@/features/reports/reports-lists")).PublicReportsPage }) },
@@ -69,6 +70,7 @@ const routes: RouteObject[] = [
                       { path: "agent/team", lazy: async () => ({ Component: (await import("@/features/agent/agent-team-page")).AgentTeamPage }) },
                       { path: "agent/news", lazy: async () => ({ Component: (await import("@/features/admin/news-manager-pages")).AgentNewsPage }) },
                       { path: "agent/services", lazy: async () => ({ Component: (await import("@/features/admin/news-manager-pages")).AgentServicesPage }) },
+                      { path: "agent/projects", lazy: async () => ({ Component: (await import("@/features/projects/city-projects-page")).ServiceProjectStatsPage }) },
                     ],
                   },
                   {
@@ -83,6 +85,7 @@ const routes: RouteObject[] = [
                       { path: "admin/news", lazy: async () => ({ Component: (await import("@/features/admin/news-manager-pages")).AdminNewsPage }) },
                       { path: "admin/users", lazy: async () => ({ Component: (await import("@/features/admin/users-page")).AdminUsersPage }) },
                       { path: "admin/verifications", lazy: async () => ({ Component: (await import("@/features/admin/verifications-page")).AdminVerificationsPage }) },
+                      { path: "admin/projects", lazy: async () => ({ Component: (await import("@/features/projects/city-projects-page")).AdminCityProjectsPage }) },
                     ],
                   },
                 ],

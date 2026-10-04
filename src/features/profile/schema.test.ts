@@ -8,6 +8,9 @@ describe("profileDetailsSchema", () => {
   it("accepts a valid profile and an empty phone", () => {
     expect(profileDetailsSchema.safeParse(valid).success).toBe(true)
     expect(profileDetailsSchema.safeParse({ ...valid, phone: "" }).success).toBe(true)
+    for (const locale of ["en", "mg", "mfe", "rcf", "x-nova"]) {
+      expect(profileDetailsSchema.safeParse({ ...valid, locale }).success).toBe(true)
+    }
   })
   it("rejects invalid phones, empty names and unknown locales", () => {
     expect(profileDetailsSchema.safeParse({ ...valid, phone: "abc" }).success).toBe(false)

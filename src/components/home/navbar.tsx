@@ -5,12 +5,15 @@ import { Compass, Hexagon, Layers, Menu, Sparkles, User, X } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
 import { useAuth } from "@/features/auth/auth-context"
+import { LanguageSwitcher } from "@/components/language-switcher"
 import { SITE } from "@/lib/site"
+import { useLocale } from "@/lib/locale"
 
 /**
  * Navbar avec effet de verre sci-fi au scroll et ancres rapides vers les sections clés.
  */
 export function Navbar() {
+  const { tx } = useLocale()
   const { user } = useAuth()
   const primaryPath = user ? (user.isAdmin ? "/admin" : "/app") : "/inscription"
   const [isScrolled, setIsScrolled] = useState(false)
@@ -83,20 +86,21 @@ export function Navbar() {
 
         {/* Liens et boutons d'action */}
         <div className="flex items-center gap-3">
+          <LanguageSwitcher />
           {user ? (
             <Button asChild size="sm" className="bg-cyan-500 hover:bg-cyan-400 text-black font-semibold shadow-[0_0_20px_rgba(6,182,212,0.4)]">
               <Link to={primaryPath}>
                 <User className="mr-1.5 size-3.5" />
-                Mon Espace
+                {tx("Mon Espace", "My space")}
               </Link>
             </Button>
           ) : (
             <>
               <Button asChild size="sm" variant="ghost" className="text-white hover:text-cyan-300 hover:bg-white/10 drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]">
-                <Link to="/connexion">Connexion</Link>
+                <Link to="/connexion">{tx("Connexion", "Sign in")}</Link>
               </Button>
               <Button asChild size="sm" className="bg-cyan-500 hover:bg-cyan-400 text-black font-semibold shadow-[0_0_15px_rgba(6,182,212,0.4)]">
-                <Link to="/inscription">Rejoindre</Link>
+                <Link to="/inscription">{tx("Rejoindre", "Join")}</Link>
               </Button>
             </>
           )}

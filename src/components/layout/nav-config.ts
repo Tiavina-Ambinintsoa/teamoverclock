@@ -20,6 +20,7 @@ import {
   ShieldCheck,
   UserCheck,
   Users,
+  Vote,
   type LucideIcon,
 } from "lucide-react"
 
@@ -64,6 +65,7 @@ const cityGroup: NavGroup = {
   items: [
     { to: "/services", fr: "Services", en: "Services", icon: Building2 },
     { to: "/news", fr: "Actualités", en: "News", icon: Newspaper },
+    { to: "/projects", fr: "Projets de la ville", en: "City projects", icon: Vote },
     { to: "/map", fr: "Carte", en: "Map", icon: MapIcon },
     { to: "/dangers", fr: "Dangers et alertes", en: "Dangers & alerts", icon: AlertTriangle },
     { to: "/guide", fr: "Guide", en: "Guide", icon: HelpCircle },
@@ -81,6 +83,7 @@ const agentGroup: NavGroup = {
     { to: "/agent/calls", fr: "Appels", en: "Calls", icon: Phone },
     { to: "/agent/news", fr: "Actualités du service", en: "Service news", icon: Megaphone },
     { to: "/agent/services", fr: "Mes services", en: "My services", icon: Building2 },
+    { to: "/agent/projects", fr: "Votes sur les projets", en: "Project voting", icon: Vote },
     { to: "/agent/team", fr: "Mon équipe", en: "My team", icon: Users },
     { to: "/agent/sync", fr: "Synchronisation API", en: "API sync", icon: RefreshCw },
   ],
@@ -95,6 +98,7 @@ const adminGroup: NavGroup = {
     { to: "/admin/users", fr: "Utilisateurs et rôles", en: "Users & roles", icon: Users },
     { to: "/admin/verifications", fr: "Vérifications CIN", en: "CIN checks", icon: UserCheck },
     { to: "/admin/services", fr: "Services", en: "Services", icon: Building2 },
+    { to: "/admin/projects", fr: "Projets de la ville", en: "City projects", icon: Vote },
     { to: "/admin/map", fr: "Éditeur de carte", en: "Map editor", icon: MapIcon },
     { to: "/admin/news", fr: "Modération des actualités", en: "News moderation", icon: Newspaper },
     { to: "/admin/dangers", fr: "Dangers", en: "Dangers", icon: AlertTriangle },
