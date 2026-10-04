@@ -62,11 +62,12 @@ export function RouteBreadcrumbs() {
     })
   }
 
+  const showExport = pathname.startsWith("/app") || pathname.startsWith("/admin")
   if (!host) return null
   return createPortal(
     <div className="mt-3 mb-5 flex flex-wrap items-center justify-between gap-2">
       <Breadcrumb items={items} ariaLabel={tx("Fil d'Ariane", "Breadcrumb")} />
-      <ExportMenu />
+      {showExport && <ExportMenu />}
     </div>,
     host,
   )
