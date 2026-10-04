@@ -241,14 +241,14 @@ export function RaisonSection() {
               </h3>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 md:grid-rows-[1fr]">
               {/* Mission 1 */}
               <motion.div
                 initial={{ opacity: 0, y: 25 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: 0.1 }}
-                className="rounded-2xl p-7 bg-slate-900/60 backdrop-blur-xl border border-cyan-500/25 hover:border-cyan-400/60 transition-all duration-300 hover:-translate-y-1 shadow-[0_4px_25px_rgba(0,0,0,0.5)] flex flex-col justify-between"
+                className="rounded-2xl p-7 bg-slate-900/60 backdrop-blur-xl border border-cyan-500/25 hover:border-cyan-400/60 transition-all duration-300 hover:-translate-y-1 shadow-[0_4px_25px_rgba(0,0,0,0.5)] flex flex-col justify-between h-full"
               >
                 <div>
                   <div className="size-12 rounded-xl bg-cyan-950/80 border border-cyan-400/40 grid place-items-center mb-5 text-cyan-300 shadow-[0_0_15px_rgba(6,182,212,0.3)]">
@@ -273,7 +273,7 @@ export function RaisonSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: 0.2 }}
-                className="rounded-2xl p-7 bg-slate-900/60 backdrop-blur-xl border border-sky-500/25 hover:border-sky-400/60 transition-all duration-300 hover:-translate-y-1 shadow-[0_4px_25px_rgba(0,0,0,0.5)] flex flex-col justify-between"
+                className="rounded-2xl p-7 bg-slate-900/60 backdrop-blur-xl border border-sky-500/25 hover:border-sky-400/60 transition-all duration-300 hover:-translate-y-1 shadow-[0_4px_25px_rgba(0,0,0,0.5)] flex flex-col justify-between h-full"
               >
                 <div>
                   <div className="size-12 rounded-xl bg-sky-950/80 border border-sky-400/40 grid place-items-center mb-5 text-sky-300 shadow-[0_0_15px_rgba(56,189,248,0.3)]">
@@ -298,7 +298,7 @@ export function RaisonSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: 0.3 }}
-                className="rounded-2xl p-7 bg-slate-900/60 backdrop-blur-xl border border-indigo-500/25 hover:border-indigo-400/60 transition-all duration-300 hover:-translate-y-1 shadow-[0_4px_25px_rgba(0,0,0,0.5)] flex flex-col justify-between"
+                className="rounded-2xl p-7 bg-slate-900/60 backdrop-blur-xl border border-indigo-500/25 hover:border-indigo-400/60 transition-all duration-300 hover:-translate-y-1 shadow-[0_4px_25px_rgba(0,0,0,0.5)] flex flex-col justify-between h-full"
               >
                 <div>
                   <div className="size-12 rounded-xl bg-indigo-950/80 border border-indigo-400/40 grid place-items-center mb-5 text-indigo-300 shadow-[0_0_15px_rgba(129,140,248,0.3)]">
@@ -477,14 +477,14 @@ export function RaisonSection() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 md:grid-rows-[1fr]">
             {/* Rôle 1 : Système Nerveux Digital */}
             <motion.div
               initial={{ opacity: 0, y: 25 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.1 }}
-              className="rounded-2xl p-8 bg-linear-to-b from-cyan-950/40 to-slate-900/60 border border-cyan-500/30 hover:border-cyan-400 transition-all duration-300 relative group"
+              className="rounded-2xl p-8 bg-linear-to-b from-cyan-950/40 to-slate-900/60 border border-cyan-500/30 hover:border-cyan-400 transition-all duration-300 relative group h-full"
             >
               <div className="size-14 rounded-2xl bg-cyan-950 border border-cyan-400/40 grid place-items-center mb-6 text-cyan-400 shadow-[0_0_20px_rgba(6,182,212,0.3)] group-hover:scale-105 transition-transform">
                 <Activity className="size-7" />
@@ -503,7 +503,7 @@ export function RaisonSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="rounded-2xl p-8 bg-linear-to-b from-blue-950/40 to-slate-900/60 border border-blue-500/30 hover:border-blue-400 transition-all duration-300 relative group"
+              className="rounded-2xl p-8 bg-linear-to-b from-blue-950/40 to-slate-900/60 border border-blue-500/30 hover:border-blue-400 transition-all duration-300 relative group h-full"
             >
               <div className="size-14 rounded-2xl bg-blue-950 border border-blue-400/40 grid place-items-center mb-6 text-blue-400 shadow-[0_0_20px_rgba(59,130,246,0.3)] group-hover:scale-105 transition-transform">
                 <ShieldCheck className="size-7" />
@@ -522,7 +522,7 @@ export function RaisonSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.3 }}
-              className="rounded-2xl p-8 bg-linear-to-b from-purple-950/40 to-slate-900/60 border border-purple-500/30 hover:border-purple-400 transition-all duration-300 relative group"
+              className="rounded-2xl p-8 bg-linear-to-b from-purple-950/40 to-slate-900/60 border border-purple-500/30 hover:border-purple-400 transition-all duration-300 relative group h-full"
             >
               <div className="size-14 rounded-2xl bg-purple-950 border border-purple-400/40 grid place-items-center mb-6 text-purple-400 shadow-[0_0_20px_rgba(168,85,247,0.3)] group-hover:scale-105 transition-transform">
                 <Brain className="size-7" />
@@ -560,7 +560,7 @@ export function RaisonSection() {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:auto-rows-fr">
             {/* Avancement 1 */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
