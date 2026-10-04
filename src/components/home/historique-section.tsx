@@ -77,12 +77,12 @@ export function HistoriqueSection({
         />
         {/* Voiles de transition douce vers le haut (CloudCity) et le bas */}
         <div className="absolute inset-0 bg-linear-to-b from-[#c8d8e8]/30 via-[#070b14]/90 to-[#070b14]" />
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-cyan-900/20 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,var(--tw-gradient-stops))] from-cyan-900/20 via-transparent to-transparent" />
       </div>
 
       {/* Halo lumineux d'ambiance */}
       <div
-        className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-cyan-500/10 blur-[130px] rounded-full pointer-events-none"
+        className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-175 h-87.5 bg-cyan-500/10 blur-[130px] rounded-full pointer-events-none"
         aria-hidden="true"
       />
 
