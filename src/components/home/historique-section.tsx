@@ -124,7 +124,7 @@ export function HistoriqueSection({
         </div>
 
         {/* Chronologie sous forme de grille immersive avec repères temporels */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 relative">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-8 relative md:auto-rows-fr">
           {steps.map((step, idx) => {
             const Icon = step.icon
             return (

@@ -74,13 +74,13 @@ export function SiteHeader() {
             <AuroraTitle>{SITE.shortName}</AuroraTitle>
           </Link>
 
-          <nav aria-label={tx("Navigation principale", "Main navigation")} className="hidden items-center gap-1 2xl:flex">
+          <nav aria-label={tx("Navigation principale", "Main navigation")} className="hidden min-w-0 flex-1 items-center gap-1 overflow-x-auto xl:flex">
             {PUBLIC_LINKS.map((link) => (
               <HeaderLink key={link.to} to={link.to} onClick={closeMenu}>{tx(link.fr, link.en)}</HeaderLink>
             ))}
           </nav>
 
-          <div className="ml-auto hidden shrink-0 items-center gap-2 2xl:flex">
+          <div className="ml-auto hidden shrink-0 items-center gap-2 xl:flex">
             <LanguageSwitcher />
             <HelpMenu />
             <ModeToggle />
@@ -115,7 +115,7 @@ export function SiteHeader() {
             )}
           </div>
 
-          <div className="ml-auto flex items-center gap-1 2xl:hidden">
+          <div className="ml-auto flex items-center gap-1 xl:hidden">
             <LanguageSwitcher />
             <HelpMenu />
             <ModeToggle />
@@ -134,13 +134,12 @@ export function SiteHeader() {
         </Container>
 
         {menuOpen && (
-          <nav id="navigation-mobile" aria-label={tx("Navigation mobile", "Mobile navigation")} className="border-t bg-background p-4 2xl:hidden">
+          <nav id="navigation-mobile" aria-label={tx("Navigation mobile", "Mobile navigation")} className="border-t bg-background p-4 xl:hidden">
             <div className="mx-auto grid max-w-7xl gap-1">
               {PUBLIC_LINKS.map((link) => (
                 <HeaderLink key={link.to} to={link.to} onClick={closeMenu}>{tx(link.fr, link.en)}</HeaderLink>
               ))}
               <div className="mt-2 grid gap-3 border-t pt-3">
-                <LanguageSwitcher />
                 {user ? (
                   <div className="grid gap-1 rounded-xl border bg-card p-2">
                     <p className="truncate px-2 py-1 text-xs text-muted-foreground">{user.email}</p>
@@ -155,6 +154,7 @@ export function SiteHeader() {
                     <Button asChild shape="pill"><Link to="/inscription" onClick={closeMenu}>{t("nav.signup")}</Link></Button>
                   </div>
                 )}
+                <LanguageSwitcher />
               </div>
             </div>
           </nav>
