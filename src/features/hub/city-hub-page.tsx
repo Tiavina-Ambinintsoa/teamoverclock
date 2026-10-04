@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react"
+﻿import { useMemo, useState } from "react"
 import { useQuery } from "@tanstack/react-query"
 import { AlertTriangle, ArrowRight, Bus, Clock3, ExternalLink, ShieldAlert, Star } from "lucide-react"
 import { Link } from "react-router"
@@ -242,7 +242,7 @@ export function CityHubPage() {
         </div>
       </section>
 
-      <div className="grid gap-6 xl:grid-cols-[1.2fr_0.8fr]">
+      <div className="grid gap-6">
         <section aria-labelledby="hub-services">
           <Card className="h-full">
             <CardHeader>
@@ -426,7 +426,7 @@ export function CityHubPage() {
         </section>
       </div>
 
-      <div className="mt-6 grid gap-6 xl:grid-cols-[1.1fr_0.9fr]">
+      <div className="mt-6 grid gap-6">
         <section aria-labelledby="hub-projects">
           <Card className="h-full">
             <CardHeader>

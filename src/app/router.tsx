@@ -1,4 +1,4 @@
-import { createBrowserRouter, createHashRouter, Navigate, type RouteObject } from "react-router"
+﻿import { createBrowserRouter, createHashRouter, Navigate, type RouteObject } from "react-router"
 
 import { ApplicationLayout } from "@/components/layout/application-layout"
 import { RootLayout } from "@/components/layout/root-layout"
@@ -60,6 +60,9 @@ const routes: RouteObject[] = [
                   { path: "app/reports/:id", lazy: async () => ({ Component: (await import("@/features/reports/report-detail")).CitizenReportDetailPage }) },
                   { path: "app/newsletter", lazy: async () => ({ Component: (await import("@/features/newsletter/newsletter-page")).NewsletterPage }) },
                   { path: "app/assistant", element: <Navigate to="/app?assistant=open" replace /> },
+                  { path: "app/services", lazy: async () => ({ Component: (await import("@/features/services/services-page")).ServicesPage }) },
+                  { path: "app/services/:slug", lazy: async () => ({ Component: (await import("@/features/services/service-detail-page")).ServiceDetailPage }) },
+                  { path: "app/projects", lazy: async () => ({ Component: (await import("@/features/projects/city-projects-page")).CityProjectsPage }) },
                   { path: "app/reputation", lazy: async () => ({ Component: (await import("@/features/reputation/reputation-page")).ReputationPage }) },
                   { path: "app/reputation/:profileId", lazy: async () => ({ Component: (await import("@/features/reputation/reputation-profile-page")).ReputationProfilePage }) },
                   {

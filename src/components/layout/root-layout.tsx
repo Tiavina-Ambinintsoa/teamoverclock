@@ -67,7 +67,7 @@ export function RootLayout() {
         <RouteFocus />
         <SkipLink />
         <div id="contenu" tabIndex={-1} data-tour="page-content">
-          {!pathname.startsWith("/app") && <RouteBreadcrumbs />}
+          {AUTH_ROUTES.includes(pathname) && <RouteBreadcrumbs />}
           <Outlet />
         </div>
         {!AUTH_ROUTES.includes(pathname) && <ChatbotPage />}
@@ -86,7 +86,7 @@ export function RootLayout() {
         >
           {tx("Aller au contenu", "Skip to content")}
         </a>
-        {pathname !== "/" && <SiteHeader />}
+        {pathname !== "/welcome" && <SiteHeader />}
         <main id="contenu" tabIndex={-1} data-tour="page-content" className="flex-1 flex flex-col">
           <RouteBreadcrumbs />
           <Outlet />

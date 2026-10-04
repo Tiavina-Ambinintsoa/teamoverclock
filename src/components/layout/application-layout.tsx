@@ -35,7 +35,7 @@ function Sidebar({ close }: { close?: () => void }) {
   }
 
   return (
-    <div className="flex h-full flex-col overflow-y-auto">
+    <div className="flex h-full flex-col overflow-x-hidden overflow-y-auto">
       <div className="flex h-16 shrink-0 items-center justify-between border-b px-5">
         <Link to="/" className="flex items-center gap-3 font-display text-lg font-semibold" onClick={close}>
           <span className="grid size-9 place-items-center rounded-xl bg-primary text-primary-foreground">N</span>
@@ -47,11 +47,11 @@ function Sidebar({ close }: { close?: () => void }) {
           </Button>
         )}
       </div>
-      <nav aria-label={tx("Navigation de l'application", "Application navigation")} className="grid gap-5 px-4 py-5">
+      <nav aria-label={tx("Navigation de l'application", "Application navigation")} className="grid grid-cols-[minmax(0,1fr)] gap-5 px-4 py-5">
         {favorites.length > 0 && (
           <div>
             <p className="mb-2 px-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">{tx("Pages favorites", "Favorite pages")}</p>
-            <div className="grid gap-1">
+            <div className="grid grid-cols-[minmax(0,1fr)] gap-1">
               {favorites.map(({ to, label, icon: Icon }) => (
                 <NavLink key={to} to={to} viewTransition onClick={close} className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm text-muted-foreground hover:bg-accent hover:text-foreground">
                   <Icon className="size-4" aria-hidden />
@@ -64,7 +64,7 @@ function Sidebar({ close }: { close?: () => void }) {
         {groups.map((group) => (
           <div key={group.id}>
             <p className="mb-2 px-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">{tx(group.fr, group.en)}</p>
-            <div className="grid gap-1">
+            <div className="grid grid-cols-[minmax(0,1fr)] gap-1">
               {group.items.map(({ to, fr, en, icon: Icon, exact }) => (
                 <div key={to} className="flex items-center gap-1">
                   <NavLink

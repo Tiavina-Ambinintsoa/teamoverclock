@@ -1,4 +1,4 @@
-import {
+﻿import {
   Accessibility,
   AlertTriangle,
   BarChart3,
@@ -57,6 +57,8 @@ const citizenGroup: NavGroup = {
     { to: "/app/verification", fr: "Vérification d'identité", en: "Identity verification", icon: UserCheck },
     { to: "/app/accessibility", fr: "Accessibilité", en: "Accessibility", icon: Accessibility },
     { to: "/app/newsletter", fr: "Lettres d'information", en: "Newsletters", icon: Bell },
+    { to: "/app/projects", fr: "Projets et votes", en: "Projects & votes", icon: Vote },
+    { to: "/app/services", fr: "Services et avis", en: "Services & reviews", icon: Building2 },
     { to: "/app/reputation", fr: "Réputation et votes", en: "Reputation & votes", icon: Star },
     { to: "/app/parametres", fr: "Paramètres", en: "Settings", icon: Settings },
   ],

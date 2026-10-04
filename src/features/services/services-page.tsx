@@ -1,7 +1,7 @@
-import { useMemo } from "react"
+﻿import { useMemo } from "react"
 import { useQuery } from "@tanstack/react-query"
 import { Clock, Phone, Siren } from "lucide-react"
-import { Link, useSearchParams } from "react-router"
+import { Link, useLocation, useSearchParams } from "react-router"
 
 import { DataState } from "@/components/data-state"
 import { Container } from "@/components/layout/container"
@@ -24,6 +24,7 @@ import { useNow } from "@/hooks/use-now"
 /** D05 — liste des services municipaux : recherche par mot-clé, filtre par catégorie, services fermés signalés. */
 export function ServicesPage() {
   const { tx, locale, tag } = useLocale()
+  const { pathname } = useLocation()
   const now = useNow(60_000)
   const [params, setParams] = useSearchParams()
   const q = params.get("q") ?? ""
@@ -108,7 +109,7 @@ export function ServicesPage() {
                 <li key={service.id} className={cn("flex flex-col gap-3 rounded-xl border bg-card p-5", closed && "border-dashed")}>
                   <div className="flex items-start justify-between gap-2">
                     <h2 className="text-lg font-semibold">
-                      <Link to={`/services/${service.slug}`} className="underline-offset-4 hover:underline">{localizedField(service.translations, "name", locale, service.name)}</Link>
+                      <Link to={`${pathname.startsWith("/app") ? "/app" : ""}/services/${service.slug}`} className="underline-offset-4 hover:underline">{localizedField(service.translations, "name", locale, service.name)}</Link>
                     </h2>
                     {service.is_emergency && <Badge variant="destructive"><Siren aria-hidden />{tx("Urgence", "Emergency")}</Badge>}
                   </div>

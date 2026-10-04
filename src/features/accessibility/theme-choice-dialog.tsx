@@ -25,6 +25,9 @@ function ThemeChoiceForUser({ userId }: { userId: string }) {
     setOpen(false)
   }
 
+  // Le thème minimaliste coupe les animations : Radix n'attendrait jamais la fin de l'animation de sortie.
+  if (!open) return null
+
   return (
     <Dialog open={open}>
       <DialogContent showCloseButton={false} onEscapeKeyDown={(event) => event.preventDefault()} onPointerDownOutside={(event) => event.preventDefault()}>

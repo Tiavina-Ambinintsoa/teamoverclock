@@ -836,17 +836,17 @@
       "source_location": "L5"
     },
     {
-      "id": "src_components_home_cloud_city_cloudcityprops",
-      "label": "CloudCityProps",
+      "id": "src_components_data_state_datastateprops",
+      "label": "DataStateProps",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
       "community": 150,
-      "community_name": "cloud-city.tsx",
+      "community_name": "data-state.tsx",
       "file_type": "code",
-      "norm_label": "cloudcityprops",
-      "source_file": "src/components/home/cloud-city.tsx",
-      "source_location": "L8"
+      "norm_label": "datastateprops",
+      "source_file": "src/components/data-state.tsx",
+      "source_location": "L9"
     },
     {
       "id": "src_features_reports_report_workflow_groupablereport",
@@ -2448,16 +2448,16 @@
       "source_location": "L3"
     },
     {
-      "id": "src_components_reveal_revealprops",
-      "label": "RevealProps",
+      "id": "src_components_empty_state_emptystateprops",
+      "label": "EmptyStateProps",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
       "community": 254,
-      "community_name": "reveal.tsx",
+      "community_name": "empty-state.tsx",
       "file_type": "code",
-      "norm_label": "revealprops",
-      "source_file": "src/components/reveal.tsx",
+      "norm_label": "emptystateprops",
+      "source_file": "src/components/empty-state.tsx",
       "source_location": "L6"
     },
     {
@@ -2838,6 +2838,19 @@
       "source_location": "L38"
     },
     {
+      "id": "src_components_home_interactive_background_homebackgroundstyle",
+      "label": "HomeBackgroundStyle",
+      "_callable": true,
+      "_callable_class": true,
+      "_origin": "ast",
+      "community": 271,
+      "community_name": "home-interactive-background.tsx",
+      "file_type": "code",
+      "norm_label": "homebackgroundstyle",
+      "source_file": "src/components/home-interactive-background.tsx",
+      "source_location": "L6"
+    },
+    {
       "id": "src_features_admin_verifications_table_sortkey",
       "label": "SortKey",
       "_callable": true,
@@ -3215,42 +3228,42 @@
       "source_location": "L4"
     },
     {
-      "id": "src_components_data_state_datastateprops",
-      "label": "DataStateProps",
+      "id": "src_components_home_cloud_city_cloudcityprops",
+      "label": "CloudCityProps",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
       "community": 3,
       "community_name": "react",
       "file_type": "code",
-      "norm_label": "datastateprops",
-      "source_file": "src/components/data-state.tsx",
-      "source_location": "L9"
+      "norm_label": "cloudcityprops",
+      "source_file": "src/components/home/cloud-city.tsx",
+      "source_location": "L8"
     },
     {
-      "id": "src_components_empty_state_emptystateprops",
-      "label": "EmptyStateProps",
+      "id": "src_components_lightbox_lightboxprops",
+      "label": "LightboxProps",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
       "community": 3,
       "community_name": "react",
       "file_type": "code",
-      "norm_label": "emptystateprops",
-      "source_file": "src/components/empty-state.tsx",
+      "norm_label": "lightboxprops",
+      "source_file": "src/components/lightbox.tsx",
       "source_location": "L6"
     },
     {
-      "id": "src_components_home_interactive_background_homebackgroundstyle",
-      "label": "HomeBackgroundStyle",
+      "id": "src_components_reveal_revealprops",
+      "label": "RevealProps",
       "_callable": true,
       "_callable_class": true,
       "_origin": "ast",
       "community": 3,
       "community_name": "react",
       "file_type": "code",
-      "norm_label": "homebackgroundstyle",
-      "source_file": "src/components/home-interactive-background.tsx",
+      "norm_label": "revealprops",
+      "source_file": "src/components/reveal.tsx",
       "source_location": "L6"
     },
     {
@@ -3473,19 +3486,6 @@
       "norm_label": "signupdetails",
       "source_file": "src/features/auth/auth-context.ts",
       "source_location": "L23"
-    },
-    {
-      "id": "src_components_lightbox_lightboxprops",
-      "label": "LightboxProps",
-      "_callable": true,
-      "_callable_class": true,
-      "_origin": "ast",
-      "community": 318,
-      "community_name": "lightbox.tsx",
-      "file_type": "code",
-      "norm_label": "lightboxprops",
-      "source_file": "src/components/lightbox.tsx",
-      "source_location": "L6"
     },
     {
       "id": "src_components_ui_slider_sliderprops",
@@ -5871,16 +5871,16 @@
       "source_location": "L11"
     },
     {
-      "id": "src_components_home_cloud_city_cloudcity",
-      "label": "CloudCity()",
+      "id": "src_components_data_state_datastate",
+      "label": "DataState()",
       "_callable": true,
       "_origin": "ast",
       "community": 150,
-      "community_name": "cloud-city.tsx",
+      "community_name": "data-state.tsx",
       "file_type": "code",
-      "norm_label": "cloudcity()",
-      "source_file": "src/components/home/cloud-city.tsx",
-      "source_location": "L36"
+      "norm_label": "datastate()",
+      "source_file": "src/components/data-state.tsx",
+      "source_location": "L22"
     },
     {
       "id": "src_features_accessibility_accessibility_panel_accessibilitypanel",
@@ -6384,7 +6384,7 @@
       "file_type": "code",
       "norm_label": "navforrole()",
       "source_file": "src/components/layout/nav-config.ts",
-      "source_location": "L120"
+      "source_location": "L122"
     },
     {
       "id": "src_components_layout_nav_config_test_ids",
@@ -9651,16 +9651,16 @@
       "source_location": "L14"
     },
     {
-      "id": "src_components_reveal_reveal",
-      "label": "Reveal()",
+      "id": "src_components_empty_state_emptystate",
+      "label": "EmptyState()",
       "_callable": true,
       "_origin": "ast",
       "community": 254,
-      "community_name": "reveal.tsx",
+      "community_name": "empty-state.tsx",
       "file_type": "code",
-      "norm_label": "reveal()",
-      "source_file": "src/components/reveal.tsx",
-      "source_location": "L9"
+      "norm_label": "emptystate()",
+      "source_file": "src/components/empty-state.tsx",
+      "source_location": "L15"
     },
     {
       "id": "src_features_chatbot_intent_router_buildadminreply",
@@ -10237,6 +10237,18 @@
       "norm_label": "reportsummarypanel()",
       "source_file": "src/features/reports/report-summary-panel.tsx",
       "source_location": "L19"
+    },
+    {
+      "id": "src_components_home_interactive_background_homeinteractivebackground",
+      "label": "HomeInteractiveBackground()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 271,
+      "community_name": "home-interactive-background.tsx",
+      "file_type": "code",
+      "norm_label": "homeinteractivebackground()",
+      "source_file": "src/components/home-interactive-background.tsx",
+      "source_location": "L15"
     },
     {
       "id": "src_features_reports_report_summary_test_makereport",
@@ -11067,40 +11079,16 @@
       "source_location": "L4"
     },
     {
-      "id": "src_components_data_state_datastate",
-      "label": "DataState()",
+      "id": "src_components_home_cloud_city_cloudcity",
+      "label": "CloudCity()",
       "_callable": true,
       "_origin": "ast",
       "community": 3,
       "community_name": "react",
       "file_type": "code",
-      "norm_label": "datastate()",
-      "source_file": "src/components/data-state.tsx",
-      "source_location": "L22"
-    },
-    {
-      "id": "src_components_empty_state_emptystate",
-      "label": "EmptyState()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "emptystate()",
-      "source_file": "src/components/empty-state.tsx",
-      "source_location": "L15"
-    },
-    {
-      "id": "src_components_home_interactive_background_homeinteractivebackground",
-      "label": "HomeInteractiveBackground()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "homeinteractivebackground()",
-      "source_file": "src/components/home-interactive-background.tsx",
-      "source_location": "L15"
+      "norm_label": "cloudcity()",
+      "source_file": "src/components/home/cloud-city.tsx",
+      "source_location": "L36"
     },
     {
       "id": "src_components_home_navbar_navbar",
@@ -11149,6 +11137,30 @@
       "norm_label": "container()",
       "source_file": "src/components/layout/container.tsx",
       "source_location": "L6"
+    },
+    {
+      "id": "src_components_lightbox_lightbox",
+      "label": "Lightbox()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "lightbox()",
+      "source_file": "src/components/lightbox.tsx",
+      "source_location": "L21"
+    },
+    {
+      "id": "src_components_reveal_reveal",
+      "label": "Reveal()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "reveal()",
+      "source_file": "src/components/reveal.tsx",
+      "source_location": "L9"
     },
     {
       "id": "src_components_ui_checkbox_checkbox",
@@ -11451,18 +11463,6 @@
       "source_location": "L23"
     },
     {
-      "id": "src_pages_templates_video_page_videopage",
-      "label": "VideoPage()",
-      "_callable": true,
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "videopage()",
-      "source_file": "src/pages/templates/video-page.tsx",
-      "source_location": "L19"
-    },
-    {
       "id": "src_components_theme_provider_readmode",
       "label": "readMode()",
       "_callable": true,
@@ -11688,7 +11688,7 @@
       "file_type": "code",
       "norm_label": "dangerdetailpage()",
       "source_file": "src/features/dangers/dangers-pages.tsx",
-      "source_location": "L64"
+      "source_location": "L63"
     },
     {
       "id": "src_features_dangers_dangers_pages_dangerspage",
@@ -11700,7 +11700,7 @@
       "file_type": "code",
       "norm_label": "dangerspage()",
       "source_file": "src/features/dangers/dangers-pages.tsx",
-      "source_location": "L20"
+      "source_location": "L19"
     },
     {
       "id": "src_features_auth_auth_context_useauth",
@@ -11715,16 +11715,16 @@
       "source_location": "L54"
     },
     {
-      "id": "src_components_lightbox_lightbox",
-      "label": "Lightbox()",
+      "id": "src_pages_faq_page_faqpage",
+      "label": "FaqPage()",
       "_callable": true,
       "_origin": "ast",
       "community": 318,
-      "community_name": "lightbox.tsx",
+      "community_name": "faq-page.tsx",
       "file_type": "code",
-      "norm_label": "lightbox()",
-      "source_file": "src/components/lightbox.tsx",
-      "source_location": "L21"
+      "norm_label": "faqpage()",
+      "source_file": "src/pages/faq-page.tsx",
+      "source_location": "L103"
     },
     {
       "id": "src_components_ui_slider_slider",
@@ -11773,6 +11773,18 @@
       "norm_label": "googlemark()",
       "source_file": "src/features/auth/auth-form.tsx",
       "source_location": "L268"
+    },
+    {
+      "id": "src_pages_templates_video_page_videopage",
+      "label": "VideoPage()",
+      "_callable": true,
+      "_origin": "ast",
+      "community": 320,
+      "community_name": "video-page.tsx",
+      "file_type": "code",
+      "norm_label": "videopage()",
+      "source_file": "src/pages/templates/video-page.tsx",
+      "source_location": "L19"
     },
     {
       "id": "src_lib_format_formatariary",
@@ -13116,7 +13128,7 @@
       "file_type": "code",
       "norm_label": "headerlink()",
       "source_file": "src/components/layout/site-header.tsx",
-      "source_location": "L27"
+      "source_location": "L28"
     },
     {
       "id": "src_components_layout_site_header_siteheader",
@@ -13128,7 +13140,7 @@
       "file_type": "code",
       "norm_label": "siteheader()",
       "source_file": "src/components/layout/site-header.tsx",
-      "source_location": "L43"
+      "source_location": "L44"
     },
     {
       "id": "src_features_voice_voice_commands_canusecommand",
@@ -13536,7 +13548,7 @@
       "file_type": "code",
       "norm_label": "themechoicedialog()",
       "source_file": "src/features/accessibility/theme-choice-dialog.tsx",
-      "source_location": "L55"
+      "source_location": "L58"
     },
     {
       "id": "src_features_accessibility_theme_choice_dialog_themechoiceforuser",
@@ -15894,40 +15906,16 @@
       "source_location": "L1015"
     },
     {
-      "id": "ruleset_2_1_directory_mapping",
-      "label": "2.1 Directory Mapping",
+      "id": "ruleset_18_getting_help",
+      "label": "18. GETTING HELP",
       "_origin": "ast",
       "community": 115,
       "community_name": "AI Development Ruleset for Webcup 2026 Starter",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "2.1 directory mapping",
+      "norm_label": "18. getting help",
       "source_file": "RULESET.md",
-      "source_location": "L37"
-    },
-    {
-      "id": "ruleset_2_2_path_alias",
-      "label": "2.2 Path Alias",
-      "_origin": "ast",
-      "community": 115,
-      "community_name": "AI Development Ruleset for Webcup 2026 Starter",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "2.2 path alias",
-      "source_file": "RULESET.md",
-      "source_location": "L105"
-    },
-    {
-      "id": "ruleset_2_file_structure_organization",
-      "label": "2. FILE STRUCTURE & ORGANIZATION",
-      "_origin": "ast",
-      "community": 115,
-      "community_name": "AI Development Ruleset for Webcup 2026 Starter",
-      "file_type": "document",
-      "node_kind": "heading",
-      "norm_label": "2. file structure & organization",
-      "source_file": "RULESET.md",
-      "source_location": "L35"
+      "source_location": "L1027"
     },
     {
       "id": "ruleset_5_1_create_forms_with_react_hook_form_zod",
@@ -15954,52 +15942,52 @@
       "source_location": "L237"
     },
     {
-      "id": "ruleset_7_1_component_structure",
-      "label": "7.1 Component Structure",
+      "id": "ruleset_9_1_query_data_read",
+      "label": "9.1 Query Data (Read)",
       "_origin": "ast",
       "community": 115,
       "community_name": "AI Development Ruleset for Webcup 2026 Starter",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "7.1 component structure",
+      "norm_label": "9.1 query data (read)",
       "source_file": "RULESET.md",
-      "source_location": "L333"
+      "source_location": "L411"
     },
     {
-      "id": "ruleset_7_2_where_to_place_components",
-      "label": "7.2 Where to Place Components",
+      "id": "ruleset_9_2_mutate_data_create_update_delete",
+      "label": "9.2 Mutate Data (Create/Update/Delete)",
       "_origin": "ast",
       "community": 115,
       "community_name": "AI Development Ruleset for Webcup 2026 Starter",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "7.2 where to place components",
+      "norm_label": "9.2 mutate data (create/update/delete)",
       "source_file": "RULESET.md",
-      "source_location": "L354"
+      "source_location": "L437"
     },
     {
-      "id": "ruleset_7_3_props_pattern",
-      "label": "7.3 Props Pattern",
+      "id": "ruleset_9_3_existing_hooks_for_crud_items",
+      "label": "9.3 Existing Hooks for CRUD Items",
       "_origin": "ast",
       "community": 115,
       "community_name": "AI Development Ruleset for Webcup 2026 Starter",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "7.3 props pattern",
+      "norm_label": "9.3 existing hooks for crud items",
       "source_file": "RULESET.md",
-      "source_location": "L361"
+      "source_location": "L466"
     },
     {
-      "id": "ruleset_7_creating_new_components",
-      "label": "7. CREATING NEW COMPONENTS",
+      "id": "ruleset_9_data_fetching_mutations",
+      "label": "9. DATA FETCHING & MUTATIONS",
       "_origin": "ast",
       "community": 115,
       "community_name": "AI Development Ruleset for Webcup 2026 Starter",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "7. creating new components",
+      "norm_label": "9. data fetching & mutations",
       "source_file": "RULESET.md",
-      "source_location": "L331"
+      "source_location": "L409"
     },
     {
       "id": "ruleset_ai_development_ruleset_for_webcup_2026_starter",
@@ -16012,6 +16000,30 @@
       "norm_label": "ai development ruleset for webcup 2026 starter",
       "source_file": "RULESET.md",
       "source_location": "L1"
+    },
+    {
+      "id": "ruleset_check_these_files_first",
+      "label": "Check These Files First",
+      "_origin": "ast",
+      "community": 115,
+      "community_name": "AI Development Ruleset for Webcup 2026 Starter",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "check these files first",
+      "source_file": "RULESET.md",
+      "source_location": "L1029"
+    },
+    {
+      "id": "ruleset_run_these_commands",
+      "label": "Run These Commands",
+      "_origin": "ast",
+      "community": 115,
+      "community_name": "AI Development Ruleset for Webcup 2026 Starter",
+      "file_type": "document",
+      "node_kind": "heading",
+      "norm_label": "run these commands",
+      "source_file": "RULESET.md",
+      "source_location": "L1036"
     },
     {
       "id": "docs_requests_4_5_les_structures_de_la_base_de_donn\u00e9es",
@@ -17546,14 +17558,14 @@
       "source_location": "L1"
     },
     {
-      "id": "src_components_home_cloud_city",
-      "label": "cloud-city.tsx",
+      "id": "src_components_data_state",
+      "label": "data-state.tsx",
       "_origin": "ast",
       "community": 150,
-      "community_name": "cloud-city.tsx",
+      "community_name": "data-state.tsx",
       "file_type": "code",
-      "norm_label": "cloud-city.tsx",
-      "source_file": "src/components/home/cloud-city.tsx",
+      "norm_label": "data-state.tsx",
+      "source_file": "src/components/data-state.tsx",
       "source_location": "L1"
     },
     {
@@ -18225,7 +18237,7 @@
       "file_type": "code",
       "norm_label": "admingroup",
       "source_file": "src/components/layout/nav-config.ts",
-      "source_location": "L99"
+      "source_location": "L101"
     },
     {
       "id": "src_components_layout_nav_config_agentgroup",
@@ -18236,7 +18248,7 @@
       "file_type": "code",
       "norm_label": "agentgroup",
       "source_file": "src/components/layout/nav-config.ts",
-      "source_location": "L80"
+      "source_location": "L82"
     },
     {
       "id": "src_components_layout_nav_config_citizengroup",
@@ -18258,7 +18270,7 @@
       "file_type": "code",
       "norm_label": "citygroup",
       "source_file": "src/components/layout/nav-config.ts",
-      "source_location": "L65"
+      "source_location": "L67"
     },
     {
       "id": "src_components_layout_nav_config_test",
@@ -19174,17 +19186,6 @@
       "source_location": "L32"
     },
     {
-      "id": "package_devdependencies_jsdom",
-      "label": "jsdom",
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "devDependencies",
-      "file_type": "code",
-      "norm_label": "jsdom",
-      "source_file": "package.json",
-      "source_location": "L44"
-    },
-    {
       "id": "package_devdependencies_oxlint",
       "label": "oxlint",
       "_origin": "ast",
@@ -19194,6 +19195,17 @@
       "norm_label": "oxlint",
       "source_file": "package.json",
       "source_location": "L45"
+    },
+    {
+      "id": "package_devdependencies_playwright_test",
+      "label": "@playwright/test",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "devDependencies",
+      "file_type": "code",
+      "norm_label": "@playwright/test",
+      "source_file": "package.json",
+      "source_location": "L33"
     },
     {
       "id": "package_devdependencies_tailwindcss_vite",
@@ -19251,17 +19263,6 @@
       "source_location": "L50"
     },
     {
-      "id": "jsdom",
-      "label": "jsdom",
-      "_origin": "ast",
-      "community": 2,
-      "community_name": "devDependencies",
-      "file_type": "concept",
-      "norm_label": "jsdom",
-      "source_file": "package.json",
-      "source_location": "L44"
-    },
-    {
       "id": "oxlint",
       "label": "oxlint",
       "_origin": "ast",
@@ -19271,6 +19272,17 @@
       "norm_label": "oxlint",
       "source_file": "package.json",
       "source_location": "L45"
+    },
+    {
+      "id": "playwright_test",
+      "label": "@playwright/test",
+      "_origin": "ast",
+      "community": 2,
+      "community_name": "devDependencies",
+      "file_type": "concept",
+      "norm_label": "@playwright/test",
+      "source_file": "package.json",
+      "source_location": "L33"
     },
     {
       "id": "tailwindcss_vite",
@@ -20949,14 +20961,14 @@
       "source_location": "L1"
     },
     {
-      "id": "src_components_reveal",
-      "label": "reveal.tsx",
+      "id": "src_components_empty_state",
+      "label": "empty-state.tsx",
       "_origin": "ast",
       "community": 254,
-      "community_name": "reveal.tsx",
+      "community_name": "empty-state.tsx",
       "file_type": "code",
-      "norm_label": "reveal.tsx",
-      "source_file": "src/components/reveal.tsx",
+      "norm_label": "empty-state.tsx",
+      "source_file": "src/components/empty-state.tsx",
       "source_location": "L1"
     },
     {
@@ -21345,26 +21357,15 @@
       "source_location": "L1"
     },
     {
-      "id": "package_devdependencies_vite",
-      "label": "vite",
+      "id": "src_components_home_interactive_background",
+      "label": "home-interactive-background.tsx",
       "_origin": "ast",
       "community": 271,
-      "community_name": "vite",
+      "community_name": "home-interactive-background.tsx",
       "file_type": "code",
-      "norm_label": "vite",
-      "source_file": "package.json",
-      "source_location": "L49"
-    },
-    {
-      "id": "vite",
-      "label": "vite",
-      "_origin": "ast",
-      "community": 271,
-      "community_name": "vite",
-      "file_type": "concept",
-      "norm_label": "vite",
-      "source_file": "package.json",
-      "source_location": "L49"
+      "norm_label": "home-interactive-background.tsx",
+      "source_file": "src/components/home-interactive-background.tsx",
+      "source_location": "L1"
     },
     {
       "id": "src_features_reports_report_summary_test",
@@ -21697,52 +21698,52 @@
       "source_location": "L1"
     },
     {
-      "id": "ruleset_9_1_query_data_read",
-      "label": "9.1 Query Data (Read)",
+      "id": "ruleset_7_1_component_structure",
+      "label": "7.1 Component Structure",
       "_origin": "ast",
       "community": 286,
-      "community_name": "9. DATA FETCHING & MUTATIONS",
+      "community_name": "7. CREATING NEW COMPONENTS",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "9.1 query data (read)",
+      "norm_label": "7.1 component structure",
       "source_file": "RULESET.md",
-      "source_location": "L411"
+      "source_location": "L333"
     },
     {
-      "id": "ruleset_9_2_mutate_data_create_update_delete",
-      "label": "9.2 Mutate Data (Create/Update/Delete)",
+      "id": "ruleset_7_2_where_to_place_components",
+      "label": "7.2 Where to Place Components",
       "_origin": "ast",
       "community": 286,
-      "community_name": "9. DATA FETCHING & MUTATIONS",
+      "community_name": "7. CREATING NEW COMPONENTS",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "9.2 mutate data (create/update/delete)",
+      "norm_label": "7.2 where to place components",
       "source_file": "RULESET.md",
-      "source_location": "L437"
+      "source_location": "L354"
     },
     {
-      "id": "ruleset_9_3_existing_hooks_for_crud_items",
-      "label": "9.3 Existing Hooks for CRUD Items",
+      "id": "ruleset_7_3_props_pattern",
+      "label": "7.3 Props Pattern",
       "_origin": "ast",
       "community": 286,
-      "community_name": "9. DATA FETCHING & MUTATIONS",
+      "community_name": "7. CREATING NEW COMPONENTS",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "9.3 existing hooks for crud items",
+      "norm_label": "7.3 props pattern",
       "source_file": "RULESET.md",
-      "source_location": "L466"
+      "source_location": "L361"
     },
     {
-      "id": "ruleset_9_data_fetching_mutations",
-      "label": "9. DATA FETCHING & MUTATIONS",
+      "id": "ruleset_7_creating_new_components",
+      "label": "7. CREATING NEW COMPONENTS",
       "_origin": "ast",
       "community": 286,
-      "community_name": "9. DATA FETCHING & MUTATIONS",
+      "community_name": "7. CREATING NEW COMPONENTS",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "9. data fetching & mutations",
+      "norm_label": "7. creating new components",
       "source_file": "RULESET.md",
-      "source_location": "L409"
+      "source_location": "L331"
     },
     {
       "id": "src_features_developers_api_keys",
@@ -21888,40 +21889,40 @@
       "source_location": "L1"
     },
     {
-      "id": "ruleset_18_getting_help",
-      "label": "18. GETTING HELP",
+      "id": "ruleset_2_1_directory_mapping",
+      "label": "2.1 Directory Mapping",
       "_origin": "ast",
       "community": 292,
-      "community_name": "18. GETTING HELP",
+      "community_name": "2. FILE STRUCTURE & ORGANIZATION",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "18. getting help",
+      "norm_label": "2.1 directory mapping",
       "source_file": "RULESET.md",
-      "source_location": "L1027"
+      "source_location": "L37"
     },
     {
-      "id": "ruleset_check_these_files_first",
-      "label": "Check These Files First",
+      "id": "ruleset_2_2_path_alias",
+      "label": "2.2 Path Alias",
       "_origin": "ast",
       "community": 292,
-      "community_name": "18. GETTING HELP",
+      "community_name": "2. FILE STRUCTURE & ORGANIZATION",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "check these files first",
+      "norm_label": "2.2 path alias",
       "source_file": "RULESET.md",
-      "source_location": "L1029"
+      "source_location": "L105"
     },
     {
-      "id": "ruleset_run_these_commands",
-      "label": "Run These Commands",
+      "id": "ruleset_2_file_structure_organization",
+      "label": "2. FILE STRUCTURE & ORGANIZATION",
       "_origin": "ast",
       "community": 292,
-      "community_name": "18. GETTING HELP",
+      "community_name": "2. FILE STRUCTURE & ORGANIZATION",
       "file_type": "document",
       "node_kind": "heading",
-      "norm_label": "run these commands",
+      "norm_label": "2. file structure & organization",
       "source_file": "RULESET.md",
-      "source_location": "L1036"
+      "source_location": "L35"
     },
     {
       "id": "src_features_profile_verification_page",
@@ -22023,26 +22024,26 @@
       "source_location": "L17"
     },
     {
-      "id": "package_devdependencies_playwright_test",
-      "label": "@playwright/test",
+      "id": "package_devdependencies_vite",
+      "label": "vite",
       "_origin": "ast",
       "community": 299,
-      "community_name": "@playwright/test",
+      "community_name": "vite",
       "file_type": "code",
-      "norm_label": "@playwright/test",
+      "norm_label": "vite",
       "source_file": "package.json",
-      "source_location": "L33"
+      "source_location": "L49"
     },
     {
-      "id": "playwright_test",
-      "label": "@playwright/test",
+      "id": "vite",
+      "label": "vite",
       "_origin": "ast",
       "community": 299,
-      "community_name": "@playwright/test",
+      "community_name": "vite",
       "file_type": "concept",
-      "norm_label": "@playwright/test",
+      "norm_label": "vite",
       "source_file": "package.json",
-      "source_location": "L33"
+      "source_location": "L49"
     },
     {
       "id": "src_components_animated_border_beam",
@@ -22100,36 +22101,14 @@
       "source_location": "L1"
     },
     {
-      "id": "src_components_data_state",
-      "label": "data-state.tsx",
+      "id": "src_components_home_cloud_city",
+      "label": "cloud-city.tsx",
       "_origin": "ast",
       "community": 3,
       "community_name": "react",
       "file_type": "code",
-      "norm_label": "data-state.tsx",
-      "source_file": "src/components/data-state.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_components_empty_state",
-      "label": "empty-state.tsx",
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "empty-state.tsx",
-      "source_file": "src/components/empty-state.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_components_home_interactive_background",
-      "label": "home-interactive-background.tsx",
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "home-interactive-background.tsx",
-      "source_file": "src/components/home-interactive-background.tsx",
+      "norm_label": "cloud-city.tsx",
+      "source_file": "src/components/home/cloud-city.tsx",
       "source_location": "L1"
     },
     {
@@ -22177,6 +22156,17 @@
       "source_location": "L1"
     },
     {
+      "id": "src_components_lightbox",
+      "label": "lightbox.tsx",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "lightbox.tsx",
+      "source_file": "src/components/lightbox.tsx",
+      "source_location": "L1"
+    },
+    {
       "id": "src_components_pdf_report_test",
       "label": "pdf-report.test.tsx",
       "_origin": "ast",
@@ -22185,6 +22175,17 @@
       "file_type": "code",
       "norm_label": "pdf-report.test.tsx",
       "source_file": "src/components/pdf-report.test.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_components_reveal",
+      "label": "reveal.tsx",
+      "_origin": "ast",
+      "community": 3,
+      "community_name": "react",
+      "file_type": "code",
+      "norm_label": "reveal.tsx",
+      "source_file": "src/components/reveal.tsx",
       "source_location": "L1"
     },
     {
@@ -22472,28 +22473,6 @@
       "norm_label": "settings-page.tsx",
       "source_file": "src/pages/app/settings-page.tsx",
       "source_location": "L1"
-    },
-    {
-      "id": "src_pages_templates_video_page",
-      "label": "video-page.tsx",
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "video-page.tsx",
-      "source_file": "src/pages/templates/video-page.tsx",
-      "source_location": "L1"
-    },
-    {
-      "id": "src_pages_templates_video_page_clips",
-      "label": "CLIPS",
-      "_origin": "ast",
-      "community": 3,
-      "community_name": "react",
-      "file_type": "code",
-      "norm_label": "clips",
-      "source_file": "src/pages/templates/video-page.tsx",
-      "source_location": "L17"
     },
     {
       "id": "ref_react",
@@ -23210,15 +23189,26 @@
       "source_location": "L658"
     },
     {
-      "id": "src_components_lightbox",
-      "label": "lightbox.tsx",
+      "id": "src_pages_faq_page",
+      "label": "faq-page.tsx",
       "_origin": "ast",
       "community": 318,
-      "community_name": "lightbox.tsx",
+      "community_name": "faq-page.tsx",
       "file_type": "code",
-      "norm_label": "lightbox.tsx",
-      "source_file": "src/components/lightbox.tsx",
+      "norm_label": "faq-page.tsx",
+      "source_file": "src/pages/faq-page.tsx",
       "source_location": "L1"
+    },
+    {
+      "id": "src_pages_faq_page_faq_groups",
+      "label": "FAQ_GROUPS",
+      "_origin": "ast",
+      "community": 318,
+      "community_name": "faq-page.tsx",
+      "file_type": "code",
+      "norm_label": "faq_groups",
+      "source_file": "src/pages/faq-page.tsx",
+      "source_location": "L9"
     },
     {
       "id": "src_components_ui_slider",
@@ -23241,6 +23231,50 @@
       "norm_label": "auth-form.tsx",
       "source_file": "src/features/auth/auth-form.tsx",
       "source_location": "L1"
+    },
+    {
+      "id": "src_pages_templates_video_page",
+      "label": "video-page.tsx",
+      "_origin": "ast",
+      "community": 320,
+      "community_name": "video-page.tsx",
+      "file_type": "code",
+      "norm_label": "video-page.tsx",
+      "source_file": "src/pages/templates/video-page.tsx",
+      "source_location": "L1"
+    },
+    {
+      "id": "src_pages_templates_video_page_clips",
+      "label": "CLIPS",
+      "_origin": "ast",
+      "community": 320,
+      "community_name": "video-page.tsx",
+      "file_type": "code",
+      "norm_label": "clips",
+      "source_file": "src/pages/templates/video-page.tsx",
+      "source_location": "L17"
+    },
+    {
+      "id": "package_devdependencies_jsdom",
+      "label": "jsdom",
+      "_origin": "ast",
+      "community": 321,
+      "community_name": "jsdom",
+      "file_type": "code",
+      "norm_label": "jsdom",
+      "source_file": "package.json",
+      "source_location": "L44"
+    },
+    {
+      "id": "jsdom",
+      "label": "jsdom",
+      "_origin": "ast",
+      "community": 321,
+      "community_name": "jsdom",
+      "file_type": "concept",
+      "norm_label": "jsdom",
+      "source_file": "package.json",
+      "source_location": "L44"
     },
     {
       "id": "src_lib_format",
@@ -24321,6 +24355,17 @@
       "source_file": "@/features/developers/developers-page"
     },
     {
+      "id": "faq_page",
+      "label": "@/pages/faq-page",
+      "_origin": "ast",
+      "community": 5,
+      "community_name": "router.tsx",
+      "confidence": "EXTRACTED",
+      "file_type": "code",
+      "norm_label": "@/pages/faq-page",
+      "source_file": "@/pages/faq-page"
+    },
+    {
       "id": "gallery_page",
       "label": "@/pages/templates/gallery-page",
       "_origin": "ast",
@@ -24736,7 +24781,7 @@
       "file_type": "code",
       "norm_label": "router",
       "source_file": "src/app/router.tsx",
-      "source_location": "L129"
+      "source_location": "L133"
     },
     {
       "id": "src_app_router_routes",
@@ -42920,7 +42965,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/app/router.tsx",
-      "source_location": "L129",
+      "source_location": "L133",
       "weight": 1.0
     },
     {
@@ -43629,13 +43674,24 @@
     },
     {
       "source": "src_components_layout_nav_config",
+      "target": "src_components_layout_nav_config_admingroup",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/components/layout/nav-config.ts",
+      "source_location": "L101",
+      "weight": 1.0
+    },
+    {
+      "source": "src_components_layout_nav_config",
       "target": "src_components_layout_nav_config_navforrole",
       "relation": "contains",
       "_origin": "ast",
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/layout/nav-config.ts",
-      "source_location": "L120",
+      "source_location": "L122",
       "weight": 1.0
     },
     {
@@ -43679,7 +43735,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/layout/nav-config.ts",
-      "source_location": "L65",
+      "source_location": "L67",
       "weight": 1.0
     },
     {
@@ -43690,18 +43746,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/layout/nav-config.ts",
-      "source_location": "L80",
-      "weight": 1.0
-    },
-    {
-      "source": "src_components_layout_nav_config",
-      "target": "src_components_layout_nav_config_admingroup",
-      "relation": "contains",
-      "_origin": "ast",
-      "confidence": "EXTRACTED",
-      "confidence_score": 1.0,
-      "source_file": "src/components/layout/nav-config.ts",
-      "source_location": "L99",
+      "source_location": "L82",
       "weight": 1.0
     },
     {
@@ -43877,7 +43922,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/layout/site-header.tsx",
-      "source_location": "L27",
+      "source_location": "L28",
       "weight": 1.0
     },
     {
@@ -43888,7 +43933,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/components/layout/site-header.tsx",
-      "source_location": "L43",
+      "source_location": "L44",
       "weight": 1.0
     },
     {
@@ -45549,7 +45594,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/features/accessibility/theme-choice-dialog.tsx",
-      "source_location": "L55",
+      "source_location": "L58",
       "weight": 1.0
     },
     {
@@ -49245,7 +49290,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/features/dangers/dangers-pages.tsx",
-      "source_location": "L20",
+      "source_location": "L19",
       "weight": 1.0
     },
     {
@@ -49256,7 +49301,7 @@
       "confidence": "EXTRACTED",
       "confidence_score": 1.0,
       "source_file": "src/features/dangers/dangers-pages.tsx",
-      "source_location": "L64",
+      "source_location": "L63",
       "weight": 1.0
     },
     {
@@ -56542,6 +56587,28 @@
       "weight": 1.0
     },
     {
+      "source": "src_pages_faq_page",
+      "target": "src_pages_faq_page_faqpage",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/pages/faq-page.tsx",
+      "source_location": "L103",
+      "weight": 1.0
+    },
+    {
+      "source": "src_pages_faq_page",
+      "target": "src_pages_faq_page_faq_groups",
+      "relation": "contains",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/pages/faq-page.tsx",
+      "source_location": "L9",
+      "weight": 1.0
+    },
+    {
       "source": "src_pages_home_page",
       "target": "src_pages_home_page_home_hero_default",
       "relation": "contains",
@@ -58769,6 +58836,15 @@
     },
     {
       "source": "src_app_router",
+      "target": "faq_page",
+      "relation": "dynamic_import",
+      "_origin": "ast",
+      "confidence": "EXTRACTED",
+      "confidence_score": 1.0,
+      "source_file": "src/app/router.tsx"
+    },
+    {
+      "source": "src_app_router",
       "target": "gallery_page",
       "relation": "dynamic_import",
       "_origin": "ast",
@@ -60425,5 +60501,5 @@
     }
   ],
   "hyperedges": [],
-  "built_at_commit": "40c784c935ed37473d3a2669c3a2a98149fd9789"
+  "built_at_commit": "9a4f0ec1ae33ce5a18cc9b143a6ee5d59eb27bcd"
 }

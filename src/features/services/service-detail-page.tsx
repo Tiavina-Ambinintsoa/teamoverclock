@@ -1,5 +1,5 @@
-import { Clock, Mail, MapPin, Phone } from "lucide-react"
-import { Link, useParams } from "react-router"
+﻿import { Clock, Mail, MapPin, Phone } from "lucide-react"
+import { Link, useLocation, useParams } from "react-router"
 import { useState } from "react"
 import { useSearchParams } from "react-router"
 
@@ -34,6 +34,7 @@ export function ServiceDetailPage() {
   const { slug } = useParams()
   const [params, setParams] = useSearchParams()
   const { tx, locale, tag } = useLocale()
+  const { pathname } = useLocation()
   const now = useNow(60_000)
   const service = useService(slug)
   const buildings = useBuildings()
@@ -51,7 +52,7 @@ export function ServiceDetailPage() {
         <div role="alert" className="rounded-xl border p-8 text-center">
           <h1 className="text-2xl font-semibold"><AuroraTitle>{tx("Service introuvable", "Service not found")}</AuroraTitle></h1>
           <p className="mt-2 text-muted-foreground">{tx("Ce service n'existe pas ou n'est pas publié.", "This service does not exist or is not published.")}</p>
-          <Button asChild className="mt-4"><Link to="/services">{tx("Tous les services", "All services")}</Link></Button>
+          <Button asChild className="mt-4"><Link to={`${pathname.startsWith("/app") ? "/app" : ""}/services`}>{tx("Tous les services", "All services")}</Link></Button>
         </div>
       </Container>
     )
@@ -93,7 +94,7 @@ export function ServiceDetailPage() {
     <Container className="max-w-6xl py-10">
       <title>{serviceName}</title>
       <nav aria-label={tx("Fil d'Ariane", "Breadcrumb")} className="mb-4 text-sm text-muted-foreground">
-        <Link to="/services" className="underline-offset-4 hover:underline">{tx("Services", "Services")}</Link> / {serviceName}
+        <Link to={`${pathname.startsWith("/app") ? "/app" : ""}/services`} className="underline-offset-4 hover:underline">{tx("Services", "Services")}</Link> / {serviceName}
       </nav>
       <header className="mb-6">
         <div className="flex flex-wrap items-center gap-2">

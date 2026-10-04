@@ -41,7 +41,7 @@ export function AuthShell({ mode, children, isExiting = false }: { mode: AuthMod
           </div>
 
           <div className="relative z-10 my-6 flex flex-1 flex-col justify-center">
-            <div className="auth-orb-stage mx-auto flex w-full max-w-md flex-col items-center justify-center gap-6 rounded-[1.75rem] border border-primary-foreground/15 bg-primary-foreground/8 px-5 py-6 backdrop-blur-sm sm:min-h-80 sm:px-8">
+            <div className="mx-auto flex w-full max-w-md flex-col items-center justify-center gap-6 px-5 py-6 sm:px-8">
               <div className="auth-nova-orb" aria-hidden="true">
                 <span className="auth-nova-stars" />
                 <span className="auth-nova-ring auth-nova-ring-one" />
@@ -57,9 +57,6 @@ export function AuthShell({ mode, children, isExiting = false }: { mode: AuthMod
                 <p className="text-xs font-medium uppercase tracking-[0.28em] text-primary-foreground/70">Nova Terra</p>
                 <p className="mt-3 text-balance font-display text-2xl font-medium sm:text-3xl">
                   {t("auth.photoCaption")}
-                </p>
-                <p className="mt-2 text-sm text-primary-foreground/72">
-                  {t("auth.photoHint")}
                 </p>
               </div>
             </div>

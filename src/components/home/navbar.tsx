@@ -51,6 +51,18 @@ export function Navbar() {
 
         {/* Liens de navigation ancrés (Desktop) */}
         <nav className="hidden md:flex items-center gap-6 text-sm font-medium text-slate-200">
+          <Link
+            to="/"
+            className="hover:text-cyan-300 transition-colors drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]"
+          >
+            Home
+          </Link>
+          <Link
+            to="/welcome"
+            className="text-cyan-300 hover:text-cyan-200 transition-colors drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]"
+          >
+            Welcome
+          </Link>
           <a
             href="#historique"
             className="hover:text-cyan-300 transition-colors drop-shadow-[0_2px_8px_rgba(0,0,0,0.8)]"
@@ -120,6 +132,20 @@ export function Navbar() {
       {/* Menu Déroulant Mobile */}
       {mobileMenuOpen && (
         <div className="md:hidden bg-[#070b14]/95 backdrop-blur-2xl border-b border-cyan-500/20 px-4 py-4 space-y-3">
+          <Link
+            to="/"
+            onClick={() => setMobileMenuOpen(false)}
+            className="block text-sm text-slate-200 hover:text-cyan-300 py-1"
+          >
+            Home
+          </Link>
+          <Link
+            to="/welcome"
+            onClick={() => setMobileMenuOpen(false)}
+            className="block text-sm text-cyan-300 py-1"
+          >
+            Welcome
+          </Link>
           <a
             href="#historique"
             onClick={() => setMobileMenuOpen(false)}
