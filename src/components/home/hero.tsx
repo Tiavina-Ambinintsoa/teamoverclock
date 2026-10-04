@@ -68,6 +68,26 @@ export function Hero({
   const [activeCaptionIndex, setActiveCaptionIndex] = useState<number>(-1)
 
   /**
+   * Écoute des touches "Entrée" (Enter) et "Espace" (Space) pour passer le preloader
+   */
+  useEffect(() => {
+    if (!onSkip) return
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.code === "Enter" || e.code === "Space" || e.key === "Enter" || e.key === " ") {
+        // Évite le défilement par défaut de la touche Espace
+        e.preventDefault()
+        onSkip()
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown)
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown)
+    }
+  }, [onSkip])
+
+  /**
    * Forcer muted = true et lancer la lecture dès le montage du composant
    * (indispensable pour contourner les restrictions d'autoplay des navigateurs)
    */
@@ -139,7 +159,7 @@ export function Hero({
       </video>
 
       {/* 2. OVERLAY LÉGER : voile noir à environ 20-25% d'opacité (z-index 1) */}
-      <div className="absolute inset-0 bg-black/25 z-[1] pointer-events-none" />
+      <div className="absolute inset-0 bg-black/25 z-1 pointer-events-none" />
 
       {/* 3. TEXTES POSITIONNÉS DANS LES COINS (z-index 10) */}
       <AnimatePresence mode="wait">
