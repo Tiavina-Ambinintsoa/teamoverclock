@@ -1,9 +1,14 @@
-import { ArrowUpRight, FileText, Images, MessageCircle, Users } from "lucide-react"
+import { useState } from "react"
+import { ArrowUpRight, Download, FileText, Images, MessageCircle, Users } from "lucide-react"
 import { Link } from "react-router"
+import { toast } from "sonner"
 
 import { Container } from "@/components/layout/container"
+import { Button } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"
 import { useAuth } from "@/features/auth/auth-context"
+import { buildReport, downloadReport } from "@/features/dashboard/report-generator"
+import { listItems } from "@/features/items/items-api"
 import { useLocale } from "@/lib/locale"
 import { SITE } from "@/lib/site"
 import { AuroraTitle } from "@/components/magic-ui/aurora-title"
@@ -16,8 +21,24 @@ const cards = [
 ]
 
 export function DashboardPage() {
-  const { user } = useAuth()
-  const { t } = useLocale()
+  const { user, backend } = useAuth()
+  const { t, locale, tag } = useLocale()
+  const [busy, setBusy] = useState(false)
+
+  const handleDownload = async () => {
+    if (!user) return
+    setBusy(true)
+    try {
+      const items = await listItems(user)
+      const content = buildReport(user, items, locale, backend, tag)
+      downloadReport(content, locale)
+      toast.success(t("dashboard.reportReady"))
+    } catch {
+      toast.error(t("common.loading"))
+    } finally {
+      setBusy(false)
+    }
+  }
 
   return (
     <Container className="px-4 sm:px-6">
@@ -28,9 +49,15 @@ export function DashboardPage() {
           <h1 className="mt-1 text-3xl font-semibold sm:text-4xl"><AuroraTitle>{t("dashboard.title")}</AuroraTitle></h1>
           <p className="mt-2 text-muted-foreground">{t("dashboard.description")}</p>
         </div>
-        <Link to="/app" className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline">
-          {t("app.notes")} <ArrowUpRight className="size-4" aria-hidden />
-        </Link>
+        <div className="flex items-center gap-3">
+          <Button variant="outline" size="sm" disabled={busy} onClick={handleDownload}>
+            <Download className="size-4" aria-hidden />
+            {t("dashboard.downloadReport")}
+          </Button>
+          <Link to="/app" className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline">
+            {t("app.notes")} <ArrowUpRight className="size-4" aria-hidden />
+          </Link>
+        </div>
       </header>
 
       <section aria-label={t("dashboard.title")} className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4">

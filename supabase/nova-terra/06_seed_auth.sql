@@ -37,7 +37,10 @@ from (values
   (9,  'rowan@novaterra.test',        'Rowan Kestrel'),
   (10, 'pip@novaterra.test',          'Pip Marchetti')
 ) as v(n, email, display_name)
-on conflict (id) do nothing;
+on conflict (id) do update set
+  raw_app_meta_data = excluded.raw_app_meta_data,
+  raw_user_meta_data = excluded.raw_user_meta_data,
+  updated_at = now();
 
 insert into auth.identities (id, user_id, provider_id, provider, identity_data, last_sign_in_at, created_at, updated_at)
 select pg_temp.nid(7, n), pg_temp.nid(7, n), pg_temp.nid(7, n)::text, 'email',

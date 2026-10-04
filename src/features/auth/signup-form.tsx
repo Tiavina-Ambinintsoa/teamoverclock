@@ -2,7 +2,7 @@ import { useState } from "react"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { ArrowRight, Eye, EyeOff } from "lucide-react"
 import { useForm, useWatch } from "react-hook-form"
-import { Link } from "react-router"
+import { Link, useNavigate } from "react-router"
 import { toast } from "sonner"
 
 import { Button } from "@/components/ui/button"
@@ -27,8 +27,10 @@ export function SignupForm() {
   const { signUp, backend } = useAuth()
   const { tx, t, locale, setLocale } = useLocale()
   const sectors = useSectors()
+  const navigate = useNavigate()
   const [busy, setBusy] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
 
   const {
     register,
@@ -46,8 +48,8 @@ export function SignupForm() {
       locale,
       password: "",
       confirmPassword: "",
-      termsAccepted: undefined,
-      dataConsent: undefined,
+      termsAccepted: false,
+      dataConsent: false,
     },
   })
 
@@ -74,6 +76,7 @@ export function SignupForm() {
               "Account created. Open the confirmation link sent by email if confirmation is required."
             )
       )
+      void navigate("/connexion")
     } catch (error) {
       toast.error(error instanceof Error ? error.message : tx("Une erreur est survenue", "Something went wrong"))
     } finally {
@@ -187,7 +190,27 @@ export function SignupForm() {
 
       <div className="grid gap-2">
         <Label htmlFor="confirmPassword">{tx("Confirmer le mot de passe", "Confirm password")}</Label>
-        <Input id="confirmPassword" type={showPassword ? "text" : "password"} autoComplete="new-password" aria-invalid={errors.confirmPassword ? true : undefined} aria-describedby={describedBy("confirmPassword")} {...register("confirmPassword")} />
+        <div className="relative">
+          <Input
+            id="confirmPassword"
+            type={showConfirmPassword ? "text" : "password"}
+            autoComplete="new-password"
+            className="pr-11"
+            aria-invalid={errors.confirmPassword ? true : undefined}
+            aria-describedby={describedBy("confirmPassword")}
+            {...register("confirmPassword")}
+          />
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon"
+            className="absolute top-1/2 right-1.5 -translate-y-1/2 motion-safe:hover:-translate-y-1/2 motion-safe:active:-translate-y-1/2"
+            aria-label={showConfirmPassword ? tx("Masquer", "Hide") : tx("Afficher", "Show")}
+            onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+          >
+            {showConfirmPassword ? <EyeOff aria-hidden /> : <Eye aria-hidden />}
+          </Button>
+        </div>
         {fieldError("confirmPassword")}
       </div>
 

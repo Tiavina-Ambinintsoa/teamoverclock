@@ -58,8 +58,8 @@ export const signupSchema = z
       .string()
       .refine((value) => passwordStrength(value).ok, "Mot de passe trop faible : 8 caractères, une minuscule, une majuscule et un chiffre."),
     confirmPassword: z.string(),
-    termsAccepted: z.literal(true, "Vous devez accepter les conditions d'utilisation."),
-    dataConsent: z.literal(true, "Le consentement au traitement des données est obligatoire."),
+    termsAccepted: z.boolean().refine((v) => v === true, "Vous devez accepter les conditions d'utilisation."),
+    dataConsent: z.boolean().refine((v) => v === true, "Le consentement au traitement des données est obligatoire."),
   })
   .refine((values) => values.password === values.confirmPassword, {
     path: ["confirmPassword"],
